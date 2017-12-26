@@ -32,6 +32,7 @@ public class AtherysQuests {
         economyService = Sponge.getServiceManager().provide( EconomyService.class ).orElse(null);
         // TODO: Dump assets into config file
         // TODO: Load dialogs from files
+        // TODO: Write Gson deserializers for dialogs ( Requirement deserializer, DialogNode deserializer, DialogTree deserializer )
         init = true;
     }
 
