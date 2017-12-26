@@ -1,0 +1,45 @@
+{
+  "id": 0,
+  "player": null,
+  "npc": [
+    "Greetings, Traveller!"
+  ],
+  "responses": [
+    {
+      "id": 1,
+      "player": "Piss off.",
+      "npc": [ "How Rude!" ]
+    },
+    {
+      "id": 2,
+      "player": "Greetings, Merchant! Have you any work for me today?",
+      "npc": [
+        "Work? Well, I may have heard some rumors...",
+        "Are you familiar with the curious case of the wretched witch that has been plaguing the outer limits of our town?",
+        "The King has gotten so fed up with it, he's put a bounty on her head, and apparently, the one to claim it will earn the King's favor"
+      ],
+      "dialogOptions": [
+        {
+          "id": 3,
+          "requirements": [
+            { "type": "Player.Level", "data": { "level": 10 } },
+            { "type": "Player.Money", "data": { "amount": 1000.0 } }
+          ],
+          "player": "A witch, eh? I think I can do something about it... Thank you for the tip!",
+          "npc": [ "Oh, but of course! I always seek to help a fellow in need. Just rememember who told you when you finally get that witch!" ],
+          "startsQuest": "TBI"
+        },
+        {
+          "id": 4,
+          "player": "Hmm, a witch doesn't sound too appealing to me right now. Perhaps another time.",
+          "npc": [ "Very well, though do hurry, someone else may claim the prize before you do." ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "player": "I'll be taking my leave.",
+      "npc": [ "Very well." ]
+    }
+  ]
+}
