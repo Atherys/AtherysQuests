@@ -22,12 +22,12 @@
         {
           "id": 3,
           "requirements": [
-            { "type": "Player.Level", "data": { "level": 10 } },
-            { "type": "Player.Money", "data": { "amount": 1000.0 } }
+            { "type": "LevelRequirement", "data": { "level": 10 } },
+            { "type": "MoneyRequirement", "data": { "amount": 1000.0 } }
           ],
           "player": "A witch, eh? I think I can do something about it... Thank you for the tip!",
           "npc": [ "Oh, but of course! I always seek to help a fellow in need. Just rememember who told you when you finally get that witch!" ],
-          "startsQuest": "TBI"
+          "startsQuest": "questId"
         },
         {
           "id": 4,
