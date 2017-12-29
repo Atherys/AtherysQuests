@@ -1,9 +1,10 @@
-package com.atherys.quests.dialog;
+package com.atherys.quests.managers;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.QuestKeys;
 import com.atherys.quests.data.DialogData;
+import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
+import com.google.gson.Gson;
 import me.mrdaniel.npcs.interfaces.mixin.NPCAble;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
@@ -27,7 +28,12 @@ public final class DialogManager {
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
     private Map<String,DialogTree> trees = new HashMap<>();
 
-    private DialogManager() {}
+    private Gson gson = new Gson();
+
+    private DialogManager() {
+        // TODO: Init Gson with necessary type adapters
+        // TODO: Write necessary Gson type adapters ( DialogTree, DialogNode, Requirement )
+    }
 
     /**
      * Load all dialog JSON files within the given folder.
@@ -37,12 +43,18 @@ public final class DialogManager {
     public void loadDialogs ( @Nonnull File folder ) throws FileNotFoundException {
         if ( !folder.isDirectory() ) return;
 
-        for ( File file : folder.listFiles() ) {
-            if ( !file.getName().endsWith(".json") ) continue;
+        File[] files = folder.listFiles();
 
-            DialogTree tree = AtherysQuests.getInstance().getGson().fromJson( new FileReader( file ), DialogTree.class );
-            tree.setId( file.getName().replace(".json", "") );
-            this.trees.put( tree.getId(), tree );
+        if ( files == null ) {
+            throw new FileNotFoundException( "Could not list files in provided directory." );
+        } else {
+            for (File file : files) {
+                if (!file.getName().endsWith(".json")) continue;
+
+                DialogTree tree = gson.fromJson(new FileReader(file), DialogTree.class);
+                tree.setId(file.getName().replace(".json", ""));
+                this.trees.put(tree.getId(), tree);
+            }
         }
     }
 
@@ -109,9 +121,11 @@ public final class DialogManager {
 
         if ( !tree.isPresent() || hasPlayerDialog( player ) ) return Optional.empty();
 
-        Dialog dialog = Dialog.between ( player, entity, tree.get() );
-        this.ongoingDialogs.put( player.getUniqueId(), dialog );
-        return Optional.of( dialog );
+        Optional<Dialog> dialog = Dialog.between ( player, entity, tree.get() );
+        if ( !dialog.isPresent() ) return Optional.empty();
+
+        this.ongoingDialogs.put( player.getUniqueId(), dialog.get() );
+        return dialog;
     }
 
     public static DialogManager getInstance() {
