@@ -1,19 +1,11 @@
 package com.atherys.quests.dialog;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogNode;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.effect.sound.SoundTypes;
-import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * A utility class for formatting and sending {@link Dialog}-related messages to players.
@@ -45,31 +37,6 @@ public class DialogMsg {
      */
     public static void error ( Player player, Object... msg ) {
         player.sendMessage( Text.of(MSG_PREFIX, TextColors.RED, " ", Text.of ( msg ) ) );
-    }
-
-    public static void self ( Player player, Object... msg ) {
-        String taskName = "atherysquest-dialog-player-text-" + player.getName();
-        if ( Sponge.getScheduler().getTasksByName(taskName).isEmpty() ) {
-            Task.builder().name(taskName).delay(1, TimeUnit.SECONDS)
-                    .execute( () -> player.sendMessage( Text.of(TextColors.AQUA, TextStyles.BOLD, player.getName(), TextStyles.RESET, TextColors.RESET, ": ", msg ) ) )
-                    .submit(AtherysQuests.getInstance());
-        }
-    }
-
-    public static void npc (Player player, Entity npc, Text[] npcText ) {
-        for ( int i = 0 ; i < npcText.length; i++ ) {
-            Text sentence = npcText[i];
-            Task.builder()
-                    .name("atherysquests-dialog-npc-" + i + "-" + player.getName() )
-                    .delay( AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * i + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY, TimeUnit.SECONDS )
-                    .execute( () -> {
-                        player.sendMessage(
-                                Text.of( TextColors.AQUA, TextStyles.BOLD, npc.get(Keys.DISPLAY_NAME).orElse(Text.of("NPC")), TextStyles.RESET, TextColors.RESET, ": ", sentence )
-                        );
-                        player.playSound( SoundTypes.ENTITY_VILLAGER_AMBIENT, npc.getLocation().getPosition(), 0.2d );
-                    })
-                    .submit( AtherysQuests.getInstance() );
-        }
     }
 
     /**

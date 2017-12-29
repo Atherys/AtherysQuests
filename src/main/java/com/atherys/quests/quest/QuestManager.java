@@ -6,7 +6,7 @@ import org.spongepowered.api.data.DataHolder;
 import java.util.Map;
 import java.util.Optional;
 
-public class QuestManager {
+public final class QuestManager {
 
     private static QuestManager instance;
 

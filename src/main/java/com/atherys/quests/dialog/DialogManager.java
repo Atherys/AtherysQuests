@@ -109,9 +109,11 @@ public final class DialogManager {
 
         if ( !tree.isPresent() || hasPlayerDialog( player ) ) return Optional.empty();
 
-        Dialog dialog = Dialog.between ( player, entity, tree.get() );
-        this.ongoingDialogs.put( player.getUniqueId(), dialog );
-        return Optional.of( dialog );
+        Optional<Dialog> dialog = Dialog.between ( player, entity, tree.get() );
+        if ( !dialog.isPresent() ) return Optional.empty();
+
+        this.ongoingDialogs.put( player.getUniqueId(), dialog.get() );
+        return dialog;
     }
 
     public static DialogManager getInstance() {

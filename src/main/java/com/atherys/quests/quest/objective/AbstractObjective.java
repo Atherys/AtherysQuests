@@ -2,7 +2,7 @@ package com.atherys.quests.quest.objective;
 
 import org.spongepowered.api.event.Event;
 
-public abstract class AbstractObjective<T extends Event> implements Objective<T> {
+public abstract class AbstractObjective<T extends Event> implements Objective<Event> {
 
     protected Class<T> eventClass;
 
@@ -11,9 +11,8 @@ public abstract class AbstractObjective<T extends Event> implements Objective<T>
     }
 
     @Override
-    public void notify ( T event ) {
-        if ( isComplete() || !event.getClass().equals( eventClass ) ) return;
-        else onNotify ( event );
+    public void notify ( Event event ) {
+        if ( !isComplete() && event.getClass().equals( eventClass ) ) onNotify ( eventClass.cast(event) );
     }
 
     protected abstract void onNotify ( T event );

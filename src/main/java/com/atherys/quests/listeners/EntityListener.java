@@ -27,7 +27,7 @@ public class EntityListener {
         Optional<ItemStack> itemInHand = player.getItemInHand ( HandTypes.MAIN_HAND );
         if ( !itemInHand.isPresent() ) return;
 
-        Optional<Quest> quest = QuestManager.getInstance().getQuest(itemInHand.get());
+        Optional<Quest> quest = QuestManager.getInstance().getQuest ( itemInHand.get() );
         if ( !quest.isPresent() ) return;
 
         Optional<Quester> quester = QuesterManager.getInstance().getQuester(player);

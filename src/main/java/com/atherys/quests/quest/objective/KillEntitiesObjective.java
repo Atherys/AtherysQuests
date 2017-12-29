@@ -13,7 +13,7 @@ public class KillEntitiesObjective extends AbstractObjective<DestructEntityEvent
     private Map<String,Integer> progress = new HashMap<>();
 
     protected KillEntitiesObjective( Map<String,Integer> mobsToKill ) {
-        super(DestructEntityEvent.Death.class);
+        super( DestructEntityEvent.Death.class );
         this.requirements = mobsToKill;
         this.progress = new HashMap<>( mobsToKill );
     }
@@ -35,7 +35,7 @@ public class KillEntitiesObjective extends AbstractObjective<DestructEntityEvent
     }
 
     @Override
-    public Objective<DestructEntityEvent.Death> copy() {
+    public KillEntitiesObjective copy() {
         return new KillEntitiesObjective( new HashMap<>( this.requirements ) );
     }
 

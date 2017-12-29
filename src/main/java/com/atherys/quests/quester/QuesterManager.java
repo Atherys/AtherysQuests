@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class QuesterManager {
+public final class QuesterManager {
 
     private static QuesterManager instance = new QuesterManager();
 
