@@ -1,6 +1,6 @@
 package com.atherys.quests.listeners;
 
-import com.atherys.quests.quester.QuesterManager;
+import com.atherys.quests.managers.QuesterManager;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.Listener;

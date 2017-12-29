@@ -47,4 +47,8 @@ public class DialogNode {
     public Optional<Quest> getQuest() {
         return Optional.ofNullable( quest );
     }
+
+    public int getId() {
+        return id;
+    }
 }

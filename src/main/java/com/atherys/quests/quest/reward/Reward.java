@@ -5,6 +5,6 @@ import com.atherys.quests.quester.Quester;
 
 public interface Reward extends Prototype<Reward> {
 
-    boolean award ( Quester player );
+    boolean award ( Quester quester );
 
 }

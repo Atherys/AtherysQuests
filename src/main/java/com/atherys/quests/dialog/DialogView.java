@@ -60,7 +60,6 @@ public class DialogView {
         if ( node.getResponses().size() >= 1 ) {
             player.sendMessage(DialogMsg.DIALOG_REPLIES_DECORATION);
 
-            // TODO: Abstract this away... somehow
             int i = 1;
             for ( DialogNode response : node.getResponses() ) {
                 Text.Builder nextMessage = Text.builder()

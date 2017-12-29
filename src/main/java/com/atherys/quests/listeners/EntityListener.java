@@ -1,10 +1,10 @@
 package com.atherys.quests.listeners;
 
-import com.atherys.quests.dialog.DialogManager;
+import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.quest.Quest;
-import com.atherys.quests.quest.QuestManager;
+import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quester.Quester;
-import com.atherys.quests.quester.QuesterManager;
+import com.atherys.quests.managers.QuesterManager;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -33,7 +33,9 @@ public class EntityListener {
         Optional<Quester> quester = QuesterManager.getInstance().getQuester(player);
         if ( !quester.isPresent() ) return;
 
-        quest.get().pickup( quester.get() );
+        event.setCancelled( true );
+
+        quester.get().pickupQuest ( quest.get() );
     }
 
 }

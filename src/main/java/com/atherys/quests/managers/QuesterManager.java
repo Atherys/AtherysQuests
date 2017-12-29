@@ -1,5 +1,6 @@
-package com.atherys.quests.quester;
+package com.atherys.quests.managers;
 
+import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 
@@ -19,7 +20,7 @@ public final class QuesterManager {
     }
 
     public void notify ( Event event, Player player ) {
-        getQuester( player ).ifPresent( quester -> quester.notify( event ) );
+        getQuester( player ).ifPresent( quester -> quester.notify( event, player ) );
     }
 
     public static QuesterManager getInstance() {

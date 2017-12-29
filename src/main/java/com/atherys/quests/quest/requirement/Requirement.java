@@ -5,6 +5,6 @@ import com.atherys.quests.quester.Quester;
 
 public interface Requirement extends Prototype<Requirement> {
 
-    boolean check ( Quester player );
+    boolean check ( Quester quester );
 
 }
