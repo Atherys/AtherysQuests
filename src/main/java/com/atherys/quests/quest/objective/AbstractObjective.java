@@ -1,6 +1,10 @@
 package com.atherys.quests.quest.objective;
 
+import com.atherys.quests.events.ObjectiveCompletedEvent;
+import com.atherys.quests.events.ObjectiveProgressedEvent;
+import com.atherys.quests.events.ObjectiveStartedEvent;
 import com.atherys.quests.quester.Quester;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 
 public abstract class AbstractObjective<T extends Event> implements Objective {
@@ -19,15 +23,16 @@ public abstract class AbstractObjective<T extends Event> implements Objective {
 
         if ( !started ) {
             started = true;
-            // TODO: Trigger ObjectiveStartedEvent
+            Sponge.getEventManager().post( new ObjectiveStartedEvent( this, quester ) );
         }
 
         if ( !isComplete() ) {
             onNotify( eventClass.cast(event), quester );
-            // TODO: Trigger ObjectiveProgressedEvent
 
-            if ( isComplete() ) {
-                // TODO: Trigger ObjectiveFinishedEvent
+            if ( !isComplete() ) {
+                Sponge.getEventManager().post( new ObjectiveProgressedEvent( this, quester ) );
+            } else {
+                Sponge.getEventManager().post( new ObjectiveCompletedEvent( this, quester ) );
             }
         }
     }
