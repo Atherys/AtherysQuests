@@ -29,15 +29,20 @@ public class KillEntitiesObjective extends AbstractObjective<DestructEntityEvent
 
     @Override
     protected void onNotify ( DestructEntityEvent.Death event, Quester quester ) {
+
         String displayName = event.getTargetEntity().get(Keys.DISPLAY_NAME).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
+
         if ( progress.containsKey( displayName ) && progress.get( displayName ) != 0 ) {
             progress.put( displayName, progress.get( displayName ) - 1 );
-        }
+        } else return;
 
         // Update complete status
         complete = true;
         for (Map.Entry<String, Integer> entry : progress.entrySet()) {
-            if ( entry.getValue() != 0 ) complete = false;
+            if ( entry.getValue() != 0 ) {
+                complete = false;
+                break;
+            }
         }
     }
 
