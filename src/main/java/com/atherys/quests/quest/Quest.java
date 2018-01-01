@@ -2,6 +2,7 @@ package com.atherys.quests.quest;
 
 import com.atherys.quests.base.Observer;
 import com.atherys.quests.base.Prototype;
+import com.atherys.quests.base.Viewable;
 import com.atherys.quests.events.QuestCompletedEvent;
 import com.atherys.quests.events.QuestStartedEvent;
 import com.atherys.quests.quest.objective.Objective;
@@ -9,13 +10,14 @@ import com.atherys.quests.quest.requirement.Requirement;
 import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
+import com.atherys.quests.views.impl.QuestView;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;
 
-public class Quest implements Prototype<Quest>, Observer {
+public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
     private String id;
     private Text name;

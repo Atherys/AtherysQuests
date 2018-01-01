@@ -5,6 +5,7 @@ import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.views.impl.DialogView;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
@@ -47,7 +48,7 @@ public class Dialog {
         this.lastNode = lastNode;
     }
 
-    protected void proceed( Player player, DialogNode node ) {
+    public void proceed(Player player, DialogNode node) {
 
         this.cachedPlayer = player;
 
@@ -65,7 +66,7 @@ public class Dialog {
 
         this.lastNode = node;
 
-        new DialogView( this ).showChat( player );
+        new DialogView( this ).show( player );
     }
 
     public Entity getNPC() {

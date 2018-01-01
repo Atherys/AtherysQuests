@@ -1,7 +1,10 @@
-package com.atherys.quests.dialog;
+package com.atherys.quests.views.impl;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.dialog.Dialog;
+import com.atherys.quests.dialog.DialogMsg;
 import com.atherys.quests.dialog.tree.DialogNode;
+import com.atherys.quests.views.api.View;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.effect.sound.SoundTypes;
@@ -15,7 +18,7 @@ import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.concurrent.TimeUnit;
 
-public class DialogView {
+public class DialogView implements View {
 
     private Dialog dialog;
 
@@ -80,4 +83,8 @@ public class DialogView {
         } else player.sendMessage( DialogMsg.DIALOG_END_DECORATION );
     }
 
+    @Override
+    public void show(Player player) {
+        showChat( player );
+    }
 }

@@ -2,6 +2,7 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.base.Observer;
 import com.atherys.quests.base.Prototype;
+import com.atherys.quests.base.Viewable;
 import org.spongepowered.api.event.Event;
 
 /**
@@ -10,7 +11,7 @@ import org.spongepowered.api.event.Event;
  * are copied and stored on to the Quester object.<br>
  * Objectives are also event observers. This is the method through which they know when something significant has happened that they may wish to take note of.
  */
-public interface Objective extends Prototype<Objective>, Observer<Event> {
+public interface Objective extends Prototype<Objective>, Observer<Event>, Viewable {
 
     /**
      * @return Whether or not this objective has been completed.
