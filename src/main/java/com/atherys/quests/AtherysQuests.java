@@ -1,12 +1,16 @@
 package com.atherys.quests;
 
+import com.atherys.core.views.ViewManager;
+import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.KillEntityObjective;
-import com.atherys.quests.quest.reward.ItemReward;
+import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.views.DialogView;
+import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.Listener;
@@ -19,6 +23,7 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -48,16 +53,24 @@ public class AtherysQuests {
 
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
                 .name( Text.of("This is a dummy quest.") )
-                .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies." ) )
+                .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. You'll get a magical anvil at the end for it." ) )
                 .add( KillEntityObjective.of( "creeper", 3 ) )
                 .add( KillEntityObjective.of( "zombie", 4 ) )
-                .add( ItemReward.of( ItemStack.builder().itemType(ItemTypes.ANVIL).quantity(1).add( Keys.DISPLAY_NAME, Text.of("The Magical Anvil") ).build() ) )
+                .add( new SingleItemReward( ItemStack.builder().itemType(ItemTypes.ANVIL).quantity(1).add( Keys.DISPLAY_NAME, Text.of("The Magical Anvil") ).build() ) )
                 .build();
 
         QuestManager.getInstance().registerQuest( dummyQuest );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        config = new QuestsConfig();
+        try {
+            config = new QuestsConfig("config/" + ID, "config.conf");
+            config.init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ViewManager.getInstance().registerView( Quest.class, QuestView.class );
+        ViewManager.getInstance().registerView( Dialog.class, DialogView.class );
     }
 
     private void stop() {

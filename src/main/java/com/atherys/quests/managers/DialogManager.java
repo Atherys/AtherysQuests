@@ -13,10 +13,7 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * A class responsible for managing all dialogs
@@ -27,6 +24,7 @@ public final class DialogManager {
 
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
     private Map<String,DialogTree> trees = new HashMap<>();
+    private Map<DialogTree, List<Entity>> entityDialogCache = new HashMap<>();
 
     private Gson gson = new Gson();
 
@@ -56,6 +54,10 @@ public final class DialogManager {
                 this.trees.put(tree.getId(), tree);
             }
         }
+    }
+
+    public Optional<DialogTree> getDialogFromId ( String id ) {
+        return Optional.ofNullable( trees.get(id) );
     }
 
     /**

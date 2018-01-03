@@ -21,9 +21,7 @@ public final class ViewUtils {
     }
 
     public static BookView bookFromText ( Text text ) {
-        BookView.Builder view = BookView.builder();
-
-        return view.build();
+        return BookView.builder().addPage( text ).build();
     }
 
 }

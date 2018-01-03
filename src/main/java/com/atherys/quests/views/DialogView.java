@@ -1,10 +1,10 @@
-package com.atherys.quests.views.impl;
+package com.atherys.quests.views;
 
+import com.atherys.core.views.AbstractView;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.DialogMsg;
 import com.atherys.quests.dialog.tree.DialogNode;
-import com.atherys.quests.views.api.View;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.effect.sound.SoundTypes;
@@ -18,17 +18,15 @@ import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.concurrent.TimeUnit;
 
-public class DialogView implements View {
-
-    private Dialog dialog;
+public class DialogView extends AbstractView<Dialog, DialogView> {
 
     public DialogView ( Dialog dialog ) {
-        this.dialog = dialog;
+        super(dialog);
     }
 
     public void showChat ( Player player ) {
-        DialogNode node = dialog.getLastNode();
-        Entity npc = dialog.getNPC();
+        DialogNode node = object.getLastNode();
+        Entity npc = object.getNPC();
 
         player.sendMessage( DialogMsg.DIALOG_START_DECORATION );
 
@@ -69,12 +67,17 @@ public class DialogView implements View {
                         .append(Text.of(TextColors.DARK_AQUA, "[", TextColors.WHITE, TextStyles.BOLD, i, TextStyles.RESET, TextColors.DARK_AQUA, "]"))
                         .append(Text.of(TextColors.AQUA, TextStyles.BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText()))
                         .onClick(TextActions.executeCallback( src -> {
-                            if ( src instanceof Player ) dialog.proceed( (Player) src, response );
+                            if ( src instanceof Player ) object.proceed( (Player) src, response );
                         }))
                         .onHover(TextActions.showText(Text.of("Say ", TextStyles.ITALIC, response.getPlayerText())));
 
                 response.getQuest().ifPresent(quest -> {
-                    nextMessage.append(Text.of(TextColors.DARK_GREEN, TextStyles.BOLD, " { Starts Quest: ", TextColors.GREEN, TextStyles.RESET, quest.getName(), TextStyles.BOLD, TextColors.DARK_GREEN, " }"));
+                    nextMessage.append(
+                            Text.builder()
+                                    .append( Text.of ( TextColors.DARK_GREEN, TextStyles.BOLD, " { Starts Quest: ", TextColors.GREEN, TextStyles.RESET, quest.getName(), TextStyles.BOLD, TextColors.DARK_GREEN, " }" ) )
+                                    .onHover( TextActions.showText( quest.getFormattedRequirements() ) )
+                                    .build()
+                    );
                 });
 
                 player.sendMessage(nextMessage.build());

@@ -1,32 +1,29 @@
 package com.atherys.quests.quest;
 
+import com.atherys.core.views.AbstractViewable;
 import com.atherys.quests.base.Observer;
 import com.atherys.quests.base.Prototype;
-import com.atherys.quests.base.Viewable;
-import com.atherys.quests.events.QuestCompletedEvent;
-import com.atherys.quests.events.QuestStartedEvent;
 import com.atherys.quests.quest.objective.Objective;
 import com.atherys.quests.quest.requirement.Requirement;
 import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
-import com.atherys.quests.views.impl.QuestView;
-import org.spongepowered.api.Sponge;
+import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;
 
-public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
+public class Quest extends AbstractViewable<QuestView, Quest> implements Prototype<Quest>, Observer {
 
     private String id;
-    private Text name;
-    private Text description;
-    private int version;
+    private Text   name;
+    private Text   description;
+    private int    version;
 
     private List<Requirement> requirements;
-    private List<Objective> objectives;
-    private List<Reward> rewards;
+    private List<Objective>   objectives;
+    private List<Reward>      rewards;
 
     private boolean started  = false;
     private boolean complete = false;
@@ -79,6 +76,13 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         if ( !requirements.contains( requirement ) ) requirements.add( requirement );
     }
 
+    public Text getFormattedRequirements() {
+        Text.Builder reqText = Text.builder();
+        reqText.append( Text.of ( QuestMsg.MSG_PREFIX, " Quest Requirements: " ) );
+        getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText() ) ));
+        return reqText.build();
+    }
+
     public boolean meetsRequiements ( Quester player ) {
         for ( Requirement req : requirements ) {
             if ( !req.check(player) ) return false;
@@ -113,8 +117,6 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         if ( !isStarted() ) {
             // set it as started
             this.started = true;
-            QuestStartedEvent qsEvent = new QuestStartedEvent( this, quester );
-            Sponge.getEventManager().post( qsEvent );
         }
 
         // if the quest hasn't been completed yet
@@ -126,12 +128,6 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
             for ( Objective objective : objectives ) {
                 objective.notify ( event, quester );
                 if ( !objective.isComplete() ) this.complete = false;
-            }
-
-            // if all the objectives are completed
-            if ( isComplete() ) {
-                QuestCompletedEvent qsEvent = new QuestCompletedEvent( this, quester );
-                Sponge.getEventManager().post( qsEvent );
             }
         }
     }
