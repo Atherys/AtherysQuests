@@ -1,5 +1,4 @@
 group 'com.atherys'
-version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
@@ -13,10 +12,18 @@ repositories {
     maven {
         url = 'https://jitpack.io'
     }
+    maven {
+        url = 'https://nexus.atherys.com/repository/maven-releases/'
+        credentials {
+            username = 'gitlab'
+            password = 'YaWK3BT3d3mpJYA2'
+        }
+    }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT',
-            'com.github.Daniel12321:NPCs:1.12-SNAPSHOT'
+    compile 'org.spongepowered:spongeapi:7.0.0',
+            'com.github.Daniel12321:NPCs:1.12-SNAPSHOT',
+            'com.atherys:AtherysCore:1.0.1'
 }

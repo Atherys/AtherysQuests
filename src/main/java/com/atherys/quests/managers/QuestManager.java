@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public final class QuestManager {
 
-    private static QuestManager instance;
+    private static QuestManager instance = new QuestManager();
 
     private Map<String,Quest> quests = new HashMap<>();
 
@@ -20,15 +20,16 @@ public final class QuestManager {
         this.quests.put( quest.getId(), quest );
     }
 
+    public void unregisterQuest( Quest quest ) {
+        quests.remove( quest.getId() );
+    }
+
     public Optional<Quest> getQuest ( String questId ) {
         return Optional.ofNullable( quests.get( questId ) );
     }
 
     public Optional<Quest> getQuest ( DataHolder holder ) {
-        Optional<String> questId = holder.get(QuestKeys.QUEST);
-        if ( questId.isPresent() ) {
-            return Optional.ofNullable( quests.get( questId.get() ) );
-        } else return Optional.empty();
+        return holder.get(QuestKeys.QUEST).flatMap(this::getQuest);
     }
 
     public static QuestManager getInstance() {

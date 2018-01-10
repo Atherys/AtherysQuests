@@ -8,6 +8,7 @@ import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.ResultType;
+import org.spongepowered.api.text.Text;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class MoneyReward implements Reward {
 
     @Override
     public boolean award ( Quester quester ) {
-        Optional<User> user = quester.getUser();
+        Optional<? extends User> user = quester.getUser();
         if ( !user.isPresent() ) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();
@@ -37,5 +38,10 @@ public class MoneyReward implements Reward {
     @Override
     public Reward copy() {
         return new MoneyReward( this.amount, this.currency );
+    }
+
+    @Override
+    public Text toText() {
+        return Text.of( currency.format( BigDecimal.valueOf(amount) ) );
     }
 }

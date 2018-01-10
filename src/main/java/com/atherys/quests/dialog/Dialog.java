@@ -1,10 +1,12 @@
 package com.atherys.quests.dialog;
 
+import com.atherys.core.views.Viewable;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.events.DialogProceedEvent;
-import com.atherys.quests.quester.Quester;
 import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.quester.Quester;
+import com.atherys.quests.views.DialogView;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
@@ -12,7 +14,7 @@ import org.spongepowered.api.entity.living.player.User;
 
 import java.util.Optional;
 
-public class Dialog {
+public class Dialog implements Viewable<DialogView> {
 
     private String treeId;
 
@@ -47,7 +49,7 @@ public class Dialog {
         this.lastNode = lastNode;
     }
 
-    protected void proceed( Player player, DialogNode node ) {
+    public void proceed(Player player, DialogNode node) {
 
         this.cachedPlayer = player;
 
@@ -65,14 +67,14 @@ public class Dialog {
 
         this.lastNode = node;
 
-        new DialogView( this ).showChat( player );
+        new DialogView( this ).show( player );
     }
 
     public Entity getNPC() {
         return npc;
     }
 
-    public Optional<User> getPlayer() {
+    public Optional<? extends User> getPlayer() {
         return quester.getUser();
     }
 
@@ -82,5 +84,10 @@ public class Dialog {
 
     public String getTreeId() {
         return treeId;
+    }
+
+    @Override
+    public Optional<DialogView> createView() {
+        return Optional.of( new DialogView(this) );
     }
 }

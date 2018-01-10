@@ -3,6 +3,7 @@ package com.atherys.quests.quest.requirement;
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.text.Text;
 
 public class LevelRequirement extends NumericRequirement {
 
@@ -19,5 +20,10 @@ public class LevelRequirement extends NumericRequirement {
     @Override
     public Requirement copy() {
         return new LevelRequirement( this.level );
+    }
+
+    @Override
+    public Text toText() {
+        return Text.of( "You must have an enchantment level of at least ", level );
     }
 }
