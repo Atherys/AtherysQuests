@@ -1,6 +1,6 @@
 package com.atherys.quests.quest;
 
-import com.atherys.core.views.AbstractViewable;
+import com.atherys.core.views.Viewable;
 import com.atherys.quests.base.Observer;
 import com.atherys.quests.base.Prototype;
 import com.atherys.quests.quest.objective.Objective;
@@ -13,8 +13,9 @@ import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;
+import java.util.Optional;
 
-public class Quest extends AbstractViewable<QuestView, Quest> implements Prototype<Quest>, Observer {
+public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
     private String id;
     private Text   name;
@@ -76,13 +77,6 @@ public class Quest extends AbstractViewable<QuestView, Quest> implements Prototy
         if ( !requirements.contains( requirement ) ) requirements.add( requirement );
     }
 
-    public Text getFormattedRequirements() {
-        Text.Builder reqText = Text.builder();
-        reqText.append( Text.of ( QuestMsg.MSG_PREFIX, " Quest Requirements: " ) );
-        getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText() ) ));
-        return reqText.build();
-    }
-
     public boolean meetsRequiements ( Quester player ) {
         for ( Requirement req : requirements ) {
             if ( !req.check(player) ) return false;
@@ -125,7 +119,7 @@ public class Quest extends AbstractViewable<QuestView, Quest> implements Prototy
             this.complete = true;
 
             // updated completed status based on the status of the objectives
-            for ( Objective objective : objectives ) {
+            for ( Objective objective : getObjectives() ) {
                 objective.notify ( event, quester );
                 if ( !objective.isComplete() ) this.complete = false;
             }
@@ -147,5 +141,10 @@ public class Quest extends AbstractViewable<QuestView, Quest> implements Prototy
 
     public int getVersion() {
         return version;
+    }
+
+    @Override
+    public Optional<QuestView> createView() {
+        return Optional.of( new QuestView(this) );
     }
 }

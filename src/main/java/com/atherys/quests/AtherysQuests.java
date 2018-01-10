@@ -1,7 +1,5 @@
 package com.atherys.quests;
 
-import com.atherys.core.views.ViewManager;
-import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
@@ -9,8 +7,9 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.atherys.quests.views.DialogView;
-import com.atherys.quests.views.QuestView;
+import com.google.gson.Gson;
+import com.google.inject.Inject;
+import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.Listener;
@@ -35,18 +34,32 @@ public class AtherysQuests {
     public static final String DESCRIPTION = "A quest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0a";
 
-    private static AtherysQuests instance = new AtherysQuests();
+    private static AtherysQuests instance;
     private static boolean init = false;
     private static QuestsConfig config;
+
+    @Inject
+    Logger logger;
 
     private void init() {
         // TODO: Dump assets into config file
         // TODO: Load dialogs from files
-        init = true;
+        instance = this;
 
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+
+        try {
+            config = new QuestsConfig("config/" + ID, "config.conf");
+            config.init();
+        } catch (IOException e) {
+            init = false;
+            e.printStackTrace();
+            return;
+        }
+
+        init = true;
     }
 
     private void start() {
@@ -62,15 +75,22 @@ public class AtherysQuests {
         QuestManager.getInstance().registerQuest( dummyQuest );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        try {
-            config = new QuestsConfig("config/" + ID, "config.conf");
-            config.init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Gson gson = new Gson();
 
-        ViewManager.getInstance().registerView( Quest.class, QuestView.class );
-        ViewManager.getInstance().registerView( Dialog.class, DialogView.class );
+        // Serialization test
+        String dummyJson = gson.toJson(dummyQuest);
+
+        logger.info( "Serialized Quest: " + dummyJson );
+
+        // Deserialization test
+        Quest deserializedDummy = gson.fromJson( dummyJson, Quest.class );
+
+        logger.info( "Deserialized quest with Id " + deserializedDummy.getId() );
+
+        // Re-serealization test
+        String reserializedDummyJson = gson.toJson(deserializedDummy);
+
+        logger.info( "Reserialized Quest: " + reserializedDummyJson );
     }
 
     private void stop() {

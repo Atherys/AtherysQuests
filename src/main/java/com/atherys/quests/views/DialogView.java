@@ -1,6 +1,6 @@
 package com.atherys.quests.views;
 
-import com.atherys.core.views.AbstractView;
+import com.atherys.core.views.View;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.DialogMsg;
@@ -18,15 +18,17 @@ import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.concurrent.TimeUnit;
 
-public class DialogView extends AbstractView<Dialog, DialogView> {
+public class DialogView implements View<Dialog> {
+
+    private final Dialog dialog;
 
     public DialogView ( Dialog dialog ) {
-        super(dialog);
+        this.dialog = dialog;
     }
 
     public void showChat ( Player player ) {
-        DialogNode node = object.getLastNode();
-        Entity npc = object.getNPC();
+        DialogNode node = dialog.getLastNode();
+        Entity npc = dialog.getNPC();
 
         player.sendMessage( DialogMsg.DIALOG_START_DECORATION );
 
@@ -67,7 +69,7 @@ public class DialogView extends AbstractView<Dialog, DialogView> {
                         .append(Text.of(TextColors.DARK_AQUA, "[", TextColors.WHITE, TextStyles.BOLD, i, TextStyles.RESET, TextColors.DARK_AQUA, "]"))
                         .append(Text.of(TextColors.AQUA, TextStyles.BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText()))
                         .onClick(TextActions.executeCallback( src -> {
-                            if ( src instanceof Player ) object.proceed( (Player) src, response );
+                            if ( src instanceof Player ) dialog.proceed( (Player) src, response );
                         }))
                         .onHover(TextActions.showText(Text.of("Say ", TextStyles.ITALIC, response.getPlayerText())));
 
@@ -75,7 +77,7 @@ public class DialogView extends AbstractView<Dialog, DialogView> {
                     nextMessage.append(
                             Text.builder()
                                     .append( Text.of ( TextColors.DARK_GREEN, TextStyles.BOLD, " { Starts Quest: ", TextColors.GREEN, TextStyles.RESET, quest.getName(), TextStyles.BOLD, TextColors.DARK_GREEN, " }" ) )
-                                    .onHover( TextActions.showText( quest.getFormattedRequirements() ) )
+                                    .onHover( TextActions.showText( quest.createView().get().getFormattedRequirements() ) )
                                     .build()
                     );
                 });

@@ -15,6 +15,12 @@ public final class QuesterManager {
 
     private Map<UUID,Quester> questers = new HashMap<>();
 
+    public Quester createQuester ( Player player ) {
+        Quester quester = new Quester( player );
+        questers.put( player.getUniqueId(), quester );
+        return quester;
+    }
+
     public Optional<Quester> getQuester ( Player player ) {
         return Optional.ofNullable( questers.get( player.getUniqueId() ) );
     }

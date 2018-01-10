@@ -16,11 +16,16 @@ import java.util.*;
 
 public class Quester {
 
-    private UUID player;
+    private UUID player; // Retrieve player from this. 100% Reliable.
 
-    private Player cachedPlayer;
+    private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
     private Map<String,Quest> quests = new HashMap<>();
     private Map<String,Long> completedQuests = new HashMap<>();
+
+    public Quester( Player player ) {
+        this.player = player.getUniqueId();
+        this.cachedPlayer = player;
+    }
 
     public void notify ( Event event, Player player ) {
         if ( !this.player.equals( player.getUniqueId() ) ) return;
@@ -35,7 +40,7 @@ public class Quester {
         if ( !quest.meetsRequiements( this ) ) {
             Text.Builder reqText = Text.builder();
             reqText.append( Text.of ( QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest." ) );
-            reqText.append( quest.getFormattedRequirements() );
+            reqText.append( quest.createView().get().getFormattedRequirements() );
             QuestMsg.noformat ( this, reqText.build() );
         }
 

@@ -16,10 +16,7 @@ public class QuestRequirement implements Requirement {
         this.questId = questId;
     }
 
-    @Override
-    public Requirement copy() {
-        return new QuestRequirement( questId );
-    }
+    public QuestRequirement( Quest quest ) { this.questId = quest.getId(); }
 
     @Override
     public Text toText() {
@@ -34,5 +31,10 @@ public class QuestRequirement implements Requirement {
     @Override
     public boolean check(Quester quester) {
         return quester.hasCompleted ( questId );
+    }
+
+    @Override
+    public Requirement copy() {
+        return new QuestRequirement( questId );
     }
 }
