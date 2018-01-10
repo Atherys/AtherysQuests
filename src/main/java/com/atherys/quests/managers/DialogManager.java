@@ -5,7 +5,6 @@ import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.google.gson.Gson;
-import me.mrdaniel.npcs.interfaces.mixin.NPCAble;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -24,7 +23,6 @@ public final class DialogManager {
 
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
     private Map<String,DialogTree> trees = new HashMap<>();
-    private Map<DialogTree, List<Entity>> entityDialogCache = new HashMap<>();
 
     private Gson gson = new Gson();
 
@@ -83,13 +81,12 @@ public final class DialogManager {
 
     /**
      * Associate an entity with a {@link DialogTree}. When a player attempts to interact with this entity, they will begin the dialog.
-     * Note: The entity MUST ba an instance of {@link NPCAble}. This is to prevent dialogs being assigned to volatile entities and thus clogging up the cache.
      * @param entity The entity to be assigned a dialog
      * @param tree The dialog tree itself
      * @return Whether or not setting the dialog was successful.
      */
     public boolean setDialog ( Entity entity, DialogTree tree ) {
-        return entity instanceof NPCAble && entity.offer(new DialogData(tree.getId())).isSuccessful();
+        return entity.offer(new DialogData(tree.getId())).isSuccessful();
     }
 
     /**
