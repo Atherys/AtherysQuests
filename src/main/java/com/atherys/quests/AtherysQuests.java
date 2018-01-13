@@ -49,6 +49,7 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+        Sponge.getEventManager().registerListeners( this, new QuestKeys() );
 
         try {
             config = new QuestsConfig("config/" + ID, "config.conf");
