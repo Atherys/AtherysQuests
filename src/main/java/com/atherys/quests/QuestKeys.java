@@ -12,17 +12,17 @@ public final class QuestKeys {
     QuestKeys() {}
 
     public final static Key<Value<String>> DIALOG = Key.builder()
-            .id( "atherysquests:dialog" )
-            .name( "Dialog" )
             .type(new TypeToken<Value<String>>(){})
             .query( DataQuery.of("Dialog") )
+            .id( "atherysquests:dialog" )
+            .name( "Dialog" )
             .build();
 
     public final static Key<Value<String>> QUEST = Key.builder()
-            .id( "atherysquests:quest" )
-            .name( "Quest" )
             .type(new TypeToken<Value<String>>(){})
             .query( DataQuery.of("Quest") )
+            .id( "atherysquests:quest" )
+            .name( "Quest" )
             .build();
 
     @Listener
