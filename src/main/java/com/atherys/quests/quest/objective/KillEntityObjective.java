@@ -14,7 +14,7 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     private boolean complete;
 
     public KillEntityObjective( String entityName, int numberToKill ) {
-        super( DestructEntityEvent.Death.class );
+        super(DestructEntityEvent.Death.class);
         this.entityName = entityName;
         this.requirement = numberToKill;
         this.progress = numberToKill;

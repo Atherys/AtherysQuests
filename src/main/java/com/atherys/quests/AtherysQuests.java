@@ -7,6 +7,7 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -76,7 +77,7 @@ public class AtherysQuests {
         QuestManager.getInstance().registerQuest( dummyQuest );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        Gson gson = new Gson();
+        Gson gson = GsonUtils.getNewQuestsGson();
 
         // Serialization test
         String dummyJson = gson.toJson(dummyQuest);
