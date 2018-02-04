@@ -9,6 +9,7 @@ import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.views.QuestView;
+import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
@@ -18,17 +19,17 @@ import java.util.Optional;
 
 public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
-    private String id;
-    private Text   name;
-    private Text   description;
-    private int    version;
+    @Expose private String id;
+    @Expose private Text   name;
+    @Expose private Text   description;
+    @Expose private int    version;
 
-    private List<Requirement> requirements = new ArrayList<>();
-    private List<Objective>   objectives = new ArrayList<>();
-    private List<Reward>      rewards = new ArrayList<>();
+    @Expose private List<Requirement> requirements = new ArrayList<>();
+    @Expose private List<Objective>   objectives = new ArrayList<>();
+    @Expose private List<Reward>      rewards = new ArrayList<>();
 
-    private boolean started  = false;
-    private boolean complete = false;
+    @Expose private boolean started  = false;
+    @Expose private boolean complete = false;
 
     protected Quest ( String id, int version ) {
         this.id = id;
