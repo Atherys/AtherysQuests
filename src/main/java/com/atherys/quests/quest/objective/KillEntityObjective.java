@@ -8,12 +8,11 @@ import org.spongepowered.api.text.Text;
 
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
-    @Expose
-    private String entityName;
+    @Expose private String entityName;
     @Expose private int requirement;
     @Expose private int progress;
 
-    private boolean complete;
+    @Expose private boolean complete;
 
     public KillEntityObjective( String entityName, int numberToKill ) {
         super(DestructEntityEvent.Death.class);

@@ -18,7 +18,7 @@ public final class GsonUtils {
 
     private static RuntimeTypeAdapterFactory<Objective> objectiveFactory =
             RuntimeTypeAdapterFactory.of(Objective.class)
-            .registerSubtype(KillEntityObjective.class, "KillEntities")
+            .registerSubtype(KillEntityObjective.class, "KillEntity")
             .registerSubtype(DialogObjective.class, "Dialog");
 
     private static RuntimeTypeAdapterFactory<Reward> rewardFactory =
