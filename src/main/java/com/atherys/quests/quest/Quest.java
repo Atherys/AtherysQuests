@@ -12,6 +12,7 @@ import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +23,9 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
     private Text   description;
     private int    version;
 
-    private List<Requirement> requirements;
-    private List<Objective>   objectives;
-    private List<Reward>      rewards;
+    private List<Requirement> requirements = new ArrayList<>();
+    private List<Objective>   objectives = new ArrayList<>();
+    private List<Reward>      rewards = new ArrayList<>();
 
     private boolean started  = false;
     private boolean complete = false;
