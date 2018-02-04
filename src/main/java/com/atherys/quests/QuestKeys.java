@@ -11,14 +11,14 @@ public final class QuestKeys {
 
     QuestKeys() {}
 
-    public final static Key<Value<String>> DIALOG = Key.builder()
+    public static final Key<Value<String>> DIALOG = Key.builder()
             .type(new TypeToken<Value<String>>(){})
             .id("atherysquests:dialog")
             .name( "Dialog" )
             .query( DataQuery.of("Dialog") )
             .build();
 
-    public final static Key<Value<String>> QUEST = Key.builder()
+    public static final Key<Value<String>> QUEST = Key.builder()
             .type(new TypeToken<Value<String>>(){})
             .id("atherysquests:quest")
             .name( "Quest" )
