@@ -4,6 +4,7 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.managers.InventoryManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.ItemUtils;
+import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class MultiItemReward implements Reward {
 
-    private List<ItemStackSnapshot> items = new ArrayList<>();
+    @Expose private List<ItemStackSnapshot> items = new ArrayList<>();
 
     public MultiItemReward ( List<ItemStackSnapshot> items ) {
         this.items = items;

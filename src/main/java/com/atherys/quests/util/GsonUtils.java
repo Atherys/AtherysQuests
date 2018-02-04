@@ -36,6 +36,7 @@ public final class GsonUtils {
 
     public static Gson getNewQuestsGson() {
         return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapterFactory( objectiveFactory )
                 .registerTypeAdapterFactory( requirementFactory )
                 .registerTypeAdapterFactory( rewardFactory )
