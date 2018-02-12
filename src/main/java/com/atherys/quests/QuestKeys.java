@@ -11,27 +11,19 @@ public final class QuestKeys {
 
     QuestKeys() {}
 
-    public static Key<Value<String>> DIALOG;
-    static {
-        DIALOG = Key.builder()
-                .type(new TypeToken<Value<String>>(){})
-                .query( DataQuery.of("Dialog") )
-                .id( "atherysquests:dialog" )
-                .name( "Dialog" )
-                .build();
-    }
-
-
-    public static Key<Value<String>> QUEST;
-    static {
-        QUEST =Key.builder()
-            .type(new TypeToken<Value<String>>() {
-            })
-            .query(DataQuery.of("Quest"))
-            .id("atherysquests:quest")
-            .name("Quest")
+    public static final Key<Value<String>> DIALOG = Key.builder()
+            .type(new TypeToken<Value<String>>(){})
+            .id("atherysquests:dialog")
+            .name( "Dialog" )
+            .query( DataQuery.of("Dialog") )
             .build();
-    }
+
+    public static final Key<Value<String>> QUEST = Key.builder()
+            .type(new TypeToken<Value<String>>(){})
+            .id("atherysquests:quest")
+            .name( "Quest" )
+            .query( DataQuery.of("Quest") )
+            .build();
 
     @Listener
     public void onKeyRegistration (GameRegistryEvent.Register<Key<?>> event) {

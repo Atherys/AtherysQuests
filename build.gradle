@@ -20,6 +20,6 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'org.spongepowered:spongeapi:7.1.0-SNAPSHOT',
-            'com.atherys:AtherysCore:1.0.1'
+    compile 'org.spongepowered:spongeapi:7.0.0',
+            'com.atherys:AtherysCore:1.1.8'
 }

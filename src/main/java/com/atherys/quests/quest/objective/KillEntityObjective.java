@@ -1,20 +1,21 @@
 package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.quester.Quester;
+import com.google.gson.annotations.Expose;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.text.Text;
 
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
-    private String entityName;
-    private int requirement;
-    private int progress;
+    @Expose private String entityName;
+    @Expose private int requirement;
+    @Expose private int progress;
 
-    private boolean complete;
+    @Expose private boolean complete;
 
     public KillEntityObjective( String entityName, int numberToKill ) {
-        super( DestructEntityEvent.Death.class );
+        super(DestructEntityEvent.Death.class);
         this.entityName = entityName;
         this.requirement = numberToKill;
         this.progress = numberToKill;
@@ -24,9 +25,20 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
         return new KillEntityObjective( entityName, numberToKill );
     }
 
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public int getRequirement() {
+        return requirement;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
     @Override
     protected void onNotify ( DestructEntityEvent.Death event, Quester quester ) {
-
         String displayName = event.getTargetEntity().get(Keys.DISPLAY_NAME).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
 
         if ( displayName.equals(entityName) && progress != 0 ) {
@@ -45,18 +57,6 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     @Override
     public KillEntityObjective copy() {
         return new KillEntityObjective( entityName, requirement );
-    }
-
-    public String getEntityName() {
-        return entityName;
-    }
-
-    public int getRequirement() {
-        return requirement;
-    }
-
-    public int getProgress() {
-        return progress;
     }
 
     @Override
