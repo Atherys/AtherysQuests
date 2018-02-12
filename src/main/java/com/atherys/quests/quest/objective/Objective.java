@@ -2,7 +2,6 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.base.Observer;
 import com.atherys.quests.base.Prototype;
-import com.atherys.quests.util.RuntimeTypeAdapterFactory;
 import com.atherys.quests.views.TextViewable;
 import org.spongepowered.api.event.Event;
 
@@ -13,10 +12,6 @@ import org.spongepowered.api.event.Event;
  * Objectives are also event observers. This is the method through which they know when something significant has happened that they may wish to take note of.
  */
 public interface Objective<T extends Objective<T>> extends Prototype<Objective>, Observer<Event>, TextViewable {
-
-    default RuntimeTypeAdapterFactory<Objective> factory() {
-        return RuntimeTypeAdapterFactory.of(Objective.class);
-    }
 
     /**
      * @return Whether or not this objective has been completed.

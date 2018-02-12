@@ -8,8 +8,7 @@ import org.spongepowered.api.text.Text;
 
 public class LevelRequirement extends NumericRequirement {
 
-    @Expose
-    private int level;
+    @Expose private int level;
 
     public LevelRequirement ( int level ) { super(level); }
 

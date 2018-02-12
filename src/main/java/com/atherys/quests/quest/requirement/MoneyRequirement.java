@@ -14,8 +14,7 @@ import java.util.Optional;
 
 public class MoneyRequirement extends NumericRequirement {
 
-    @Expose
-    private Currency currency;
+    @Expose private Currency currency;
 
     protected MoneyRequirement( double amount, Currency currency ) {
         super(amount);

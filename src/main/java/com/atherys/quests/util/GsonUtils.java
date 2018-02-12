@@ -1,5 +1,7 @@
 package com.atherys.quests.util;
 
+import com.atherys.core.gson.TextTypeAdapter;
+import com.atherys.core.utils.RuntimeTypeAdapterFactory;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.objective.Objective;
@@ -13,6 +15,7 @@ import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.spongepowered.api.text.Text;
 
 public final class GsonUtils {
 
@@ -37,6 +40,7 @@ public final class GsonUtils {
     public static Gson getNewQuestsGson() {
         return new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter( Text.class, new TextTypeAdapter() )
                 .registerTypeAdapterFactory( objectiveFactory )
                 .registerTypeAdapterFactory( requirementFactory )
                 .registerTypeAdapterFactory( rewardFactory )
