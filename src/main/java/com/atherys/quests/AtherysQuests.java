@@ -7,12 +7,7 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.gson.GsonConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
@@ -20,6 +15,7 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.event.world.LoadWorldEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.Plugin;
@@ -68,8 +64,6 @@ public class AtherysQuests {
 
     private void start() {
 
-        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
-
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
                 .name( Text.of("This is a dummy quest.") )
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. You'll get a magical anvil at the end for it." ) )
@@ -81,33 +75,35 @@ public class AtherysQuests {
         QuestManager.getInstance().registerQuest( dummyQuest );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
-        ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
-
-        try {
-            node.setValue(TypeToken.of(Quest.class), dummyQuest);
-            loader.saveInternal(node, System.console().writer());
-
-            try {
-                Quest quest = node.getValue(TypeToken.of(Quest.class));
-                ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
-                try {
-                    newNode.setValue(TypeToken.of(Quest.class), quest);
-                    loader.saveInternal( node, System.console().writer() );
-                } catch (ObjectMappingException e) {
-                    logger.info("2. Failed to map DummyQuest to Gson ConfigurationNode.");
-                } catch (IOException e) {
-                    logger.info("2. Failed to write to console writer.");
-                }
-            } catch ( ObjectMappingException e ) {
-                logger.info("Failed to map Gson config node to Quest");
-            }
-
-        } catch (IOException e) {
-            logger.info("1. Failed to write to console writer.");
-        } catch (ObjectMappingException e) {
-            logger.info("1. Failed to map DummyQuest to Gson ConfigurationNode.");
-        }
+        //GsonConfigurationLoader loader = HoconConfigurationLoader.builder().build();
+        //ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
+//
+        //loader.
+//
+        //try {
+        //    node.setValue(TypeToken.of(Quest.class), dummyQuest);
+        //    loader.saveInternal(node, System.console().writer());
+//
+        //    try {
+        //        Quest quest = node.getValue(TypeToken.of(Quest.class));
+        //        ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
+        //        try {
+        //            newNode.setValue(TypeToken.of(Quest.class), quest);
+        //            loader.saveInternal( node, System.console().writer() );
+        //        } catch (ObjectMappingException e) {
+        //            logger.info("2. Failed to map DummyQuest to Gson ConfigurationNode.");
+        //        } catch (IOException e) {
+        //            logger.info("2. Failed to write to console writer.");
+        //        }
+        //    } catch ( ObjectMappingException e ) {
+        //        logger.info("Failed to map Gson config node to Quest");
+        //    }
+//
+        //} catch (IOException e) {
+        //    logger.info("1. Failed to write to console writer.");
+        //} catch (ObjectMappingException e) {
+        //    logger.info("1. Failed to map DummyQuest to Gson ConfigurationNode.");
+        //}
 
     }
 
@@ -118,6 +114,11 @@ public class AtherysQuests {
     @Listener
     public void onInit (GameInitializationEvent event) {
         init();
+    }
+
+    @Listener
+    public void onWorldLoad (LoadWorldEvent event) {
+        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
     }
 
     @Listener
