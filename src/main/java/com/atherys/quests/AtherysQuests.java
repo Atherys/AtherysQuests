@@ -52,7 +52,6 @@ public class AtherysQuests {
 
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
-        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
         Sponge.getEventManager().registerListeners( this, new QuestKeys() );
 
         try {
@@ -68,6 +67,8 @@ public class AtherysQuests {
     }
 
     private void start() {
+
+        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
                 .name( Text.of("This is a dummy quest.") )
