@@ -15,7 +15,6 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
-import org.spongepowered.api.event.world.LoadWorldEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.Plugin;
@@ -73,6 +72,8 @@ public class AtherysQuests {
                 .build();
 
         QuestManager.getInstance().registerQuest( dummyQuest );
+
+        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
         //GsonConfigurationLoader loader = HoconConfigurationLoader.builder().build();
@@ -114,11 +115,6 @@ public class AtherysQuests {
     @Listener
     public void onInit (GameInitializationEvent event) {
         init();
-    }
-
-    @Listener
-    public void onWorldLoad (LoadWorldEvent event) {
-        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
     }
 
     @Listener
