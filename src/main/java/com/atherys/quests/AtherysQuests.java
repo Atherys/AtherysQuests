@@ -101,6 +101,7 @@ public class AtherysQuests {
                 }
             } catch ( ObjectMappingException e ) {
                 logger.info("Failed to map Gson config node to Quest");
+                e.printStackTrace();
             }
 
         } catch (IOException e) {
