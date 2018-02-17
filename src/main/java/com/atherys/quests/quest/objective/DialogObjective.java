@@ -2,7 +2,6 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
-import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
@@ -10,9 +9,9 @@ import javax.annotation.Nullable;
 
 public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
-    @Expose private String requiredDialogTree;
-    @Expose private int requiredDialogNode;
-    @Expose private Text description = Text.EMPTY;
+    private String requiredDialogTree;
+    private int requiredDialogNode;
+    private Text description = Text.EMPTY;
 
     private boolean complete = false;
 

@@ -3,6 +3,7 @@ package com.atherys.quests.quest.objective;
 import com.atherys.quests.base.Observer;
 import com.atherys.quests.base.Prototype;
 import com.atherys.quests.views.TextViewable;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.event.Event;
 
 /**
@@ -11,6 +12,7 @@ import org.spongepowered.api.event.Event;
  * are copied and stored on to the Quester object.<br>
  * Objectives are also event observers. This is the method through which they know when something significant has happened that they may wish to take note of.
  */
+@ConfigSerializable
 public interface Objective<T extends Objective<T>> extends Prototype<Objective>, Observer<Event>, TextViewable {
 
     /**

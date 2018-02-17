@@ -1,14 +1,13 @@
 package com.atherys.quests.quest.requirement;
 
 import com.atherys.quests.quester.Quester;
-import com.google.gson.annotations.Expose;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 public class LevelRequirement extends NumericRequirement {
 
-    @Expose private int level;
+    private int level;
 
     public LevelRequirement ( int level ) { super(level); }
 

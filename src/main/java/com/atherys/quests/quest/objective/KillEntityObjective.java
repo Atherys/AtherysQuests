@@ -1,18 +1,17 @@
 package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.quester.Quester;
-import com.google.gson.annotations.Expose;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.text.Text;
 
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
-    @Expose private String entityName;
-    @Expose private int requirement;
-    @Expose private int progress;
+    private String entityName;
+    private int requirement;
+    private int progress;
 
-    @Expose private boolean complete;
+    private boolean complete;
 
     public KillEntityObjective( String entityName, int numberToKill ) {
         super(DestructEntityEvent.Death.class);

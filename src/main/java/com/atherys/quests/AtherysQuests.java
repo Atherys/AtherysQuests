@@ -7,9 +7,12 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.atherys.quests.util.GsonUtils;
-import com.google.gson.Gson;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.gson.GsonConfigurationLoader;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
@@ -77,22 +80,34 @@ public class AtherysQuests {
         QuestManager.getInstance().registerQuest( dummyQuest );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        Gson gson = GsonUtils.getNewQuestsGson();
+        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
+        ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
 
-        // Serialization test
-        String dummyJson = gson.toJson(dummyQuest);
+        try {
+            node.setValue(TypeToken.of(Quest.class), dummyQuest);
+            loader.saveInternal(node, System.console().writer());
 
-        logger.info( "Serialized Quest: " + dummyJson );
+            try {
+                Quest quest = node.getValue(TypeToken.of(Quest.class));
+                ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
+                try {
+                    newNode.setValue(TypeToken.of(Quest.class), quest);
+                    loader.saveInternal( node, System.console().writer() );
+                } catch (ObjectMappingException e) {
+                    logger.info("2. Failed to map DummyQuest to Gson ConfigurationNode.");
+                } catch (IOException e) {
+                    logger.info("2. Failed to write to console writer.");
+                }
+            } catch ( ObjectMappingException e ) {
+                logger.info("Failed to map Gson config node to Quest");
+            }
 
-        // Deserialization test
-        Quest deserializedDummy = gson.fromJson( dummyJson, Quest.class );
+        } catch (IOException e) {
+            logger.info("1. Failed to write to console writer.");
+        } catch (ObjectMappingException e) {
+            logger.info("1. Failed to map DummyQuest to Gson ConfigurationNode.");
+        }
 
-        logger.info( "Deserialized quest with Id " + deserializedDummy.getId() );
-
-        // Re-serealization test
-        String reserializedDummyJson = gson.toJson(deserializedDummy);
-
-        logger.info( "Reserialized Quest: " + reserializedDummyJson );
     }
 
     private void stop() {

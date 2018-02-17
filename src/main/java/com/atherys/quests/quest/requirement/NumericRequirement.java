@@ -1,10 +1,8 @@
 package com.atherys.quests.quest.requirement;
 
-import com.google.gson.annotations.Expose;
-
 public abstract class NumericRequirement implements Requirement{
 
-    @Expose protected double number;
+    protected double number;
 
     protected NumericRequirement ( double amount ) {
         this.number = amount;

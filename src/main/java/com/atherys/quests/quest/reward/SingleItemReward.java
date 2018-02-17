@@ -4,7 +4,6 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.managers.InventoryManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.ItemUtils;
-import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
@@ -16,7 +15,6 @@ import org.spongepowered.api.text.action.TextActions;
 
 public class SingleItemReward implements Reward {
 
-    @Expose
     private ItemStackSnapshot item;
 
     public SingleItemReward ( ItemStack stack ) {

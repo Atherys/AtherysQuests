@@ -2,7 +2,6 @@ package com.atherys.quests.quest.reward;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.quester.Quester;
-import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.Currency;
@@ -16,8 +15,7 @@ import java.util.Optional;
 
 public class MoneyReward implements Reward {
 
-    @Expose private double amount;
-    @Expose
+    private double amount;
     private Currency currency;
 
     public MoneyReward ( double amount, Currency currency ) {
