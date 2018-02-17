@@ -19,6 +19,8 @@ public class SingleItemReward implements Reward {
     @Setting
     private ItemStackSnapshot item;
 
+    private SingleItemReward() {}
+
     public SingleItemReward ( ItemStack stack ) {
         this.item = stack.createSnapshot();
     }

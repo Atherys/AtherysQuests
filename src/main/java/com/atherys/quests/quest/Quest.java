@@ -33,6 +33,8 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
     @Setting private boolean started  = false;
     @Setting private boolean complete = false;
 
+    private Quest() {}
+
     protected Quest ( String id, int version ) {
         this.id = id;
         this.name = Text.of( "This quest has no name." );

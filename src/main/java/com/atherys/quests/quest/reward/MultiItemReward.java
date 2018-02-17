@@ -21,6 +21,8 @@ public class MultiItemReward implements Reward {
     @Setting
     private List<ItemStackSnapshot> items = new ArrayList<>();
 
+    private MultiItemReward() {}
+
     public MultiItemReward ( List<ItemStackSnapshot> items ) {
         this.items = items;
     }

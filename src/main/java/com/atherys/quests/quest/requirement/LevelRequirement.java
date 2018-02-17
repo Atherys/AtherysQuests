@@ -11,6 +11,10 @@ public class LevelRequirement extends NumericRequirement {
     @Setting
     private int level;
 
+    private LevelRequirement() {
+        super(0);
+    }
+
     public LevelRequirement ( int level ) { super(level); }
 
     @Override

@@ -14,6 +14,8 @@ public class QuestRequirement implements Requirement {
     @Setting
     private String questId;
 
+    private QuestRequirement() {}
+
     public QuestRequirement( String questId ) {
         this.questId = questId;
     }

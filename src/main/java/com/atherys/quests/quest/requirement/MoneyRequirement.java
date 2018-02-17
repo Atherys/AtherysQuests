@@ -17,6 +17,10 @@ public class MoneyRequirement extends NumericRequirement {
     @Setting
     private Currency currency;
 
+    private MoneyRequirement() {
+        super(0);
+    }
+
     protected MoneyRequirement( double amount, Currency currency ) {
         super(amount);
         this.currency = currency;
