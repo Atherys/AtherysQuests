@@ -2,6 +2,7 @@ package com.atherys.quests.quest.reward;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.quester.Quester;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.Currency;
@@ -15,7 +16,9 @@ import java.util.Optional;
 
 public class MoneyReward implements Reward {
 
+    @Setting
     private double amount;
+    @Setting
     private Currency currency;
 
     public MoneyReward ( double amount, Currency currency ) {

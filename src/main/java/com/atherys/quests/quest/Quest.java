@@ -9,6 +9,7 @@ import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.views.QuestView;
+import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
@@ -20,17 +21,17 @@ import java.util.Optional;
 @ConfigSerializable
 public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
-    private String id;
-    private Text   name;
-    private Text   description;
-    private int    version;
+    @Setting private String id;
+    @Setting private Text   name;
+    @Setting private Text   description;
+    @Setting private int    version;
 
-    private List<Requirement> requirements = new ArrayList<>();
-    private List<Objective>   objectives = new ArrayList<>();
-    private List<Reward>      rewards = new ArrayList<>();
+    @Setting private List<Requirement> requirements = new ArrayList<>();
+    @Setting private List<Objective>   objectives = new ArrayList<>();
+    @Setting private List<Reward>      rewards = new ArrayList<>();
 
-    private boolean started  = false;
-    private boolean complete = false;
+    @Setting private boolean started  = false;
+    @Setting private boolean complete = false;
 
     protected Quest ( String id, int version ) {
         this.id = id;

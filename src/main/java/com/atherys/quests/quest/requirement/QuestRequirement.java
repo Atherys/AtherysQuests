@@ -3,6 +3,7 @@ package com.atherys.quests.quest.requirement;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quester.Quester;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 public class QuestRequirement implements Requirement {
 
+    @Setting
     private String questId;
 
     public QuestRequirement( String questId ) {

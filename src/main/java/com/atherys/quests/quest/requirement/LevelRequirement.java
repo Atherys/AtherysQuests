@@ -1,12 +1,14 @@
 package com.atherys.quests.quest.requirement;
 
 import com.atherys.quests.quester.Quester;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 public class LevelRequirement extends NumericRequirement {
 
+    @Setting
     private int level;
 
     public LevelRequirement ( int level ) { super(level); }

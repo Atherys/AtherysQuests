@@ -1,16 +1,18 @@
 package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.quester.Quester;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.text.Text;
 
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
-    private String entityName;
-    private int requirement;
-    private int progress;
+    @Setting private String entityName;
+    @Setting private int requirement;
+    @Setting private int progress;
 
+    @Setting
     private boolean complete;
 
     public KillEntityObjective( String entityName, int numberToKill ) {

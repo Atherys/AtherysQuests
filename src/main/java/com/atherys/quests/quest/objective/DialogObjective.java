@@ -2,6 +2,7 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
@@ -9,10 +10,11 @@ import javax.annotation.Nullable;
 
 public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
-    private String requiredDialogTree;
-    private int requiredDialogNode;
-    private Text description = Text.EMPTY;
+    @Setting private String requiredDialogTree;
+    @Setting private int requiredDialogNode;
+    @Setting private Text description = Text.EMPTY;
 
+    @Setting
     private boolean complete = false;
 
     public DialogObjective ( String treeId, int node, @Nullable Text description ) {

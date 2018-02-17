@@ -4,6 +4,7 @@ import com.atherys.quests.events.ObjectiveCompletedEvent;
 import com.atherys.quests.events.ObjectiveProgressedEvent;
 import com.atherys.quests.events.ObjectiveStartedEvent;
 import com.atherys.quests.quester.Quester;
+import ninja.leaping.configurate.objectmapping.Setting;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 
@@ -11,6 +12,7 @@ public abstract class AbstractObjective<T extends Event> implements Objective {
 
     protected Class<T> eventClass;
 
+    @Setting
     private boolean started;
 
     protected AbstractObjective ( Class<T> eventClass ) {
