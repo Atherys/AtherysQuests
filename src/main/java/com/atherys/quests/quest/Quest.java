@@ -79,7 +79,7 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return requirements;
     }
 
-    protected void addRequirement ( Requirement requirement ) {
+    protected <T extends Requirement> void addRequirement ( T requirement ) {
         if ( !requirements.contains( requirement ) ) requirements.add( requirement );
     }
 
@@ -94,7 +94,7 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return objectives;
     }
 
-    protected void addObjective ( Objective objective ) {
+    protected <T extends Objective> void addObjective ( T objective ) {
         if ( !objectives.contains(objective) ) objectives.add( objective );
     }
 
@@ -102,7 +102,7 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return rewards;
     }
 
-    protected void addReward ( Reward reward ) {
+    protected <T extends Reward> void addReward ( T reward ) {
         if ( !rewards.contains( reward ) ) rewards.add( reward );
     }
 
