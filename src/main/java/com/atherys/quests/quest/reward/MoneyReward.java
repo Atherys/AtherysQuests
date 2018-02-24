@@ -3,6 +3,7 @@ package com.atherys.quests.quest.reward;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.quester.Quester;
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.Currency;
@@ -14,6 +15,7 @@ import org.spongepowered.api.text.Text;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+@ConfigSerializable
 public class MoneyReward implements Reward {
 
     @Setting

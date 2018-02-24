@@ -3,11 +3,13 @@ package com.atherys.quests.quest.objective;
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import javax.annotation.Nullable;
 
+@ConfigSerializable
 public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
     @Setting private String requiredDialogTree;

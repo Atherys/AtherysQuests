@@ -5,6 +5,7 @@ import com.atherys.quests.managers.InventoryManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.ItemUtils;
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
@@ -16,6 +17,7 @@ import org.spongepowered.api.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+@ConfigSerializable
 public class MultiItemReward implements Reward {
 
     @Setting

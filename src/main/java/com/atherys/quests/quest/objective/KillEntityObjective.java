@@ -2,10 +2,12 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.quester.Quester;
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.text.Text;
 
+@ConfigSerializable
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
     @Setting private String entityName;

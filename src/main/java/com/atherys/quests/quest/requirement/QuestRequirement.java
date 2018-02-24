@@ -4,11 +4,13 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quester.Quester;
 import ninja.leaping.configurate.objectmapping.Setting;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.Optional;
 
+@ConfigSerializable
 public class QuestRequirement implements Requirement {
 
     @Setting
