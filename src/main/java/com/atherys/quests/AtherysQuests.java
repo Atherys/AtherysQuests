@@ -112,6 +112,7 @@ public class AtherysQuests {
             logger.info("1. Failed to write to console writer.");
         } catch (ObjectMappingException e) {
             logger.info("1. Failed to map DummyQuest to Gson ConfigurationNode.");
+            e.printStackTrace();
         }
 
     }
