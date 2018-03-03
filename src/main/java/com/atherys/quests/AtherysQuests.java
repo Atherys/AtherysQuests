@@ -88,6 +88,8 @@ public class AtherysQuests {
         GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
         ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
 
+        dummyQuest.getRequirements().forEach( req -> logger.info(req.getClass().getName()));
+
         try {
             node.setValue(TypeToken.of(Quest.class), dummyQuest);
             loader.saveInternal(node, System.console().writer());
