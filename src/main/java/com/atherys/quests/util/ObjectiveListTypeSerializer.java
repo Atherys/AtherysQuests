@@ -28,7 +28,7 @@ public class ObjectiveListTypeSerializer implements TypeSerializer<List<Objectiv
 
     @Override
     public void serialize(TypeToken<?> type, List<Objective> obj, ConfigurationNode value) throws ObjectMappingException {
-        obj.forEach(value::setValue);
+        obj.forEach(objective -> value.getAppendedNode().setValue(objective));
     }
 
 }
