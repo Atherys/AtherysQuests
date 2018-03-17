@@ -7,13 +7,16 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
+import com.atherys.quests.quest.objective.Objective;
 import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.util.ObjectiveListTypeSerializer;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.ConfigurationOptions;
 import ninja.leaping.configurate.gson.GsonConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
@@ -28,6 +31,7 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -88,7 +92,7 @@ public class AtherysQuests {
         GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
         ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
 
-        dummyQuest.getRequirements().forEach( req -> logger.info(req.getClass().getName()));
+        TypeSerializers.getDefaultSerializers().registerType( new TypeToken<List<Objective>>() {}, new ObjectiveListTypeSerializer() );
 
         try {
             node.setValue(TypeToken.of(Quest.class), dummyQuest);

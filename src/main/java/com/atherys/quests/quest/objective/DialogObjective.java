@@ -16,8 +16,7 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
     @Setting private int requiredDialogNode;
     @Setting private Text description = Text.EMPTY;
 
-    @Setting
-    private boolean complete = false;
+    @Setting private boolean complete = false;
 
     private DialogObjective() {
         super(DialogProceedEvent.class);
