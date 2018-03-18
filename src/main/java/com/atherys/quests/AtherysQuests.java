@@ -10,6 +10,7 @@ import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.objective.Objective;
 import com.atherys.quests.quest.objective.ObjectiveAdapter;
 import com.atherys.quests.quest.reward.SingleItemReward;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import ninja.leaping.configurate.ConfigurationNode;
@@ -31,9 +32,7 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import static com.atherys.quests.AtherysQuests.*;
 
@@ -91,17 +90,14 @@ public class AtherysQuests {
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
         Objective objective = KillEntityObjective.of("zombie", 8);
+        ImmutableSet<Class<?>> set = ImmutableSet.of( KillEntityObjective.class, DialogObjective.class );
 
-        Set<Class<?>> types = new HashSet<>();
-        types.add(KillEntityObjective.class);
-        types.add(DialogObjective.class);
-
-        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setDefaultOptions( ConfigurationOptions.defaults().setAcceptedTypes(types) ).build();
+        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setDefaultOptions( ConfigurationOptions.defaults().setAcceptedTypes(set) ).build();
         ConfigurationNode node = loader.createEmptyNode();
 
         TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
 
-        if ( node.getOptions().acceptsType(KillEntityObjective.class) ) {
+        if ( node.getOptions().acceptsType(objective.getClass()) ) {
 
             try {
                 node.setValue(objective);
