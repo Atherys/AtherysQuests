@@ -7,10 +7,16 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
+import com.atherys.quests.quest.objective.Objective;
+import com.atherys.quests.quest.objective.ObjectiveAdapter;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
+import ninja.leaping.configurate.ConfigurationNode;
+import ninja.leaping.configurate.ConfigurationOptions;
+import ninja.leaping.configurate.gson.GsonConfigurationLoader;
+import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
@@ -82,7 +88,37 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        ObjectMapper mapper = new ObjectMapper();
+        Objective objective = KillEntityObjective.of("zombie", 8);
+
+        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
+        ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
+
+        TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
+
+        try {
+            node.setValue(objective);
+            loader.saveInternal(node, System.console().writer());
+
+            try {
+                Objective quest = node.getValue( TypeToken.of(Objective.class) );
+                ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
+                try {
+                    newNode.setValue(quest);
+                    loader.saveInternal( node, System.console().writer() );
+                } catch (IOException e) {
+                    logger.info("2. Failed to write to console writer.");
+                }
+            } catch ( ObjectMappingException e ) {
+                logger.info("Failed to map Gson config node to Quest");
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
+            logger.info("1. Failed to write to console writer.");
+            e.printStackTrace();
+        }
+
+       /* ObjectMapper mapper = new ObjectMapper();
 
         try {
             String jacksonJson = mapper.writeValueAsString( dummyQuest );
@@ -96,7 +132,7 @@ public class AtherysQuests {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
         /*GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
         ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
