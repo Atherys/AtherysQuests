@@ -101,29 +101,34 @@ public class AtherysQuests {
 
         TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
 
-        try {
-            node.setValue(objective);
-            loader.saveInternal(node, System.console().writer());
+        if ( node.getOptions().acceptsType(KillEntityObjective.class) ) {
 
             try {
-                Objective quest = node.getValue( TypeToken.of(Objective.class) );
-                ConfigurationNode newNode = loader.createEmptyNode();
+                node.setValue(objective);
+                loader.saveInternal(node, System.console().writer());
+
                 try {
-                    newNode.setValue(quest);
-                    loader.saveInternal( node, System.console().writer() );
-                } catch (IOException e) {
-                    logger.info("2. Failed to write to console writer.");
+                    Objective quest = node.getValue(TypeToken.of(Objective.class));
+                    ConfigurationNode newNode = loader.createEmptyNode();
+                    try {
+                        newNode.setValue(quest);
+                        loader.saveInternal(node, System.console().writer());
+                    } catch (IOException e) {
+                        logger.info("2. Failed to write to console writer.");
+                    }
+                } catch (ObjectMappingException e) {
+                    logger.info("Failed to map Gson config node to Quest");
+                    e.printStackTrace();
                 }
-            } catch ( ObjectMappingException e ) {
-                logger.info("Failed to map Gson config node to Quest");
+
+            } catch (IOException e) {
+                logger.info("1. Failed to write to console writer.");
                 e.printStackTrace();
             }
 
-        } catch (IOException e) {
-            logger.info("1. Failed to write to console writer.");
-            e.printStackTrace();
+        } else {
+            logger.error("Node does not accept KillEntityObjective");
         }
-
        /* ObjectMapper mapper = new ObjectMapper();
 
         try {
