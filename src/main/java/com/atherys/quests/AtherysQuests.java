@@ -103,7 +103,7 @@ public class AtherysQuests {
             logger.info( cls.getName() + " : " + node.getOptions().acceptsType(cls) );
         } );
 
-        if ( node.getOptions().acceptsType( objective.getClass() ) ) {
+        if ( !node.getOptions().acceptsType( objective.getClass() ) ) {
 
             try {
                 node.setValue(objective);
