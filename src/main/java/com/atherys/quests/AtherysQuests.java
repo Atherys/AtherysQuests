@@ -97,6 +97,8 @@ public class AtherysQuests {
         GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setDefaultOptions( ConfigurationOptions.defaults().setAcceptedTypes(set) ).build();
         ConfigurationNode node = loader.createEmptyNode();
 
+        node.getOptions().setAcceptedTypes( set );
+
         if ( node.getOptions().acceptsType( objective.getClass() ) ) {
 
             try {
