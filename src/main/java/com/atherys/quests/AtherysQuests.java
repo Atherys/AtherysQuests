@@ -31,7 +31,9 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.atherys.quests.AtherysQuests.*;
 
@@ -92,6 +94,12 @@ public class AtherysQuests {
 
         GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
         ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
+
+        Set<Class<?>> types = new HashSet<>();
+        types.add(KillEntityObjective.class);
+        types.add(DialogObjective.class);
+
+        node.getOptions().setAcceptedTypes( types );
 
         TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
 
