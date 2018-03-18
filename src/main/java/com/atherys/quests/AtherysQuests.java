@@ -90,7 +90,7 @@ public class AtherysQuests {
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
         Objective objective = KillEntityObjective.of("zombie", 8);
-        ImmutableSet<Class<?>> set = ImmutableSet.of( KillEntityObjective.class, DialogObjective.class );
+        ImmutableSet<Class<?>> set = ImmutableSet.of( Objective.class, KillEntityObjective.class, DialogObjective.class );
 
         TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
 
