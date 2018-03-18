@@ -1,25 +1,50 @@
 group 'com.atherys'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
-repositories {
-    mavenCentral()
-    maven {
-        url = 'http://repo.spongepowered.org/maven'
-    }
-    maven {
-        url = 'https://nexus.atherys.com/repository/maven-releases/'
-        credentials {
-            username = 'gitlab'
-            password = 'YaWK3BT3d3mpJYA2'
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/"
+            exclude "java/**"
         }
     }
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        name 'sponge'
+        url 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        name 'jitpack'
+        url 'https://jitpack.io'
+    }
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'org.spongepowered:spongeapi:7.0.0',
-            'com.atherys:AtherysCore:1.2.0'
+    shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
+    shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
+
+    compile   'com.fasterxml.jackson.core:jackson-databind:2.9.0'
+}
+
+shadowJar {
+    relocate 'org.bson', 'com.atherys.libs.org.bson'
+    relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
+    relocate 'com.seisw', 'com.atherys.libs.com.seisw'
+    relocate 'math', 'com.atherys.libs.math'
 }

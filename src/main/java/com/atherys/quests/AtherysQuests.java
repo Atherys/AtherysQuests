@@ -7,16 +7,10 @@ import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
-import com.atherys.quests.quest.objective.Objective;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.atherys.quests.util.ObjectiveListTypeSerializer;
-import com.google.common.reflect.TypeToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.gson.GsonConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
@@ -31,7 +25,6 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -89,7 +82,23 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
         //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            String jacksonJson = mapper.writeValueAsString( dummyQuest );
+            logger.info(jacksonJson);
+
+            Quest quest = mapper.readValue( jacksonJson, Quest.class );
+
+            String secondJson = mapper.writeValueAsString( quest );
+            logger.info(secondJson);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        /*GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
         ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
 
         TypeSerializers.getDefaultSerializers().registerType( new TypeToken<List<Objective>>() {}, new ObjectiveListTypeSerializer() );
@@ -119,7 +128,7 @@ public class AtherysQuests {
         } catch (ObjectMappingException e) {
             logger.info("1. Failed to map DummyQuest to Gson ConfigurationNode.");
             e.printStackTrace();
-        }
+        }*/
 
     }
 
