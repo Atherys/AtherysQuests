@@ -92,14 +92,12 @@ public class AtherysQuests {
 
         Objective objective = KillEntityObjective.of("zombie", 8);
 
-        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
-        ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
-
         Set<Class<?>> types = new HashSet<>();
         types.add(KillEntityObjective.class);
         types.add(DialogObjective.class);
 
-        node.getOptions().setAcceptedTypes( types );
+        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setDefaultOptions( ConfigurationOptions.defaults().setAcceptedTypes(types) ).build();
+        ConfigurationNode node = loader.createEmptyNode();
 
         TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
 
@@ -109,8 +107,7 @@ public class AtherysQuests {
 
             try {
                 Objective quest = node.getValue( TypeToken.of(Objective.class) );
-                ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
-                newNode.getOptions().setAcceptedTypes(types);
+                ConfigurationNode newNode = loader.createEmptyNode();
                 try {
                     newNode.setValue(quest);
                     loader.saveInternal( node, System.console().writer() );
