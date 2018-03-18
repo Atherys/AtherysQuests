@@ -110,6 +110,7 @@ public class AtherysQuests {
             try {
                 Objective quest = node.getValue( TypeToken.of(Objective.class) );
                 ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
+                newNode.getOptions().setAcceptedTypes(types);
                 try {
                     newNode.setValue(quest);
                     loader.saveInternal( node, System.console().writer() );
