@@ -99,6 +99,10 @@ public class AtherysQuests {
 
         node.getOptions().setAcceptedTypes( set );
 
+        set.forEach( cls -> {
+            logger.info( cls.getName() + " : " + node.getOptions().acceptsType(cls) );
+        } );
+
         if ( node.getOptions().acceptsType( objective.getClass() ) ) {
 
             try {
