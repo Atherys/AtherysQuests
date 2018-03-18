@@ -92,12 +92,12 @@ public class AtherysQuests {
         Objective objective = KillEntityObjective.of("zombie", 8);
         ImmutableSet<Class<?>> set = ImmutableSet.of( KillEntityObjective.class, DialogObjective.class );
 
+        TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
+
         GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setDefaultOptions( ConfigurationOptions.defaults().setAcceptedTypes(set) ).build();
         ConfigurationNode node = loader.createEmptyNode();
 
-        TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
-
-        if ( node.getOptions().acceptsType(objective.getClass()) ) {
+        if ( node.getOptions().acceptsType( objective.getClass() ) ) {
 
             try {
                 node.setValue(objective);
