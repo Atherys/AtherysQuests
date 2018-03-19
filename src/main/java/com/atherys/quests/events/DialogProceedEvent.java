@@ -11,7 +11,7 @@ public class DialogProceedEvent implements Event {
 
     private Dialog dialog;
 
-    public DialogProceedEvent ( Dialog dialog ) {
+    public DialogProceedEvent( Dialog dialog ) {
         this.dialog = dialog;
         this.cause = Cause.builder()
                 .append( dialog.getCachedPlayer() )

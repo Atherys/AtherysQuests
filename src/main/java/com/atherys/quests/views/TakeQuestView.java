@@ -1,27 +1,26 @@
 package com.atherys.quests.views;
 
+import com.atherys.core.utils.Question;
 import com.atherys.core.views.View;
+import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.QuestMsg;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class QuestView implements View<Quest> {
+public class TakeQuestView implements View<Quest> {
 
-    private final Quest quest;
+    private Quest quest;
 
-    public QuestView( Quest quest ) {
+    public TakeQuestView( Quest quest ) {
         this.quest = quest;
     }
 
     @Override
-    public void show( Player player ) {
-        player.sendBookView( toBookView() );
-    }
-
-    public BookView toBookView() {
+    public void show( Player viewer ) {
         BookView.Builder questView = BookView.builder();
 
         Text.Builder intro = Text.builder();
@@ -46,13 +45,22 @@ public class QuestView implements View<Quest> {
 
         questView.addPage( rewards.build() );
 
-        return questView.build();
+        Text.Builder takeQuest = Text.builder();
+        Question question = Question.of( Text.of( "Do you accept this quest?" ) )
+                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_GREEN, "[Accept]" ), player -> {
+                    QuesterManager.getInstance().getQuester( player ).ifPresent( quester -> {
+                        quester.pickupQuest( quest );
+                    } );
+                } ) )
+                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_RED, "[Decline]" ), player -> {
+                    QuestMsg.error( player, "You have declined the quest \"", quest.getName(), "\"." );
+                } ) )
+                .build();
+        takeQuest.append( question.asText() );
+
+        questView.addPage( takeQuest.build() );
+
+        viewer.sendBookView( questView.build() );
     }
 
-    public Text getFormattedRequirements() {
-        Text.Builder reqText = Text.builder();
-        reqText.append( Text.of( QuestMsg.MSG_PREFIX, " Quest Requirements: " ) );
-        quest.getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText() ) ) );
-        return reqText.build();
-    }
 }

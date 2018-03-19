@@ -10,7 +10,7 @@ public class QuestsConfig extends PluginConfig {
     @Setting( "dialog_msg_delay" )
     public long DIALOG_MESSAGE_DELAY = 2;
 
-    protected QuestsConfig(String directory, String filename) throws IOException {
-        super(directory, filename);
+    protected QuestsConfig( String directory, String filename ) throws IOException {
+        super( directory, filename );
     }
 }

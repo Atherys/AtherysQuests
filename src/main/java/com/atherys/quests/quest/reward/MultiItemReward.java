@@ -18,15 +18,17 @@ import java.util.List;
 
 public class MultiItemReward implements Reward {
 
-    @Expose private List<ItemStackSnapshot> items = new ArrayList<>();
+    @Expose
+    private List<ItemStackSnapshot> items = new ArrayList<>();
 
-    private MultiItemReward() {}
+    private MultiItemReward() {
+    }
 
-    public MultiItemReward ( List<ItemStackSnapshot> items ) {
+    public MultiItemReward( List<ItemStackSnapshot> items ) {
         this.items = items;
     }
 
-    public static MultiItemReward of ( ItemStack... items ) {
+    public static MultiItemReward of( ItemStack... items ) {
         List<ItemStackSnapshot> snapshots = new ArrayList<>();
         for ( ItemStack stack : items ) {
             snapshots.add( stack.createSnapshot() );
@@ -35,30 +37,30 @@ public class MultiItemReward implements Reward {
     }
 
     @Override
-    public boolean award ( Quester quester ) {
+    public boolean award( Quester quester ) {
         Player player = quester.getCachedPlayer();
         if ( player == null || !player.isOnline() || !player.isRemoved() ) return false;
 
-            // Create chest inventory
+        // Create chest inventory
         Inventory inventory = Inventory.builder()
                 .of( InventoryArchetypes.CHEST )
-                .property( new InventoryTitle( Text.of("Quest Item Rewards") ))
+                .property( new InventoryTitle( Text.of( "Quest Item Rewards" ) ) )
                 .build( AtherysQuests.getInstance() );
 
 
         // put all itemstacks inside
-        items.forEach( item -> inventory.offer( item.createStack() ));
+        items.forEach( item -> inventory.offer( item.createStack() ) );
 
         // send inventory to player
         if ( player.getOpenInventory().isPresent() ) player.closeInventory();
         player.openInventory( inventory );
 
         // upon closing the inventory, drop all items which have not been picked up to the ground
-        InventoryManager.getInstance().addInventory( inventory, (container) -> {
-            ItemUtils.getItemsInInventory(container).forEach( item -> {
+        InventoryManager.getInstance().addInventory( inventory, ( container ) -> {
+            ItemUtils.getItemsInInventory( container ).forEach( item -> {
                 ItemUtils.dropItemStack( item, player.getWorld(), player.getLocation().getPosition() );
-            });
-        });
+            } );
+        } );
 
         return true;
     }

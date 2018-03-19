@@ -25,18 +25,18 @@ public class Dialog implements Viewable<DialogView> {
 
     private Player cachedPlayer;
 
-    private Dialog ( Quester player, Entity entity, DialogTree tree ) {
+    private Dialog( Quester player, Entity entity, DialogTree tree ) {
         this.treeId = tree.getId();
         this.quester = player;
         this.npc = entity;
         this.lastNode = tree.getRoot();
     }
 
-    public static Optional<Dialog> between ( Player player, Entity entity, DialogTree dialogTree ) {
+    public static Optional<Dialog> between( Player player, Entity entity, DialogTree dialogTree ) {
         Optional<Quester> quester = QuesterManager.getInstance().getQuester( player );
         if ( !quester.isPresent() ) return Optional.empty();
 
-        Dialog dialog = new Dialog ( quester.get(), entity, dialogTree );
+        Dialog dialog = new Dialog( quester.get(), entity, dialogTree );
         dialog.proceed( player, dialog.getLastNode() );
         return Optional.of( dialog );
     }
@@ -45,11 +45,11 @@ public class Dialog implements Viewable<DialogView> {
         return lastNode;
     }
 
-    public void setLastNode ( DialogNode lastNode ) {
+    public void setLastNode( DialogNode lastNode ) {
         this.lastNode = lastNode;
     }
 
-    public void proceed(Player player, DialogNode node) {
+    public void proceed( Player player, DialogNode node ) {
 
         this.cachedPlayer = player;
 
@@ -88,6 +88,6 @@ public class Dialog implements Viewable<DialogView> {
 
     @Override
     public Optional<DialogView> createView() {
-        return Optional.of( new DialogView(this) );
+        return Optional.of( new DialogView( this ) );
     }
 }

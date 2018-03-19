@@ -7,11 +7,11 @@ import javax.annotation.Nonnull;
 
 public final class TextUtils {
 
-    public static String toString ( @Nonnull final Text txt ) {
-        return TextSerializers.formattingCode('&').serialize(txt);
+    public static String toString( @Nonnull final Text txt ) {
+        return TextSerializers.formattingCode( '&' ).serialize( txt );
     }
 
-    public static int getLength ( Text text ) {
+    public static int getLength( Text text ) {
         return toString( text ).length();
     }
 

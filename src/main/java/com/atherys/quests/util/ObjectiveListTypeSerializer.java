@@ -12,23 +12,23 @@ import java.util.List;
 public class ObjectiveListTypeSerializer implements TypeSerializer<List<Objective>> {
 
     @Override
-    public List<Objective> deserialize(TypeToken<?> type, ConfigurationNode value) throws ObjectMappingException {
+    public List<Objective> deserialize( TypeToken<?> type, ConfigurationNode value ) throws ObjectMappingException {
         List<Objective> objectives = new ArrayList<>();
 
-        value.getChildrenList().forEach(node -> {
+        value.getChildrenList().forEach( node -> {
             try {
-                objectives.add( node.getValue(TypeToken.of(Objective.class)) );
-            } catch (ObjectMappingException e) {
+                objectives.add( node.getValue( TypeToken.of( Objective.class ) ) );
+            } catch ( ObjectMappingException e ) {
                 e.printStackTrace();
             }
-        });
+        } );
 
         return objectives;
     }
 
     @Override
-    public void serialize(TypeToken<?> type, List<Objective> obj, ConfigurationNode value) throws ObjectMappingException {
-        obj.forEach(objective -> value.getAppendedNode().setValue(objective));
+    public void serialize( TypeToken<?> type, List<Objective> obj, ConfigurationNode value ) throws ObjectMappingException {
+        obj.forEach( objective -> value.getAppendedNode().setValue( objective ) );
     }
 
 }

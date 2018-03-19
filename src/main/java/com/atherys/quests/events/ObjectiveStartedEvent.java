@@ -13,12 +13,12 @@ public class ObjectiveStartedEvent implements Event {
     private Objective objective;
     private Quester quester;
 
-    public ObjectiveStartedEvent ( Objective objective, Quester quester ) {
+    public ObjectiveStartedEvent( Objective objective, Quester quester ) {
         this.objective = objective;
         this.quester = quester;
         cause = Cause.builder()
                 .append( quester.getCachedPlayer() )
-                .build(Sponge.getCauseStackManager().getCurrentContext() );
+                .build( Sponge.getCauseStackManager().getCurrentContext() );
     }
 
     @Override

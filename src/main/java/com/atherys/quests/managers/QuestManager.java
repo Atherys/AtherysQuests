@@ -12,11 +12,12 @@ public final class QuestManager {
 
     private static QuestManager instance = new QuestManager();
 
-    private Map<String,Quest> quests = new HashMap<>();
+    private Map<String, Quest> quests = new HashMap<>();
 
-    private QuestManager() {}
+    private QuestManager() {
+    }
 
-    public void registerQuest ( Quest quest ) {
+    public void registerQuest( Quest quest ) {
         this.quests.put( quest.getId(), quest );
     }
 
@@ -24,12 +25,12 @@ public final class QuestManager {
         quests.remove( quest.getId() );
     }
 
-    public Optional<Quest> getQuest ( String questId ) {
+    public Optional<Quest> getQuest( String questId ) {
         return Optional.ofNullable( quests.get( questId ) );
     }
 
-    public Optional<Quest> getQuest ( DataHolder holder ) {
-        return holder.get(QuestKeys.QUEST).flatMap(this::getQuest);
+    public Optional<Quest> getQuest( DataHolder holder ) {
+        return holder.get( QuestKeys.QUEST ).flatMap( this::getQuest );
     }
 
     public static QuestManager getInstance() {

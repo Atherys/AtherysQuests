@@ -5,6 +5,6 @@ import org.spongepowered.api.event.Event;
 
 public interface Observer<T extends Event> {
 
-    void notify ( T event, Quester quester );
+    void notify( T event, Quester quester );
 
 }

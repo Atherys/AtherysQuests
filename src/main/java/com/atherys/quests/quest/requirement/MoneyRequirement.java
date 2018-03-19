@@ -18,24 +18,24 @@ public class MoneyRequirement extends NumericRequirement {
     private Currency currency;
 
     private MoneyRequirement() {
-        super(0);
+        super( 0 );
     }
 
     protected MoneyRequirement( double amount, Currency currency ) {
-        super(amount);
+        super( amount );
         this.currency = currency;
     }
 
     @Override
-    public boolean check ( Quester quester ) {
+    public boolean check( Quester quester ) {
         Optional<? extends User> user = quester.getUser();
         if ( !user.isPresent() ) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();
         if ( !service.isPresent() ) return false;
 
-        Optional<UniqueAccount> account = service.get().getOrCreateAccount(user.get().getUniqueId());
-        return account.filter(uniqueAccount -> check(uniqueAccount.getBalance(currency).doubleValue())).isPresent();
+        Optional<UniqueAccount> account = service.get().getOrCreateAccount( user.get().getUniqueId() );
+        return account.filter( uniqueAccount -> check( uniqueAccount.getBalance( currency ).doubleValue() ) ).isPresent();
 
     }
 

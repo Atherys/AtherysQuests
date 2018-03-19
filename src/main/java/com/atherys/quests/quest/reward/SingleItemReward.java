@@ -16,15 +16,17 @@ import org.spongepowered.api.text.action.TextActions;
 
 public class SingleItemReward implements Reward {
 
-    @Expose private ItemStackSnapshot item;
+    @Expose
+    private ItemStackSnapshot item;
 
-    private SingleItemReward() {}
+    private SingleItemReward() {
+    }
 
-    public SingleItemReward ( ItemStack stack ) {
+    public SingleItemReward( ItemStack stack ) {
         this.item = stack.createSnapshot();
     }
 
-    private SingleItemReward ( ItemStackSnapshot snapshot ) {
+    private SingleItemReward( ItemStackSnapshot snapshot ) {
         this.item = snapshot;
     }
 
@@ -39,14 +41,14 @@ public class SingleItemReward implements Reward {
     }
 
     @Override
-    public boolean award ( Quester quester ) {
+    public boolean award( Quester quester ) {
         Player player = quester.getCachedPlayer();
         if ( player == null || !player.isOnline() || !player.isRemoved() ) return false;
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()
                 .of( InventoryArchetypes.SLOT )
-                .property( new InventoryTitle( Text.of("Quest Item Reward") ))
+                .property( new InventoryTitle( Text.of( "Quest Item Reward" ) ) )
                 .build( AtherysQuests.getInstance() );
 
 
@@ -58,11 +60,11 @@ public class SingleItemReward implements Reward {
         player.openInventory( inventory );
 
         // upon closing the inventory, drop all items which have not been picked up to the ground
-        InventoryManager.getInstance().addInventory( inventory, (container) -> {
-            ItemUtils.getItemsInInventory(container).forEach(item -> {
+        InventoryManager.getInstance().addInventory( inventory, ( container ) -> {
+            ItemUtils.getItemsInInventory( container ).forEach( item -> {
                 ItemUtils.dropItemStack( item, player.getWorld(), player.getLocation().getPosition() );
-            });
-        });
+            } );
+        } );
 
         return false;
     }

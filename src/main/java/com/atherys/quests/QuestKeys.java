@@ -9,26 +9,29 @@ import org.spongepowered.api.event.game.GameRegistryEvent;
 
 public final class QuestKeys {
 
-    QuestKeys() {}
+    QuestKeys() {
+    }
 
     public static final Key<Value<String>> DIALOG = Key.builder()
-            .type(new TypeToken<Value<String>>(){})
-            .id("atherysquests:dialog")
+            .type( new TypeToken<Value<String>>() {
+            } )
+            .id( "atherysquests:dialog" )
             .name( "Dialog" )
-            .query( DataQuery.of("Dialog") )
+            .query( DataQuery.of( "Dialog" ) )
             .build();
 
     public static final Key<Value<String>> QUEST = Key.builder()
-            .type(new TypeToken<Value<String>>(){})
-            .id("atherysquests:quest")
+            .type( new TypeToken<Value<String>>() {
+            } )
+            .id( "atherysquests:quest" )
             .name( "Quest" )
-            .query( DataQuery.of("Quest") )
+            .query( DataQuery.of( "Quest" ) )
             .build();
 
     @Listener
-    public void onKeyRegistration (GameRegistryEvent.Register<Key<?>> event) {
+    public void onKeyRegistration( GameRegistryEvent.Register<Key<?>> event ) {
         event.register( DIALOG );
-        event.register( QUEST  );
+        event.register( QUEST );
     }
 
 }

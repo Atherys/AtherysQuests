@@ -9,31 +9,31 @@ public final class QuestBuilder {
 
     private Quest quest;
 
-    public QuestBuilder ( String id, int version ) {
+    public QuestBuilder( String id, int version ) {
         this.quest = new Quest( id, version );
     }
 
-    public QuestBuilder name ( Text name ) {
+    public QuestBuilder name( Text name ) {
         quest.setName( name );
         return this;
     }
 
-    public QuestBuilder description ( Text description ) {
+    public QuestBuilder description( Text description ) {
         quest.setDescription( description );
         return this;
     }
 
-    public QuestBuilder add ( Requirement requirement ) {
+    public QuestBuilder add( Requirement requirement ) {
         quest.addRequirement( requirement );
         return this;
     }
 
-    public QuestBuilder add ( Objective objective ) {
+    public QuestBuilder add( Objective objective ) {
         quest.addObjective( objective );
         return this;
     }
 
-    public QuestBuilder add ( Reward reward ) {
+    public QuestBuilder add( Reward reward ) {
         quest.addReward( reward );
         return this;
     }

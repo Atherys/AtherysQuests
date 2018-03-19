@@ -19,47 +19,48 @@ public class Quester {
     private UUID player; // Retrieve player from this. 100% Reliable.
 
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
-    private Map<String,Quest> quests = new HashMap<>();
-    private Map<String,Long> completedQuests = new HashMap<>();
+    private Map<String, Quest> quests = new HashMap<>();
+    private Map<String, Long> completedQuests = new HashMap<>();
 
     public Quester( Player player ) {
         this.player = player.getUniqueId();
         this.cachedPlayer = player;
     }
 
-    public void notify ( Event event, Player player ) {
+    public void notify( Event event, Player player ) {
         if ( !this.player.equals( player.getUniqueId() ) ) return;
 
         this.cachedPlayer = player;
         for ( Quest quest : quests.values() ) {
-            quest.notify( event, this );
+            if ( !quest.isComplete() ) quest.notify( event, this );
+            if ( quest.isComplete() ) completeQuest( quest );
         }
     }
 
-    public void pickupQuest ( Quest quest ) {
+    public void pickupQuest( Quest quest ) {
         if ( !quest.meetsRequiements( this ) ) {
             Text.Builder reqText = Text.builder();
-            reqText.append( Text.of ( QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest." ) );
+            reqText.append( Text.of( QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest." ) );
             reqText.append( quest.createView().get().getFormattedRequirements() );
-            QuestMsg.noformat ( this, reqText.build() );
+            QuestMsg.noformat( this, reqText.build() );
         }
 
-        if ( !completedQuests.containsKey(quest.getId()) && !quests.containsKey( quest.getId() ) ) {
+        if ( !completedQuests.containsKey( quest.getId() ) && !quests.containsKey( quest.getId() ) ) {
             quests.put( quest.getId(), quest.copy() );
 
             QuestStartedEvent qsEvent = new QuestStartedEvent( quest, this );
             Sponge.getEventManager().post( qsEvent );
         } else {
-            QuestMsg.error ( this, "You are either already doing this quest, or have done it before in the past." );
+            QuestMsg.error( this, "You are either already doing this quest, or have done it before in the past." );
         }
     }
 
-    public void removeQuest ( Quest quest ) {
+    public void removeQuest( Quest quest ) {
         quests.remove( quest.getId() );
     }
 
-    public void completeQuest ( Quest quest ) {
-        quests.remove( quest.getId() );
+    public void completeQuest( Quest quest ) {
+        removeQuest( quest );
         completedQuests.put( quest.getId(), System.currentTimeMillis() );
 
         QuestCompletedEvent qsEvent = new QuestCompletedEvent( quest, this );
@@ -75,7 +76,7 @@ public class Quester {
         return cachedPlayer;
     }
 
-    public boolean hasCompleted(String questId) {
+    public boolean hasCompleted( String questId ) {
         return completedQuests.containsKey( questId );
     }
 }

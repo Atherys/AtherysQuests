@@ -9,7 +9,7 @@ public class DialogTree {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId( String id ) {
         this.id = id;
     }
 

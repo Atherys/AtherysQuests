@@ -21,23 +21,24 @@ public class MoneyReward implements Reward {
     @Expose
     private Currency currency;
 
-    private MoneyReward() {}
+    private MoneyReward() {
+    }
 
-    public MoneyReward ( double amount, Currency currency ) {
+    public MoneyReward( double amount, Currency currency ) {
         this.amount = amount;
         this.currency = currency;
     }
 
     @Override
-    public boolean award ( Quester quester ) {
+    public boolean award( Quester quester ) {
         Optional<? extends User> user = quester.getUser();
         if ( !user.isPresent() ) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();
         if ( !service.isPresent() ) return false;
 
-        Optional<UniqueAccount> account = service.get().getOrCreateAccount(user.get().getUniqueId());
-        return account.filter( uniqueAccount -> uniqueAccount.deposit( currency, BigDecimal.valueOf(amount), Sponge.getCauseStackManager().getCurrentCause() ).getResult().equals(ResultType.SUCCESS) ).isPresent();
+        Optional<UniqueAccount> account = service.get().getOrCreateAccount( user.get().getUniqueId() );
+        return account.filter( uniqueAccount -> uniqueAccount.deposit( currency, BigDecimal.valueOf( amount ), Sponge.getCauseStackManager().getCurrentCause() ).getResult().equals( ResultType.SUCCESS ) ).isPresent();
     }
 
     @Override
@@ -47,6 +48,6 @@ public class MoneyReward implements Reward {
 
     @Override
     public Text toText() {
-        return Text.of( currency.format( BigDecimal.valueOf(amount) ) );
+        return Text.of( currency.format( BigDecimal.valueOf( amount ) ) );
     }
 }

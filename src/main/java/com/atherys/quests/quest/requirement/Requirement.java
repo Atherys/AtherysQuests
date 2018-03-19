@@ -8,6 +8,6 @@ import org.spongepowered.api.text.TextRepresentable;
 @ConfigSerializable
 public interface Requirement extends Prototype<Requirement>, TextRepresentable {
 
-    boolean check ( Quester quester );
+    boolean check( Quester quester );
 
 }

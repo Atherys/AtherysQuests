@@ -19,28 +19,38 @@ import java.util.Optional;
 
 public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
-    @Expose private String id;
-    @Expose private Text   name;
-    @Expose private Text   description;
-    @Expose private int    version;
+    @Expose
+    private String id;
+    @Expose
+    private Text name;
+    @Expose
+    private Text description;
+    @Expose
+    private int version;
 
-    @Expose private List<Requirement> requirements = new ArrayList<>();
-    @Expose private List<Objective>   objectives = new ArrayList<>();
-    @Expose private List<Reward>      rewards = new ArrayList<>();
+    @Expose
+    private List<Requirement> requirements = new ArrayList<>();
+    @Expose
+    private List<Objective> objectives = new ArrayList<>();
+    @Expose
+    private List<Reward> rewards = new ArrayList<>();
 
-    @Expose private boolean started  = false;
-    @Expose private boolean complete = false;
+    @Expose
+    private boolean started = false;
+    @Expose
+    private boolean complete = false;
 
-    private Quest() {}
+    private Quest() {
+    }
 
-    protected Quest ( String id, int version ) {
+    protected Quest( String id, int version ) {
         this.id = id;
         this.name = Text.of( "This quest has no name." );
         this.description = Text.of( "This quest has no description." );
         this.version = version;
     }
 
-    protected Quest ( Quest quest ) {
+    protected Quest( Quest quest ) {
         this.id = quest.getId();
         this.name = quest.getName();
         this.description = quest.getDescription();
@@ -51,17 +61,19 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         this.complete = quest.isComplete();
     }
 
-    public static QuestBuilder builder(String id, int version) {
+    public static QuestBuilder builder( String id, int version ) {
         return new QuestBuilder( id, version );
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
     public Text getDescription() {
         return description;
     }
 
-    protected void setDescription(Text description) {
+    protected void setDescription( Text description ) {
         this.description = description;
     }
 
@@ -69,7 +81,7 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return name;
     }
 
-    protected void setName(Text name) {
+    protected void setName( Text name ) {
         this.name = name;
     }
 
@@ -77,13 +89,13 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return requirements;
     }
 
-    protected <T extends Requirement> void addRequirement ( T requirement ) {
+    protected <T extends Requirement> void addRequirement( T requirement ) {
         if ( !requirements.contains( requirement ) ) requirements.add( requirement );
     }
 
-    public boolean meetsRequiements ( Quester player ) {
+    public boolean meetsRequiements( Quester player ) {
         for ( Requirement req : requirements ) {
-            if ( !req.check(player) ) return false;
+            if ( !req.check( player ) ) return false;
         }
         return true;
     }
@@ -92,26 +104,26 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return objectives;
     }
 
-    protected <T extends Objective> void addObjective ( T objective ) {
-        if ( !objectives.contains(objective) ) objectives.add( objective );
+    protected <T extends Objective> void addObjective( T objective ) {
+        if ( !objectives.contains( objective ) ) objectives.add( objective );
     }
 
     public List<Reward> getRewards() {
         return rewards;
     }
 
-    protected <T extends Reward> void addReward ( T reward ) {
+    protected <T extends Reward> void addReward( T reward ) {
         if ( !rewards.contains( reward ) ) rewards.add( reward );
     }
 
-    public void awardRewards ( Quester player ) {
+    public void awardRewards( Quester player ) {
         rewards.forEach( reward -> reward.award( player ) );
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void notify ( Event event, Quester quester ) {
-        // if the quest hasn't been started yet ( this is the first notification
+    @SuppressWarnings( "unchecked" )
+    public void notify( Event event, Quester quester ) {
+        // if the quest hasn't been started yet ( this is the first notification )
         if ( !isStarted() ) {
             // set it as started
             this.started = true;
@@ -124,7 +136,8 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
             // updated completed status based on the status of the objectives
             for ( Objective objective : getObjectives() ) {
-                objective.notify ( event, quester );
+                objective.notify( event, quester );
+                // if a single objective has not been completed, set this quest as uncompleted
                 if ( !objective.isComplete() ) this.complete = false;
             }
         }
@@ -134,13 +147,13 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         return started;
     }
 
-    public boolean isComplete () {
+    public boolean isComplete() {
         return complete;
     }
 
     @Override
     public Quest copy() {
-        return new Quest(this);
+        return new Quest( this );
     }
 
     public int getVersion() {
@@ -149,6 +162,6 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
     @Override
     public Optional<QuestView> createView() {
-        return Optional.of( new QuestView(this) );
+        return Optional.of( new QuestView( this ) );
     }
 }

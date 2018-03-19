@@ -19,17 +19,17 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     private boolean complete;
 
     private KillEntityObjective() {
-        super(DestructEntityEvent.Death.class);
+        super( DestructEntityEvent.Death.class );
     }
 
     public KillEntityObjective( String entityName, int numberToKill ) {
-        super(DestructEntityEvent.Death.class);
+        super( DestructEntityEvent.Death.class );
         this.entityName = entityName;
         this.requirement = numberToKill;
         this.progress = numberToKill;
     }
 
-    public static KillEntityObjective of ( String entityName, int numberToKill ) {
+    public static KillEntityObjective of( String entityName, int numberToKill ) {
         return new KillEntityObjective( entityName, numberToKill );
     }
 
@@ -46,10 +46,10 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     }
 
     @Override
-    protected void onNotify ( DestructEntityEvent.Death event, Quester quester ) {
-        String displayName = event.getTargetEntity().get(Keys.DISPLAY_NAME).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
+    protected void onNotify( DestructEntityEvent.Death event, Quester quester ) {
+        String displayName = event.getTargetEntity().get( Keys.DISPLAY_NAME ).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
 
-        if ( displayName.equals(entityName) && progress != 0 ) {
+        if ( displayName.equals( entityName ) && progress != 0 ) {
             progress--;
             complete = false;
         } else {

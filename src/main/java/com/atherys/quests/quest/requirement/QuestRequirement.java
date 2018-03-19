@@ -14,17 +14,20 @@ public class QuestRequirement implements Requirement {
     @Expose
     private String questId;
 
-    private QuestRequirement() {}
+    private QuestRequirement() {
+    }
 
     public QuestRequirement( String questId ) {
         this.questId = questId;
     }
 
-    public QuestRequirement( Quest quest ) { this.questId = quest.getId(); }
+    public QuestRequirement( Quest quest ) {
+        this.questId = quest.getId();
+    }
 
     @Override
     public Text toText() {
-        Optional<Quest> quest = QuestManager.getInstance().getQuest(questId);
+        Optional<Quest> quest = QuestManager.getInstance().getQuest( questId );
         if ( quest.isPresent() ) {
             return Text.of( "You have to have completed the ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET, " quest." );
         } else {
@@ -33,8 +36,8 @@ public class QuestRequirement implements Requirement {
     }
 
     @Override
-    public boolean check(Quester quester) {
-        return quester.hasCompleted ( questId );
+    public boolean check( Quester quester ) {
+        return quester.hasCompleted( questId );
     }
 
     @Override

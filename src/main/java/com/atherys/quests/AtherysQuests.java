@@ -54,9 +54,9 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new QuestKeys() );
 
         try {
-            config = new QuestsConfig("config/" + ID, "config.conf");
+            config = new QuestsConfig( "config/" + ID, "config.conf" );
             config.init();
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             init = false;
             e.printStackTrace();
             return;
@@ -68,13 +68,13 @@ public class AtherysQuests {
     private void start() {
 
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
-                .name( Text.of("This is a dummy quest.") )
+                .name( Text.of( "This is a dummy quest." ) )
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
-                .add( new LevelRequirement(10) )
+                .add( new LevelRequirement( 10 ) )
                 .add( KillEntityObjective.of( "creeper", 3 ) )
                 .add( KillEntityObjective.of( "zombie", 4 ) )
-                .add( new DialogObjective( "theKingSpeech", 14, Text.of("Speak to the king.") ) )
-                .add( new SingleItemReward( ItemStack.builder().itemType(ItemTypes.ANVIL).quantity(1).add( Keys.DISPLAY_NAME, Text.of("The Magical Anvil") ).build() ) )
+                .add( new DialogObjective( "theKingSpeech", 14, Text.of( "Speak to the king." ) ) )
+                .add( new SingleItemReward( ItemStack.builder().itemType( ItemTypes.ANVIL ).quantity( 1 ).add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) ).build() ) )
                 .build();
 
         QuestManager.getInstance().registerQuest( dummyQuest );
@@ -98,17 +98,17 @@ public class AtherysQuests {
     }
 
     @Listener
-    public void onInit (GameInitializationEvent event) {
+    public void onInit( GameInitializationEvent event ) {
         init();
     }
 
     @Listener
-    public void onStart (GameStartedServerEvent event) {
+    public void onStart( GameStartedServerEvent event ) {
         if ( init ) start();
     }
 
     @Listener
-    public void onStop (GameStoppingServerEvent event) {
+    public void onStop( GameStoppingServerEvent event ) {
         stop();
     }
 

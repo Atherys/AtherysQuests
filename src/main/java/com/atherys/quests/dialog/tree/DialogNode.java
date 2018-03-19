@@ -37,7 +37,7 @@ public class DialogNode {
         return requirements;
     }
 
-    public boolean meetsRequirements ( Quester player ) {
+    public boolean meetsRequirements( Quester player ) {
         for ( Requirement requirement : requirements ) {
             if ( !requirement.check( player ) ) return false;
         }
