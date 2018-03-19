@@ -22,7 +22,7 @@ import java.util.Currency;
 
 public final class GsonUtils {
 
-    private static RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Objective.class)
+    private static RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Objective.class )
             .registerSubtype( KillEntityObjective.class )
             .registerSubtype( DialogObjective.class );
 
@@ -38,6 +38,7 @@ public final class GsonUtils {
 
     public static Gson getGson() {
         return new GsonBuilder()
+                .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter( Text.class, new ConfigurateAdapter<>( Text.class ) )
                 .registerTypeAdapter( ItemStackSnapshot.class, new ConfigurateAdapter<>( ItemStackSnapshot.class ) )

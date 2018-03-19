@@ -1,6 +1,5 @@
 package com.atherys.quests;
 
-import com.atherys.core.utils.GsonUtils;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
@@ -10,6 +9,7 @@ import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.requirement.LevelRequirement;
 import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
