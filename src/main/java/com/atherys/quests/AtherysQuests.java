@@ -79,8 +79,6 @@ public class AtherysQuests {
 
         QuestManager.getInstance().registerQuest( dummyQuest );
 
-        dummyQuest.getObjectives().forEach( obj -> logger.info("Quest has objective of type: " + obj.getClass().getName()));
-
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
         Gson gson = GsonUtils.getGson();
