@@ -4,8 +4,7 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.managers.InventoryManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.ItemUtils;
-import ninja.leaping.configurate.objectmapping.Setting;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
+import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.InventoryArchetypes;
@@ -15,11 +14,9 @@ import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
-@ConfigSerializable
 public class SingleItemReward implements Reward {
 
-    @Setting
-    private ItemStackSnapshot item;
+    @Expose private ItemStackSnapshot item;
 
     private SingleItemReward() {}
 

@@ -1,5 +1,7 @@
 package com.atherys.quests;
 
+import com.atherys.core.gson.ConfigurateAdapter;
+import com.atherys.core.utils.RuntimeTypeAdapterFactory;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
@@ -8,16 +10,17 @@ import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.objective.ObjectiveAdapter;
+import com.atherys.quests.quest.requirement.LevelRequirement;
+import com.atherys.quests.quest.requirement.MoneyRequirement;
+import com.atherys.quests.quest.requirement.QuestRequirement;
+import com.atherys.quests.quest.requirement.Requirement;
+import com.atherys.quests.quest.reward.MoneyReward;
+import com.atherys.quests.quest.reward.MultiItemReward;
+import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.ConfigurationOptions;
-import ninja.leaping.configurate.gson.GsonConfigurationLoader;
-import ninja.leaping.configurate.objectmapping.ObjectMappingException;
-import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
@@ -27,11 +30,13 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
 import java.io.IOException;
+import java.util.Currency;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -78,7 +83,7 @@ public class AtherysQuests {
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
                 .add( KillEntityObjective.of( "creeper", 3 ) )
                 .add( KillEntityObjective.of( "zombie", 4 ) )
-                .add( new DialogObjective( "theKingSpeech", 14, Text.of("Speak to the king.") ) )
+                //.add( new DialogObjective( "theKingSpeech", 14, Text.of("Speak to the king.") ) )
                 .add( new SingleItemReward( ItemStack.builder().itemType(ItemTypes.ANVIL).quantity(1).add( Keys.DISPLAY_NAME, Text.of("The Magical Anvil") ).build() ) )
                 .build();
 
@@ -87,97 +92,38 @@ public class AtherysQuests {
         dummyQuest.getObjectives().forEach( obj -> logger.info("Quest has objective of type: " + obj.getClass().getName()));
 
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
-        //QuestManager.getInstance().unregisterQuest ( dummyQuest );
 
-        Objective objective = KillEntityObjective.of("zombie", 8);
-        ImmutableSet<Class<?>> set = ImmutableSet.of( Objective.class, KillEntityObjective.class, DialogObjective.class );
+        RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of(Objective.class)
+                .registerSubtype( KillEntityObjective.class )
+                .registerSubtype( DialogObjective.class );
 
-        TypeSerializers.getDefaultSerializers().registerType( new TypeToken<Objective>() {}, new ObjectiveAdapter() );
+        RuntimeTypeAdapterFactory<Reward> rewardRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Reward.class )
+                .registerSubtype( MoneyReward.class )
+                .registerSubtype( MultiItemReward.class )
+                .registerSubtype( SingleItemReward.class );
 
-        GsonConfigurationLoader loader = GsonConfigurationLoader.builder().setDefaultOptions( ConfigurationOptions.defaults().setAcceptedTypes(set) ).build();
-        ConfigurationNode node = loader.createEmptyNode();
+        RuntimeTypeAdapterFactory<Requirement> requirementRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Requirement.class )
+                .registerSubtype( LevelRequirement.class )
+                .registerSubtype( MoneyRequirement.class )
+                .registerSubtype( QuestRequirement.class );
 
-        node.getOptions().setAcceptedTypes( set );
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .registerTypeAdapter( Text.class, new ConfigurateAdapter<>( Text.class ) )
+                .registerTypeAdapter( ItemStackSnapshot.class, new ConfigurateAdapter<>( ItemStackSnapshot.class ) )
+                .registerTypeAdapter( Currency.class, new ConfigurateAdapter<>( Currency.class ) )
+                .registerTypeAdapterFactory( objectiveTypeAdapterFactory )
+                .registerTypeAdapterFactory( rewardRuntimeTypeAdapterFactory )
+                .registerTypeAdapterFactory( requirementRuntimeTypeAdapterFactory )
+                .create();
 
-        set.forEach( cls -> {
-            logger.info( cls.getName() + " : " + node.getOptions().acceptsType(cls) );
-        } );
+        String json = gson.toJson( dummyQuest, Quest.class );
 
-        if ( !node.getOptions().acceptsType( objective.getClass() ) ) {
+        logger.info( json );
 
-            try {
-                node.setValue(objective);
-                loader.saveInternal(node, System.console().writer());
+        Quest questSecond = gson.fromJson( json, Quest.class );
 
-                try {
-                    Objective quest = node.getValue(TypeToken.of(Objective.class));
-                    ConfigurationNode newNode = loader.createEmptyNode();
-                    try {
-                        newNode.setValue(quest);
-                        loader.saveInternal(node, System.console().writer());
-                    } catch (IOException e) {
-                        logger.info("2. Failed to write to console writer.");
-                    }
-                } catch (ObjectMappingException e) {
-                    logger.info("Failed to map Gson config node to Quest");
-                    e.printStackTrace();
-                }
-
-            } catch (IOException e) {
-                logger.info("1. Failed to write to console writer.");
-                e.printStackTrace();
-            }
-
-        } else {
-            logger.error("Node does not accept KillEntityObjective");
-        }
-       /* ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            String jacksonJson = mapper.writeValueAsString( dummyQuest );
-            logger.info(jacksonJson);
-
-            Quest quest = mapper.readValue( jacksonJson, Quest.class );
-
-            String secondJson = mapper.writeValueAsString( quest );
-            logger.info(secondJson);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        /*GsonConfigurationLoader loader = GsonConfigurationLoader.builder().build();
-        ConfigurationNode node = loader.createEmptyNode( ConfigurationOptions.defaults() );
-
-        TypeSerializers.getDefaultSerializers().registerType( new TypeToken<List<Objective>>() {}, new ObjectiveListTypeSerializer() );
-
-        try {
-            node.setValue(TypeToken.of(Quest.class), dummyQuest);
-            loader.saveInternal(node, System.console().writer());
-
-            try {
-                Quest quest = node.getValue(TypeToken.of(Quest.class));
-                ConfigurationNode newNode = loader.createEmptyNode( ConfigurationOptions.defaults() );
-                try {
-                    newNode.setValue(TypeToken.of(Quest.class), quest);
-                    loader.saveInternal( node, System.console().writer() );
-                } catch (ObjectMappingException e) {
-                    logger.info("2. Failed to map DummyQuest to Gson ConfigurationNode.");
-                } catch (IOException e) {
-                    logger.info("2. Failed to write to console writer.");
-                }
-            } catch ( ObjectMappingException e ) {
-                logger.info("Failed to map Gson config node to Quest");
-                e.printStackTrace();
-            }
-
-        } catch (IOException e) {
-            logger.info("1. Failed to write to console writer.");
-        } catch (ObjectMappingException e) {
-            logger.info("1. Failed to map DummyQuest to Gson ConfigurationNode.");
-            e.printStackTrace();
-        }*/
+        logger.info( gson.toJson( questSecond, ItemStackSnapshot.class ) );
 
     }
 

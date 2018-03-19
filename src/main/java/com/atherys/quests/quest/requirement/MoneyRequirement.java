@@ -2,8 +2,7 @@ package com.atherys.quests.quest.requirement;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.quester.Quester;
-import ninja.leaping.configurate.objectmapping.Setting;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
+import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -13,10 +12,9 @@ import org.spongepowered.api.text.Text;
 import java.math.BigDecimal;
 import java.util.Optional;
 
-@ConfigSerializable
 public class MoneyRequirement extends NumericRequirement {
 
-    @Setting
+    @Expose
     private Currency currency;
 
     private MoneyRequirement() {

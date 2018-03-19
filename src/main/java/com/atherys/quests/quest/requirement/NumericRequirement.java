@@ -1,10 +1,10 @@
 package com.atherys.quests.quest.requirement;
 
-import ninja.leaping.configurate.objectmapping.Setting;
+import com.google.gson.annotations.Expose;
 
 public abstract class NumericRequirement implements Requirement{
 
-    @Setting
+    @Expose
     protected double number;
 
     protected NumericRequirement ( double amount ) {
