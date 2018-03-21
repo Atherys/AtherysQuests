@@ -5,10 +5,7 @@ import com.atherys.core.utils.RuntimeTypeAdapterFactory;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.requirement.LevelRequirement;
-import com.atherys.quests.quest.requirement.MoneyRequirement;
-import com.atherys.quests.quest.requirement.QuestRequirement;
-import com.atherys.quests.quest.requirement.Requirement;
+import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.MultiItemReward;
 import com.atherys.quests.quest.reward.Reward;
@@ -34,7 +31,9 @@ public final class GsonUtils {
     private static RuntimeTypeAdapterFactory<Requirement> requirementRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Requirement.class )
             .registerSubtype( LevelRequirement.class )
             .registerSubtype( MoneyRequirement.class )
-            .registerSubtype( QuestRequirement.class );
+            .registerSubtype( QuestRequirement.class )
+            .registerSubtype( OrRequirement.class )
+            .registerSubtype( AndRequirement.class );
 
     public static Gson getGson() {
         return new GsonBuilder()
