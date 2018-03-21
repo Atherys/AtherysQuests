@@ -4,6 +4,7 @@ import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.QuestManager;
+import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
@@ -97,10 +98,12 @@ public class AtherysQuests {
 
         logger.info( gson.toJson( questSecond, Quest.class ) );
 
+        QuesterManager.getInstance().loadAll();
+
     }
 
     private void stop() {
-
+        QuesterManager.getInstance().saveAll();
     }
 
     @Listener
@@ -115,7 +118,7 @@ public class AtherysQuests {
 
     @Listener
     public void onStop( GameStoppingServerEvent event ) {
-        stop();
+        if ( init ) stop();
     }
 
     public static AtherysQuests getInstance() {

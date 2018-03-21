@@ -33,10 +33,9 @@ public class Dialog implements Viewable<DialogView> {
     }
 
     public static Optional<Dialog> between( Player player, Entity entity, DialogTree dialogTree ) {
-        Optional<Quester> quester = QuesterManager.getInstance().getQuester( player );
-        if ( !quester.isPresent() ) return Optional.empty();
+        Quester quester = QuesterManager.getInstance().getQuester( player );
 
-        Dialog dialog = new Dialog( quester.get(), entity, dialogTree );
+        Dialog dialog = new Dialog( quester, entity, dialogTree );
         dialog.proceed( player, dialog.getLastNode() );
         return Optional.of( dialog );
     }

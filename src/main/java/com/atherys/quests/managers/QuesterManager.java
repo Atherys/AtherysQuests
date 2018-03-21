@@ -85,4 +85,8 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
     protected Optional<Quester> fromDocument( Document document ) {
         return Optional.empty();
     }
+
+    public void saveAll() {
+        saveAll( getCache().values() );
+    }
 }
