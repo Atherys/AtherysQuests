@@ -13,9 +13,8 @@ import com.atherys.quests.quest.reward.SingleItemReward;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.text.Text;
-
-import java.util.Currency;
 
 public final class GsonUtils {
 
@@ -37,7 +36,6 @@ public final class GsonUtils {
 
     public static Gson getGson() {
         return new GsonBuilder()
-                .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter( Text.class, new ConfigurateAdapter<>( Text.class ) )
                 .registerTypeAdapter( ItemStackSnapshot.class, new ConfigurateAdapter<>( ItemStackSnapshot.class ) )
