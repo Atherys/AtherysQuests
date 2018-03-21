@@ -1,5 +1,6 @@
 package com.atherys.quests.quester;
 
+import com.atherys.core.database.api.DBObject;
 import com.atherys.core.utils.UserUtils;
 import com.atherys.quests.events.QuestCompletedEvent;
 import com.atherys.quests.events.QuestStartedEvent;
@@ -14,7 +15,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class Quester {
+public class Quester implements DBObject {
 
     private UUID player; // Retrieve player from this. 100% Reliable.
 
@@ -22,9 +23,20 @@ public class Quester {
     private Map<String, Quest> quests = new HashMap<>();
     private Map<String, Long> completedQuests = new HashMap<>();
 
+    /**
+     * Do not use this. Use {@link com.atherys.quests.managers.QuesterManager#createQuester(Player)} instead.
+     *
+     * @param player The player.
+     */
+    @Deprecated
     public Quester( Player player ) {
         this.player = player.getUniqueId();
         this.cachedPlayer = player;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return player;
     }
 
     public void notify( Event event, Player player ) {

@@ -62,6 +62,12 @@ public class AtherysQuests {
             return;
         }
 
+        if ( config.IS_DEFAULT ) {
+            logger.error( "The AtherysQuests config is set to default. Please change default config settings and then set 'isDefault' to 'false'." );
+            init = false;
+            return;
+        }
+
         init = true;
     }
 
@@ -122,5 +128,9 @@ public class AtherysQuests {
 
     public Optional<EconomyService> getEconomyService() {
         return Sponge.getServiceManager().provide( EconomyService.class );
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

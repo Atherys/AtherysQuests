@@ -13,7 +13,7 @@ import org.spongepowered.api.text.format.TextStyles;
 
 public class TakeQuestView implements View<Quest> {
 
-    private Quest quest;
+    private final Quest quest;
 
     public TakeQuestView( Quest quest ) {
         this.quest = quest;
@@ -48,9 +48,7 @@ public class TakeQuestView implements View<Quest> {
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of( Text.of( "Do you accept this quest?" ) )
                 .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_GREEN, "[Accept]" ), player -> {
-                    QuesterManager.getInstance().getQuester( player ).ifPresent( quester -> {
-                        quester.pickupQuest( quest );
-                    } );
+                    QuesterManager.getInstance().getQuester( player ).pickupQuest( quest );
                 } ) )
                 .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_RED, "[Decline]" ), player -> {
                     QuestMsg.error( player, "You have declined the quest \"", quest.getName(), "\"." );
