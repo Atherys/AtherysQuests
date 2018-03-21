@@ -1,11 +1,14 @@
 package com.atherys.quests.quest.requirement;
 
 import com.atherys.quests.quester.Quester;
+import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
 public class OrRequirement implements Requirement {
 
+    @Expose
     private Requirement requirement1;
+    @Expose
     private Requirement requirement2;
 
     public OrRequirement( Requirement requirement1, Requirement requirement2 ) {
