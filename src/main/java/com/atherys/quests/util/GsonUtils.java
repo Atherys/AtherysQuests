@@ -37,7 +37,7 @@ public final class GsonUtils {
     public static Gson getGson() {
         return new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
-                .registerTypeAdapter( Text.class, new TextAdapter() )
+                .registerTypeAdapter( Text.class, new CompactTextAdapter() )
                 .registerTypeAdapter( ItemStackSnapshot.class, new ConfigurateAdapter<>( ItemStackSnapshot.class ) )
                 .registerTypeAdapter( Currency.class, new ConfigurateAdapter<>( Currency.class ) )
                 .registerTypeAdapterFactory( objectiveTypeAdapterFactory )
