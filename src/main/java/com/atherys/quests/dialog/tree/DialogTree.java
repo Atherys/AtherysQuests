@@ -23,4 +23,8 @@ public class DialogTree {
     public DialogNode getRoot() {
         return root;
     }
+
+    public void setId( String id ) {
+        this.id = id;
+    }
 }
