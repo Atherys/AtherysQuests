@@ -18,16 +18,16 @@ import org.spongepowered.api.text.Text;
 
 public final class GsonUtils {
 
-    private static RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Objective.class )
+    private static RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Objective.class, "__type__" )
             .registerSubtype( KillEntityObjective.class )
             .registerSubtype( DialogObjective.class );
 
-    private static RuntimeTypeAdapterFactory<Reward> rewardRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Reward.class )
+    private static RuntimeTypeAdapterFactory<Reward> rewardRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Reward.class, "__type__" )
             .registerSubtype( MoneyReward.class )
             .registerSubtype( MultiItemReward.class )
             .registerSubtype( SingleItemReward.class );
 
-    private static RuntimeTypeAdapterFactory<Requirement> requirementRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Requirement.class )
+    private static RuntimeTypeAdapterFactory<Requirement> requirementRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Requirement.class, "__type__" )
             .registerSubtype( LevelRequirement.class )
             .registerSubtype( MoneyRequirement.class )
             .registerSubtype( QuestRequirement.class )

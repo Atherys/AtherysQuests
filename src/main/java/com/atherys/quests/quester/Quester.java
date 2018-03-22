@@ -20,6 +20,7 @@ public class Quester implements DBObject {
     private UUID player; // Retrieve player from this. 100% Reliable.
 
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
+
     private Map<String, Quest> quests = new HashMap<>();
     private Map<String, Long> completedQuests = new HashMap<>();
 
@@ -86,6 +87,14 @@ public class Quester implements DBObject {
     @Nullable
     public Player getCachedPlayer() {
         return cachedPlayer;
+    }
+
+    public Map<String, Long> getCompletedQuests() {
+        return completedQuests;
+    }
+
+    public Map<String, Quest> getQuests() {
+        return quests;
     }
 
     public boolean hasCompleted( String questId ) {

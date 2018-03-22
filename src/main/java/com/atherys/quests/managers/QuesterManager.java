@@ -4,6 +4,8 @@ import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.db.QuestsDatabase;
 import com.atherys.quests.quester.Quester;
+import com.atherys.quests.util.GsonUtils;
+import com.google.gson.Gson;
 import org.bson.Document;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
@@ -12,6 +14,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
+
+    private static Gson gson = GsonUtils.getGson();
 
     private static QuesterManager instance = new QuesterManager();
 
@@ -77,8 +81,19 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
     }
 
     @Override
-    protected Optional<Document> toDocument( Quester questerManager ) {
-        return Optional.empty();
+    protected Optional<Document> toDocument( Quester quester ) {
+        Document document = new Document();
+        document.append( "uuid", quester.getUUID() );
+
+        Document quests = new Document();
+        quester.getQuests().forEach( (k,v) -> quests.append( k, gson.toJson( v ) ) );
+        document.append( "quests", quests );
+
+        Document completedQuests = new Document();
+        quester.getCompletedQuests().forEach( completedQuests::append );
+        document.append( "completedQuests", completedQuests );
+
+        return Optional.of( document );
     }
 
     @Override
