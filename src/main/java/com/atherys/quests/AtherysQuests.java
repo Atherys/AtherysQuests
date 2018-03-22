@@ -1,5 +1,7 @@
 package com.atherys.quests;
 
+import com.atherys.quests.dialog.tree.DialogNode;
+import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
@@ -74,6 +76,8 @@ public class AtherysQuests {
 
     private void start() {
 
+        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
                 .name( Text.of( "This is a dummy quest." ) )
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
@@ -93,19 +97,54 @@ public class AtherysQuests {
                 .add( new SingleItemReward( ItemStack.builder().itemType( ItemTypes.ANVIL ).quantity( 1 ).add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) ).build() ) )
                 .build();
 
-        QuestManager.getInstance().registerQuest( dummyQuest );
+        DialogNode root = DialogNode.builder( 0 )
+                .npc( Text.of( "Hello, weary traveller!" ) )
+                .responses(
+                        DialogNode.builder( 1 )
+                                .player( Text.of( "Hello, Merchant! Have you any work for me today?" ) )
+                                .npc(
+                                        Text.of( "You know, I may actually have something you'd be interested in." ),
+                                        Text.of( "Recently, the outskirts of the town have been getting ravaged by some very nasty creatures." ),
+                                        Text.of( "I've heard that the King himself wishes this situation to be dealt with swiftly. There may even be a reward for the one who does it." )
+                                )
+                                .responses(
+                                        DialogNode.builder( 10 )
+                                                .player( Text.of( "Well, sign me up! I love me a bit of danger." ) )
+                                                .npc( Text.of( "Oh, excellent! Just remember who tipped you off, when the time comes for the King to reward you, eh? ;)" ) )
+                                                .quest( dummyQuest )
+                                                .build(),
+                                        DialogNode.builder( 11 )
+                                                .player( Text.of( "Oh, no, I'm not in the murdering vibe today. Perhaps another day." ) )
+                                                .npc( Text.of( "Well, I wouldn't take too long if I were you. Someone else is bound to pick up on that reward." ) )
+                                                .build()
+                                )
+                                .build(),
+                        DialogNode.builder( 2 )
+                                .player( Text.of( "I have no time for chit-chat. Goodbye." ) )
+                                .build()
+                )
+                .build();
 
-        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+        DialogTree tree = DialogTree.builder( "merchantDialog" ).root( root ).build();
+
+
+        QuestManager.getInstance().registerQuest( dummyQuest );
 
         Gson gson = GsonUtils.getGson();
 
+        // Quest Gson Test
+
         String json = gson.toJson( dummyQuest, Quest.class );
-
         logger.info( json );
-
         Quest questSecond = gson.fromJson( json, Quest.class );
-
         logger.info( gson.toJson( questSecond, Quest.class ) );
+
+        // Dialog Gson Test
+
+        String dialogJson = gson.toJson( tree, DialogTree.class );
+        logger.info( json );
+        DialogTree dialogSecond = gson.fromJson( dialogJson, DialogTree.class );
+        logger.info( gson.toJson( dialogSecond, DialogTree.class ) );
 
         QuesterManager.getInstance().loadAll();
 

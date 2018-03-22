@@ -12,6 +12,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class Dialog implements Viewable<DialogView> {
@@ -50,6 +51,7 @@ public class Dialog implements Viewable<DialogView> {
 
     public void proceed( Player player, DialogNode node ) {
 
+        // update the cached player
         this.cachedPlayer = player;
 
         DialogProceedEvent event = new DialogProceedEvent( this );
@@ -77,6 +79,7 @@ public class Dialog implements Viewable<DialogView> {
         return quester.getUser();
     }
 
+    @Nullable
     public Player getCachedPlayer() {
         return cachedPlayer;
     }
