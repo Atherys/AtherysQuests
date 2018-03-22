@@ -27,6 +27,8 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.format.TextStyles;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -103,7 +105,7 @@ public class AtherysQuests {
                         DialogNode.builder( 1 )
                                 .player( Text.of( "Hello, Merchant! Have you any work for me today?" ) )
                                 .npc(
-                                        Text.of( "You know, I may actually have something you'd be interested in." ),
+                                        Text.of( "You know, I ", TextStyles.ITALIC, " may ", TextStyles.RESET ,"actually have something you'd be", TextColors.DARK_BLUE, " interested in." ),
                                         Text.of( "Recently, the outskirts of the town have been getting ravaged by some very nasty creatures." ),
                                         Text.of( "I've heard that the King himself wishes this situation to be dealt with swiftly. There may even be a reward for the one who does it." )
                                 )
