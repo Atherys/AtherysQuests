@@ -12,6 +12,8 @@ import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.requirement.*;
+import com.atherys.quests.quest.reward.MoneyReward;
+import com.atherys.quests.quest.reward.MultiItemReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
@@ -79,6 +81,22 @@ public class AtherysQuests {
     }
 
     private void start() {
+
+        GsonUtils.getRequirementRuntimeTypeAdapterFactory()
+                .registerSubtype( AndRequirement.class )
+                .registerSubtype( OrRequirement.class )
+                .registerSubtype( LevelRequirement.class )
+                .registerSubtype( MoneyRequirement.class )
+                .registerSubtype( QuestRequirement.class );
+
+        GsonUtils.getObjectiveTypeAdapterFactory()
+                .registerSubtype( KillEntityObjective.class )
+                .registerSubtype( DialogObjective.class );
+
+        GsonUtils.getRewardRuntimeTypeAdapterFactory()
+                .registerSubtype( MoneyReward.class )
+                .registerSubtype( MultiItemReward.class )
+                .registerSubtype( SingleItemReward.class );
 
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
