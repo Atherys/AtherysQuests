@@ -3,6 +3,7 @@ package com.atherys.quests;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.listeners.EntityListener;
+import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.QuestManager;
@@ -54,6 +55,7 @@ public class AtherysQuests {
         // TODO: Load dialogs from files
         instance = this;
 
+        Sponge.getEventManager().registerListeners( this, new GsonListener() );
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
         Sponge.getEventManager().registerListeners( this, new QuestKeys() );
