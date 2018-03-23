@@ -31,6 +31,10 @@ public final class DialogManager {
         // TODO: Write necessary Gson type adapters ( DialogTree, DialogNode, Requirement )
     }
 
+    public void registerDialog ( DialogTree tree ) {
+        this.trees.put( tree.getId(), tree );
+    }
+
     /**
      * Load all dialog JSON files within the given folder.
      *
@@ -50,7 +54,7 @@ public final class DialogManager {
 
                 DialogTree tree = gson.fromJson( new FileReader( file ), DialogTree.class );
                 tree.setId( file.getName().replace( ".json", "" ) );
-                this.trees.put( tree.getId(), tree );
+                registerDialog( tree );
             }
         }
     }

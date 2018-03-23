@@ -6,6 +6,7 @@ import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
+import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.Quest;
@@ -20,7 +21,11 @@ import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.args.GenericArguments;
+import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -32,8 +37,10 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
+import org.spongepowered.api.world.extent.EntityUniverse;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -149,6 +156,7 @@ public class AtherysQuests {
 
         DialogTree tree = DialogTree.builder( "merchantDialog" ).root( root ).build();
 
+        DialogManager.getInstance().registerDialog( tree );
 
         QuestManager.getInstance().registerQuest( dummyQuest );
 
@@ -169,6 +177,25 @@ public class AtherysQuests {
         logger.info( gson.toJson( dialogSecond, DialogTree.class ) );
 
         QuesterManager.getInstance().loadAll();
+
+        Sponge.getCommandManager().register( this, CommandSpec.builder()
+                .executor( ( src, args ) -> {
+                    Player player = (Player) src;
+
+                    Iterator<EntityUniverse.EntityHit> targetIter = player.getWorld().getIntersectingEntities( player, 100 ).iterator();
+                    if ( targetIter.hasNext() ) {
+                        EntityUniverse.EntityHit hit = targetIter.next();
+
+                        DialogManager.getInstance().setDialog( hit.getEntity(), DialogManager.getInstance().getDialogFromId( args.<String>getOne( "dialogId" ).get() ).get() );
+                    }
+
+                    return CommandResult.empty();
+                } )
+                .arguments(
+                        GenericArguments.string( Text.of("dialogId") )
+                )
+                .build()
+        );
 
     }
 
