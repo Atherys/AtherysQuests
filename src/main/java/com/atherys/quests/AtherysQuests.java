@@ -194,7 +194,7 @@ public class AtherysQuests {
                 .arguments(
                         GenericArguments.string( Text.of("dialogId") )
                 )
-                .build()
+                .build(), "dialogTest"
         );
 
     }
