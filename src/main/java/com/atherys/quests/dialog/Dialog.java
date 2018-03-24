@@ -13,7 +13,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -54,13 +53,13 @@ public class Dialog implements Viewable<DialogView> {
 
     public void proceed( Player player, DialogNode node ) {
 
+        if ( !DialogManager.getInstance().hasPlayerDialog( player ) ) return;
+
         // update the cached player
         this.cachedPlayer = player;
 
         DialogProceedEvent event = new DialogProceedEvent( this );
         Sponge.getEventManager().post( event );
-
-        player.sendMessage( Text.of("Proceeding...") );
 
         // If the node provided is not the current node or a child of the current node, return.
         if ( this.lastNode == node || lastNode.getResponses().contains( node ) ) {
