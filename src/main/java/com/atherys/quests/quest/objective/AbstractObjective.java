@@ -1,5 +1,6 @@
 package com.atherys.quests.quest.objective;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.events.ObjectiveCompletedEvent;
 import com.atherys.quests.events.ObjectiveProgressedEvent;
 import com.atherys.quests.events.ObjectiveStartedEvent;
@@ -21,6 +22,7 @@ public abstract class AbstractObjective<T extends Event> implements Objective {
 
     @Override
     public void notify( Event event, Quester quester ) {
+        AtherysQuests.getInstance().getLogger().info( event.getClass().getSimpleName() );
         if ( !event.getClass().equals( eventClass ) ) return;
 
         // If this objective hasn't been started yet, post an ObjectiveStartedEvent and mark as started

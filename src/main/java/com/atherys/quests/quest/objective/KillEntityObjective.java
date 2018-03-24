@@ -1,5 +1,6 @@
 package com.atherys.quests.quest.objective;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.data.key.Keys;
@@ -47,7 +48,10 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
 
     @Override
     protected void onNotify( DestructEntityEvent.Death event, Quester quester ) {
+
         String displayName = event.getTargetEntity().get( Keys.DISPLAY_NAME ).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
+
+        AtherysQuests.getInstance().getLogger().info( "KillEntityObjective: " + displayName );
 
         if ( displayName.equals( entityName ) && progress != 0 ) {
             progress--;
