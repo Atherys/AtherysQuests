@@ -22,8 +22,8 @@ public abstract class AbstractObjective<T extends Event> implements Objective {
 
     @Override
     public void notify( Event event, Quester quester ) {
-        AtherysQuests.getInstance().getLogger().info( event.getClass().getSimpleName() );
         if ( !event.getClass().equals( eventClass ) ) return;
+        AtherysQuests.getInstance().getLogger().info( event.getClass().getName() );
 
         // If this objective hasn't been started yet, post an ObjectiveStartedEvent and mark as started
         if ( !started ) {
