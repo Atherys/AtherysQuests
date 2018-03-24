@@ -7,6 +7,7 @@ import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.DialogView;
+import com.atherys.quests.views.TakeQuestView;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
@@ -71,6 +72,8 @@ public class Dialog implements Viewable<DialogView> {
             this.lastNode = node;
 
             new DialogView( this ).show( player );
+
+            node.getQuest().ifPresent( quest -> new TakeQuestView( quest ).show( player ) );
         }
     }
 

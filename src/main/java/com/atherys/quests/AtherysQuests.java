@@ -147,16 +147,16 @@ public class AtherysQuests {
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
                 .name( Text.of( "This is a dummy quest." ) )
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
-                .add( new OrRequirement(
-                        new LevelRequirement( 10 ),
-                        new AndRequirement(
-                                new OrRequirement(
-                                        new QuestRequirement( "someQuest" ),
-                                        new MoneyRequirement( 10, getEconomyService().get().getDefaultCurrency() )
-                                ),
-                                new QuestRequirement( "someOtherQuest" )
-                        )
-                ) )
+                //.add( new OrRequirement(
+                //        new LevelRequirement( 10 ),
+                //        new AndRequirement(
+                //                new OrRequirement(
+                //                        new QuestRequirement( "someQuest" ),
+                //                        new MoneyRequirement( 10, getEconomyService().get().getDefaultCurrency() )
+                //                ),
+                //                new QuestRequirement( "someOtherQuest" )
+                //        )
+                //) )
                 .add( KillEntityObjective.of( "creeper", 3 ) )
                 .add( KillEntityObjective.of( "zombie", 4 ) )
                 .add( new DialogObjective( "theKingSpeech", 14, Text.of( "Speak to the king." ) ) )
