@@ -69,6 +69,6 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
 
     @Override
     public Text toText() {
-        return Text.of( "Kill ", entityName, ": ", progress, "/", requirement );
+        return Text.of( "Kill ", entityName, ": ", requirement - progress, "/", requirement );
     }
 }
