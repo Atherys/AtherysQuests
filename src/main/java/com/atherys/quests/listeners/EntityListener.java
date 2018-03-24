@@ -23,7 +23,7 @@ public class EntityListener {
     }
 
     @Listener
-    public void onEntityInteract( InteractEntityEvent.Secondary.MainHand event, @Root Player player ) {
+    public void onEntityInteract( InteractEntityEvent.Secondary event, @Root Player player ) {
         Optional<Dialog> dialog = DialogManager.getInstance().startDialog( player, event.getTargetEntity() );
 
         dialog.ifPresent( Dialog::start );
