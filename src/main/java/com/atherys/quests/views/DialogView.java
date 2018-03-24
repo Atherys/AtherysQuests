@@ -72,9 +72,7 @@ public class DialogView implements View<Dialog> {
                     Text.Builder nextMessage = Text.builder()
                             .append( Text.of( TextColors.DARK_AQUA, "[", TextColors.WHITE, TextStyles.BOLD, i, TextStyles.RESET, TextColors.DARK_AQUA, "]" ) )
                             .append( Text.of( TextColors.AQUA, TextStyles.BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText() ) )
-                            .onClick( TextActions.executeCallback( src -> {
-                                if ( src instanceof Player ) dialog.proceed( ( Player ) src, response );
-                            } ) )
+                            .onClick( TextActions.executeCallback( src -> dialog.proceed( ( Player ) src, response ) ) )
                             .onHover( TextActions.showText( Text.of( "Say ", TextStyles.ITALIC, response.getPlayerText() ) ) );
 
                     response.getQuest().ifPresent( quest -> {
