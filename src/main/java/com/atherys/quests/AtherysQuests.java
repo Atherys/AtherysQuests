@@ -81,6 +81,8 @@ public class AtherysQuests {
             return;
         }
 
+        Sponge.getEventManager().registerListeners( this, new QuestKeys() );
+
         DataRegistration.builder()
                 .dataClass( DialogData.class )
                 .immutableClass( DialogData.Immutable.class )
@@ -105,7 +107,6 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new GsonListener() );
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
-        Sponge.getEventManager().registerListeners( this, new QuestKeys() );
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
