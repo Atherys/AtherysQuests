@@ -61,30 +61,41 @@ public class DialogView implements View<Dialog> {
 
         // Possible Responses
         if ( node.getResponses().size() >= 1 ) {
-            player.sendMessage( DialogMsg.DIALOG_REPLIES_DECORATION );
 
-            int i = 1;
-            for ( DialogNode response : node.getResponses() ) {
-                Text.Builder nextMessage = Text.builder()
-                        .append( Text.of( TextColors.DARK_AQUA, "[", TextColors.WHITE, TextStyles.BOLD, i, TextStyles.RESET, TextColors.DARK_AQUA, "]" ) )
-                        .append( Text.of( TextColors.AQUA, TextStyles.BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText() ) )
-                        .onClick( TextActions.executeCallback( src -> {
-                            if ( src instanceof Player ) dialog.proceed( ( Player ) src, response );
-                        } ) )
-                        .onHover( TextActions.showText( Text.of( "Say ", TextStyles.ITALIC, response.getPlayerText() ) ) );
+            long responsesDelay = AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * node.getNPCText().length + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY;
 
-                response.getQuest().ifPresent( quest -> {
-                    nextMessage.append(
-                            Text.builder()
-                                    .append( Text.of( TextColors.DARK_GREEN, TextStyles.BOLD, " { Starts Quest: ", TextColors.GREEN, TextStyles.RESET, quest.getName(), TextStyles.BOLD, TextColors.DARK_GREEN, " }" ) )
-                                    .onHover( TextActions.showText( quest.createView().get().getFormattedRequirements() ) )
-                                    .build()
-                    );
-                } );
+            Runnable runnable = () -> {
+                player.sendMessage( DialogMsg.DIALOG_REPLIES_DECORATION );
 
-                player.sendMessage( nextMessage.build() );
-                i++;
-            }
+                int i = 1;
+                for ( DialogNode response : node.getResponses() ) {
+                    Text.Builder nextMessage = Text.builder()
+                            .append( Text.of( TextColors.DARK_AQUA, "[", TextColors.WHITE, TextStyles.BOLD, i, TextStyles.RESET, TextColors.DARK_AQUA, "]" ) )
+                            .append( Text.of( TextColors.AQUA, TextStyles.BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText() ) )
+                            .onClick( TextActions.executeCallback( src -> {
+                                if ( src instanceof Player ) dialog.proceed( ( Player ) src, response );
+                            } ) )
+                            .onHover( TextActions.showText( Text.of( "Say ", TextStyles.ITALIC, response.getPlayerText() ) ) );
+
+                    response.getQuest().ifPresent( quest -> {
+                        nextMessage.append(
+                                Text.builder()
+                                        .append( Text.of( TextColors.DARK_GREEN, TextStyles.BOLD, " { Starts Quest: ", TextColors.GREEN, TextStyles.RESET, quest.getName(), TextStyles.BOLD, TextColors.DARK_GREEN, " }" ) )
+                                        .onHover( TextActions.showText( quest.createView().get().getFormattedRequirements() ) )
+                                        .build()
+                        );
+                    } );
+
+                    player.sendMessage( nextMessage.build() );
+                    i++;
+                }
+            };
+
+            Task.builder()
+                    .name( "atherysquests-dialog-player-responses-" + player.getName() )
+                    .delay( responsesDelay, TimeUnit.SECONDS )
+                    .execute( runnable )
+                    .submit( AtherysQuests.getInstance() );
         } else player.sendMessage( DialogMsg.DIALOG_END_DECORATION );
     }
 
