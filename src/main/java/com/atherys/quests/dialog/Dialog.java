@@ -92,4 +92,8 @@ public class Dialog implements Viewable<DialogView> {
     public Optional<DialogView> createView() {
         return Optional.of( new DialogView( this ) );
     }
+
+    public void start () {
+        this.proceed( cachedPlayer, lastNode );
+    }
 }
