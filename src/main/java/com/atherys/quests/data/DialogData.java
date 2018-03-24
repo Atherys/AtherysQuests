@@ -145,7 +145,7 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
     @Generated( value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.099Z" )
     public static class Builder extends AbstractDataBuilder<DialogData> implements DataManipulatorBuilder<DialogData, Immutable> {
 
-        protected Builder() {
+        public Builder () {
             super( DialogData.class, 1 );
         }
 

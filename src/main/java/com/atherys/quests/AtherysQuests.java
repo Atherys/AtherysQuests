@@ -1,5 +1,7 @@
 package com.atherys.quests;
 
+import com.atherys.quests.data.DialogData;
+import com.atherys.quests.data.QuestData;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.listeners.EntityListener;
@@ -24,6 +26,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
+import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -56,18 +59,12 @@ public class AtherysQuests {
     private static boolean init = false;
     private static QuestsConfig config;
 
-    @Inject
-    Logger logger;
+    @Inject Logger logger;
 
     private void init() {
         // TODO: Dump assets into config file
         // TODO: Load dialogs from files
         instance = this;
-
-        Sponge.getEventManager().registerListeners( this, new GsonListener() );
-        Sponge.getEventManager().registerListeners( this, new EntityListener() );
-        Sponge.getEventManager().registerListeners( this, new InventoryListener() );
-        Sponge.getEventManager().registerListeners( this, new QuestKeys() );
 
         try {
             config = new QuestsConfig( "config/" + ID, "config.conf" );
@@ -84,10 +81,32 @@ public class AtherysQuests {
             return;
         }
 
+        DataRegistration.builder()
+                .dataClass( DialogData.class )
+                .immutableClass( DialogData.Immutable.class )
+                .builder( new DialogData.Builder() )
+                .dataName( "dialog" )
+                .manipulatorId( "dialog" )
+                .buildAndRegister( Sponge.getPluginManager().fromInstance( this ).get() );
+
+        DataRegistration.builder()
+                .dataClass( QuestData.class )
+                .immutableClass( QuestData.Immutable.class )
+                .builder( new QuestData.Builder() )
+                .dataName( "quest" )
+                .manipulatorId( "quest" )
+                .buildAndRegister( Sponge.getPluginManager().fromInstance( this ).get() );
+
         init = true;
     }
 
     private void start() {
+
+        Sponge.getEventManager().registerListeners( this, new GsonListener() );
+        Sponge.getEventManager().registerListeners( this, new EntityListener() );
+        Sponge.getEventManager().registerListeners( this, new InventoryListener() );
+        Sponge.getEventManager().registerListeners( this, new QuestKeys() );
+        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype( AndRequirement.class )
@@ -104,8 +123,6 @@ public class AtherysQuests {
                 .registerSubtype( MoneyReward.class )
                 .registerSubtype( MultiItemReward.class )
                 .registerSubtype( SingleItemReward.class );
-
-        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
         Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
                 .name( Text.of( "This is a dummy quest." ) )

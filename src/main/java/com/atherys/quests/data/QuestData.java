@@ -145,7 +145,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
     @Generated( value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.099Z" )
     public static class Builder extends AbstractDataBuilder<QuestData> implements DataManipulatorBuilder<QuestData, Immutable> {
 
-        protected Builder() {
+        public Builder () {
             super( QuestData.class, 1 );
         }
 
