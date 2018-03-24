@@ -1,5 +1,6 @@
 package com.atherys.quests.listeners;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
@@ -24,8 +25,8 @@ public class EntityListener {
 
     @Listener
     public void onEntityInteract( InteractEntityEvent.Secondary event, @Root Player player ) {
+        AtherysQuests.getInstance().getLogger().info( event.getClass().getName() );
         Optional<Dialog> dialog = DialogManager.getInstance().startDialog( player, event.getTargetEntity() );
-
         dialog.ifPresent( Dialog::start );
     }
 
