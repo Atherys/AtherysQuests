@@ -49,7 +49,9 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     protected void onNotify( DestructEntityEvent.Death event, Quester quester ) {
         String displayName = event.getTargetEntity().get( Keys.DISPLAY_NAME ).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
 
-        if ( displayName.equals( entityName ) && progress != 0 ) {
+        if ( !displayName.equals( entityName ) ) return;
+
+        if ( progress != 0 ) {
             progress--;
             complete = false;
         } else {
