@@ -61,17 +61,17 @@ public class Dialog implements Viewable<DialogView> {
         player.sendMessage( Text.of("Proceeding...") );
 
         // If the node provided is not the current node or a child of the current node, return.
-        if ( !( this.lastNode == node || node.getResponses().contains( node ) ) ) return;
+        if ( this.lastNode != node && lastNode.getResponses().contains( node ) ) {
 
+            if ( !node.meetsRequirements( quester ) ) {
+                DialogMsg.error( player, "You do not meet the requirements for this response." );
+                return;
+            }
 
-        if ( !node.meetsRequirements( quester ) ) {
-            DialogMsg.error( player, "You do not meet the requirements for this response." );
-            return;
+            this.lastNode = node;
+
+            new DialogView( this ).show( player );
         }
-
-        this.lastNode = node;
-
-        new DialogView( this ).show( player );
     }
 
     public Entity getNPC() {
