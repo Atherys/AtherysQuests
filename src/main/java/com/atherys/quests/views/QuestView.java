@@ -33,7 +33,7 @@ public class QuestView implements View<Quest> {
         Text.Builder objectives = Text.builder();
         objectives.append( Text.of( "Objectives:\n" ) );
         quest.getObjectives().forEach( objective -> {
-            objectives.append( Text.of( objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), "\n" ) );
+            objectives.append( Text.of( !objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), Text.NEW_LINE ) );
         } );
 
         questView.addPage( objectives.build() );
@@ -52,7 +52,7 @@ public class QuestView implements View<Quest> {
     public Text getFormattedRequirements() {
         Text.Builder reqText = Text.builder();
         reqText.append( Text.of( QuestMsg.MSG_PREFIX, " Quest Requirements: " ) );
-        quest.getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText() ) ) );
+        quest.getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText(), Text.NEW_LINE ) ) );
         return reqText.build();
     }
 }

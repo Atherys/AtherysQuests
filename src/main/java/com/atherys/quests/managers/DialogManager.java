@@ -117,6 +117,10 @@ public final class DialogManager {
         return Optional.ofNullable( ongoingDialogs.get( player.getUniqueId() ) );
     }
 
+    public void removePlayerDialog ( Player player ) {
+        ongoingDialogs.remove( player.getUniqueId() );
+    }
+
     /**
      * Begin a dialog between a player and an entity.
      * This will check if the player is currently in another dialog. If so, the dialog will not be started.
@@ -141,4 +145,5 @@ public final class DialogManager {
     public static DialogManager getInstance() {
         return instance;
     }
+
 }

@@ -4,6 +4,7 @@ import com.atherys.core.views.Viewable;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.events.DialogProceedEvent;
+import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.DialogView;
@@ -74,6 +75,10 @@ public class Dialog implements Viewable<DialogView> {
             new DialogView( this ).show( player );
 
             node.getQuest().ifPresent( quest -> new TakeQuestView( quest ).show( player ) );
+
+            if ( node.getResponses().isEmpty() ) {
+                DialogManager.getInstance().removePlayerDialog( player );
+            }
         }
     }
 
