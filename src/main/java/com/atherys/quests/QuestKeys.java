@@ -31,8 +31,6 @@ public final class QuestKeys {
                 .query( DataQuery.of( "Dialog" ) )
                 .build();
 
-        event.register( DIALOG );
-
         DataRegistration.builder()
                 .dataClass( DialogData.class )
                 .immutableClass( DialogData.Immutable.class )
@@ -40,6 +38,8 @@ public final class QuestKeys {
                 .dataName( "Dialog" )
                 .manipulatorId( "dialog" )
                 .buildAndRegister( Sponge.getPluginManager().fromInstance( this ).get() );
+
+        event.register( DIALOG );
 
         QUEST = Key.builder()
                 .type( new TypeToken<Value<String>>() {
@@ -49,8 +49,6 @@ public final class QuestKeys {
                 .query( DataQuery.of( "Quest" ) )
                 .build();
 
-        event.register( QUEST );
-
         DataRegistration.builder()
                 .dataClass( QuestData.class )
                 .immutableClass( QuestData.Immutable.class )
@@ -58,6 +56,8 @@ public final class QuestKeys {
                 .dataName( "Quest" )
                 .manipulatorId( "quest" )
                 .buildAndRegister( Sponge.getPluginManager().fromInstance( this ).get() );
+
+        event.register( QUEST );
     }
 
 }

@@ -17,7 +17,6 @@ import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.MultiItemReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.atherys.quests.util.GsonUtils;
-import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -156,24 +155,7 @@ public class AtherysQuests {
         DialogTree tree = DialogTree.builder( "merchantDialog" ).root( root ).build();
 
         DialogManager.getInstance().registerDialog( tree );
-
         QuestManager.getInstance().registerQuest( dummyQuest );
-
-        Gson gson = GsonUtils.getGson();
-
-        // Quest Gson Test
-
-        String json = gson.toJson( dummyQuest, Quest.class );
-        logger.info( json );
-        Quest questSecond = gson.fromJson( json, Quest.class );
-        logger.info( gson.toJson( questSecond, Quest.class ) );
-
-        // Dialog Gson Test
-
-        String dialogJson = gson.toJson( tree, DialogTree.class );
-        logger.info( json );
-        DialogTree dialogSecond = gson.fromJson( dialogJson, DialogTree.class );
-        logger.info( gson.toJson( dialogSecond, DialogTree.class ) );
 
         QuesterManager.getInstance().loadAll();
 
