@@ -197,6 +197,19 @@ public class AtherysQuests {
                 .build(), "dialogTest"
         );
 
+        Sponge.getCommandManager().register( this, CommandSpec.builder()
+                .executor( ( src, args ) -> {
+                    Player player = (Player) src;
+
+                    QuesterManager.getInstance().getQuester( player ).getQuests().forEach( ( k, v ) -> {
+                        player.sendMessage( v.getName() );
+                    } );
+
+                    return CommandResult.empty();
+                })
+                .build(), "getquests"
+        );
+
     }
 
     private void stop() {
