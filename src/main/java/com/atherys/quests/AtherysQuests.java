@@ -221,7 +221,7 @@ public class AtherysQuests {
                 .executor( ( src, args ) -> {
                     Player player = (Player) src;
 
-                    QuesterManager.getInstance().getQuester( player ).getQuests().forEach( ( k, v ) -> player.sendMessage( v.getName() ) );
+                    QuesterManager.getInstance().getQuester( player ).getLog().show( player );
 
                     return CommandResult.empty();
                 })

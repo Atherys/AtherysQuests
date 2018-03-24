@@ -2,10 +2,12 @@ package com.atherys.quests.quester;
 
 import com.atherys.core.database.api.DBObject;
 import com.atherys.core.utils.UserUtils;
+import com.atherys.core.views.Viewable;
 import com.atherys.quests.events.QuestCompletedEvent;
 import com.atherys.quests.events.QuestStartedEvent;
 import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.QuestMsg;
+import com.atherys.quests.views.QuestLog;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
@@ -13,9 +15,12 @@ import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
-public class Quester implements DBObject {
+public class Quester implements DBObject, Viewable<QuestLog> {
 
     private UUID player; // Retrieve player from this. 100% Reliable.
 
@@ -99,5 +104,14 @@ public class Quester implements DBObject {
 
     public boolean hasCompleted( String questId ) {
         return completedQuests.containsKey( questId );
+    }
+
+    @Override
+    public Optional<QuestLog> createView () {
+        return Optional.of( new QuestLog(this) );
+    }
+
+    public QuestLog getLog() {
+        return new QuestLog( this );
     }
 }
