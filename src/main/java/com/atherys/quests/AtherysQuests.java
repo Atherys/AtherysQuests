@@ -206,7 +206,7 @@ public class AtherysQuests {
                     if ( targetIter.hasNext() ) {
                         EntityUniverse.EntityHit hit = targetIter.next();
 
-                        DialogManager.getInstance().setDialog( hit.getEntity(), DialogManager.getInstance().getDialogFromId( args.<String>getOne( "dialogId" ).get() ).get() );
+                        player.sendMessage( Text.of( DialogManager.getInstance().setDialog( hit.getEntity(), DialogManager.getInstance().getDialogFromId( args.<String>getOne( "dialogId" ).get() ).get() ) ) );
                     }
 
                     return CommandResult.empty();
@@ -221,9 +221,7 @@ public class AtherysQuests {
                 .executor( ( src, args ) -> {
                     Player player = (Player) src;
 
-                    QuesterManager.getInstance().getQuester( player ).getQuests().forEach( ( k, v ) -> {
-                        player.sendMessage( v.getName() );
-                    } );
+                    QuesterManager.getInstance().getQuester( player ).getQuests().forEach( ( k, v ) -> player.sendMessage( v.getName() ) );
 
                     return CommandResult.empty();
                 })
