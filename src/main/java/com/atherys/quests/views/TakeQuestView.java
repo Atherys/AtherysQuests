@@ -53,8 +53,9 @@ public class TakeQuestView implements View<Quest> {
                 .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_RED, "No" ), player -> {
                     QuestMsg.error( player, "You have declined the quest \"", quest.getName(), "\"." );
                 } ) )
-                .build()
-                .register();
+                .build();
+
+        question.register();
 
         takeQuest.append( question.asText() );
 
