@@ -46,11 +46,11 @@ public class TakeQuestView implements View<Quest> {
         questView.addPage( rewards.build() );
 
         Text.Builder takeQuest = Text.builder();
-        Question question = Question.of( Text.of( "Do you accept this quest?" ) )
-                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_GREEN, "[Accept]" ), player -> {
+        Question question = Question.of( Text.of( "Do you accept the quest \"", quest.getName(), "\"?" ) )
+                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_GREEN, "Yes" ), player -> {
                     QuesterManager.getInstance().getQuester( player ).pickupQuest( quest );
                 } ) )
-                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_RED, "[Decline]" ), player -> {
+                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_RED, "No" ), player -> {
                     QuestMsg.error( player, "You have declined the quest \"", quest.getName(), "\"." );
                 } ) )
                 .build();
