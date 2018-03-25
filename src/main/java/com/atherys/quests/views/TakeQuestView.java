@@ -32,7 +32,7 @@ public class TakeQuestView implements View<Quest> {
         Text.Builder objectives = Text.builder();
         objectives.append( Text.of( "Objectives:\n" ) );
         quest.getObjectives().forEach( objective -> {
-            objectives.append( Text.of( !objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), "\n" ) );
+            objectives.append( Text.of( !objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), TextStyles.NONE, Text.NEW_LINE ) );
         } );
 
         questView.addPage( objectives.build() );

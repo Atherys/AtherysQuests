@@ -15,9 +15,6 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     @Expose
     private int progress;
 
-    @Expose
-    private boolean complete;
-
     private KillEntityObjective() {
         super( DestructEntityEvent.Death.class );
     }
@@ -51,17 +48,12 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
 
         if ( !displayName.equals( entityName ) ) return;
 
-        if ( progress != 0 ) {
-            progress--;
-            complete = false;
-        } else {
-            complete = true;
-        }
+        if ( progress != 0 ) progress--;
     }
 
     @Override
     public boolean isComplete() {
-        return complete;
+        return progress == 0;
     }
 
     @Override
