@@ -1,6 +1,6 @@
 package com.atherys.quests;
 
-import com.atherys.core.damage.AtherysDamageType;
+import com.atherys.core.damage.sources.AtherysEntityDamageSource;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.dialog.tree.DialogNode;
@@ -36,7 +36,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
-import org.spongepowered.api.event.filter.cause.First;
+import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -226,8 +226,8 @@ public class AtherysQuests {
     }
 
     @Listener
-    public void testListener ( DamageEntityEvent event, @First AtherysDamageType type ) {
-        logger.info( "Detected damage with A'therys Type: " + type.getName() );
+    public void testListener ( DamageEntityEvent event, @Root AtherysEntityDamageSource source ) {
+        logger.info( "Detected damage with A'therys Type: " + source.getAtherysType().getName() );
     }
 
     @Listener
