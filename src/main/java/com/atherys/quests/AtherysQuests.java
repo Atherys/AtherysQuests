@@ -207,6 +207,7 @@ public class AtherysQuests {
                     Iterator<EntityUniverse.EntityHit> targetIter = player.getWorld().getIntersectingEntities( player, 100 ).iterator();
                     if ( targetIter.hasNext() ) {
                         EntityUniverse.EntityHit hit = targetIter.next();
+                        if ( hit.getEntity() instanceof Player ) return CommandResult.empty();
 
                         player.sendMessage( Text.of( "Dialog Test: ", DialogManager.getInstance().getDialog( hit.getEntity() ).isPresent() ) );
                     }
