@@ -226,6 +226,7 @@ public class AtherysQuests {
 
     @Listener
     public void testListener ( DamageEntityEvent event ) {
+        logger.info( Sponge.getCauseStackManager().popCause().getClass().getName() );
         Optional<AtherysDamageType> first = event.getCause().first( AtherysDamageType.class );
         first.ifPresent( type -> logger.info( "Detected damage with A'therys Type: " + type.getName() ) );
     }
