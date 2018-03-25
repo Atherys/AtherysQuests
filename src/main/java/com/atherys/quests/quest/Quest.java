@@ -131,18 +131,18 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
 
         // if the quest hasn't been completed yet
         if ( !isComplete() ) {
-            boolean complete = true;
+            complete = true;
 
             // updated completed status based on the status of the objectives
             for ( Objective objective : getObjectives() ) {
+                if ( objective.isComplete() ) continue;
+
                 objective.notify( event, quester );
-
+                boolean objComplete = objective.isComplete();
                 // if a single objective has not been completed, set this quest as uncompleted
-                complete = complete && objective.isComplete();
-                if ( objective.isComplete() ) QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
+                complete = complete && objComplete;
+                if ( objComplete ) QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
             }
-
-            this.complete = complete;
         }
     }
 
