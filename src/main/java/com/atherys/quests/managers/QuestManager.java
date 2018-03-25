@@ -1,6 +1,6 @@
 package com.atherys.quests.managers;
 
-import com.atherys.quests.QuestKeys;
+import com.atherys.quests.data.QuestData;
 import com.atherys.quests.quest.Quest;
 import org.spongepowered.api.data.DataHolder;
 
@@ -30,7 +30,13 @@ public final class QuestManager {
     }
 
     public Optional<Quest> getQuest( DataHolder holder ) {
-        return holder.get( QuestKeys.QUEST ).flatMap( this::getQuest );
+        Optional<QuestData> questData = holder.get( QuestData.class );
+        if ( questData.isPresent() ) return this.getQuest( questData.get().getQuestId() );
+        else return Optional.empty();
+    }
+
+    public boolean setQuest ( DataHolder holder, Quest quest ) {
+        return holder.offer( new QuestData( quest.getId() ) ).isSuccessful();
     }
 
     public static QuestManager getInstance() {

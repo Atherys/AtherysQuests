@@ -216,8 +216,7 @@ public class AtherysQuests {
                 .build();
 
         QuestKeys.QUEST = Key.builder()
-                .type( new TypeToken<Value<String>>() {
-                } )
+                .type( new TypeToken<Value<String>>() {} )
                 .id( "atherysquests:quest" )
                 .name( "Quest" )
                 .query( DataQuery.of( "Quest" ) )
@@ -231,14 +230,14 @@ public class AtherysQuests {
                 .dataClass( DialogData.class )
                 .immutableClass( DialogData.Immutable.class )
                 .dataName( "Dialog" )
-                .manipulatorId( "atherysquests:dialog" )
+                .manipulatorId( "dialog" )
                 .buildAndRegister( this.container );
 
         QuestKeys.QUEST_DATA_REGISTRATION = DataRegistration.builder()
                 .dataClass( QuestData.class )
                 .immutableClass( QuestData.Immutable.class )
                 .dataName( "Quest" )
-                .manipulatorId( "atherysquests:quest" )
+                .manipulatorId( "quest" )
                 .buildAndRegister( this.container );
     }
 

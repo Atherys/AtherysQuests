@@ -1,6 +1,5 @@
 package com.atherys.quests.managers;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
@@ -136,12 +135,10 @@ public final class DialogManager {
     public Optional<Dialog> startDialog( Player player, Entity entity ) {
         Optional<DialogTree> tree = getDialog( entity );
 
-        if ( tree.isPresent() ) AtherysQuests.getInstance().getLogger().info( "Tree found." );
         if ( !tree.isPresent() || hasPlayerDialog( player ) ) return Optional.empty();
-        AtherysQuests.getInstance().getLogger().info( "Player does not have another dialog going." );
 
         Optional<Dialog> dialog = Dialog.between( player, entity, tree.get() );
-        if ( dialog.isPresent() ) AtherysQuests.getInstance().getLogger().info( "Dialog created" );
+
         if ( !dialog.isPresent() ) return Optional.empty();
 
         this.ongoingDialogs.put( player.getUniqueId(), dialog.get() );
