@@ -1,6 +1,5 @@
 package com.atherys.quests.managers;
 
-import com.atherys.quests.QuestKeys;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
@@ -12,7 +11,10 @@ import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * A class responsible for managing all dialogs
@@ -70,19 +72,19 @@ public final class DialogManager {
      * @return Whether or not this entity contains a DialogTree
      */
     public boolean hasDialog( Entity entity ) {
-        return entity.get( QuestKeys.DIALOG ).isPresent();
+        return entity.get( DialogData.class ).isPresent();
     }
 
     /**
      * Used to get the {@link DialogTree} an entity is associated with.
      *
-     * @param entity
+     * @param entity The entity whose dialog is to be retrieved
      * @return An optional containing the dialog this entity is associated with. The optional is empty if the entity does not contain a dialog.
      */
     public Optional<DialogTree> getDialog( Entity entity ) {
-        Optional<String> dialogId = entity.get( QuestKeys.DIALOG );
-        if ( dialogId.isPresent() ) {
-            return Optional.ofNullable( trees.get( dialogId.get() ) );
+        Optional<DialogData> dialogData = entity.get( DialogData.class );
+        if ( dialogData.isPresent() ) {
+            return Optional.ofNullable( trees.get( dialogData.get().getDialogId() ) );
         } else return Optional.empty();
     }
 
