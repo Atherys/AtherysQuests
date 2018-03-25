@@ -1,5 +1,6 @@
 package com.atherys.quests.managers;
 
+import com.atherys.quests.QuestKeys;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
@@ -82,9 +83,9 @@ public final class DialogManager {
      * @return An optional containing the dialog this entity is associated with. The optional is empty if the entity does not contain a dialog.
      */
     public Optional<DialogTree> getDialog( Entity entity ) {
-        Optional<DialogData> dialogData = entity.get( DialogData.class );
+        Optional<String> dialogData = entity.get( QuestKeys.DIALOG );
         if ( dialogData.isPresent() ) {
-            return Optional.ofNullable( trees.get( dialogData.get().getDialogId() ) );
+            return Optional.ofNullable( trees.get( dialogData.get() ) );
         } else return Optional.empty();
     }
 
@@ -96,7 +97,7 @@ public final class DialogManager {
      * @return Whether or not setting the dialog was successful.
      */
     public boolean setDialog( Entity entity, DialogTree tree ) {
-        return entity.offer( new DialogData( tree.getId() ) ).isSuccessful();
+        return entity.offer( QuestKeys.DIALOG, tree.getId() ).isSuccessful();
     }
 
     /**
