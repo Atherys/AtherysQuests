@@ -10,7 +10,7 @@ public class QuestMsg {
     public static final Text MSG_PREFIX = Text.of( TextColors.DARK_GREEN, "[", TextStyles.BOLD, TextColors.GOLD, "Quest", TextStyles.RESET, TextColors.DARK_GREEN, "]", TextColors.RESET );
 
     public static void noformat( Quester quester, Text text ) {
-        quester.getUser().ifPresent( user -> user.getPlayer().ifPresent( player -> player.sendMessage( text ) ) );
+        if ( quester.getCachedPlayer() != null ) quester.getCachedPlayer().sendMessage( text );
     }
 
     public static void error( Quester quester, Object... msg ) {
