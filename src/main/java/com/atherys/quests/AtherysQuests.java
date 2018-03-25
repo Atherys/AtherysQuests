@@ -31,6 +31,7 @@ import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.value.mutable.Value;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.GameRegistryEvent;
@@ -48,7 +49,6 @@ import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -174,11 +174,11 @@ public class AtherysQuests {
                 .executor( ( src, args ) -> {
                     Player player = (Player) src;
 
-                    Iterator<EntityUniverse.EntityHit> targetIter = player.getWorld().getIntersectingEntities( player, 100 ).iterator();
-                    if ( targetIter.hasNext() ) {
-                        EntityUniverse.EntityHit hit = targetIter.next();
+                    for ( EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities( player, 100 ) ) {
+                        Entity next = entityHit.getEntity();
+                        if ( next instanceof Player ) continue;
 
-                        player.sendMessage( Text.of( DialogManager.getInstance().setDialog( hit.getEntity(), DialogManager.getInstance().getDialogFromId( args.<String>getOne( "dialogId" ).get() ).get() ) ) );
+                        player.sendMessage( Text.of( DialogManager.getInstance().setDialog( entityHit.getEntity(), DialogManager.getInstance().getDialogFromId( args.<String>getOne( "dialogId" ).get() ).get() ) ) );
                     }
 
                     return CommandResult.empty();
@@ -204,12 +204,11 @@ public class AtherysQuests {
                 .executor( ( src, args ) -> {
                     Player player = (Player) src;
 
-                    Iterator<EntityUniverse.EntityHit> targetIter = player.getWorld().getIntersectingEntities( player, 100 ).iterator();
-                    if ( targetIter.hasNext() ) {
-                        EntityUniverse.EntityHit hit = targetIter.next();
-                        if ( hit.getEntity() instanceof Player ) return CommandResult.empty();
+                    for ( EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities( player, 100 ) ) {
+                        Entity next = entityHit.getEntity();
+                        if ( next instanceof Player ) continue;
 
-                        player.sendMessage( Text.of( "Dialog Test: ", DialogManager.getInstance().getDialog( hit.getEntity() ).isPresent() ) );
+                        player.sendMessage( Text.of( "Dialog Test: ", DialogManager.getInstance().getDialog( entityHit.getEntity() ).isPresent() ) );
                     }
 
                     return CommandResult.empty();
