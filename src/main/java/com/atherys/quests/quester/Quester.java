@@ -85,6 +85,8 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         removeQuest( quest );
         completedQuests.put( quest.getId(), System.currentTimeMillis() );
 
+        QuestMsg.info( this, "You have completed the quest \"", quest.getName(), "\"" );
+
         QuestCompletedEvent qsEvent = new QuestCompletedEvent( quest, this );
         Sponge.getEventManager().post( qsEvent );
     }

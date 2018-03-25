@@ -133,8 +133,6 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
         if ( !isComplete() ) {
             boolean complete = true;
 
-            event.getCause().with( this );
-
             // updated completed status based on the status of the objectives
             for ( Objective objective : getObjectives() ) {
                 if ( objective.isComplete() ) continue;
@@ -147,10 +145,6 @@ public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
             }
 
             this.complete = complete;
-        }
-
-        if ( isComplete() ) {
-            QuestMsg.info( quester, "You have completed the quest \"", this.getName(), "\"" );
         }
     }
 
