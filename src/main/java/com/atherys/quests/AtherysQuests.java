@@ -159,7 +159,7 @@ public class AtherysQuests {
                 //) )
                 .add( KillEntityObjective.of( "creeper", 3 ) )
                 .add( KillEntityObjective.of( "zombie", 4 ) )
-                .add( new DialogObjective( "theKingSpeech", 14, Text.of( "Speak to the king." ) ) )
+                //.add( new DialogObjective( "theKingSpeech", 14, Text.of( "Speak to the king." ) ) )
                 .add( new SingleItemReward( ItemStack.builder().itemType( ItemTypes.ANVIL ).quantity( 1 ).add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) ).build() ) )
                 .build();
 
