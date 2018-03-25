@@ -1,6 +1,5 @@
 package com.atherys.quests.listeners;
 
-import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quest.Quest;
@@ -13,7 +12,6 @@ import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -25,10 +23,7 @@ public class EntityListener {
 
     @Listener
     public void onEntityInteract( InteractEntityEvent.Secondary.MainHand event, @Root Player player ) {
-        Optional<Dialog> dialog = DialogManager.getInstance().startDialog( player, event.getTargetEntity() );
-        if ( dialog.isPresent() ) {
-            player.sendMessage( Text.of( "Starting dialog..." ) );
-        }
+        DialogManager.getInstance().startDialog( player, event.getTargetEntity() );
     }
 
     @Listener
