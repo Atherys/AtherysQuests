@@ -33,12 +33,14 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.value.mutable.Value;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -58,11 +60,15 @@ public class AtherysQuests {
     public static final String DESCRIPTION = "A quest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0b";
 
+    @Inject
+    PluginContainer container;
+
     private static AtherysQuests instance;
     private static boolean init = false;
     private static QuestsConfig config;
 
-    @Inject Logger logger;
+    @Inject
+    Logger logger;
 
     private void init() {
         // TODO: Dump assets into config file
@@ -83,40 +89,6 @@ public class AtherysQuests {
             init = false;
             return;
         }
-
-        Sponge.getEventManager().registerListeners( this, new QuestKeys() );
-
-        QuestKeys.DIALOG = Key.builder()
-                .type( new TypeToken<Value<String>>() {
-                } )
-                .id( "atherysquests:dialog" )
-                .name( "Dialog" )
-                .query( DataQuery.of( "Dialog" ) )
-                .build();
-
-        DataRegistration.builder()
-                .dataClass( DialogData.class )
-                .immutableClass( DialogData.Immutable.class )
-                .builder( new DialogData.Builder() )
-                .dataName( "Dialog" )
-                .manipulatorId( "dialog" )
-                .buildAndRegister( Sponge.getPluginManager().fromInstance( this ).get() );
-
-        QuestKeys.QUEST = Key.builder()
-                .type( new TypeToken<Value<String>>() {
-                } )
-                .id( "atherysquests:quest" )
-                .name( "Quest" )
-                .query( DataQuery.of( "Quest" ) )
-                .build();
-
-        DataRegistration.builder()
-                .dataClass( QuestData.class )
-                .immutableClass( QuestData.Immutable.class )
-                .builder( new QuestData.Builder() )
-                .dataName( "Quest" )
-                .manipulatorId( "quest" )
-                .buildAndRegister( Sponge.getPluginManager().fromInstance( this ).get() );
 
         init = true;
     }
@@ -232,6 +204,42 @@ public class AtherysQuests {
 
     private void stop() {
         QuesterManager.getInstance().saveAll();
+    }
+
+    @Listener
+    public void onKeyRegistration( GameRegistryEvent.Register<Key<?>> event ) {
+        QuestKeys.DIALOG = Key.builder()
+                .type( new TypeToken<Value<String>>() {} )
+                .id( "atherysquests:dialog" )
+                .name( "Dialog" )
+                .query( DataQuery.of( "Dialog" ) )
+                .build();
+
+        QuestKeys.QUEST = Key.builder()
+                .type( new TypeToken<Value<String>>() {
+                } )
+                .id( "atherysquests:quest" )
+                .name( "Quest" )
+                .query( DataQuery.of( "Quest" ) )
+                .build();
+    }
+
+    @Listener
+    public void onDataRegistration ( GameRegistryEvent.Register<DataRegistration<?,?>> event ) {
+
+        QuestKeys.DIALOG_DATA_REGISTRATION = DataRegistration.builder()
+                .dataClass( DialogData.class )
+                .immutableClass( DialogData.Immutable.class )
+                .dataName( "Dialog" )
+                .manipulatorId( "atherysquests:dialog" )
+                .buildAndRegister( this.container );
+
+        QuestKeys.QUEST_DATA_REGISTRATION = DataRegistration.builder()
+                .dataClass( QuestData.class )
+                .immutableClass( QuestData.Immutable.class )
+                .dataName( "Quest" )
+                .manipulatorId( "atherysquests:quest" )
+                .buildAndRegister( this.container );
     }
 
     @Listener
