@@ -9,8 +9,8 @@ import org.spongepowered.api.text.format.TextStyles;
 public class QuestMsg {
     public static final Text MSG_PREFIX = Text.of( TextColors.DARK_GREEN, "[", TextStyles.BOLD, TextColors.GOLD, "Quest", TextStyles.RESET, TextColors.DARK_GREEN, "]", TextColors.RESET );
 
-    public static void noformat( Quester quester, Text text ) {
-        if ( quester.getCachedPlayer() != null ) quester.getCachedPlayer().sendMessage( text );
+    public static void noformat( Quester quester, Object... msg ) {
+        if ( quester.getCachedPlayer() != null ) quester.getCachedPlayer().sendMessage( Text.of( msg ) );
     }
 
     public static void error( Quester quester, Object... msg ) {
@@ -22,6 +22,6 @@ public class QuestMsg {
     }
 
     public static void info( Quester quester, Object... msg ) {
-        noformat( quester, Text.of( TextColors.GREEN, " ", msg ) );
+        noformat( quester, Text.of( MSG_PREFIX, TextColors.GREEN, " ", msg ) );
     }
 }
