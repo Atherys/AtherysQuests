@@ -13,6 +13,7 @@ import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
@@ -25,6 +26,9 @@ public class EntityListener {
     @Listener
     public void onEntityInteract( InteractEntityEvent.Secondary.MainHand event, @Root Player player ) {
         Optional<Dialog> dialog = DialogManager.getInstance().startDialog( player, event.getTargetEntity() );
+        if ( dialog.isPresent() ) {
+            player.sendMessage( Text.of( "Starting dialog..." ) );
+        }
     }
 
     @Listener
