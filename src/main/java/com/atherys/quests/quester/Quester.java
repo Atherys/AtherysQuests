@@ -49,9 +49,12 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         if ( !this.player.equals( player.getUniqueId() ) ) return;
 
         this.cachedPlayer = player;
+
         for ( Quest quest : quests.values() ) {
-            if ( !quest.isComplete() ) quest.notify( event, this );
-            if ( quest.isComplete() ) completeQuest( quest );
+            if ( !quest.isComplete() ) {
+                quest.notify( event, this );
+                if ( quest.isComplete() ) completeQuest( quest );
+            }
         }
     }
 
