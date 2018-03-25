@@ -84,6 +84,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     public void completeQuest( Quest quest ) {
         removeQuest( quest );
         completedQuests.put( quest.getId(), System.currentTimeMillis() );
+        quest.awardRewards( this );
 
         QuestMsg.info( this, "You have completed the quest \"", quest.getName(), "\"" );
 
