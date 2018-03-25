@@ -5,6 +5,7 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.DialogMsg;
 import com.atherys.quests.dialog.tree.DialogNode;
+import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.effect.sound.SoundTypes;
@@ -51,7 +52,7 @@ public class DialogView implements View<Dialog> {
                         .delay( AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * i + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY, TimeUnit.SECONDS )
                         .execute( () -> {
                             player.sendMessage(
-                                    Text.of( TextColors.AQUA, TextStyles.BOLD, npc.get( Keys.DISPLAY_NAME ).orElse( Text.of( "NPC" ) ), TextStyles.RESET, TextColors.RESET, ": ", sentence )
+                                    Text.of( TextColors.AQUA, TextStyles.BOLD, npc.get( Keys.DISPLAY_NAME ).orElse( Text.of ( StringUtils.capitalize( npc.getType().getName() ) ) ), TextStyles.RESET, TextColors.RESET, ": ", sentence )
                             );
                             player.playSound( SoundTypes.ENTITY_VILLAGER_AMBIENT, npc.getLocation().getPosition(), 0.2d );
                         } )

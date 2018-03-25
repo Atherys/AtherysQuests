@@ -85,7 +85,6 @@ public final class DialogManager {
     public Optional<DialogTree> getDialog( Entity entity ) {
         Optional<DialogData> dialogData = entity.get( DialogData.class );
         if ( dialogData.isPresent() ) {
-            AtherysQuests.getInstance().getLogger().info( "Entity has dialog data" );
             return Optional.ofNullable( trees.get( dialogData.get().getDialogId() ) );
         } else return Optional.empty();
     }
@@ -137,9 +136,12 @@ public final class DialogManager {
     public Optional<Dialog> startDialog( Player player, Entity entity ) {
         Optional<DialogTree> tree = getDialog( entity );
 
+        if ( tree.isPresent() ) AtherysQuests.getInstance().getLogger().info( "Tree found." );
         if ( !tree.isPresent() || hasPlayerDialog( player ) ) return Optional.empty();
+        AtherysQuests.getInstance().getLogger().info( "Player does not have another dialog going." );
 
         Optional<Dialog> dialog = Dialog.between( player, entity, tree.get() );
+        if ( dialog.isPresent() ) AtherysQuests.getInstance().getLogger().info( "Dialog created" );
         if ( !dialog.isPresent() ) return Optional.empty();
 
         this.ongoingDialogs.put( player.getUniqueId(), dialog.get() );
