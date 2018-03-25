@@ -36,6 +36,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
+import org.spongepowered.api.event.filter.cause.ContextValue;
 import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -225,11 +226,8 @@ public class AtherysQuests {
     }
 
     @Listener
-    public void testListener ( DamageEntityEvent event ) {
-        Optional<AtherysDamageType> first = event.getCause().first( AtherysDamageType.class );
-        first.ifPresent( type -> logger.info( "Detected damage with A'therys Type: " + type.getName() ) );
-
-        logger.info( Sponge.getCauseStackManager().popCause().getClass().getName() );
+    public void testListener ( DamageEntityEvent event, @ContextValue( value = "atheryscore:damage_type_key" ) AtherysDamageType type ) {
+        logger.info( "Detected damage with A'therys Type: " + type.getName() );
     }
 
     @Listener
