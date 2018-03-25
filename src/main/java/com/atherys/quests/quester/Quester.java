@@ -65,6 +65,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         if ( !completedQuests.containsKey( quest.getId() ) && !quests.containsKey( quest.getId() ) ) {
             quests.put( quest.getId(), quest.copy() );
+            QuestMsg.info( this, "You have started the quest \"", quest.getName(), "\"" );
 
             QuestStartedEvent qsEvent = new QuestStartedEvent( quest, this );
             Sponge.getEventManager().post( qsEvent );

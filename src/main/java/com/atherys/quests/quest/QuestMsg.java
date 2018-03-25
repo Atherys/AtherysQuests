@@ -14,10 +14,14 @@ public class QuestMsg {
     }
 
     public static void error( Quester quester, Object... msg ) {
-        quester.getUser().ifPresent( user -> user.getPlayer().ifPresent( player -> player.sendMessage( Text.of( MSG_PREFIX, TextColors.RED, Text.of( msg ) ) ) ) );
+        noformat( quester, Text.of( MSG_PREFIX, " ", TextColors.RED, Text.of( msg ) ) );
     }
 
     public static void error( Player player, Object... msg ) {
-        player.sendMessage( Text.of( MSG_PREFIX, TextColors.RED, Text.of( msg ) ) );
+        player.sendMessage( Text.of( MSG_PREFIX, TextColors.RED, Text.of( " ", msg ) ) );
+    }
+
+    public static void info( Quester quester, Object... msg ) {
+        noformat( quester, Text.of( TextColors.GREEN, " ", msg ) );
     }
 }
