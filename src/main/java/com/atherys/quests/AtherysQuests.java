@@ -226,14 +226,14 @@ public class AtherysQuests {
     public void onKeyRegistration( GameRegistryEvent.Register<Key<?>> event ) {
         QuestKeys.DIALOG = Key.builder()
                 .type( new TypeToken<Value<String>>() {} )
-                .id( "atherysquests:dialog" )
+                .id( "dialog" )
                 .name( "Dialog" )
                 .query( DataQuery.of( "Dialog" ) )
                 .build();
 
         QuestKeys.QUEST = Key.builder()
                 .type( new TypeToken<Value<String>>() {} )
-                .id( "atherysquests:quest" )
+                .id( "quest" )
                 .name( "Quest" )
                 .query( DataQuery.of( "Quest" ) )
                 .build();
