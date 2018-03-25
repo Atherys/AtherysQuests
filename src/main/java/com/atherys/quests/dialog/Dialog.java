@@ -53,7 +53,7 @@ public class Dialog implements Viewable<DialogView> {
 
     public void proceed( Player player, DialogNode node ) {
 
-        if ( !DialogManager.getInstance().hasPlayerDialog( player ) ) return;
+        //if ( DialogManager.getInstance().getPlayerDialog( player ).g ) return;
 
         // update the cached player
         this.cachedPlayer = player;
