@@ -186,7 +186,7 @@ public class AtherysQuests {
                 .arguments(
                         GenericArguments.string( Text.of("dialogId") )
                 )
-                .build(), "dialogTest"
+                .build(), "setdialog"
         );
 
         Sponge.getCommandManager().register( this, CommandSpec.builder()
@@ -198,6 +198,22 @@ public class AtherysQuests {
                     return CommandResult.empty();
                 })
                 .build(), "getquests"
+        );
+
+        Sponge.getCommandManager().register( this, CommandSpec.builder()
+                .executor( ( src, args ) -> {
+                    Player player = (Player) src;
+
+                    Iterator<EntityUniverse.EntityHit> targetIter = player.getWorld().getIntersectingEntities( player, 100 ).iterator();
+                    if ( targetIter.hasNext() ) {
+                        EntityUniverse.EntityHit hit = targetIter.next();
+
+                        player.sendMessage( Text.of( "Dialog Test: ", DialogManager.getInstance().getDialog( hit.getEntity() ).isPresent() ) );
+                    }
+
+                    return CommandResult.empty();
+                } )
+                .build(), "testdialog"
         );
 
     }
