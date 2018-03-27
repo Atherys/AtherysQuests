@@ -1,5 +1,6 @@
 package com.atherys.quests.managers;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.QuestKeys;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
@@ -85,6 +86,7 @@ public final class DialogManager {
     public Optional<DialogTree> getDialog( Entity entity ) {
         Optional<String> dialogData = entity.get( QuestKeys.DIALOG );
         if ( dialogData.isPresent() ) {
+            AtherysQuests.getInstance().getLogger().error( "Dialog Data Detected." );
             return Optional.ofNullable( trees.get( dialogData.get() ) );
         } else return Optional.empty();
     }
