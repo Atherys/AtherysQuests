@@ -85,7 +85,7 @@ public final class DialogManager {
     public Optional<DialogTree> getDialog( Entity entity ) {
         Optional<DialogData> dialogData = entity.get( DialogData.class );
         if ( dialogData.isPresent() ) {
-            AtherysQuests.getInstance().getLogger().error( "Dialog Data Detected." );
+            AtherysQuests.getInstance().getLogger().error( "Dialog Data Detected: " + dialogData.get().getDialogId() );
             return Optional.ofNullable( trees.get( dialogData.get().getDialogId() ) );
         } else return Optional.empty();
     }
