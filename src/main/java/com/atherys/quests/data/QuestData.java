@@ -35,7 +35,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
     }
 
     @Override
-    protected void registerGettersAndSetters() {
+    public void registerGettersAndSetters() {
         registerFieldGetter( QuestKeys.QUEST, this::getQuestId );
         registerFieldSetter( QuestKeys.QUEST, this::setQuestId );
         registerKeyValue( QuestKeys.QUEST, this::questId );

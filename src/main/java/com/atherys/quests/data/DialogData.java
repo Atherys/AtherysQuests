@@ -35,7 +35,7 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
     }
 
     @Override
-    protected void registerGettersAndSetters() {
+    public void registerGettersAndSetters() {
         registerFieldGetter( QuestKeys.DIALOG, this::getDialogId );
         registerFieldSetter( QuestKeys.DIALOG, this::setDialogId );
         registerKeyValue( QuestKeys.DIALOG, this::dialogId );

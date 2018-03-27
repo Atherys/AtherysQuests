@@ -250,6 +250,9 @@ public class AtherysQuests {
     @Listener
     public void onDataRegistration ( GameRegistryEvent.Register<DataRegistration<?,?>> event ) {
 
+        new DialogData( "" ).registerGettersAndSetters();
+        new QuestData( "" ).registerGettersAndSetters();
+
         QuestKeys.DIALOG_DATA_REGISTRATION = DataRegistration.builder()
                 .dataClass( DialogData.class )
                 .immutableClass( DialogData.Immutable.class )
