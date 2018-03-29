@@ -66,7 +66,7 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
     }
 
     public Optional<DialogData> from( DataView container ) {
-        container.getObject( QuestKeys.DIALOG.getQuery(), String.class ).ifPresent( v -> dialogId = v );
+        container.getString( QuestKeys.DIALOG.getQuery() ).ifPresent( v -> dialogId = v );
         return Optional.of( this );
     }
 
