@@ -22,16 +22,14 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
     private String dialogId;
 
-    {
-        registerGettersAndSetters();
-    }
-
     DialogData() {
         dialogId = "";
+        registerGettersAndSetters();
     }
 
     public DialogData( String dialogId ) {
         this.dialogId = dialogId;
+        registerGettersAndSetters();
     }
 
     @Override
