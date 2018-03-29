@@ -242,7 +242,7 @@ public class AtherysQuests {
     @Listener
     public void onDataRegistration ( GameRegistryEvent.Register<DataRegistration<?,?>> event ) {
 
-        Sponge.getDataManager().registerBuilder( DialogData.class, new DialogData.Builder() );
+        //Sponge.getDataManager().registerBuilder( DialogData.class, new DialogData.Builder() );
 
         QuestKeys.DIALOG_DATA_REGISTRATION = DataRegistration.builder()
                 .dataClass( DialogData.class )
