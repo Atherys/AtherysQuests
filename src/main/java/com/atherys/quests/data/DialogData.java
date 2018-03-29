@@ -89,8 +89,7 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
     @Override
     public DataContainer toContainer() {
-        return super.toContainer()
-                .set( QuestKeys.DIALOG.getQuery(), dialogId );
+        return super.toContainer().set( QuestKeys.DIALOG.getQuery(), dialogId );
     }
 
     @Generated( value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.096Z" )
@@ -136,8 +135,7 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
         @Override
         public DataContainer toContainer() {
-            return super.toContainer()
-                    .set( QuestKeys.DIALOG.getQuery(), dialog );
+            return super.toContainer().set( QuestKeys.DIALOG.getQuery(), dialog );
         }
 
     }
