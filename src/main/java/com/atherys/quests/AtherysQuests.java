@@ -19,23 +19,19 @@ import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.MultiItemReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.atherys.quests.util.GsonUtils;
-import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
-import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.DataRegistration;
-import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.value.mutable.Value;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.GameRegistryEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.item.ItemTypes;
@@ -223,27 +219,7 @@ public class AtherysQuests {
     }
 
     @Listener
-    public void onKeyRegistration( GameRegistryEvent.Register<Key<?>> event ) {
-        QuestKeys.DIALOG = Key.builder()
-                .type( new TypeToken<Value<String>>() {} )
-                .id( "dialog" )
-                .name( "Dialog" )
-                .query( DataQuery.of( "atherysquests", "Dialog" ) )
-                .build();
-
-        QuestKeys.QUEST = Key.builder()
-                .type( new TypeToken<Value<String>>() {} )
-                .id( "quest" )
-                .name( "Quest" )
-                .query( DataQuery.of( "atherysquests", "Quest" ) )
-                .build();
-    }
-
-    @Listener
-    public void onDataRegistration ( GameRegistryEvent.Register<DataRegistration<?,?>> event ) {
-
-        //Sponge.getDataManager().registerBuilder( DialogData.class, new DialogData.Builder() );
-
+    public void preInit( GamePreInitializationEvent event ) {
         QuestKeys.DIALOG_DATA_REGISTRATION = DataRegistration.builder()
                 .dataClass( DialogData.class )
                 .immutableClass( DialogData.Immutable.class )
