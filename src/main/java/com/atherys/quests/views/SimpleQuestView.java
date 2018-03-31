@@ -1,25 +1,26 @@
 package com.atherys.quests.views;
 
-import com.atherys.core.utils.Question;
-import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.QuestMsg;
 import com.atherys.quests.quest.SimpleQuest;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class TakeQuestView implements QuestView<SimpleQuest> {
+public class SimpleQuestView implements QuestView<SimpleQuest> {
 
     private final SimpleQuest quest;
 
-    public TakeQuestView( SimpleQuest quest ) {
+    public SimpleQuestView( SimpleQuest quest ) {
         this.quest = quest;
     }
 
     @Override
-    public void show( Player viewer ) {
+    public void show( Player player ) {
+        player.sendBookView( toBookView() );
+    }
+
+    public BookView toBookView() {
         BookView.Builder questView = BookView.builder();
 
         Text.Builder intro = Text.builder();
@@ -32,27 +33,11 @@ public class TakeQuestView implements QuestView<SimpleQuest> {
 
         questView.addPage( getFormattedRewards() );
 
-        Text.Builder takeQuest = Text.builder();
-        Question question = Question.of( Text.of( "Do you accept the quest \"", quest.getName(), "\"?" ) )
-                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_GREEN, "Yes" ), player -> {
-                    QuesterManager.getInstance().getQuester( player ).pickupQuest( quest );
-                } ) )
-                .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_RED, "No" ), player -> {
-                    QuestMsg.error( player, "You have declined the quest \"", quest.getName(), "\"." );
-                } ) )
-                .build();
-
-        question.register();
-
-        takeQuest.append( question.asText() );
-
-        questView.addPage( takeQuest.build() );
-
-        viewer.sendBookView( questView.build() );
+        return questView.build();
     }
 
     @Override
-    public Text getFormattedRequirements () {
+    public Text getFormattedRequirements() {
         Text.Builder reqText = Text.builder();
         reqText.append( Text.of( QuestMsg.MSG_PREFIX, " Quest Requirements: " ) );
         quest.getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText(), Text.NEW_LINE ) ) );

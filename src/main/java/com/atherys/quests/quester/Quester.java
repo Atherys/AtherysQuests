@@ -29,12 +29,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     private Map<String, Quest> quests = new HashMap<>();
     private Map<String, Long> completedQuests = new HashMap<>();
 
-    /**
-     * Do not use this. Use {@link com.atherys.quests.managers.QuesterManager#createQuester(Player)} instead.
-     *
-     * @param player The player.
-     */
-    @Deprecated
     public Quester( Player player ) {
         this.player = player.getUniqueId();
         this.cachedPlayer = player;
@@ -59,15 +53,17 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     }
 
     public void pickupQuest( Quest quest ) {
-        if ( !quest.meetsRequiements( this ) ) {
+        if ( !quest.meetsRequirements( this ) ) {
             Text.Builder reqText = Text.builder();
             reqText.append( Text.of( QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest." ) );
-            reqText.append( quest.createView().get().getFormattedRequirements() );
+            reqText.append( quest.createView().getFormattedRequirements() );
             QuestMsg.noformat( this, reqText.build() );
+
+            return;
         }
 
         if ( !completedQuests.containsKey( quest.getId() ) && !quests.containsKey( quest.getId() ) ) {
-            quests.put( quest.getId(), quest.copy() );
+            quests.put( quest.getId(), (Quest) quest.copy() );
             QuestMsg.info( this, "You have started the quest \"", quest.getName(), "\"" );
 
             QuestStartedEvent qsEvent = new QuestStartedEvent( quest, this );
@@ -84,7 +80,8 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     public void completeQuest( Quest quest ) {
         removeQuest( quest );
         completedQuests.put( quest.getId(), System.currentTimeMillis() );
-        quest.awardRewards( this );
+
+        quest.award( this );
 
         QuestMsg.info( this, "You have completed the quest \"", quest.getName(), "\"" );
 
@@ -114,8 +111,8 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     }
 
     @Override
-    public Optional<QuestLog> createView () {
-        return Optional.of( new QuestLog(this) );
+    public QuestLog createView () {
+        return new QuestLog( this );
     }
 
     public QuestLog getLog() {

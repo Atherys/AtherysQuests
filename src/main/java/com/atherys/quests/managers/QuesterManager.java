@@ -31,9 +31,13 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
      */
     public Quester createQuester( Player player ) {
         Quester quester = new Quester( player );
-        getCache().put( player.getUniqueId(), quester );
-        save( quester );
+        addQuester( quester );
         return quester;
+    }
+
+    public void addQuester ( Quester quester ) {
+        this.getCache().put( quester.getUUID(), quester );
+        this.save( quester );
     }
 
     /**
@@ -75,9 +79,8 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
      * @return An empty optional
      */
     @Override
-    @Deprecated
     public Optional<Quester> get ( UUID uuid ) {
-        return Optional.empty();
+        return Optional.ofNullable( getCache().get( uuid ) );
     }
 
     @Override

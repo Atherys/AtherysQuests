@@ -80,7 +80,7 @@ public class DialogView implements View<Dialog> {
                         nextMessage.append(
                                 Text.builder()
                                         .append( Text.of( TextColors.DARK_GREEN, TextStyles.BOLD, " { Starts Quest: ", TextColors.GREEN, TextStyles.RESET, quest.getName(), TextStyles.BOLD, TextColors.DARK_GREEN, " }" ) )
-                                        .onHover( TextActions.showText( quest.createView().get().getFormattedRequirements() ) )
+                                        .onHover( TextActions.showText( quest.createView().getFormattedRequirements() ) )
                                         .build()
                         );
                     } );

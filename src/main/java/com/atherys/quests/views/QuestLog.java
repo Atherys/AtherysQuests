@@ -35,7 +35,7 @@ public class QuestLog implements View<Quester> {
             questView.append( Text.of( "[", i, "] " ) );
             questView.append( Text.of( quest.isComplete() ? TextStyles.STRIKETHROUGH : TextStyles.NONE, quest.getName(), TextStyles.NONE ) );
             questView.onHover( TextActions.showText( Text.of( "Click to view more details." ) ) );
-            questView.onClick( TextActions.executeCallback( src -> new QuestView( quest ).show( player ) ) );
+            questView.onClick( TextActions.executeCallback( src -> quest.createView().show( player ) ) );
 
             if ( i % 7 == 0 ) {
                 pages.add( lastPage.build() );

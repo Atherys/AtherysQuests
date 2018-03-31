@@ -7,169 +7,93 @@ import com.atherys.quests.quest.objective.Objective;
 import com.atherys.quests.quest.requirement.Requirement;
 import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
-import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.views.QuestView;
-import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class Quest implements Prototype<Quest>, Observer, Viewable<QuestView> {
+/**
+ * Common interface for all Quest classes. <br>
+ * A Quest represents a series of tasks ( {@link Objective}s ), which once completed will reward the player with {@link Reward}(s).
+ * A quest may optionally contain {@link Requirement}s which the player must fulfill prior to starting work on the objectives.
+ * @param <T>
+ * @param <V>
+ */
+public interface Quest<T extends Quest, V extends QuestView<T>> extends Prototype<T>, Observer<Event>, Viewable<V> {
 
-    @Expose
-    private String id;
-    @Expose
-    private Text name;
-    @Expose
-    private Text description;
-    @Expose
-    private int version;
+    /**
+     * @return The unique String ID of this quest
+     */
+    String getId();
 
-    @Expose
-    private List<Requirement> requirements = new ArrayList<>();
-    @Expose
-    private List<Objective> objectives = new ArrayList<>();
-    @Expose
-    private List<Reward> rewards = new ArrayList<>();
+    /**
+     * @return The formatted name of this Quest
+     */
+    Text getName();
 
-    @Expose
-    private boolean started = false;
-    @Expose
-    private boolean complete = false;
+    /**
+     *
+     * @return The formatted description of this quest
+     */
+    Text getDescription();
 
-    private Quest() {
-    }
+    /**
+     *
+     * @return The List of {@link Requirement}s this quest will check the {@link Quester} for
+     */
+    List<Requirement> getRequirements();
 
-    protected Quest( String id, int version ) {
-        this.id = id;
-        this.name = Text.of( "This quest has no name." );
-        this.description = Text.of( "This quest has no description." );
-        this.version = version;
-    }
+    /**
+     *
+     * @return The List of {@link Objective}s this quest requires the {@link Quester} to complete prior to being eligible for reward.
+     */
+    List<Objective> getObjectives();
 
-    protected Quest( Quest quest ) {
-        this.id = quest.getId();
-        this.name = quest.getName();
-        this.description = quest.getDescription();
-        this.version = quest.getVersion();
-        this.requirements = CopyUtils.copyList( quest.getRequirements() );
-        this.objectives = CopyUtils.copyList( quest.getObjectives() );
-        this.rewards = CopyUtils.copyList( quest.getRewards() );
-        this.complete = quest.isComplete();
-    }
+    /**
+     *
+     * @return The List of {@link Reward}s this quest will award to the {@link Quester} once all {@link Objective}s have been fulfilled.
+     */
+    List<Reward> getRewards();
 
-    public static QuestBuilder builder( String id, int version ) {
-        return new QuestBuilder( id, version );
-    }
+    /**
+     * Checks whether or not the Quester meets the requirements of this quest.
+     * @param quester The Quester to be checked
+     * @return Whether or not the Quester meets the requirements
+     */
+    boolean meetsRequirements( Quester quester );
 
-    public String getId() {
-        return id;
-    }
+    /**
+     * Notifies the {@link Quest} of any {@link Event} relevant to the given {@link Quester}
+     * @param event The event which was triggered
+     * @param quester The quester responsible for triggering it
+     */
+    void notify ( Event event, Quester quester );
 
-    public Text getDescription() {
-        return description;
-    }
+    /**
+     * Awards the Quester for having completed all Objectives of this quest.
+     * @param quester The quester to be awarded
+     */
+    void award ( Quester quester );
 
-    protected void setDescription( Text description ) {
-        this.description = description;
-    }
+    /**
+     *
+     * @return Whether or not this Quest has been started, i.e. if any progress has been made on it's completion.
+     */
+    boolean isStarted();
 
-    public Text getName() {
-        return name;
-    }
+    /**
+     *
+     * @return Whether or not this Quest has been completed.
+     */
+    boolean isComplete();
 
-    protected void setName( Text name ) {
-        this.name = name;
-    }
+    /**
+     *
+     * @return The version of this quest.
+     */
+    int getVersion();
 
-    public List<Requirement> getRequirements() {
-        return requirements;
-    }
+    V createView();
 
-    protected <T extends Requirement> void addRequirement( T requirement ) {
-        if ( !requirements.contains( requirement ) ) requirements.add( requirement );
-    }
-
-    public boolean meetsRequiements( Quester player ) {
-        for ( Requirement req : requirements ) {
-            if ( !req.check( player ) ) return false;
-        }
-        return true;
-    }
-
-    public List<Objective> getObjectives() {
-        return objectives;
-    }
-
-    protected <T extends Objective> void addObjective( T objective ) {
-        if ( !objectives.contains( objective ) ) objectives.add( objective );
-    }
-
-    public List<Reward> getRewards() {
-        return rewards;
-    }
-
-    protected <T extends Reward> void addReward( T reward ) {
-        if ( !rewards.contains( reward ) ) rewards.add( reward );
-    }
-
-    public void awardRewards( Quester player ) {
-        rewards.forEach( reward -> reward.award( player ) );
-    }
-
-    @Override
-    @SuppressWarnings( "unchecked" )
-    public void notify( Event event, Quester quester ) {
-        // if the quest hasn't been started yet ( this is the first notification )
-        if ( !isStarted() ) {
-            // set it as started
-            this.started = true;
-        }
-
-        // if the quest hasn't been completed yet
-        if ( !isComplete() ) {
-
-            // updated completed status based on the status of the objectives
-            for ( Objective objective : getObjectives() ) {
-                if ( objective.isComplete() ) continue; // if the objective has already been completed, skip it
-
-                objective.notify( event, quester ); // notify the objective
-
-                if ( objective.isComplete() ) { // if the objective is completed after being notified
-                    QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" ); // tell the player they have completed another objective of the quest
-
-                    // update quest complete status by iterating every objective, checking it's complete status, and concatenate with this.complete
-                    this.complete = true;
-                    for ( Objective objective1 : getObjectives() ) {
-                        this.complete = this.complete && objective1.isComplete();
-                    }
-                }
-            }
-        }
-    }
-
-    public boolean isStarted() {
-        return started;
-    }
-
-    public boolean isComplete() {
-        return complete;
-    }
-
-    @Override
-    public Quest copy() {
-        return new Quest( this );
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    @Override
-    public Optional<QuestView> createView() {
-        return Optional.of( new QuestView( this ) );
-    }
 }

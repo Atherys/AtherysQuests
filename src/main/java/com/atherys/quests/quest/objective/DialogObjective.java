@@ -3,13 +3,14 @@ package com.atherys.quests.quest.objective;
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import javax.annotation.Nullable;
 
-@ConfigSerializable
+/**
+ * An {@link Objective} for interacting with Dialogs.
+ */
 public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
     @Expose

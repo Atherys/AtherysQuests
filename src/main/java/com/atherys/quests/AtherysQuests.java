@@ -12,11 +12,11 @@ import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.Quest;
+import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.MoneyReward;
-import com.atherys.quests.quest.reward.MultiItemReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.atherys.quests.util.GsonUtils;
 import com.google.inject.Inject;
@@ -96,9 +96,13 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
+        GsonUtils.getQuestRuntimeTypeAdapterFactory()
+                .registerSubtype( SimpleQuest.class );
+
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype( AndRequirement.class )
                 .registerSubtype( OrRequirement.class )
+                .registerSubtype( NotRequirement.class )
                 .registerSubtype( LevelRequirement.class )
                 .registerSubtype( MoneyRequirement.class )
                 .registerSubtype( QuestRequirement.class );
@@ -109,10 +113,9 @@ public class AtherysQuests {
 
         GsonUtils.getRewardRuntimeTypeAdapterFactory()
                 .registerSubtype( MoneyReward.class )
-                .registerSubtype( MultiItemReward.class )
                 .registerSubtype( SingleItemReward.class );
 
-        Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
+        Quest dummyQuest = SimpleQuest.builder( "dummyQuest", 1 )
                 .name( Text.of( "This is a dummy quest." ) )
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
                 //.add( new OrRequirement(

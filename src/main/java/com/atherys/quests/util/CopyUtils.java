@@ -25,4 +25,8 @@ public final class CopyUtils {
         return copy;
     }
 
+    @SuppressWarnings( "unchecked" )
+    public static <T extends Prototype> T copy ( T head ) {
+        return (T) head.copy();
+    }
 }

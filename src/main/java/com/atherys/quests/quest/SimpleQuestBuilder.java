@@ -5,35 +5,35 @@ import com.atherys.quests.quest.requirement.Requirement;
 import com.atherys.quests.quest.reward.Reward;
 import org.spongepowered.api.text.Text;
 
-public final class QuestBuilder {
+public final class SimpleQuestBuilder {
 
-    private Quest quest;
+    private SimpleQuest quest;
 
-    public QuestBuilder( String id, int version ) {
-        this.quest = new Quest( id, version );
+    public SimpleQuestBuilder( String id, int version ) {
+        this.quest = new SimpleQuest( id, version );
     }
 
-    public QuestBuilder name( Text name ) {
+    public SimpleQuestBuilder name( Text name ) {
         quest.setName( name );
         return this;
     }
 
-    public QuestBuilder description( Text description ) {
+    public SimpleQuestBuilder description( Text description ) {
         quest.setDescription( description );
         return this;
     }
 
-    public QuestBuilder add( Requirement requirement ) {
+    public SimpleQuestBuilder add( Requirement requirement ) {
         quest.addRequirement( requirement );
         return this;
     }
 
-    public QuestBuilder add( Objective objective ) {
+    public SimpleQuestBuilder add( Objective objective ) {
         quest.addObjective( objective );
         return this;
     }
 
-    public QuestBuilder add( Reward reward ) {
+    public SimpleQuestBuilder add( Reward reward ) {
         quest.addReward( reward );
         return this;
     }

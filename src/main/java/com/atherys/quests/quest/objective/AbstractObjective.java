@@ -8,6 +8,11 @@ import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 
+/**
+ * An abstract implementation of {@link Objective} which checks whether or not the Objective's event corresponds to the event being supplied via {@link #notify(Event, Quester)}.<br>
+ * This is the preferred method for introducing new Objectives, as any such would require code of this sort to filter out irrelevant events. This class does nothing more than abstract away the necessary boilerplate.
+ * @param <T> The event class this objective listens for
+ */
 public abstract class AbstractObjective<T extends Event> implements Objective {
 
     protected Class<T> eventClass;

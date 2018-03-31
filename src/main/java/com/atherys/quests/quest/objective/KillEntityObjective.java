@@ -6,6 +6,9 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.text.Text;
 
+/**
+ * A simple {@link Objective} for killing entities by name.
+ */
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
     @Expose
