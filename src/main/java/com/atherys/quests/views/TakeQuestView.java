@@ -2,19 +2,19 @@ package com.atherys.quests.views;
 
 import com.atherys.core.utils.Question;
 import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.QuestMsg;
-import com.atherys.quests.quest.SimpleQuest;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class TakeQuestView implements QuestView<SimpleQuest> {
+public class TakeQuestView implements QuestView<Quest> {
 
-    private final SimpleQuest quest;
+    private final Quest<?> quest;
 
-    public TakeQuestView( SimpleQuest quest ) {
+    public TakeQuestView( Quest<?> quest ) {
         this.quest = quest;
     }
 

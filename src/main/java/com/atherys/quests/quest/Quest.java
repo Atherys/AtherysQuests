@@ -18,9 +18,8 @@ import java.util.List;
  * A Quest represents a series of tasks ( {@link Objective}s ), which once completed will reward the player with {@link Reward}(s).
  * A quest may optionally contain {@link Requirement}s which the player must fulfill prior to starting work on the objectives.
  * @param <T>
- * @param <V>
  */
-public interface Quest<T extends Quest, V extends QuestView<T>> extends Prototype<T>, Observer<Event>, Viewable<V> {
+public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, Viewable {
 
     /**
      * @return The unique String ID of this quest
@@ -94,6 +93,6 @@ public interface Quest<T extends Quest, V extends QuestView<T>> extends Prototyp
      */
     int getVersion();
 
-    V createView();
+    QuestView createView();
 
 }

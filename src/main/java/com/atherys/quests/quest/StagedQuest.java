@@ -7,7 +7,7 @@ import com.atherys.quests.quest.requirement.Requirement;
 import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
-import com.atherys.quests.views.StagedQuestView;
+import com.atherys.quests.views.AnyQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * A Quest which seperates it's Objectives out into Stages, so that they must be completed one-by-one, in an ordered fashion. WIP.
  */
-public class StagedQuest implements Quest<StagedQuest, StagedQuestView> {
+public class StagedQuest implements Quest<StagedQuest> {
 
     public static class Stage implements Observer<Event>, Prototype<Stage>, Iterable<Stage> {
 
@@ -170,6 +170,7 @@ public class StagedQuest implements Quest<StagedQuest, StagedQuestView> {
 
         if ( current.getObjective().isComplete() ) {
             if ( this.current.hasNext() ) {
+                this.started = true;
                 current.award( quester );
                 this.current = current.getNext();
                 QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
@@ -203,8 +204,8 @@ public class StagedQuest implements Quest<StagedQuest, StagedQuestView> {
     }
 
     @Override
-    public StagedQuestView createView () {
-        return new StagedQuestView( this );
+    public AnyQuestView<StagedQuest> createView () {
+        return new AnyQuestView<>( this );
     }
 
     @Override

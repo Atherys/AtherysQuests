@@ -5,7 +5,7 @@ import com.atherys.quests.quest.requirement.Requirement;
 import com.atherys.quests.quest.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
-import com.atherys.quests.views.SimpleQuestView;
+import com.atherys.quests.views.AnyQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
@@ -13,7 +13,7 @@ import org.spongepowered.api.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleQuest implements Quest<SimpleQuest,SimpleQuestView> {
+public class SimpleQuest implements Quest<SimpleQuest> {
 
     @Expose
     private String id;
@@ -173,7 +173,7 @@ public class SimpleQuest implements Quest<SimpleQuest,SimpleQuestView> {
     }
 
     @Override
-    public SimpleQuestView createView() {
-        return new SimpleQuestView( this );
+    public AnyQuestView<SimpleQuest> createView() {
+        return new AnyQuestView<>( this );
     }
 }

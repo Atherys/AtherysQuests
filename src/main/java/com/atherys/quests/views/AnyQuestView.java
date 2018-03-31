@@ -1,17 +1,17 @@
 package com.atherys.quests.views;
 
+import com.atherys.quests.quest.Quest;
 import com.atherys.quests.quest.QuestMsg;
-import com.atherys.quests.quest.SimpleQuest;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class SimpleQuestView implements QuestView<SimpleQuest> {
+public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
 
-    private final SimpleQuest quest;
+    private final Quest<T> quest;
 
-    public SimpleQuestView( SimpleQuest quest ) {
+    public AnyQuestView ( Quest<T> quest ) {
         this.quest = quest;
     }
 
@@ -40,7 +40,7 @@ public class SimpleQuestView implements QuestView<SimpleQuest> {
     public Text getFormattedRequirements() {
         Text.Builder reqText = Text.builder();
         reqText.append( Text.of( QuestMsg.MSG_PREFIX, " Quest Requirements: " ) );
-        quest.getRequirements().forEach( requirement -> reqText.append( Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText(), Text.NEW_LINE ) ) );
+        quest.getRequirements().forEach( requirement -> reqText.append( Text.NEW_LINE, Text.of( QuestMsg.MSG_PREFIX, " * ", requirement.toText() ) ) );
         return reqText.build();
     }
 
@@ -49,7 +49,7 @@ public class SimpleQuestView implements QuestView<SimpleQuest> {
         Text.Builder objectives = Text.builder();
         objectives.append( Text.of( "Objectives:\n" ) );
         quest.getObjectives().forEach( objective -> {
-            objectives.append( Text.of( !objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), TextStyles.NONE, Text.NEW_LINE ) );
+            objectives.append( Text.of( !objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), TextStyles.RESET, Text.NEW_LINE ) );
         } );
 
         return objectives.build();
@@ -60,9 +60,8 @@ public class SimpleQuestView implements QuestView<SimpleQuest> {
         Text.Builder rewards = Text.builder();
         rewards.append( Text.of( "Rewards:\n" ) );
         quest.getRewards().forEach( reward -> {
-            rewards.append( Text.of( reward.toText(), "\n" ) );
+            rewards.append( Text.of( reward.toText(), Text.NEW_LINE ) );
         } );
-
         return rewards.build();
     }
 }

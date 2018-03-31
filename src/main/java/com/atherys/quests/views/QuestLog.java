@@ -27,7 +27,7 @@ public class QuestLog implements View<Quester> {
         List<Text> pages = new ArrayList<>();
         Text.Builder lastPage = Text.builder();
 
-        lastPage.append( Text.of( "Quest Log\n" ) );
+        lastPage.append( Text.of( "Quest Log:\n" ) );
 
         int i = 1;
         for ( Quest quest : quester.getQuests().values() ) {
