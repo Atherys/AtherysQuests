@@ -13,7 +13,7 @@ public class QuestStartedEvent implements Event {
     private Quest quest;
     private Quester quester;
 
-    public QuestStartedEvent ( Quest quest, Quester quester ) {
+    public QuestStartedEvent( Quest quest, Quester quester ) {
         this.quest = quest;
         this.quester = quester;
         cause = Cause.builder()

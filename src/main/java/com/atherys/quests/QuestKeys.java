@@ -1,26 +1,38 @@
 package com.atherys.quests;
 
+import com.atherys.quests.data.DialogData;
+import com.atherys.quests.data.QuestData;
 import com.google.common.reflect.TypeToken;
 import org.spongepowered.api.data.DataQuery;
+import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.data.key.Key;
-import org.spongepowered.api.data.key.KeyFactory;
 import org.spongepowered.api.data.value.mutable.Value;
 
 public final class QuestKeys {
 
-    private QuestKeys() {}
+    QuestKeys() {
+    }
 
-    public final static Key<Value<String>> DIALOG;
-    public final static Key<Value<String>> QUEST;
+    public static Key<Value<String>> DIALOG;
+    public static Key<Value<String>> QUEST;
+
+    protected static DataRegistration<QuestData, QuestData.Immutable> QUEST_DATA_REGISTRATION;
+    protected static DataRegistration<DialogData, DialogData.Immutable> DIALOG_DATA_REGISTRATION;
 
     static {
-        TypeToken<String> dialogStringToken = TypeToken.of(String.class);
-        TypeToken<Value<String>> dialogValueStringToken = new TypeToken<Value<String>>(){};
-        DIALOG = KeyFactory.makeSingleKey(dialogStringToken, dialogValueStringToken, DataQuery.of("Dialog"), "atherysquests:dialog", "Dialog");
+        DIALOG = Key.builder()
+                .type( new TypeToken<Value<String>>() {} )
+                .id( "dialog" )
+                .name( "Dialog" )
+                .query( DataQuery.of( "atherysquests", "Dialog" ) )
+                .build();
 
-        TypeToken<String> stringToken = TypeToken.of(String.class);
-        TypeToken<Value<String>> valueStringToken = new TypeToken<Value<String>>(){};
-        QUEST = KeyFactory.makeSingleKey(stringToken, valueStringToken, DataQuery.of("Quest"), "atherysquests:quest", "Quest");
+        QUEST = Key.builder()
+                .type( new TypeToken<Value<String>>() {} )
+                .id( "quest" )
+                .name( "Quest" )
+                .query( DataQuery.of( "atherysquests", "Quest" ) )
+                .build();
     }
 
 }

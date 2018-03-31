@@ -1,52 +1,124 @@
 package com.atherys.quests.quester;
 
+import com.atherys.core.database.api.DBObject;
+import com.atherys.core.utils.UserUtils;
+import com.atherys.core.views.Viewable;
+import com.atherys.quests.events.QuestCompletedEvent;
+import com.atherys.quests.events.QuestStartedEvent;
 import com.atherys.quests.quest.Quest;
+import com.atherys.quests.quest.QuestMsg;
+import com.atherys.quests.views.QuestLog;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
+import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
-public class Quester {
+public class Quester implements DBObject, Viewable<QuestLog> {
 
-    private UUID player;
+    private UUID player; // Retrieve player from this. 100% Reliable.
 
-    private Player cachedPlayer;
-    private Map<String,Quest> quests = new HashMap<>();
-    private List<String> completedQuestIds;
+    private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
 
-    public void notify ( Event event, Player player ) {
+    private Map<String, Quest> quests = new HashMap<>();
+    private Map<String, Long> completedQuests = new HashMap<>();
+
+    /**
+     * Do not use this. Use {@link com.atherys.quests.managers.QuesterManager#createQuester(Player)} instead.
+     *
+     * @param player The player.
+     */
+    @Deprecated
+    public Quester( Player player ) {
+        this.player = player.getUniqueId();
+        this.cachedPlayer = player;
+    }
+
+    @Override
+    public UUID getUUID() {
+        return player;
+    }
+
+    public void notify( Event event, Player player ) {
         if ( !this.player.equals( player.getUniqueId() ) ) return;
 
         this.cachedPlayer = player;
+
         for ( Quest quest : quests.values() ) {
-            quest.notify( event, this );
+            if ( !quest.isComplete() ) {
+                quest.notify( event, this );
+                if ( quest.isComplete() ) completeQuest( quest );
+            }
         }
     }
 
-    public void pickupQuest ( Quest quest ) {
-        if ( !completedQuestIds.contains(quest.getId()) && !quests.containsKey( quest.getId() ) ) {
+    public void pickupQuest( Quest quest ) {
+        if ( !quest.meetsRequiements( this ) ) {
+            Text.Builder reqText = Text.builder();
+            reqText.append( Text.of( QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest." ) );
+            reqText.append( quest.createView().get().getFormattedRequirements() );
+            QuestMsg.noformat( this, reqText.build() );
+        }
+
+        if ( !completedQuests.containsKey( quest.getId() ) && !quests.containsKey( quest.getId() ) ) {
             quests.put( quest.getId(), quest.copy() );
+            QuestMsg.info( this, "You have started the quest \"", quest.getName(), "\"" );
+
+            QuestStartedEvent qsEvent = new QuestStartedEvent( quest, this );
+            Sponge.getEventManager().post( qsEvent );
+        } else {
+            QuestMsg.error( this, "You are either already doing this quest, or have done it before in the past." );
         }
     }
 
-    public void removeQuest ( Quest quest ) {
+    public void removeQuest( Quest quest ) {
         quests.remove( quest.getId() );
     }
 
-    public void completeQuest ( Quest quest ) {
-        quests.remove( quest.getId() );
-        completedQuestIds.add( quest.getId() );
+    public void completeQuest( Quest quest ) {
+        removeQuest( quest );
+        completedQuests.put( quest.getId(), System.currentTimeMillis() );
+        quest.awardRewards( this );
+
+        QuestMsg.info( this, "You have completed the quest \"", quest.getName(), "\"" );
+
+        QuestCompletedEvent qsEvent = new QuestCompletedEvent( quest, this );
+        Sponge.getEventManager().post( qsEvent );
     }
 
-    public Optional<User> getUser() {
-        // TODO: Use UserUtils to look up UUID of player and return User object.
-        return Optional.empty();
+    public Optional<? extends User> getUser() {
+        return UserUtils.getUser( this.player );
     }
 
     @Nullable
     public Player getCachedPlayer() {
         return cachedPlayer;
+    }
+
+    public Map<String, Long> getCompletedQuests() {
+        return completedQuests;
+    }
+
+    public Map<String, Quest> getQuests() {
+        return quests;
+    }
+
+    public boolean hasCompleted( String questId ) {
+        return completedQuests.containsKey( questId );
+    }
+
+    @Override
+    public Optional<QuestLog> createView () {
+        return Optional.of( new QuestLog(this) );
+    }
+
+    public QuestLog getLog() {
+        return new QuestLog( this );
     }
 }

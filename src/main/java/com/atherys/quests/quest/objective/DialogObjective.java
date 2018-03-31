@@ -2,23 +2,42 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
+import com.google.gson.annotations.Expose;
+import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 
+import javax.annotation.Nullable;
+
+@ConfigSerializable
 public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
+    @Expose
     private String requiredDialogTree;
+    @Expose
     private int requiredDialogNode;
+    @Expose
+    private Text description = Text.EMPTY;
 
+    @Expose
     private boolean complete = false;
 
-    public DialogObjective ( String treeId, int node ) {
-        super(DialogProceedEvent.class);
+    private DialogObjective() {
+        super( DialogProceedEvent.class );
+    }
+
+    public DialogObjective( String treeId, int node, @Nullable Text description ) {
+        super( DialogProceedEvent.class );
         this.requiredDialogTree = treeId;
         this.requiredDialogNode = node;
+        if ( description != null ) {
+            this.description = description;
+        }
     }
 
     @Override
-    protected void onNotify ( DialogProceedEvent event, Quester quester ) {
-        if ( event.getDialog().getTreeId().equals(requiredDialogTree) && event.getDialog().getLastNode().getId() == requiredDialogNode ) {
+    protected void onNotify( DialogProceedEvent event, Quester quester ) {
+        if ( event.getDialog().getTreeId().equals( requiredDialogTree ) && event.getDialog().getLastNode().getId() == requiredDialogNode ) {
             this.complete = true;
         }
     }
@@ -30,6 +49,18 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
     @Override
     public Objective copy() {
-        return new DialogObjective( this.requiredDialogTree, this.requiredDialogNode );
+        return new DialogObjective( this.requiredDialogTree, this.requiredDialogNode, this.description );
+    }
+
+    @Override
+    public Text toText() {
+        return Text.builder()
+                .append( Text.of( "Speak to NPC." ) )
+                .onHover( TextActions.showText( description ) )
+                .build();
+    }
+
+    public Text getDescription() {
+        return description;
     }
 }

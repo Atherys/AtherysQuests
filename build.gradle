@@ -1,22 +1,46 @@
 group 'com.atherys'
-version '1.0-SNAPSHOT'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+sourceSets {
+    main {
+        resources {
+            srcDirs "src/main/"
+            exclude "java/**"
+        }
+    }
+}
+
 repositories {
     mavenCentral()
     maven {
-        url = 'http://repo.spongepowered.org/maven'
+        name 'sponge'
+        url 'https://repo.spongepowered.org/maven'
     }
     maven {
-        url = 'https://jitpack.io'
+        name 'jitpack'
+        url 'https://jitpack.io'
     }
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT',
-            'com.github.Daniel12321:NPCs:1.12-SNAPSHOT'
+    shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
+    shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
+}
+
+shadowJar {
+    relocate 'org.bson', 'com.atherys.libs.org.bson'
+    relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
 }

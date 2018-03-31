@@ -11,9 +11,10 @@ public class DialogProceedEvent implements Event {
 
     private Dialog dialog;
 
-    public DialogProceedEvent ( Dialog dialog ) {
+    public DialogProceedEvent( Dialog dialog ) {
         this.dialog = dialog;
         this.cause = Cause.builder()
+                .append( dialog )
                 .append( dialog.getCachedPlayer() )
                 .append( dialog.getNPC() )
                 .build( Sponge.getCauseStackManager().getCurrentContext() );
