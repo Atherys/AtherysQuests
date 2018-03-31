@@ -1,6 +1,7 @@
 package com.atherys.quests.quest.requirement;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.User;

@@ -1,4 +1,4 @@
-package com.atherys.quests.quest.objective;
+package com.atherys.quests.api.objective;
 
 import com.atherys.quests.events.ObjectiveCompletedEvent;
 import com.atherys.quests.events.ObjectiveProgressedEvent;

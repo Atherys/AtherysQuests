@@ -1,7 +1,7 @@
 package com.atherys.quests.views;
 
 import com.atherys.core.views.View;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;

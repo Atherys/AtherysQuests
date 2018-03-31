@@ -1,6 +1,6 @@
 package com.atherys.quests.events;
 
-import com.atherys.quests.quest.objective.Objective;
+import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;

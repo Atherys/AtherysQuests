@@ -1,5 +1,6 @@
 package com.atherys.quests.quest.objective;
 
+import com.atherys.quests.api.objective.AbstractObjective;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.block.BlockSnapshot;

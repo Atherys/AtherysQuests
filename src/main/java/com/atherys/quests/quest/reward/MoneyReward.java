@@ -1,6 +1,7 @@
 package com.atherys.quests.quest.reward;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;

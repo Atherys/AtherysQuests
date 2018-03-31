@@ -1,7 +1,7 @@
 package com.atherys.quests.managers;
 
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import org.spongepowered.api.data.DataHolder;
 
 import java.util.HashMap;

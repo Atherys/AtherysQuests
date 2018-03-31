@@ -1,5 +1,6 @@
 package com.atherys.quests.quest.requirement;
 
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.text.Text;
 

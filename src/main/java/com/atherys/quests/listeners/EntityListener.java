@@ -2,7 +2,7 @@ package com.atherys.quests.listeners;
 
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.views.TakeQuestView;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;

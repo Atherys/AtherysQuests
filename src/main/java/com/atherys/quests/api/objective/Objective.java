@@ -1,8 +1,8 @@
-package com.atherys.quests.quest.objective;
+package com.atherys.quests.api.objective;
 
-import com.atherys.quests.base.Observer;
-import com.atherys.quests.base.Prototype;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.base.Observer;
+import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.quester.Quester;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.event.Event;

@@ -5,7 +5,7 @@ import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
 import com.atherys.quests.events.QuestCompletedEvent;
 import com.atherys.quests.events.QuestStartedEvent;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quest.QuestMsg;
 import com.atherys.quests.views.QuestLog;
 import org.spongepowered.api.Sponge;

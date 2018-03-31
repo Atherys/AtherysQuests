@@ -11,7 +11,7 @@ import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
@@ -67,12 +67,10 @@ public class AtherysQuests {
     Logger logger;
 
     private void init() {
-        // TODO: Dump assets into config file
-        // TODO: Load dialogs from files
         instance = this;
 
         try {
-            config = new QuestsConfig( "config/" + ID, "config.conf" );
+            config = new QuestsConfig( getWorkingDirectory(), "config.conf" );
             config.init();
         } catch ( IOException e ) {
             init = false;
@@ -118,19 +116,8 @@ public class AtherysQuests {
         Quest dummyQuest = SimpleQuest.builder( "dummyQuest", 1 )
                 .name( Text.of( "This is a dummy quest." ) )
                 .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
-                //.add( new OrRequirement(
-                //        new LevelRequirement( 10 ),
-                //        new AndRequirement(
-                //                new OrRequirement(
-                //                        new QuestRequirement( "someQuest" ),
-                //                        new MoneyRequirement( 10, getEconomyService().get().getDefaultCurrency() )
-                //                ),
-                //                new QuestRequirement( "someOtherQuest" )
-                //        )
-                //) )
                 .add( KillEntityObjective.of( "creeper", 3 ) )
                 .add( KillEntityObjective.of( "zombie", 4 ) )
-                //.add( new DialogObjective( "theKingSpeech", 14, Text.of( "Speak to the king." ) ) )
                 .add( new SingleItemReward( ItemStack.builder().itemType( ItemTypes.ANVIL ).quantity( 1 ).add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) ).build() ) )
                 .build();
 
@@ -253,6 +240,10 @@ public class AtherysQuests {
     @Listener
     public void onStop( GameStoppingServerEvent event ) {
         if ( init ) stop();
+    }
+
+    public String getWorkingDirectory() {
+        return "config/" + ID;
     }
 
     public static AtherysQuests getInstance() {

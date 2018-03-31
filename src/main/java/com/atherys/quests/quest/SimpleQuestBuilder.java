@@ -1,8 +1,9 @@
 package com.atherys.quests.quest;
 
-import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.requirement.Requirement;
-import com.atherys.quests.quest.reward.Reward;
+import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.requirement.Requirement;
+import com.atherys.quests.api.reward.Reward;
 import org.spongepowered.api.text.Text;
 
 public final class SimpleQuestBuilder {

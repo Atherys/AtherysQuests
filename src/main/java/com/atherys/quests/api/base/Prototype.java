@@ -1,4 +1,4 @@
-package com.atherys.quests.base;
+package com.atherys.quests.api.base;
 
 public interface Prototype<T> {
 

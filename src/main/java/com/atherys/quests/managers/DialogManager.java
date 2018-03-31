@@ -4,7 +4,7 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.google.gson.Gson;
+import com.atherys.quests.util.GsonUtils;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -27,11 +27,8 @@ public final class DialogManager {
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
     private Map<String, DialogTree> trees = new HashMap<>();
 
-    private Gson gson = new Gson();
-
     private DialogManager() {
-        // TODO: Init Gson with necessary type adapters
-        // TODO: Write necessary Gson type adapters ( DialogTree, DialogNode, Requirement )
+        String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().DIALOG_FOLDER;
     }
 
     public void registerDialog ( DialogTree tree ) {
@@ -55,7 +52,7 @@ public final class DialogManager {
             for ( File file : files ) {
                 if ( !file.getName().endsWith( ".json" ) ) continue;
 
-                DialogTree tree = gson.fromJson( new FileReader( file ), DialogTree.class );
+                DialogTree tree = GsonUtils.getGson().fromJson( new FileReader( file ), DialogTree.class );
                 tree.setId( file.getName().replace( ".json", "" ) );
                 registerDialog( tree );
             }

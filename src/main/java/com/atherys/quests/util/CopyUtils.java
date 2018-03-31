@@ -1,6 +1,6 @@
 package com.atherys.quests.util;
 
-import com.atherys.quests.base.Prototype;
+import com.atherys.quests.api.base.Prototype;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.util.ArrayList;

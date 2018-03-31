@@ -1,7 +1,8 @@
 package com.atherys.quests.quest.requirement;
 
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.managers.QuestManager;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;

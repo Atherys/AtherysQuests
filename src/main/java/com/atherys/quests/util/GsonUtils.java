@@ -2,10 +2,10 @@ package com.atherys.quests.util;
 
 import com.atherys.core.utils.RuntimeTypeAdapterFactory;
 import com.atherys.quests.events.AtherysQuestsGsonBuildEvent;
-import com.atherys.quests.quest.Quest;
-import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.requirement.Requirement;
-import com.atherys.quests.quest.reward.Reward;
+import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.requirement.Requirement;
+import com.atherys.quests.api.reward.Reward;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.spongepowered.api.Sponge;

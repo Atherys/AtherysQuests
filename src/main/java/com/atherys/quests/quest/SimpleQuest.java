@@ -1,8 +1,9 @@
 package com.atherys.quests.quest;
 
-import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.requirement.Requirement;
-import com.atherys.quests.quest.reward.Reward;
+import com.atherys.quests.api.quest.AbstractQuest;
+import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.requirement.Requirement;
+import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.views.AnyQuestView;
@@ -13,16 +14,7 @@ import org.spongepowered.api.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleQuest implements Quest<SimpleQuest> {
-
-    @Expose
-    private String id;
-    @Expose
-    private Text name = Text.of( "This quest has no name." );
-    @Expose
-    private Text description = Text.of( "This quest has no description." );
-    @Expose
-    private int version;
+public class SimpleQuest extends AbstractQuest<SimpleQuest> {
 
     @Expose
     private List<Requirement> requirements = new ArrayList<>();
@@ -36,22 +28,16 @@ public class SimpleQuest implements Quest<SimpleQuest> {
     @Expose
     private boolean complete = false;
 
-    private SimpleQuest () {
-    }
-
     protected SimpleQuest ( String id, int version ) {
-        this.id = id;
-        this.version = version;
+        super ( id, version );
     }
 
     protected SimpleQuest ( SimpleQuest quest ) {
-        this.id = quest.getId();
-        this.name = quest.getName();
-        this.description = quest.getDescription();
-        this.version = quest.getVersion();
+        super ( quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription() );
         this.requirements = CopyUtils.copyList( quest.getRequirements() );
         this.objectives = CopyUtils.copyList( quest.getObjectives() );
         this.rewards = CopyUtils.copyList( quest.getRewards() );
+        this.started = quest.isStarted();
         this.complete = quest.isComplete();
     }
 
@@ -59,23 +45,8 @@ public class SimpleQuest implements Quest<SimpleQuest> {
         return new SimpleQuestBuilder( id, version );
     }
 
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public Text getDescription() {
-        return description;
-    }
-
     protected void setDescription( Text description ) {
-        this.description = description;
-    }
-
-    @Override
-    public Text getName() {
-        return name;
+        super.description = description;
     }
 
     protected void setName( Text name ) {
@@ -89,14 +60,6 @@ public class SimpleQuest implements Quest<SimpleQuest> {
 
     protected <T extends Requirement> void addRequirement( T requirement ) {
         if ( !requirements.contains( requirement ) ) requirements.add( requirement );
-    }
-
-    @Override
-    public boolean meetsRequirements ( Quester player ) {
-        for ( Requirement req : requirements ) {
-            if ( !req.check( player ) ) return false;
-        }
-        return true;
     }
 
     @Override
@@ -115,11 +78,6 @@ public class SimpleQuest implements Quest<SimpleQuest> {
 
     protected <T extends Reward> void addReward( T reward ) {
         if ( !rewards.contains( reward ) ) rewards.add( reward );
-    }
-
-    @Override
-    public void award ( Quester player ) {
-        rewards.forEach( reward -> reward.award( player ) );
     }
 
     @Override
@@ -166,10 +124,6 @@ public class SimpleQuest implements Quest<SimpleQuest> {
     @Override
     public SimpleQuest copy() {
         return new SimpleQuest( this );
-    }
-
-    public int getVersion() {
-        return version;
     }
 
     @Override

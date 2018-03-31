@@ -1,16 +1,16 @@
 package com.atherys.quests.quest;
 
-import com.atherys.quests.base.Observer;
-import com.atherys.quests.base.Prototype;
-import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.requirement.Requirement;
-import com.atherys.quests.quest.reward.Reward;
+import com.atherys.quests.api.quest.AbstractQuest;
+import com.atherys.quests.api.base.Observer;
+import com.atherys.quests.api.base.Prototype;
+import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.requirement.Requirement;
+import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.views.AnyQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * A Quest which seperates it's Objectives out into Stages, so that they must be completed one-by-one, in an ordered fashion. WIP.
  */
-public class StagedQuest implements Quest<StagedQuest> {
+public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     public static class Stage implements Observer<Event>, Prototype<Stage>, Iterable<Stage> {
 
@@ -87,11 +87,6 @@ public class StagedQuest implements Quest<StagedQuest> {
         }
     }
 
-    @Expose private String id;
-    @Expose private Text name = Text.of( "An unnamed Staged Quest." );
-    @Expose private Text description = Text.of( "A description of a Staged Quest." );
-    @Expose private int version;
-
     @Expose private List<Requirement> requirements = new ArrayList<>();
 
     @Expose private Stage head;
@@ -105,34 +100,17 @@ public class StagedQuest implements Quest<StagedQuest> {
     private boolean complete = false;
 
     StagedQuest ( String id, int version ) {
-        this.id = id;
-        this.version = version;
+        super ( id, version );
     }
 
     private StagedQuest ( StagedQuest quest ) {
-        this.id = quest.getId();
-        this.name = quest.getName();
-        this.description = quest.getDescription();
-        this.version = quest.getVersion();
+        super ( quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription() );
         this.requirements = CopyUtils.copyList( requirements );
         this.head = quest.getHead().copy();
         this.current = head;
         this.rewards = CopyUtils.copyList( rewards );
-    }
-
-    @Override
-    public String getId () {
-        return id;
-    }
-
-    @Override
-    public Text getName () {
-        return name;
-    }
-
-    @Override
-    public Text getDescription () {
-        return description;
+        this.started = quest.isStarted();
+        this.complete = quest.isComplete();
     }
 
     @Override
@@ -157,14 +135,6 @@ public class StagedQuest implements Quest<StagedQuest> {
     }
 
     @Override
-    public boolean meetsRequirements ( Quester quester ) {
-        for ( Requirement requirement : requirements ) {
-            if ( !requirement.check( quester ) ) return false;
-        }
-        return true;
-    }
-
-    @Override
     public void notify ( Event event, Quester quester ) {
         if ( isComplete() ) return;
 
@@ -184,11 +154,6 @@ public class StagedQuest implements Quest<StagedQuest> {
     }
 
     @Override
-    public void award ( Quester quester ) {
-        rewards.forEach( reward -> reward.award( quester ) );
-    }
-
-    @Override
     public boolean isStarted () {
         return started;
     }
@@ -196,11 +161,6 @@ public class StagedQuest implements Quest<StagedQuest> {
     @Override
     public boolean isComplete () {
         return complete;
-    }
-
-    @Override
-    public int getVersion () {
-        return version;
     }
 
     @Override
