@@ -60,7 +60,6 @@ public class SingleItemReward implements Reward {
         inventory.offer( item.createStack() );
 
         // send inventory to player
-        if ( player.getOpenInventory().isPresent() ) player.closeInventory();
         player.openInventory( inventory );
 
         // upon closing the inventory, drop all items which have not been picked up to the ground
