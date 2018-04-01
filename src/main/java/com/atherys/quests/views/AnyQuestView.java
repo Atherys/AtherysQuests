@@ -43,6 +43,8 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
                     } ) )
                     .build();
 
+            completeQuest.register();
+
             Text completeQuestPage = Text.builder()
                     .append( completeQuest.asText() )
                     .build();
