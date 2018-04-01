@@ -17,7 +17,9 @@ import com.atherys.quests.quest.DummyQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
+import com.atherys.quests.quest.objective.InteractWithBlockObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
+import com.atherys.quests.quest.objective.ReachLocationObjective;
 import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
@@ -109,7 +111,9 @@ public class AtherysQuests {
 
         GsonUtils.getObjectiveTypeAdapterFactory()
                 .registerSubtype( KillEntityObjective.class )
-                .registerSubtype( DialogObjective.class );
+                .registerSubtype( DialogObjective.class )
+                .registerSubtype( ReachLocationObjective.class )
+                .registerSubtype( InteractWithBlockObjective.class );
 
         GsonUtils.getRewardRuntimeTypeAdapterFactory()
                 .registerSubtype( MoneyReward.class )
