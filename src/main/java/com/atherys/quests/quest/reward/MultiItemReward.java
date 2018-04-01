@@ -8,9 +8,9 @@ import com.atherys.quests.util.ItemUtils;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
-import org.spongepowered.api.item.inventory.InventoryArchetypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.item.inventory.property.InventoryDimension;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
 
@@ -44,8 +44,8 @@ public class MultiItemReward implements Reward {
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()
-                .of( InventoryArchetypes.CHEST )
-                .property( new InventoryTitle( Text.of( "Quest Item Rewards" ) ) )
+                .property( InventoryDimension.PROPERTY_NAME, InventoryDimension.of( 9, 3 ) )
+                .property( InventoryTitle.of( Text.of( "Quest Item Reward" ) ) )
                 .build( AtherysQuests.getInstance() );
 
 
@@ -53,7 +53,6 @@ public class MultiItemReward implements Reward {
         items.forEach( item -> inventory.offer( item.createStack() ) );
 
         // send inventory to player
-        if ( player.getOpenInventory().isPresent() ) player.closeInventory();
         player.openInventory( inventory );
 
         // upon closing the inventory, drop all items which have not been picked up to the ground

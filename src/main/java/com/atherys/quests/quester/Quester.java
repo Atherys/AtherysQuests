@@ -3,9 +3,10 @@ package com.atherys.quests.quester;
 import com.atherys.core.database.api.DBObject;
 import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.events.QuestCompletedEvent;
 import com.atherys.quests.events.QuestStartedEvent;
-import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.events.QuestTurnedInEvent;
 import com.atherys.quests.quest.QuestMsg;
 import com.atherys.quests.views.QuestLog;
 import org.spongepowered.api.Sponge;
@@ -47,7 +48,12 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         for ( Quest quest : quests.values() ) {
             if ( !quest.isComplete() ) {
                 quest.notify( event, this );
-                if ( quest.isComplete() ) completeQuest( quest );
+                if ( quest.isComplete() ) {
+                    QuestMsg.info( this, "You have completed the quest \"", quest.getName(), "\". You may now turn it in." );
+
+                    QuestCompletedEvent qsEvent = new QuestCompletedEvent( quest, this );
+                    Sponge.getEventManager().post( qsEvent );
+                }
             }
         }
     }
@@ -83,9 +89,9 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         quest.award( this );
 
-        QuestMsg.info( this, "You have completed the quest \"", quest.getName(), "\"" );
+        QuestMsg.info( this, "You have turned in the quest \"", quest.getName(), "\"" );
 
-        QuestCompletedEvent qsEvent = new QuestCompletedEvent( quest, this );
+        QuestTurnedInEvent qsEvent = new QuestTurnedInEvent( quest, this );
         Sponge.getEventManager().post( qsEvent );
     }
 
