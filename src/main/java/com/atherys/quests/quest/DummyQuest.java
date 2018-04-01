@@ -21,7 +21,7 @@ public class DummyQuest extends SimpleQuest {
         setDescription( Text.of( "A dummy quest to prove that SimpleQuest works. Kill some things, reach a point, and get a magical anvil!" ) );
         addObjective( KillEntityObjective.of( "zombie", 4 ) );
         addObjective( KillEntityObjective.of( "creeper", 3 ) );
-        addObjective( new ReachLocationObjective( Vector3d.from( 500, 130, 600 ), 5.0d ) );
+        addObjective( new ReachLocationObjective( Text.of( "a very high place" ), Vector3d.from( 500, 130, 600 ), 5.0d ) );
         addReward( new SingleItemReward( ItemStack.builder()
                     .itemType( ItemTypes.ANVIL )
                     .quantity( 1 )

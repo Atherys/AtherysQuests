@@ -40,7 +40,7 @@ public class MultiItemReward implements Reward {
     @Override
     public boolean award( Quester quester ) {
         Player player = quester.getCachedPlayer();
-        if ( player == null || !player.isOnline() || !player.isRemoved() ) return false;
+        if ( player == null || !player.isOnline() || player.isRemoved() ) return false;
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()

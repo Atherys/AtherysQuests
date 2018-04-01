@@ -6,8 +6,11 @@ import com.flowpowered.math.vector.Vector3d;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 
 public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
+
+    @Expose Text name;
 
     @Expose private Vector3d position;
     @Expose private double radius;
@@ -18,8 +21,9 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
         super( MoveEntityEvent.class );
     }
 
-    public ReachLocationObjective ( Vector3d position, double radius ) {
+    public ReachLocationObjective ( Text name, Vector3d position, double radius ) {
         this();
+        this.name = name;
         this.position = position;
         this.radius = radius;
     }
@@ -36,11 +40,11 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Override
     public ReachLocationObjective copy () {
-        return new ReachLocationObjective( position, radius );
+        return new ReachLocationObjective( name, position, radius );
     }
 
     @Override
     public Text toText () {
-        return Text.of( "Reach ", position );
+        return Text.builder().append( Text.of( "Reach ", name ) ).onHover( TextActions.showText( Text.of( "Located @ ", position ) ) ).build();
     }
 }

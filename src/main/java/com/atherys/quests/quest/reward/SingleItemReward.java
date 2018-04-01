@@ -44,12 +44,15 @@ public class SingleItemReward implements Reward {
     @Override
     public boolean award( Quester quester ) {
         Player player = quester.getCachedPlayer();
-        if ( player == null || !player.isOnline() || !player.isRemoved() ) return false;
+        AtherysQuests.getInstance().getLogger().info( "Triggered SingleItemReward" );
+        if ( player == null || !player.isOnline() || player.isRemoved() ) return false;
+
+        AtherysQuests.getInstance().getLogger().info( "Passed player online and valid checks" );
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()
                 .of( InventoryArchetypes.SLOT )
-                .property( new InventoryTitle( Text.of( "Quest Item Reward" ) ) )
+                .property( InventoryTitle.of( Text.of( "Quest Item Reward" ) ) )
                 .build( AtherysQuests.getInstance() );
 
 
