@@ -12,8 +12,10 @@ import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.quest.DeliverableSimpleQuest;
 import com.atherys.quests.quest.DummyQuest;
 import com.atherys.quests.quest.SimpleQuest;
+import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.requirement.*;
@@ -93,7 +95,9 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
 
         GsonUtils.getQuestRuntimeTypeAdapterFactory()
-                .registerSubtype( SimpleQuest.class );
+                .registerSubtype( SimpleQuest.class )
+                .registerSubtype( StagedQuest.class )
+                .registerSubtype( DeliverableSimpleQuest.class );
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype( AndRequirement.class )

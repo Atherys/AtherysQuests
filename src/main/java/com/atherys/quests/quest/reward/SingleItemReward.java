@@ -51,7 +51,7 @@ public class SingleItemReward implements Reward {
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()
-                .of( InventoryArchetypes.SLOT )
+                .of( InventoryArchetypes.CHEST )
                 .property( InventoryTitle.of( Text.of( "Quest Item Reward" ) ) )
                 .build( AtherysQuests.getInstance() );
 
