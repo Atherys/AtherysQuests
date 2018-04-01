@@ -1,11 +1,11 @@
-package com.atherys.quests.quest;
+package com.atherys.quests.api.quest;
 
 import com.atherys.core.views.Viewable;
-import com.atherys.quests.base.Observer;
-import com.atherys.quests.base.Prototype;
-import com.atherys.quests.quest.objective.Objective;
-import com.atherys.quests.quest.requirement.Requirement;
-import com.atherys.quests.quest.reward.Reward;
+import com.atherys.quests.api.base.Observer;
+import com.atherys.quests.api.base.Prototype;
+import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.requirement.Requirement;
+import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;
