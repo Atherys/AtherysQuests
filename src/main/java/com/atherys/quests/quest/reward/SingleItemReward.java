@@ -8,9 +8,9 @@ import com.atherys.quests.util.ItemUtils;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
-import org.spongepowered.api.item.inventory.InventoryArchetypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.item.inventory.property.InventoryDimension;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
@@ -51,7 +51,7 @@ public class SingleItemReward implements Reward {
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()
-                .of( InventoryArchetypes.CHEST )
+                .property( InventoryDimension.PROPERTY_NAME, InventoryDimension.of( 9, 3 ) )
                 .property( InventoryTitle.of( Text.of( "Quest Item Reward" ) ) )
                 .build( AtherysQuests.getInstance() );
 
