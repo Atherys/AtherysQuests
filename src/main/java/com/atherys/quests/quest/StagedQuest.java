@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A Quest which seperates it's Objectives out into Stages, so that they must be completed one-by-one, in an ordered fashion. WIP.
+ * A Quest which seperates it's Objectives out into Stages, so that they must be completed one-by-one, in an ordered fashion.
  */
 public class StagedQuest extends AbstractQuest<StagedQuest> {
 
@@ -136,20 +136,30 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Override
     public void notify ( Event event, Quester quester ) {
+        // if the quest has already been completed, just return
         if ( isComplete() ) return;
 
+        // if the current objective is complete
         if ( current.getObjective().isComplete() ) {
+            // and has a next objective
             if ( this.current.hasNext() ) {
+                // set started as true, in case this was the first objective
                 this.started = true;
+                // award the player for completing the current objective
                 current.award( quester );
+                // set the current objective to the next one
                 this.current = current.getNext();
                 QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
+            // if it does not have a next objective
             } else {
+                // set quest as completed
                 this.complete = true;
+                // return, since there's nothing left to notify
                 return;
             }
         }
 
+        // notify the current Stage of the event
         current.notify( event, quester );
     }
 

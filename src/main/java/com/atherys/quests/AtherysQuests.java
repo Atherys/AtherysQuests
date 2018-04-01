@@ -1,5 +1,6 @@
 package com.atherys.quests;
 
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.dialog.tree.DialogNode;
@@ -11,7 +12,7 @@ import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
-import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.quest.DummyQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
@@ -26,7 +27,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.data.DataRegistration;
-import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -34,8 +34,6 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
-import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -113,13 +111,7 @@ public class AtherysQuests {
                 .registerSubtype( MoneyReward.class )
                 .registerSubtype( SingleItemReward.class );
 
-        Quest dummyQuest = SimpleQuest.builder( "dummyQuest", 1 )
-                .name( Text.of( "This is a dummy quest." ) )
-                .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
-                .add( KillEntityObjective.of( "creeper", 3 ) )
-                .add( KillEntityObjective.of( "zombie", 4 ) )
-                .add( new SingleItemReward( ItemStack.builder().itemType( ItemTypes.ANVIL ).quantity( 1 ).add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) ).build() ) )
-                .build();
+        Quest dummyQuest = new DummyQuest();
 
         DialogNode root = DialogNode.builder( 0 )
                 .npc( Text.of( "Hello, weary traveller!" ) )
