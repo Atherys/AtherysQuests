@@ -7,6 +7,7 @@ import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
+import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.AnyQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
@@ -43,10 +44,6 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
         this.rewards = CopyUtils.copyList( quest.getRewards() );
         this.started = quest.isStarted();
         this.complete = quest.isComplete();
-    }
-
-    public static SimpleQuestBuilder builder( String id, int version ) {
-        return new SimpleQuestBuilder( id, version );
     }
 
     protected void setDescription( Text description ) {

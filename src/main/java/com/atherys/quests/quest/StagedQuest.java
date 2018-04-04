@@ -1,20 +1,18 @@
 package com.atherys.quests.quest;
 
-import com.atherys.quests.api.quest.AbstractQuest;
-import com.atherys.quests.api.base.Observer;
-import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
+import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.AnyQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
+import org.spongepowered.api.text.Text;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,75 +20,11 @@ import java.util.List;
  */
 public class StagedQuest extends AbstractQuest<StagedQuest> {
 
-    public static class Stage implements Observer<Event>, Prototype<Stage>, Iterable<Stage> {
-
-        @Expose private Objective objective;
-        @Expose private List<Reward> rewards;
-        @Expose @Nullable private Stage next;
-
-        public Stage ( Objective objective, List<Reward> rewards, @Nullable Stage next ) {
-            this.objective = objective;
-            this.rewards = rewards;
-            if ( next != null ) this.next = next;
-        }
-
-        private Stage ( Stage stage ) {
-            this.objective = CopyUtils.copy( stage.getObjective() );
-            this.rewards = CopyUtils.copyList( stage.getRewards() );
-            if ( stage.getNext() != null ) this.next = new Stage( stage.getNext() );
-        }
-
-        public Objective getObjective() {
-            return objective;
-        }
-
-        public List<Reward> getRewards () {
-            return rewards;
-        }
-
-        public boolean hasNext() {
-            return next != null;
-        }
-
-        @Nullable
-        public Stage getNext() {
-            return next;
-        }
-
-        @Override
-        public void notify ( Event event, Quester quester ) {
-            objective.notify( event, quester );
-        }
-
-        public void award ( Quester quester ) {
-            rewards.forEach( reward -> reward.award( quester ) );
-        }
-
-        @Override
-        public Stage copy () {
-            return new Stage( this );
-        }
-
-        @Override
-        public Iterator<Stage> iterator () {
-            return new Iterator<Stage>() {
-                @Override
-                public boolean hasNext () {
-                    return Stage.this.next != null;
-                }
-
-                @Override
-                public Stage next () {
-                    return Stage.this.next;
-                }
-            };
-        }
-    }
-
     @Expose private List<Requirement> requirements = new ArrayList<>();
 
     @Expose private Stage head;
     @Expose private Stage current;
+    private Stage tail;
 
     @Expose private List<Reward> rewards = new ArrayList<>();
 
@@ -99,7 +33,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Expose
     private boolean complete = false;
 
-    StagedQuest ( String id, int version ) {
+    protected StagedQuest ( String id, int version ) {
         super ( id, version );
     }
 
@@ -113,6 +47,14 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         this.complete = quest.isComplete();
     }
 
+    protected void setName ( Text name ) {
+        this.name = name;
+    }
+
+    protected void setDescription ( Text description ) {
+        this.description = description;
+    }
+
     @Override
     public List<Requirement> getRequirements () {
         return requirements;
@@ -120,6 +62,18 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     public Stage getHead() {
         return head;
+    }
+
+    protected void addStage ( Stage stage ) {
+        if ( this.head == null ) {
+            this.head = stage;
+            this.current = stage;
+            this.tail = stage;
+
+            return;
+        }
+        this.tail.setNext( stage );
+        this.tail = stage;
     }
 
     @Override
@@ -132,6 +86,10 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Override
     public List<Reward> getRewards () {
         return rewards;
+    }
+
+    protected void addReward ( Reward reward ) {
+        this.rewards.add( reward );
     }
 
     @Override

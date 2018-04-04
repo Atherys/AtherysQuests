@@ -6,6 +6,7 @@ import com.atherys.quests.managers.InventoryManager;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.ItemUtils;
 import com.google.gson.annotations.Expose;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -38,7 +39,7 @@ public class SingleItemReward implements Reward {
 
     @Override
     public Text toText() {
-        return Text.builder().append( Text.of( "Single Item Reward" ) ).onHover( TextActions.showItem( item ) ).build();
+        return Text.builder().append( item.get( Keys.DISPLAY_NAME ).orElse( Text.of( item.getType().getName() ) ) ).onHover( TextActions.showItem( item ) ).build();
     }
 
     @Override

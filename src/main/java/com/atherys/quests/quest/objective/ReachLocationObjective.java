@@ -12,7 +12,9 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Expose Text name;
 
-    @Expose private Vector3d position;
+    @Expose private double x;
+    @Expose private double y;
+    @Expose private double z;
     @Expose private double radius;
 
     @Expose private boolean complete;
@@ -24,13 +26,15 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
     public ReachLocationObjective ( Text name, Vector3d position, double radius ) {
         this();
         this.name = name;
-        this.position = position;
+        this.x = position.getX();
+        this.y = position.getY();
+        this.z = position.getZ();
         this.radius = radius;
     }
 
     @Override
     protected void onNotify ( MoveEntityEvent event, Quester quester ) {
-        if ( event.getToTransform().getPosition().distance( position ) < radius  ) this.complete = true;
+        if ( event.getToTransform().getPosition().distance( Vector3d.from( x, y, z ) ) < radius  ) this.complete = true;
     }
 
     @Override
@@ -40,11 +44,11 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Override
     public ReachLocationObjective copy () {
-        return new ReachLocationObjective( name, position, radius );
+        return new ReachLocationObjective( name, Vector3d.from( x, y, z ), radius );
     }
 
     @Override
     public Text toText () {
-        return Text.builder().append( Text.of( "Reach ", name ) ).onHover( TextActions.showText( Text.of( "Located @ ", position ) ) ).build();
+        return Text.builder().append( Text.of( "Reach ", name ) ).onHover( TextActions.showText( Text.of( "Located @ ", x, ", ", y, ", ", z ) ) ).build();
     }
 }

@@ -1,4 +1,4 @@
-package com.atherys.quests.quest;
+package com.atherys.quests.util;
 
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.entity.living.player.Player;

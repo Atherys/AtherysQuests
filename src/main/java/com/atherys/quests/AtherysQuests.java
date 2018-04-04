@@ -13,7 +13,6 @@ import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.DeliverableSimpleQuest;
-import com.atherys.quests.quest.DummyQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
@@ -119,7 +118,7 @@ public class AtherysQuests {
                 .registerSubtype( MoneyReward.class )
                 .registerSubtype( SingleItemReward.class );
 
-        Quest dummyQuest = new DummyQuest();
+        Quest dummyQuest = new DummyQuest.Staged();
 
         DialogNode root = DialogNode.builder( 0 )
                 .npc( Text.of( "Hello, weary traveller!" ) )
