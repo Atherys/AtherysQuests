@@ -11,15 +11,13 @@ import org.spongepowered.api.event.Event;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class Stage implements Observer<Event>, Prototype<Stage>, Iterable<Stage> {
+public class Stage implements Observer<Event>, Prototype<Stage> {
 
     @Expose private Objective objective;
     @Expose private List<Reward> rewards = new ArrayList<>();
-    @Expose @Nullable
-    private Stage next;
+    @Expose @Nullable private Stage next;
 
     public Stage ( Objective objective ) {
         this ( objective, null, null );
@@ -49,10 +47,6 @@ public class Stage implements Observer<Event>, Prototype<Stage>, Iterable<Stage>
         return rewards;
     }
 
-    public boolean hasNext() {
-        return next != null;
-    }
-
     @Nullable
     public Stage getNext() {
         return next;
@@ -74,20 +68,5 @@ public class Stage implements Observer<Event>, Prototype<Stage>, Iterable<Stage>
     @Override
     public Stage copy () {
         return new Stage( this );
-    }
-
-    @Override
-    public Iterator<Stage> iterator () {
-        return new Iterator<Stage>() {
-            @Override
-            public boolean hasNext () {
-                return Stage.this.next != null;
-            }
-
-            @Override
-            public Stage next () {
-                return Stage.this.next;
-            }
-        };
     }
 }

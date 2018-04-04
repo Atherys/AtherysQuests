@@ -22,9 +22,8 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Expose private List<Requirement> requirements = new ArrayList<>();
 
-    @Expose private Stage head;
-    @Expose private Stage current;
-    private Stage tail;
+    @Expose private List<Stage> stages;
+    @Expose private int current;
 
     @Expose private List<Reward> rewards = new ArrayList<>();
 
@@ -40,8 +39,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     private StagedQuest ( StagedQuest quest ) {
         super ( quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription() );
         this.requirements = CopyUtils.copyList( requirements );
-        this.head = quest.getHead().copy();
-        this.current = head;
+        this.stages = CopyUtils.copyList( quest.getStages() );
         this.rewards = CopyUtils.copyList( rewards );
         this.started = quest.isStarted();
         this.complete = quest.isComplete();
@@ -60,26 +58,18 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         return requirements;
     }
 
-    public Stage getHead() {
-        return head;
+    public List<Stage> getStages() {
+        return stages;
     }
 
     protected void addStage ( Stage stage ) {
-        if ( this.head == null ) {
-            this.head = stage;
-            this.current = stage;
-            this.tail = stage;
-
-            return;
-        }
-        this.tail.setNext( stage );
-        this.tail = stage;
+        stages.add( stage );
     }
 
     @Override
     public List<Objective> getObjectives () {
         List<Objective> objectives = new ArrayList<>();
-        head.forEach( stage -> objectives.add( stage.getObjective() ) );
+        stages.forEach( stage -> objectives.add( stage.getObjective() ) );
         return objectives;
     }
 
@@ -98,15 +88,16 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         if ( isComplete() ) return;
 
         // if the current objective is complete
-        if ( current.getObjective().isComplete() ) {
+        if ( stages.get( current ).getObjective().isComplete() ) {
             // and has a next objective
-            if ( this.current.hasNext() ) {
+            if ( stages.get( current ).getNext() != null ) {
                 // set started as true, in case this was the first objective
                 this.started = true;
                 // award the player for completing the current objective
-                current.award( quester );
+                stages.get( current ).award( quester );
                 // set the current objective to the next one
-                this.current = current.getNext();
+                current++;
+
                 QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
             // if it does not have a next objective
             } else {
@@ -118,7 +109,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         }
 
         // notify the current Stage of the event
-        current.notify( event, quester );
+        stages.get( current ).notify( event, quester );
     }
 
     @Override
