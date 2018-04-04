@@ -22,7 +22,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Expose private List<Requirement> requirements = new ArrayList<>();
 
-    @Expose private List<Stage> stages;
+    @Expose private List<Stage> stages = new ArrayList<>();
     @Expose private int current;
 
     @Expose private List<Reward> rewards = new ArrayList<>();
