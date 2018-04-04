@@ -7,7 +7,7 @@ import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.util.QuestMsg;
-import com.atherys.quests.views.AnyQuestView;
+import com.atherys.quests.views.StagedQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
@@ -61,6 +61,8 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     public List<Stage> getStages() {
         return stages;
     }
+
+    public Stage getCurrent() { return stages.get( current ); }
 
     protected void addStage ( Stage stage ) {
         stages.add( stage );
@@ -123,8 +125,8 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     }
 
     @Override
-    public AnyQuestView<StagedQuest> createView () {
-        return new AnyQuestView<>( this );
+    public StagedQuestView createView () {
+        return new StagedQuestView( this );
     }
 
     @Override

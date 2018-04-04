@@ -28,9 +28,11 @@ public class TakeQuestView implements QuestView<Quest> {
 
         questView.addPage( intro.build() );
 
-        questView.addPage( getFormattedObjectives() );
+        QuestView view = quest.createView();
 
-        questView.addPage( getFormattedRewards() );
+        questView.addPage( view.getFormattedObjectives() );
+
+        questView.addPage( view.getFormattedRewards() );
 
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of( Text.of( "Do you accept the quest \"", quest.getName(), "\"?" ) )

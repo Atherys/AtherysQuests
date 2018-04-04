@@ -12,7 +12,7 @@ import org.spongepowered.api.text.format.TextStyles;
 
 public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
 
-    private final Quest<T> quest;
+    protected final Quest<T> quest;
 
     public AnyQuestView ( Quest<T> quest ) {
         this.quest = quest;
