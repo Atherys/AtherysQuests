@@ -23,6 +23,7 @@ public class StagedQuestView extends AnyQuestView<StagedQuest> {
             } else {
                 objectives.append( Text.of( TextStyles.ITALIC, TextColors.GRAY, stage.getObjective(), TextStyles.RESET, TextColors.RESET ) );
             }
+            objectives.append( Text.NEW_LINE );
         }
         return objectives.build();
     }
