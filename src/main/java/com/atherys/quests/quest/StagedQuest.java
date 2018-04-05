@@ -27,10 +27,8 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Expose private List<Reward> rewards = new ArrayList<>();
 
-    @Expose
-    private boolean started = false;
-    @Expose
-    private boolean complete = false;
+    @Expose private boolean started = false;
+    @Expose private boolean complete = false;
 
     protected StagedQuest ( String id, int version ) {
         super ( id, version );
@@ -38,9 +36,9 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     private StagedQuest ( StagedQuest quest ) {
         super ( quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription() );
-        this.requirements = CopyUtils.copyList( requirements );
+        this.requirements = CopyUtils.copyList( quest.getRequirements() );
         this.stages = CopyUtils.copyList( quest.getStages() );
-        this.rewards = CopyUtils.copyList( rewards );
+        this.rewards = CopyUtils.copyList( quest.getRewards() );
         this.started = quest.isStarted();
         this.complete = quest.isComplete();
     }
@@ -89,10 +87,13 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         // if the quest has already been completed, just return
         if ( isComplete() ) return;
 
+        // notify the current Stage of the event
+        stages.get( current ).notify( event, quester );
+
         // if the current objective is complete
         if ( stages.get( current ).getObjective().isComplete() ) {
             // and has a next objective
-            if ( stages.get( current ).getNext() != null ) {
+            if ( stages.size() <= current + 1 && stages.get( current + 1 ) != null ) {
                 // set started as true, in case this was the first objective
                 this.started = true;
                 // award the player for completing the current objective
@@ -105,13 +106,8 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
             } else {
                 // set quest as completed
                 this.complete = true;
-                // return, since there's nothing left to notify
-                return;
             }
         }
-
-        // notify the current Stage of the event
-        stages.get( current ).notify( event, quester );
     }
 
     @Override
