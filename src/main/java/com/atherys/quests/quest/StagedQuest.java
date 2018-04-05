@@ -23,7 +23,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Expose private List<Requirement> requirements = new ArrayList<>();
 
     @Expose private List<Stage> stages = new ArrayList<>();
-    @Expose private int current;
+    @Expose private int current = 0;
 
     @Expose private List<Reward> rewards = new ArrayList<>();
 
@@ -66,6 +66,14 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         stages.add( stage );
     }
 
+    public Stage getNextStage() {
+        return stages.get( current + 1 );
+    }
+
+    public boolean hasNextStage() {
+        return stages.size() < current + 1;
+    }
+
     @Override
     public List<Objective> getObjectives () {
         List<Objective> objectives = new ArrayList<>();
@@ -87,22 +95,26 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         // if the quest has already been completed, just return
         if ( isComplete() ) return;
 
-        // notify the current Stage of the event
+        // set started as true, in case this was the first objective
+        if ( !isStarted() ) this.started = true;
+
+        // notify the current stage of the event
         stages.get( current ).notify( event, quester );
 
-        // if the current objective is complete
-        if ( stages.get( current ).getObjective().isComplete() ) {
-            // and has a next objective
-            if ( stages.size() <= current + 1 && stages.get( current + 1 ) != null ) {
-                // set started as true, in case this was the first objective
-                this.started = true;
-                // award the player for completing the current objective
-                stages.get( current ).award( quester );
-                // set the current objective to the next one
-                current++;
+        // if the current stage is complete
+        if ( stages.get( current ).isComplete() ) {
 
+            // award the player for completing the current stage
+            stages.get( current ).award( quester );
+
+            // and has a next stage
+            if ( this.hasNextStage() ) {
+
+                // set the current stage to the next one
+                current++;
                 QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
-            // if it does not have a next objective
+
+            // if it does not have a next stage
             } else {
                 // set quest as completed
                 this.complete = true;
