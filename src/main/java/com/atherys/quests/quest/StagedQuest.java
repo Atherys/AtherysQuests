@@ -71,7 +71,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     }
 
     public boolean hasNextStage() {
-        return stages.size() < current + 1;
+        return stages.size() > current + 1;
     }
 
     @Override
