@@ -39,8 +39,8 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         this.requirements = CopyUtils.copyList( quest.getRequirements() );
         this.stages = CopyUtils.copyList( quest.getStages() );
         this.rewards = CopyUtils.copyList( quest.getRewards() );
-        this.started = quest.isStarted();
-        this.complete = quest.isComplete();
+        this.started = false;
+        this.complete = false;
     }
 
     protected void setName ( Text name ) {
