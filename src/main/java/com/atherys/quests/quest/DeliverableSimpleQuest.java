@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * A Quest which must be delivered to an entity in order to be completed. WIP.
  */
-public final class DeliverableSimpleQuest extends SimpleQuest {
+public class DeliverableSimpleQuest extends SimpleQuest {
 
     @Expose
     private UUID entity;
@@ -19,11 +19,16 @@ public final class DeliverableSimpleQuest extends SimpleQuest {
     private DeliverableSimpleQuest ( DeliverableSimpleQuest quest ) {
         super( quest );
         this.entity = quest.getEntity();
+
     }
 
     @Override
     public SimpleQuest copy() {
         return new DeliverableSimpleQuest( this );
+    }
+
+    protected void setEntity( UUID uuid ) {
+        this.entity = uuid;
     }
 
     public UUID getEntity () {

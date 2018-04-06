@@ -13,6 +13,7 @@ import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.DeliverableSimpleQuest;
+import com.atherys.quests.quest.DeliverableStagedQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
@@ -45,6 +46,9 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -85,6 +89,14 @@ public class AtherysQuests {
             return;
         }
 
+        try {
+            ScriptEngine engine = new ScriptEngineManager().getEngineByExtension( "kts" );
+            engine.eval( "val x = 3" );
+            logger.info( engine.eval( "x + 2" ).toString() );
+        } catch ( ScriptException e ) {
+            e.printStackTrace();
+        }
+
         init = true;
     }
 
@@ -98,7 +110,8 @@ public class AtherysQuests {
         GsonUtils.getQuestRuntimeTypeAdapterFactory()
                 .registerSubtype( SimpleQuest.class )
                 .registerSubtype( StagedQuest.class )
-                .registerSubtype( DeliverableSimpleQuest.class );
+                .registerSubtype( DeliverableSimpleQuest.class )
+                .registerSubtype( DeliverableStagedQuest.class );
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype( AndRequirement.class )
