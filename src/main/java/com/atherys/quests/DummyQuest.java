@@ -38,14 +38,14 @@ public class DummyQuest {
                             .quantity( 1 )
                             .add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) )
                             .add( Keys.ITEM_ENCHANTMENTS, Arrays.asList(
-                                    Enchantment.of( EnchantmentTypes.FLAME, 10 ),
-                                    Enchantment.of( EnchantmentTypes.INFINITY, 4 )
+                                            Enchantment.of( EnchantmentTypes.FLAME, 10 ),
+                                            Enchantment.of( EnchantmentTypes.INFINITY, 4 )
                                     )
                             )
                             .add( Keys.ITEM_LORE, Arrays.asList(
-                                    Text.of( "An anvil so magical, it will" ),
-                                    Text.of( "actually set you on fire." ),
-                                    Text.of( "For infinity." )
+                                            Text.of( "An anvil so magical, it will" ),
+                                            Text.of( "actually set you on fire." ),
+                                            Text.of( "For infinity." )
                                     )
                             )
                             .build()
@@ -105,14 +105,14 @@ public class DummyQuest {
                             .quantity( 1 )
                             .add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) )
                             .add( Keys.ITEM_ENCHANTMENTS, Arrays.asList(
-                                    Enchantment.of( EnchantmentTypes.FLAME, 10 ),
-                                    Enchantment.of( EnchantmentTypes.INFINITY, 4 )
+                                            Enchantment.of( EnchantmentTypes.FLAME, 10 ),
+                                            Enchantment.of( EnchantmentTypes.INFINITY, 4 )
                                     )
                             )
                             .add( Keys.ITEM_LORE, Arrays.asList(
-                                    Text.of( "An anvil so magical, it will" ),
-                                    Text.of( "actually set you on fire." ),
-                                    Text.of( "For infinity." )
+                                            Text.of( "An anvil so magical, it will" ),
+                                            Text.of( "actually set you on fire." ),
+                                            Text.of( "For infinity." )
                                     )
                             )
                             .build()

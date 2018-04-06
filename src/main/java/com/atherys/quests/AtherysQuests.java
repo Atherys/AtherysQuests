@@ -46,9 +46,6 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -87,14 +84,6 @@ public class AtherysQuests {
             logger.error( "The AtherysQuests config is set to default. Please change default config settings and then set 'isDefault' to 'false'." );
             init = false;
             return;
-        }
-
-        try {
-            ScriptEngine engine = new ScriptEngineManager().getEngineByExtension( "nashorn" );
-            engine.eval( "var x = 3" );
-            logger.info( engine.eval( "x + 2" ).toString() );
-        } catch ( ScriptException e ) {
-            e.printStackTrace();
         }
 
         init = true;
