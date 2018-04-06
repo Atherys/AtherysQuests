@@ -90,8 +90,8 @@ public class AtherysQuests {
         }
 
         try {
-            ScriptEngine engine = new ScriptEngineManager().getEngineByExtension( "kts" );
-            engine.eval( "val x = 3" );
+            ScriptEngine engine = new ScriptEngineManager().getEngineByExtension( "js" );
+            engine.eval( "var x = 3" );
             logger.info( engine.eval( "x + 2" ).toString() );
         } catch ( ScriptException e ) {
             e.printStackTrace();
