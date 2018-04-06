@@ -6,15 +6,22 @@ import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.KillEntityObjective;
 import com.atherys.quests.quest.objective.ReachLocationObjective;
 import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.quester.Quester;
 import com.flowpowered.math.vector.Vector3d;
+import org.apache.commons.lang3.RandomUtils;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.enchantment.Enchantment;
 import org.spongepowered.api.item.enchantment.EnchantmentTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class DummyQuest {
 
@@ -45,6 +52,44 @@ public class DummyQuest {
                     )
             );
         }
+
+        @Override
+        public void pickUp( Quester quester ) {
+            Player player = quester.getCachedPlayer();
+            if ( player == null ) return;
+
+            List<Entity> zombies = new ArrayList<>();
+            List<Entity> creepers = new ArrayList<>();
+
+            for ( int i = 0; i < 5; i++ ) {
+                zombies.add(
+                        quester.getCachedPlayer().getWorld().createEntity(
+                                EntityTypes.ZOMBIE,
+                                player.getLocation().getPosition().add(
+                                        RandomUtils.nextFloat( 0.0f, 15.0f ),
+                                        0,
+                                        RandomUtils.nextFloat( 0.0f, 15.0f )
+                                )
+                        )
+                );
+            }
+
+            for ( int i = 0; i < 4; i++ ) {
+                creepers.add(
+                        quester.getCachedPlayer().getWorld().createEntity(
+                                EntityTypes.CREEPER,
+                                player.getLocation().getPosition().add(
+                                        RandomUtils.nextFloat( 0.0f, 15.0f ),
+                                        0,
+                                        RandomUtils.nextFloat( 0.0f, 15.0f )
+                                )
+                        )
+                );
+            }
+
+            player.getWorld().spawnEntities( zombies );
+            player.getWorld().spawnEntities( creepers );
+        }
     }
 
     public static class Staged extends StagedQuest {
@@ -73,6 +118,44 @@ public class DummyQuest {
                             .build()
                     )
             );
+        }
+
+        @Override
+        public void pickUp( Quester quester ) {
+            Player player = quester.getCachedPlayer();
+            if ( player == null ) return;
+
+            List<Entity> zombies = new ArrayList<>();
+            List<Entity> creepers = new ArrayList<>();
+
+            for ( int i = 0; i < 5; i++ ) {
+                zombies.add(
+                        quester.getCachedPlayer().getWorld().createEntity(
+                                EntityTypes.ZOMBIE,
+                                player.getLocation().getPosition().add(
+                                        RandomUtils.nextFloat( 0.0f, 15.0f ),
+                                        0,
+                                        RandomUtils.nextFloat( 0.0f, 15.0f )
+                                )
+                        )
+                );
+            }
+
+            for ( int i = 0; i < 4; i++ ) {
+                creepers.add(
+                        quester.getCachedPlayer().getWorld().createEntity(
+                                EntityTypes.CREEPER,
+                                player.getLocation().getPosition().add(
+                                        RandomUtils.nextFloat( 0.0f, 15.0f ),
+                                        0,
+                                        RandomUtils.nextFloat( 0.0f, 15.0f )
+                                )
+                        )
+                );
+            }
+
+            player.getWorld().spawnEntities( zombies );
+            player.getWorld().spawnEntities( creepers );
         }
     }
 }

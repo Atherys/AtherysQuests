@@ -1,5 +1,6 @@
 package com.atherys.quests.quest;
 
+import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 
 import java.util.UUID;
@@ -19,6 +20,10 @@ public class DeliverableSimpleQuest extends SimpleQuest {
     private DeliverableSimpleQuest ( DeliverableSimpleQuest quest ) {
         super( quest );
         this.entity = quest.getEntity();
+    }
+
+    @Override
+    public void pickUp( Quester quester ) {
 
     }
 

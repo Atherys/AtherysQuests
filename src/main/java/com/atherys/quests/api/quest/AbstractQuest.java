@@ -42,6 +42,11 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
+    public void pickUp ( Quester quester ) {
+
+    }
+
+    @Override
     public boolean meetsRequirements ( Quester quester ) {
         for ( Requirement req : getRequirements() ) {
             if ( !req.check( quester ) ) return false;

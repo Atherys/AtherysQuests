@@ -69,6 +69,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         }
 
         if ( !completedQuests.containsKey( quest.getId() ) && !quests.containsKey( quest.getId() ) ) {
+            quest.pickUp( this );
             quests.put( quest.getId(), (Quest) quest.copy() );
             QuestMsg.info( this, "You have started the quest \"", quest.getName(), "\"" );
 

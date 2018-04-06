@@ -56,6 +56,12 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     List<Reward> getRewards();
 
     /**
+     * A method which gets called when this quest is picked up by a {@link Quester}.<br>
+     * @param quester The quester who picked up the quest
+     */
+    void pickUp ( Quester quester );
+
+    /**
      * Checks whether or not the Quester meets the requirements of this quest.
      * @param quester The Quester to be checked
      * @return Whether or not the Quester meets the requirements
