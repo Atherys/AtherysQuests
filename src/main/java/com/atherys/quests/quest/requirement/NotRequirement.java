@@ -9,7 +9,7 @@ public class NotRequirement implements Requirement {
     private Requirement requirement;
 
 
-    public NotRequirement ( Requirement requirement ) {
+    NotRequirement ( Requirement requirement ) {
         this.requirement = requirement;
     }
 

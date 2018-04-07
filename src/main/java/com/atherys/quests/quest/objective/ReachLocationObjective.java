@@ -2,19 +2,18 @@ package com.atherys.quests.quest.objective;
 
 import com.atherys.quests.api.objective.AbstractObjective;
 import com.atherys.quests.quester.Quester;
-import com.flowpowered.math.vector.Vector3d;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Expose Text name;
 
-    @Expose private double x;
-    @Expose private double y;
-    @Expose private double z;
+    @Expose private Location<World> location;
     @Expose private double radius;
 
     @Expose private boolean complete;
@@ -23,18 +22,20 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
         super( MoveEntityEvent.class );
     }
 
-    public ReachLocationObjective ( Text name, Vector3d position, double radius ) {
+    ReachLocationObjective ( Text name, Location<World> location, double radius ) {
         this();
         this.name = name;
-        this.x = position.getX();
-        this.y = position.getY();
-        this.z = position.getZ();
+        this.location = location;
         this.radius = radius;
     }
 
     @Override
     protected void onNotify ( MoveEntityEvent event, Quester quester ) {
-        if ( event.getToTransform().getPosition().distance( Vector3d.from( x, y, z ) ) < radius  ) this.complete = true;
+        if ( event.getToTransform().getLocation().getExtent().equals( location.getExtent() ) ) {
+            if ( event.getToTransform().getPosition().distance( location.getPosition() ) < radius ) {
+                this.complete = true;
+            }
+        }
     }
 
     @Override
@@ -44,11 +45,11 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Override
     public ReachLocationObjective copy () {
-        return new ReachLocationObjective( name, Vector3d.from( x, y, z ), radius );
+        return new ReachLocationObjective( name, location, radius );
     }
 
     @Override
     public Text toText () {
-        return Text.builder().append( Text.of( "Reach ", name ) ).onHover( TextActions.showText( Text.of( "Located @ ", x, ", ", y, ", ", z ) ) ).build();
+        return Text.builder().append( Text.of( "Reach ", name ) ).onHover( TextActions.showText( Text.of( "Located @ ", location.getPosition() ) ) ).build();
     }
 }

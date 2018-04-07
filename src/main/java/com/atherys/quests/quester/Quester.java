@@ -30,17 +30,17 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     private Map<String, Quest> quests = new HashMap<>();
     private Map<String, Long> completedQuests = new HashMap<>();
 
-    public Quester( Player player ) {
+    public Quester ( Player player ) {
         this.player = player.getUniqueId();
         this.cachedPlayer = player;
     }
 
     @Override
-    public UUID getUUID() {
+    public UUID getUUID () {
         return player;
     }
 
-    public void notify( Event event, Player player ) {
+    public void notify ( Event event, Player player ) {
         if ( !this.player.equals( player.getUniqueId() ) ) return;
 
         this.cachedPlayer = player;
@@ -58,7 +58,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         }
     }
 
-    public void pickupQuest( Quest quest ) {
+    public void pickupQuest ( Quest quest ) {
         if ( !quest.meetsRequirements( this ) ) {
             Text.Builder reqText = Text.builder();
             reqText.append( Text.of( QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest." ) );
@@ -80,11 +80,11 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         }
     }
 
-    public void removeQuest( Quest quest ) {
+    public void removeQuest ( Quest quest ) {
         quests.remove( quest.getId() );
     }
 
-    public void completeQuest( Quest quest ) {
+    public void turnInQuest ( Quest quest ) {
         removeQuest( quest );
         completedQuests.put( quest.getId(), System.currentTimeMillis() );
 
@@ -92,28 +92,29 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         QuestMsg.info( this, "You have turned in the quest \"", quest.getName(), "\"" );
 
+        quest.turnIn( this );
         QuestTurnedInEvent qsEvent = new QuestTurnedInEvent( quest, this );
         Sponge.getEventManager().post( qsEvent );
     }
 
-    public Optional<? extends User> getUser() {
+    public Optional<? extends User> getUser () {
         return UserUtils.getUser( this.player );
     }
 
     @Nullable
-    public Player getCachedPlayer() {
+    public Player getCachedPlayer () {
         return cachedPlayer;
     }
 
-    public Map<String, Long> getCompletedQuests() {
+    public Map<String, Long> getCompletedQuests () {
         return completedQuests;
     }
 
-    public Map<String, Quest> getQuests() {
+    public Map<String, Quest> getQuests () {
         return quests;
     }
 
-    public boolean hasCompleted( String questId ) {
+    public boolean hasCompleted ( String questId ) {
         return completedQuests.containsKey( questId );
     }
 
@@ -122,7 +123,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         return new QuestLog( this );
     }
 
-    public QuestLog getLog() {
+    public QuestLog getLog () {
         return new QuestLog( this );
     }
 }

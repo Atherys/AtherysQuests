@@ -22,7 +22,7 @@ public class MoneyRequirement extends NumericRequirement {
         super( 0 );
     }
 
-    public MoneyRequirement( double amount, Currency currency ) {
+    MoneyRequirement( double amount, Currency currency ) {
         super( amount );
         this.currency = currency;
     }

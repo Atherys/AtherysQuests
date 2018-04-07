@@ -15,14 +15,11 @@ public class QuestRequirement implements Requirement {
     @Expose
     private String questId;
 
-    private QuestRequirement() {
-    }
-
-    public QuestRequirement( String questId ) {
+    QuestRequirement( String questId ) {
         this.questId = questId;
     }
 
-    public QuestRequirement( Quest quest ) {
+    QuestRequirement( Quest quest ) {
         this.questId = quest.getId();
     }
 
@@ -30,7 +27,7 @@ public class QuestRequirement implements Requirement {
     public Text toText() {
         Optional<Quest> quest = QuestManager.getInstance().getQuest( questId );
         if ( quest.isPresent() ) {
-            return Text.of( "You have to have completed the ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET, " quest." );
+            return Text.of( "You have to have completed the quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET );
         } else {
             return Text.of( "Uh oh. According to this, you have to have completed a quest which isn't registered. Please report this." );
         }

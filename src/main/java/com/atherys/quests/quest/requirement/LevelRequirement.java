@@ -12,7 +12,7 @@ public class LevelRequirement extends NumericRequirement {
         super( 0 );
     }
 
-    public LevelRequirement( int level ) {
+    LevelRequirement( int level ) {
         super( level );
     }
 

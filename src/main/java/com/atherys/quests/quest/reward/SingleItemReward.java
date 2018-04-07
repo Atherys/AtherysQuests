@@ -21,14 +21,11 @@ public class SingleItemReward implements Reward {
     @Expose
     private ItemStackSnapshot item;
 
-    private SingleItemReward() {
-    }
-
-    public SingleItemReward( ItemStack stack ) {
+    SingleItemReward( ItemStack stack ) {
         this.item = stack.createSnapshot();
     }
 
-    private SingleItemReward( ItemStackSnapshot snapshot ) {
+    SingleItemReward( ItemStackSnapshot snapshot ) {
         this.item = snapshot;
     }
 

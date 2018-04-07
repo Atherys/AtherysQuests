@@ -29,7 +29,7 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
         super( DialogProceedEvent.class );
     }
 
-    public DialogObjective( String treeId, int node, @Nullable Text description ) {
+    DialogObjective( String treeId, int node, @Nullable Text description ) {
         super( DialogProceedEvent.class );
         this.requiredDialogTree = treeId;
         this.requiredDialogNode = node;

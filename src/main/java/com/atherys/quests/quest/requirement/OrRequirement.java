@@ -12,7 +12,7 @@ public class OrRequirement implements Requirement {
     @Expose
     private Requirement requirement2;
 
-    public OrRequirement( Requirement requirement1, Requirement requirement2 ) {
+    OrRequirement( Requirement requirement1, Requirement requirement2 ) {
         this.requirement1 = requirement1;
         this.requirement2 = requirement2;
     }

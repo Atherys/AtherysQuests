@@ -22,10 +22,7 @@ public class MoneyReward implements Reward {
     @Expose
     private Currency currency;
 
-    private MoneyReward() {
-    }
-
-    public MoneyReward( double amount, Currency currency ) {
+    MoneyReward( double amount, Currency currency ) {
         this.amount = amount;
         this.currency = currency;
     }

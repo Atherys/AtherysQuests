@@ -12,10 +12,10 @@ import org.spongepowered.api.Sponge;
 
 public final class GsonUtils {
 
-    private static RuntimeTypeAdapterFactory<Quest> questRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Quest.class, "__type__" );
-    private static RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Objective.class, "__type__" );
-    private static RuntimeTypeAdapterFactory<Reward> rewardRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Reward.class, "__type__" );
-    private static RuntimeTypeAdapterFactory<Requirement> requirementRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Requirement.class, "__type__" );
+    private static RuntimeTypeAdapterFactory<Quest> questRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Quest.class, "questType" );
+    private static RuntimeTypeAdapterFactory<Objective> objectiveTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Objective.class, "objectiveType" );
+    private static RuntimeTypeAdapterFactory<Reward> rewardRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Reward.class, "rewardType" );
+    private static RuntimeTypeAdapterFactory<Requirement> requirementRuntimeTypeAdapterFactory = RuntimeTypeAdapterFactory.of( Requirement.class, "requirementType" );
 
     public static RuntimeTypeAdapterFactory<Requirement> getRequirementRuntimeTypeAdapterFactory() {
         return requirementRuntimeTypeAdapterFactory;

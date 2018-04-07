@@ -20,7 +20,7 @@ public class InteractWithBlockObjective extends AbstractObjective<InteractBlockE
         super( InteractBlockEvent.class );
     }
 
-    public InteractWithBlockObjective ( BlockSnapshot snapshot ) {
+    InteractWithBlockObjective ( BlockSnapshot snapshot ) {
         this();
         this.snapshot = snapshot;
     }

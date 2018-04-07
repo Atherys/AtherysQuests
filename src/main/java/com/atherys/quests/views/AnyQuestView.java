@@ -39,7 +39,7 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
         if ( quest.isComplete() ) {
             Question completeQuest = Question.of( Text.of( "You have completed this quest. Would you like to turn it in?" ) )
                     .addAnswer( Question.Answer.of( Text.of( TextStyles.BOLD, TextColors.DARK_GREEN, "Turn In" ), (src) -> {
-                        QuesterManager.getInstance().getQuester( src ).completeQuest( quest );
+                        QuesterManager.getInstance().getQuester( src ).turnInQuest( quest );
                     } ) )
                     .build();
 

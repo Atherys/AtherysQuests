@@ -43,6 +43,8 @@ public class QuestLog implements View<Quester> {
             } else {
                 lastPage.append( Text.of( questView.build(), "\n" ) );
             }
+
+            i++;
         }
 
         pages.add( lastPage.build() );

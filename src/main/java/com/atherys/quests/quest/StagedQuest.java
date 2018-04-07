@@ -56,6 +56,10 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         return requirements;
     }
 
+    public void addRequirement ( Requirement requirement ) {
+        requirements.add( requirement );
+    }
+
     public List<Stage> getStages() {
         return stages;
     }
@@ -118,6 +122,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
             } else {
                 // set quest as completed
                 this.complete = true;
+                complete( quester );
             }
         }
     }

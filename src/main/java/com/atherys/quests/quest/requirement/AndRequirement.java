@@ -12,7 +12,7 @@ public class AndRequirement implements Requirement {
     @Expose
     private Requirement requirement2;
 
-    public AndRequirement( Requirement requirement1, Requirement requirement2 ) {
+    AndRequirement( Requirement requirement1, Requirement requirement2 ) {
         this.requirement1 = requirement1;
         this.requirement2 = requirement2;
     }
