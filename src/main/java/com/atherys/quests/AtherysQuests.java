@@ -1,15 +1,11 @@
 package com.atherys.quests;
 
-import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.listeners.EntityListener;
-import com.atherys.quests.listeners.GsonListener;
-import com.atherys.quests.listeners.InventoryListener;
-import com.atherys.quests.listeners.MasterEventListener;
+import com.atherys.quests.events.DialogRegistrationEvent;
+import com.atherys.quests.events.QuestRegistrationEvent;
+import com.atherys.quests.listeners.*;
 import com.atherys.quests.managers.DialogManager;
-import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.DeliverableSimpleQuest;
 import com.atherys.quests.quest.DeliverableStagedQuest;
@@ -92,6 +88,7 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+        //Sponge.getEventManager().registerListeners( this, new DialogQuestRegistrationListener() );
 
         GsonUtils.getQuestRuntimeTypeAdapterFactory()
                 .registerSubtype( SimpleQuest.class )
@@ -119,11 +116,11 @@ public class AtherysQuests {
                 .registerSubtype( MoneyReward.class )
                 .registerSubtype( SingleItemReward.class );
 
-        Quest dummyQuest = new DummyQuest.Staged();
-        DialogTree tree = DummyQuest.dialog( dummyQuest );
+        QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
+        Sponge.getEventManager().post( questRegistrationEvent );
 
-        DialogManager.getInstance().registerDialog( tree );
-        QuestManager.getInstance().registerQuest( dummyQuest );
+        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
+        Sponge.getEventManager().post( dialogRegistrationEvent );
 
         QuesterManager.getInstance().loadAll();
 
