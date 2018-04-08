@@ -20,6 +20,9 @@ public class QuestsConfig extends PluginConfig {
     @Setting( "dialogs_folder" )
     public String DIALOG_FOLDER = "dialogs";
 
+    @Setting( "scripts_folder" )
+    public String SCRIPTS_FOLDER = "scripts";
+
     protected QuestsConfig( String directory, String filename ) throws IOException {
         super( directory, filename );
     }
