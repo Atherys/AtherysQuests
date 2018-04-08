@@ -7,13 +7,6 @@ import org.spongepowered.api.event.Listener
 import org.spongepowered.api.plugin.Dependency
 import org.spongepowered.api.plugin.Plugin
 
-@Plugin(
-        id = "questaddon",
-        name = "AtherysQuests Addon",
-        description = "A plugin containing quests for the AtherysQuests plugin",
-        version = "1.0.0",
-        dependencies = [ Dependency( id = "atherysquests" ) ]
-)
 class QuestAddon {
 
     val simpleDummyQuest: DummyQuest.Simple = DummyQuest.Simple()
