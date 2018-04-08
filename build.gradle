@@ -41,7 +41,8 @@ repositories {
 }
 
 dependencies {
-    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
     shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
 }
