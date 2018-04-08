@@ -1,8 +1,5 @@
 package com.atherys.quests.quest.task;
 
-import com.flowpowered.math.vector.Vector3d;
-import org.apache.commons.lang3.RandomUtils;
-import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntitySnapshot;
 import org.spongepowered.api.util.AABB;
@@ -17,7 +14,8 @@ import org.spongepowered.api.world.World;
 public final class Tasks {
 
     public static void spawnEntitiesInRadius( Location<World> location, double radius, EntitySnapshot snapshot, int amount ) {
-        for ( int i = 0; i < amount; i++ ) {
+        // TODO: Fix this
+        /*for ( int i = 0; i < amount; i++ ) {
 
             Vector3d position = Vector3d.from(
                     RandomUtils.nextDouble( location.getPosition().getX() - radius, location.getPosition().getX() + radius ),
@@ -31,10 +29,8 @@ public final class Tasks {
                     0
             );
 
-            Entity entity = location.getExtent().createEntity( snapshot.getType(), position );
-            entity.copyFrom( (DataHolder) snapshot );
-            location.getExtent().spawnEntity( entity );
-        }
+            snapshot.withLocation( new Location<>( location.getExtent(), position ) ); // this throws an exception
+        }*/
     }
 
     public static void destroyEntitiesInBox( World world, AABB box ) {
