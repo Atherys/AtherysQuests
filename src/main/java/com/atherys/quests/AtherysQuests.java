@@ -1,11 +1,16 @@
 package com.atherys.quests;
 
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.events.DialogRegistrationEvent;
 import com.atherys.quests.events.QuestRegistrationEvent;
-import com.atherys.quests.listeners.*;
+import com.atherys.quests.listeners.EntityListener;
+import com.atherys.quests.listeners.GsonListener;
+import com.atherys.quests.listeners.InventoryListener;
+import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
+import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.DeliverableSimpleQuest;
 import com.atherys.quests.quest.DeliverableStagedQuest;
@@ -113,6 +118,10 @@ public class AtherysQuests {
         GsonUtils.getRewardRuntimeTypeAdapterFactory()
                 .registerSubtype( MoneyReward.class )
                 .registerSubtype( SingleItemReward.class );
+
+        Quest quest = new DummyQuest.Staged();
+        QuestManager.getInstance().registerQuest( quest );
+        DialogManager.getInstance().registerDialog( DummyQuest.dialog( "stagedQuestDialog", quest ) );
 
         QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
         Sponge.getEventManager().post( questRegistrationEvent );
