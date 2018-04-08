@@ -45,5 +45,4 @@ open class SimpleQuest(id: String, version: Int) : SimpleQuest(id, version) {
             addReward(reward)
         }
     }
-
 }

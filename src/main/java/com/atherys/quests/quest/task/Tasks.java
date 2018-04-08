@@ -30,7 +30,8 @@ public final class Tasks {
                     0
             );
 
-            snapshot.withLocation( new Location<>( location.getExtent(), position ) ).restore().ifPresent( location.getExtent()::spawnEntity );
+            EntitySnapshot entitySnapshot = EntitySnapshot.builder().from( snapshot ).world( location.getExtent().getProperties() ).position( position ).build();
+            entitySnapshot.restore().ifPresent( location.getExtent()::spawnEntity );
         }
     }
 

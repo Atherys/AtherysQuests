@@ -6,7 +6,6 @@ import com.atherys.quests.quest.Stage
 import com.atherys.quests.quest.StagedQuest
 import org.spongepowered.api.text.Text
 
-
 open class StagedQuest( id: String, version: Int ) : StagedQuest( id, version ) {
 
     infix fun name(name: Text) {
