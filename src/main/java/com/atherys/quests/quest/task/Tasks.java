@@ -2,7 +2,6 @@ package com.atherys.quests.quest.task;
 
 import com.flowpowered.math.vector.Vector3d;
 import org.apache.commons.lang3.RandomUtils;
-import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntitySnapshot;
 import org.spongepowered.api.util.AABB;
@@ -32,7 +31,7 @@ public final class Tasks {
             );
 
             Entity entity = location.getExtent().createEntity( snapshot.getType(), position );
-            entity.copyFrom( (DataHolder) snapshot );
+            snapshot.getValues().forEach( entity::offer );
             location.getExtent().spawnEntity( entity );
         }
     }
