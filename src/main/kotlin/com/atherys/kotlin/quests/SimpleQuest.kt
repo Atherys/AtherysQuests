@@ -8,39 +8,39 @@ import org.spongepowered.api.text.Text
 
 open class SimpleQuest(id: String, version: Int) : SimpleQuest(id, version) {
 
-    infix fun name(name: Text) {
+    infix fun SimpleQuest.name(name: Text) {
         setName(name)
     }
 
-    infix fun description(desc: Text) {
+    infix fun SimpleQuest.description(desc: Text) {
         setDescription(desc)
     }
 
-    infix fun require(requirement: Requirement) {
+    infix fun SimpleQuest.require(requirement: Requirement) {
         addRequirement(requirement)
     }
 
-    infix fun requirements(requirements: Array<Requirement>) {
+    infix fun SimpleQuest.requirements(requirements: Array<Requirement>) {
         for (requirement in requirements) {
             addRequirement(requirement)
         }
     }
 
-    infix fun objective(objective: Objective<*>) {
+    infix fun SimpleQuest.objective(objective: Objective<*>) {
         addObjective(objective)
     }
 
-    infix fun objectives(objectives: Array<Objective<*>>) {
+    infix fun SimpleQuest.objectives(objectives: Array<Objective<*>>) {
         for (objective in objectives) {
             addObjective(objective)
         }
     }
 
-    infix fun reward(reward: Reward) {
+    infix fun SimpleQuest.reward(reward: Reward) {
         addReward(reward)
     }
 
-    infix fun rewards(rewards: Array<Reward>) {
+    infix fun SimpleQuest.rewards(rewards: Array<Reward>) {
         for (reward in rewards) {
             addReward(reward)
         }

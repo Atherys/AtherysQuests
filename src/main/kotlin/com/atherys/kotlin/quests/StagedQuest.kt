@@ -8,39 +8,39 @@ import org.spongepowered.api.text.Text
 
 open class StagedQuest(id: String, version: Int) : StagedQuest(id, version) {
 
-    infix fun name(name: Text) {
+    infix fun StagedQuest.name(name: Text) {
         setName(name)
     }
 
-    infix fun description(desc: Text) {
+    infix fun StagedQuest.description(desc: Text) {
         setDescription(desc)
     }
 
-    infix fun require(requirement: Requirement) {
+    infix fun StagedQuest.require(requirement: Requirement) {
         addRequirement(requirement)
     }
 
-    infix fun requirements(requirements: Array<Requirement>) {
+    infix fun StagedQuest.requirements(requirements: Array<Requirement>) {
         for (requirement in requirements) {
             addRequirement(requirement)
         }
     }
 
-    infix fun stage(stage: Stage) {
+    infix fun StagedQuest.stage(stage: Stage) {
         addStage(stage)
     }
 
-    infix fun stages(stages: Array<Stage>) {
+    infix fun StagedQuest.stages(stages: Array<Stage>) {
         for (i in stages.indices) {
             addStage(stages[i])
         }
     }
 
-    infix fun reward(reward: Reward) {
+    infix fun StagedQuest.reward(reward: Reward) {
         addReward(reward)
     }
 
-    infix fun rewards(rewards: Array<Reward>) {
+    infix fun StagedQuest.rewards(rewards: Array<Reward>) {
         for (reward in rewards) {
             addReward(reward)
         }

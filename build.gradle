@@ -41,14 +41,12 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-
+    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
     shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
 }
 
 shadowJar {
-    relocate 'kotlin', 'com.atherys.libs.kotlin'
     relocate 'org.bson', 'com.atherys.libs.org.bson'
     relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
 }
