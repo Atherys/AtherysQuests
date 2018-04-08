@@ -1,5 +1,6 @@
 package com.atherys.quests;
 
+import com.atherys.kotlin.quests.QuestAddon;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.events.DialogRegistrationEvent;
@@ -94,9 +95,7 @@ public class AtherysQuests {
                 .registerSubtype( SimpleQuest.class )
                 .registerSubtype( StagedQuest.class )
                 .registerSubtype( DeliverableSimpleQuest.class )
-                .registerSubtype( DeliverableStagedQuest.class )
-                .registerSubtype( DummyQuest.Simple.class )
-                .registerSubtype( DummyQuest.Staged.class );
+                .registerSubtype( DeliverableStagedQuest.class );
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype( AndRequirement.class )
@@ -115,6 +114,8 @@ public class AtherysQuests {
         GsonUtils.getRewardRuntimeTypeAdapterFactory()
                 .registerSubtype( MoneyReward.class )
                 .registerSubtype( SingleItemReward.class );
+
+        Sponge.getEventManager().registerListeners( this, new QuestAddon() );
 
         QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
         Sponge.getEventManager().post( questRegistrationEvent );

@@ -1,6 +1,5 @@
 package com.atherys.quests.listeners;
 
-import com.atherys.quests.DummyQuest;
 import com.atherys.quests.events.DialogRegistrationEvent;
 import com.atherys.quests.events.QuestRegistrationEvent;
 import org.spongepowered.api.event.Listener;
