@@ -1,6 +1,6 @@
 package com.atherys.quests.events;
 
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;

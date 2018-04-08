@@ -1,9 +1,13 @@
 package com.atherys.quests.quest.requirement;
 
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
+/**
+ * A requirement which evaluates 2 other requirements and || their values.
+ */
 public class OrRequirement implements Requirement {
 
     @Expose
@@ -11,7 +15,7 @@ public class OrRequirement implements Requirement {
     @Expose
     private Requirement requirement2;
 
-    public OrRequirement( Requirement requirement1, Requirement requirement2 ) {
+    OrRequirement( Requirement requirement1, Requirement requirement2 ) {
         this.requirement1 = requirement1;
         this.requirement2 = requirement2;
     }

@@ -97,11 +97,7 @@ public class Dialog implements Viewable<DialogView> {
     }
 
     @Override
-    public Optional<DialogView> createView() {
-        return Optional.of( new DialogView( this ) );
-    }
-
-    public void start () {
-        this.proceed( cachedPlayer, lastNode );
+    public DialogView createView() {
+        return new DialogView( this );
     }
 }

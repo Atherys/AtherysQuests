@@ -2,6 +2,7 @@ package com.atherys.quests.managers;
 
 import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.GsonUtils;
@@ -31,9 +32,13 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
      */
     public Quester createQuester( Player player ) {
         Quester quester = new Quester( player );
-        getCache().put( player.getUniqueId(), quester );
-        save( quester );
+        addQuester( quester );
         return quester;
+    }
+
+    public void addQuester ( Quester quester ) {
+        this.getCache().put( quester.getUUID(), quester );
+        this.save( quester );
     }
 
     /**
@@ -75,9 +80,8 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
      * @return An empty optional
      */
     @Override
-    @Deprecated
     public Optional<Quester> get ( UUID uuid ) {
-        return Optional.empty();
+        return Optional.ofNullable( getCache().get( uuid ) );
     }
 
     @Override
@@ -98,7 +102,17 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
 
     @Override
     protected Optional<Quester> fromDocument( Document document ) {
-        return Optional.empty();
+        UUID uuid = document.get( "uuid", UUID.class );
+
+        Quester quester = new Quester( uuid );
+
+        Document quests = document.get( "quests", Document.class );
+        quests.forEach( (k,v) -> quester.getQuests().put( k, gson.fromJson( (String) v, Quest.class ) ) );
+
+        Document completedQuests = document.get( "completedQuests", Document.class );
+        completedQuests.forEach( (k,v) -> quester.getCompletedQuests().put( k, (long) v ) );
+
+        return Optional.of( quester );
     }
 
     public void saveAll() {

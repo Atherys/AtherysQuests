@@ -2,21 +2,21 @@ package com.atherys.quests;
 
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.dialog.tree.DialogNode;
-import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.listeners.EntityListener;
-import com.atherys.quests.listeners.GsonListener;
-import com.atherys.quests.listeners.InventoryListener;
-import com.atherys.quests.listeners.MasterEventListener;
+import com.atherys.quests.events.DialogRegistrationEvent;
+import com.atherys.quests.events.QuestRegistrationEvent;
+import com.atherys.quests.listeners.*;
 import com.atherys.quests.managers.DialogManager;
-import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
-import com.atherys.quests.quest.Quest;
+import com.atherys.quests.quest.DeliverableSimpleQuest;
+import com.atherys.quests.quest.DeliverableStagedQuest;
+import com.atherys.quests.quest.SimpleQuest;
+import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.DialogObjective;
+import com.atherys.quests.quest.objective.InteractWithBlockObjective;
 import com.atherys.quests.quest.objective.KillEntityObjective;
+import com.atherys.quests.quest.objective.ReachLocationObjective;
 import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.MoneyReward;
-import com.atherys.quests.quest.reward.MultiItemReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.atherys.quests.util.GsonUtils;
 import com.google.inject.Inject;
@@ -26,7 +26,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.data.DataRegistration;
-import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
@@ -34,14 +33,10 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
-import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
 import java.io.IOException;
@@ -66,13 +61,11 @@ public class AtherysQuests {
     @Inject
     Logger logger;
 
-    private void init() {
-        // TODO: Dump assets into config file
-        // TODO: Load dialogs from files
+    private void init () {
         instance = this;
 
         try {
-            config = new QuestsConfig( "config/" + ID, "config.conf" );
+            config = new QuestsConfig( getWorkingDirectory(), "config.conf" );
             config.init();
         } catch ( IOException e ) {
             init = false;
@@ -89,80 +82,43 @@ public class AtherysQuests {
         init = true;
     }
 
-    private void start() {
+    private void start () {
 
         Sponge.getEventManager().registerListeners( this, new GsonListener() );
         Sponge.getEventManager().registerListeners( this, new EntityListener() );
         Sponge.getEventManager().registerListeners( this, new InventoryListener() );
         Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+        //Sponge.getEventManager().registerListeners( this, new DialogQuestRegistrationListener() );
+
+        GsonUtils.getQuestRuntimeTypeAdapterFactory()
+                .registerSubtype( SimpleQuest.class )
+                .registerSubtype( StagedQuest.class )
+                .registerSubtype( DeliverableSimpleQuest.class )
+                .registerSubtype( DeliverableStagedQuest.class );
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype( AndRequirement.class )
                 .registerSubtype( OrRequirement.class )
+                .registerSubtype( NotRequirement.class )
                 .registerSubtype( LevelRequirement.class )
                 .registerSubtype( MoneyRequirement.class )
                 .registerSubtype( QuestRequirement.class );
 
         GsonUtils.getObjectiveTypeAdapterFactory()
                 .registerSubtype( KillEntityObjective.class )
-                .registerSubtype( DialogObjective.class );
+                .registerSubtype( DialogObjective.class )
+                .registerSubtype( ReachLocationObjective.class )
+                .registerSubtype( InteractWithBlockObjective.class );
 
         GsonUtils.getRewardRuntimeTypeAdapterFactory()
                 .registerSubtype( MoneyReward.class )
-                .registerSubtype( MultiItemReward.class )
                 .registerSubtype( SingleItemReward.class );
 
-        Quest dummyQuest = Quest.builder( "dummyQuest", 1 )
-                .name( Text.of( "This is a dummy quest." ) )
-                .description( Text.of( "The purpose of this quest is to demonstrate that quests work. So uhh.. kill 3 unnamed creepers and 4 unnamed zombies. Also speak to the king at the end there. You'll get a magical anvil at the end for it." ) )
-                //.add( new OrRequirement(
-                //        new LevelRequirement( 10 ),
-                //        new AndRequirement(
-                //                new OrRequirement(
-                //                        new QuestRequirement( "someQuest" ),
-                //                        new MoneyRequirement( 10, getEconomyService().get().getDefaultCurrency() )
-                //                ),
-                //                new QuestRequirement( "someOtherQuest" )
-                //        )
-                //) )
-                .add( KillEntityObjective.of( "creeper", 3 ) )
-                .add( KillEntityObjective.of( "zombie", 4 ) )
-                //.add( new DialogObjective( "theKingSpeech", 14, Text.of( "Speak to the king." ) ) )
-                .add( new SingleItemReward( ItemStack.builder().itemType( ItemTypes.ANVIL ).quantity( 1 ).add( Keys.DISPLAY_NAME, Text.of( "The Magical Anvil" ) ).build() ) )
-                .build();
+        QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
+        Sponge.getEventManager().post( questRegistrationEvent );
 
-        DialogNode root = DialogNode.builder( 0 )
-                .npc( Text.of( "Hello, weary traveller!" ) )
-                .responses(
-                        DialogNode.builder( 1 )
-                                .player( Text.of( "Hello, Merchant! Have you any work for me today?" ) )
-                                .npc(
-                                        Text.of( "You know, I ", TextStyles.ITALIC, " may ", TextStyles.RESET ,"actually have something you'd be", TextColors.DARK_BLUE, " interested in." ),
-                                        Text.of( "Recently, the outskirts of the town have been getting ravaged by some very nasty creatures." ),
-                                        Text.of( "I've heard that the King himself wishes this situation to be dealt with swiftly. There may even be a reward for the one who does it." )
-                                )
-                                .responses(
-                                        DialogNode.builder( 10 )
-                                                .player( Text.of( "Well, sign me up! I love me a bit of danger." ) )
-                                                .npc( Text.of( "Oh, excellent! Just remember who tipped you off, when the time comes for the King to reward you, eh? ;)" ) )
-                                                .quest( dummyQuest )
-                                                .build(),
-                                        DialogNode.builder( 11 )
-                                                .player( Text.of( "Oh, no, I'm not in the murdering vibe today. Perhaps another day." ) )
-                                                .npc( Text.of( "Well, I wouldn't take too long if I were you. Someone else is bound to pick up on that reward." ) )
-                                                .build()
-                                )
-                                .build(),
-                        DialogNode.builder( 2 )
-                                .player( Text.of( "I have no time for chit-chat. Goodbye." ) )
-                                .build()
-                )
-                .build();
-
-        DialogTree tree = DialogTree.builder( "merchantDialog" ).root( root ).build();
-
-        DialogManager.getInstance().registerDialog( tree );
-        QuestManager.getInstance().registerQuest( dummyQuest );
+        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
+        Sponge.getEventManager().post( dialogRegistrationEvent );
 
         QuesterManager.getInstance().loadAll();
 
@@ -180,7 +136,7 @@ public class AtherysQuests {
                     return CommandResult.empty();
                 } )
                 .arguments(
-                        GenericArguments.string( Text.of("dialogId") )
+                        GenericArguments.string( Text.of( "dialogId" ) )
                 )
                 .build(), "setdialog"
         );
@@ -192,7 +148,7 @@ public class AtherysQuests {
                     QuesterManager.getInstance().getQuester( player ).getLog().show( player );
 
                     return CommandResult.empty();
-                })
+                } )
                 .build(), "getquests"
         );
 
@@ -214,12 +170,12 @@ public class AtherysQuests {
 
     }
 
-    private void stop() {
+    private void stop () {
         QuesterManager.getInstance().saveAll();
     }
 
     @Listener
-    public void preInit( GamePreInitializationEvent event ) {
+    public void preInit ( GamePreInitializationEvent event ) {
         QuestKeys.DIALOG_DATA_REGISTRATION = DataRegistration.builder()
                 .dataClass( DialogData.class )
                 .immutableClass( DialogData.Immutable.class )
@@ -238,33 +194,37 @@ public class AtherysQuests {
     }
 
     @Listener
-    public void onInit( GameInitializationEvent event ) {
+    public void onInit ( GameInitializationEvent event ) {
         init();
     }
 
     @Listener
-    public void onStart( GameStartedServerEvent event ) {
+    public void onStart ( GameStartedServerEvent event ) {
         if ( init ) start();
     }
 
     @Listener
-    public void onStop( GameStoppingServerEvent event ) {
+    public void onStop ( GameStoppingServerEvent event ) {
         if ( init ) stop();
     }
 
-    public static AtherysQuests getInstance() {
+    public String getWorkingDirectory () {
+        return "config/" + ID;
+    }
+
+    public static AtherysQuests getInstance () {
         return instance;
     }
 
-    public static QuestsConfig getConfig() {
+    public static QuestsConfig getConfig () {
         return config;
     }
 
-    public Optional<EconomyService> getEconomyService() {
+    public Optional<EconomyService> getEconomyService () {
         return Sponge.getServiceManager().provide( EconomyService.class );
     }
 
-    public Logger getLogger() {
+    public Logger getLogger () {
         return logger;
     }
 }

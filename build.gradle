@@ -1,16 +1,20 @@
 group 'com.atherys'
 
 buildscript {
+    ext.kotlin_version = '1.2.30'
+
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
+apply plugin: 'kotlin'
 
 sourceCompatibility = 1.8
 
@@ -19,6 +23,7 @@ sourceSets {
         resources {
             srcDirs "src/main/"
             exclude "java/**"
+            exclude "kotlin/**"
         }
     }
 }
@@ -26,16 +31,17 @@ sourceSets {
 repositories {
     mavenCentral()
     maven {
-        name 'sponge'
-        url 'https://repo.spongepowered.org/maven'
+        name = 'sponge'
+        url = 'https://repo.spongepowered.org/maven'
     }
     maven {
-        name 'jitpack'
-        url 'https://jitpack.io'
+        name = 'jitpack'
+        url = 'https://jitpack.io'
     }
 }
 
 dependencies {
+    shadow "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
     shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
 }
@@ -43,4 +49,11 @@ dependencies {
 shadowJar {
     relocate 'org.bson', 'com.atherys.libs.org.bson'
     relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
 }

@@ -1,15 +1,18 @@
 package com.atherys.quests.quest.objective;
 
+import com.atherys.quests.api.objective.AbstractObjective;
+import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.events.DialogProceedEvent;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
-import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import javax.annotation.Nullable;
 
-@ConfigSerializable
+/**
+ * An {@link Objective} for interacting with Dialogs.
+ */
 public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
     @Expose
@@ -22,11 +25,7 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
     @Expose
     private boolean complete = false;
 
-    private DialogObjective() {
-        super( DialogProceedEvent.class );
-    }
-
-    public DialogObjective( String treeId, int node, @Nullable Text description ) {
+    DialogObjective( String treeId, int node, @Nullable Text description ) {
         super( DialogProceedEvent.class );
         this.requiredDialogTree = treeId;
         this.requiredDialogNode = node;

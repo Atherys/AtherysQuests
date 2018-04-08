@@ -1,6 +1,6 @@
 package com.atherys.quests.util;
 
-import com.atherys.quests.base.Prototype;
+import com.atherys.quests.api.base.Prototype;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ public final class CopyUtils {
 
     @SuppressWarnings( "unchecked" )
     public static <T extends Prototype> List<T> copyList( List<T> original ) {
+        if ( original == null ) return new ArrayList<>();
         List<T> copyList = new ArrayList<>( original.size() );
         for ( T object : original ) {
             copyList.add( ( T ) object.copy() );
@@ -25,4 +26,8 @@ public final class CopyUtils {
         return copy;
     }
 
+    @SuppressWarnings( "unchecked" )
+    public static <T extends Prototype> T copy ( T head ) {
+        return (T) head.copy();
+    }
 }

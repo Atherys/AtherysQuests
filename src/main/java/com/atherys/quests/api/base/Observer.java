@@ -1,4 +1,4 @@
-package com.atherys.quests.base;
+package com.atherys.quests.api.base;
 
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.event.Event;

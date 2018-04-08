@@ -1,6 +1,7 @@
 package com.atherys.quests.quest.requirement;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.User;
@@ -12,16 +13,15 @@ import org.spongepowered.api.text.Text;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * If an {@link EconomyService} is present, this requirement will check the player's balance of a certain {@link Currency}, for whether or not it is larger than or equals to a certain amount.
+ */
 public class MoneyRequirement extends NumericRequirement {
 
     @Expose
     private Currency currency;
 
-    private MoneyRequirement() {
-        super( 0 );
-    }
-
-    public MoneyRequirement( double amount, Currency currency ) {
+    MoneyRequirement( double amount, Currency currency ) {
         super( amount );
         this.currency = currency;
     }

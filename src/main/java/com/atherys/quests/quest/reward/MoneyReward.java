@@ -1,6 +1,7 @@
 package com.atherys.quests.quest.reward;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;
@@ -14,6 +15,9 @@ import org.spongepowered.api.text.Text;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * If an {@link EconomyService} is present, this reward will give the player a certain amount of {@link Currency}
+ */
 public class MoneyReward implements Reward {
 
     @Expose
@@ -21,10 +25,7 @@ public class MoneyReward implements Reward {
     @Expose
     private Currency currency;
 
-    private MoneyReward() {
-    }
-
-    public MoneyReward( double amount, Currency currency ) {
+    MoneyReward( double amount, Currency currency ) {
         this.amount = amount;
         this.currency = currency;
     }

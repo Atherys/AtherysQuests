@@ -16,8 +16,8 @@ public final class QuestKeys {
     public static Key<Value<String>> DIALOG;
     public static Key<Value<String>> QUEST;
 
-    protected static DataRegistration<QuestData, QuestData.Immutable> QUEST_DATA_REGISTRATION;
-    protected static DataRegistration<DialogData, DialogData.Immutable> DIALOG_DATA_REGISTRATION;
+    static DataRegistration<QuestData, QuestData.Immutable> QUEST_DATA_REGISTRATION;
+    static DataRegistration<DialogData, DialogData.Immutable> DIALOG_DATA_REGISTRATION;
 
     static {
         DIALOG = Key.builder()
