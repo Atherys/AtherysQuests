@@ -30,6 +30,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     private Map<String, Quest> quests = new HashMap<>();
     private Map<String, Long> completedQuests = new HashMap<>();
 
+    public Quester ( UUID uuid ) {
+        this.player = uuid;
+    }
+
     public Quester ( Player player ) {
         this.player = player.getUniqueId();
         this.cachedPlayer = player;

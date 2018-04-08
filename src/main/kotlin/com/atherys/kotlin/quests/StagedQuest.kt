@@ -6,7 +6,7 @@ import com.atherys.quests.quest.Stage
 import com.atherys.quests.quest.StagedQuest
 import org.spongepowered.api.text.Text
 
-open class StagedQuest( id: String, version: Int ) : StagedQuest( id, version ) {
+open class StagedQuest(id: String, version: Int) : StagedQuest(id, version) {
 
     infix fun name(name: Text) {
         setName(name)
@@ -31,7 +31,7 @@ open class StagedQuest( id: String, version: Int ) : StagedQuest( id, version ) 
     }
 
     infix fun stages(stages: Array<Stage>) {
-        for ( i in stages.indices ) {
+        for (i in stages.indices) {
             addStage(stages[i])
         }
     }

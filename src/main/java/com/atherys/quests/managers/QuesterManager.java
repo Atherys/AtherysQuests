@@ -2,6 +2,7 @@ package com.atherys.quests.managers;
 
 import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.GsonUtils;
@@ -101,7 +102,17 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
 
     @Override
     protected Optional<Quester> fromDocument( Document document ) {
-        return Optional.empty();
+        UUID uuid = document.get( "uuid", UUID.class );
+
+        Quester quester = new Quester( uuid );
+
+        Document quests = document.get( "quests", Document.class );
+        quests.forEach( (k,v) -> quester.getQuests().put( k, gson.fromJson( (String) v, Quest.class ) ) );
+
+        Document completedQuests = document.get( "completedQuests", Document.class );
+        completedQuests.forEach( (k,v) -> quester.getCompletedQuests().put( k, (long) v ) );
+
+        return Optional.of( quester );
     }
 
     public void saveAll() {
