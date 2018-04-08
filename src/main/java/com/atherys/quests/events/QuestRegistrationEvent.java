@@ -1,5 +1,6 @@
 package com.atherys.quests.events;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.managers.QuestManager;
 import org.spongepowered.api.Sponge;
@@ -14,7 +15,7 @@ public class QuestRegistrationEvent implements Event {
     private Cause cause;
 
     public QuestRegistrationEvent () {
-        this.cause = Cause.builder().build( Sponge.getCauseStackManager().getCurrentContext() );
+        this.cause = Cause.builder().append( AtherysQuests.getInstance() ).append( QuestManager.getInstance() ).build( Sponge.getCauseStackManager().getCurrentContext() );
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.atherys.quests.events;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.managers.DialogManager;
 import org.spongepowered.api.Sponge;
@@ -14,7 +15,7 @@ public class DialogRegistrationEvent implements Event {
     private Cause cause;
 
     public DialogRegistrationEvent () {
-        this.cause = Cause.builder().build( Sponge.getCauseStackManager().getCurrentContext() );
+        this.cause = Cause.builder().append( AtherysQuests.getInstance() ).append( DialogManager.getInstance() ).build( Sponge.getCauseStackManager().getCurrentContext() );
     }
 
     @Override
