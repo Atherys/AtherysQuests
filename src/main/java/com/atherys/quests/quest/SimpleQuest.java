@@ -1,7 +1,7 @@
 package com.atherys.quests.quest;
 
-import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple implementation of {@link Quest}.
+ * An implementation of {@link Quest} which allows the player to complete its objectives in any order they wish.
  */
 public class SimpleQuest extends AbstractQuest<SimpleQuest> {
 

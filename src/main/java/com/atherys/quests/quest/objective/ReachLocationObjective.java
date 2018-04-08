@@ -9,6 +9,9 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+/**
+ * An objective for reaching a {@link Location} within a given radius.
+ */
 public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Expose Text name;

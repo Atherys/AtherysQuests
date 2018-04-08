@@ -16,6 +16,9 @@ import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
+/**
+ * A reward for giving the player an item.
+ */
 public class SingleItemReward implements Reward {
 
     @Expose

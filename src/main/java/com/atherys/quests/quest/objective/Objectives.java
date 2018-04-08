@@ -7,6 +7,9 @@ import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
 
+/**
+ * A factory class for accessing the default Objectives
+ */
 public final class Objectives {
 
     public static DialogObjective dialog ( String treeId, int node, @Nullable Text description ) {

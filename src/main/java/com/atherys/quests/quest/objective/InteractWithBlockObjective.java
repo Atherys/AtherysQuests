@@ -8,6 +8,9 @@ import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
+/**
+ * And objective for interacting with a {@link BlockSnapshot}
+ */
 public class InteractWithBlockObjective extends AbstractObjective<InteractBlockEvent> {
 
     @Expose
@@ -16,12 +19,8 @@ public class InteractWithBlockObjective extends AbstractObjective<InteractBlockE
     @Expose
     private boolean complete = false;
 
-    private InteractWithBlockObjective () {
-        super( InteractBlockEvent.class );
-    }
-
     InteractWithBlockObjective ( BlockSnapshot snapshot ) {
-        this();
+        super( InteractBlockEvent.class );
         this.snapshot = snapshot;
     }
 

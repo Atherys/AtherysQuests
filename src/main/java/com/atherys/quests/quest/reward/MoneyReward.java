@@ -15,6 +15,9 @@ import org.spongepowered.api.text.Text;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * If an {@link EconomyService} is present, this reward will give the player a certain amount of {@link Currency}
+ */
 public class MoneyReward implements Reward {
 
     @Expose

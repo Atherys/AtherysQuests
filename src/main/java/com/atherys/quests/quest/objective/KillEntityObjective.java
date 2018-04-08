@@ -5,11 +5,12 @@ import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.event.entity.DestructEntityEvent;
 import org.spongepowered.api.text.Text;
 
 /**
- * A simple {@link Objective} for killing entities by name.
+ * A simple {@link Objective} for killing entities by name. If the entity is nameless, then it's {@link EntityType#getName()} will be used instead.
  */
 public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.Death> {
 
@@ -19,10 +20,6 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     private int requirement;
     @Expose
     private int progress;
-
-    private KillEntityObjective () {
-        super( DestructEntityEvent.Death.class );
-    }
 
     KillEntityObjective ( String entityName, int numberToKill ) {
         super( DestructEntityEvent.Death.class );

@@ -4,6 +4,9 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import org.spongepowered.api.service.economy.Currency;
 
+/**
+ * A factory class for accessing the default Requirements.
+ */
 public final class Requirements {
 
     public static AndRequirement and ( Requirement first, Requirement second ) {

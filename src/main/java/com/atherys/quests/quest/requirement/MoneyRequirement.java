@@ -13,14 +13,13 @@ import org.spongepowered.api.text.Text;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+/**
+ * If an {@link EconomyService} is present, this requirement will check the player's balance of a certain {@link Currency}, for whether or not it is larger than or equals to a certain amount.
+ */
 public class MoneyRequirement extends NumericRequirement {
 
     @Expose
     private Currency currency;
-
-    private MoneyRequirement() {
-        super( 0 );
-    }
 
     MoneyRequirement( double amount, Currency currency ) {
         super( amount );

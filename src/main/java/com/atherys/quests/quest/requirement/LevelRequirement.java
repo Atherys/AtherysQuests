@@ -6,11 +6,10 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+/**
+ * A requirement on the {@link Keys#EXPERIENCE_LEVEL} of the given player.
+ */
 public class LevelRequirement extends NumericRequirement {
-
-    private LevelRequirement() {
-        super( 0 );
-    }
 
     LevelRequirement( int level ) {
         super( level );

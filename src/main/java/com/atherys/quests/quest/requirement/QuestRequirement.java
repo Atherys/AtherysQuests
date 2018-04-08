@@ -10,6 +10,9 @@ import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.Optional;
 
+/**
+ * A requirement for checking whether or not the player has completed another quest.
+ */
 public class QuestRequirement implements Requirement {
 
     @Expose

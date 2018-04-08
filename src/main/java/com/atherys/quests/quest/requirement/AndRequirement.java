@@ -5,6 +5,9 @@ import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
+/**
+ * A requirement which evaluates 2 other requirements and && their values together.
+ */
 public class AndRequirement implements Requirement {
 
     @Expose
