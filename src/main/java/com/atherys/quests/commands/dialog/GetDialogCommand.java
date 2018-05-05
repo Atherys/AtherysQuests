@@ -1,4 +1,5 @@
 package com.atherys.quests.commands.dialog;
 
-public class GetDialogsCommand {
+public class GetDialogCommand {
+
 }
