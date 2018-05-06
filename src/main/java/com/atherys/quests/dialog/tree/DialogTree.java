@@ -3,7 +3,6 @@ package com.atherys.quests.dialog.tree;
 import com.google.gson.annotations.Expose;
 
 public class DialogTree {
-
     @Expose private String id;
     @Expose private DialogNode root;
 

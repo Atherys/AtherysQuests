@@ -1,6 +1,7 @@
 package com.atherys.quests;
 
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.commands.dialog.DialogCommand;
 import com.atherys.quests.commands.quest.QuestCommand;
 import com.atherys.quests.commands.quest.QuestLogCommand;
 import com.atherys.quests.data.DialogData;
@@ -156,18 +157,12 @@ public class AtherysQuests {
                 .executor( ( src, args ) -> {
                     Player player = (Player) src;
 
-                    for ( EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities( player, 100 ) ) {
-                        Entity next = entityHit.getEntity();
-                        if ( next instanceof Player ) continue;
-
-                        player.sendMessage( Text.of( "Dialog Test: ", DialogManager.getInstance().getDialog( entityHit.getEntity() ).isPresent() ) );
-                    }
 
                     return CommandResult.empty();
                 } )
                 .build(), "testdialog"
         );
-
+        Sponge.getCommandManager().register( this, new DialogCommand().getCommandSpec(), "dialog" );
         Sponge.getCommandManager().register( this, new QuestCommand().getCommandSpec(), "quest" );
     }
 

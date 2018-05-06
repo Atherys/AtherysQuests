@@ -12,10 +12,12 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
+import javax.annotation.Nonnull;
 import java.util.Optional;
 
 public class DialogCommand implements CommandExecutor {
 
+    @Nonnull
     @Override
     public CommandResult execute( CommandSource src, CommandContext args ) throws CommandException {
         if( !(src instanceof Player) ) return CommandResult.empty();
@@ -27,6 +29,7 @@ public class DialogCommand implements CommandExecutor {
         return CommandSpec.builder()
                 .executor( this )
                 .child( new AttachDialogCommand().getCommandSpec() )
+                .child( new GetDialogCommand().getCommandSpec() )
                 .build();
     }
 }
