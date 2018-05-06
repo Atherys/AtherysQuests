@@ -28,8 +28,8 @@ public class DialogCommand implements CommandExecutor {
     public CommandSpec getCommandSpec(){
         return CommandSpec.builder()
                 .executor( this )
-                .child( new AttachDialogCommand().getCommandSpec() )
-                .child( new GetDialogCommand().getCommandSpec() )
+                .child( new AttachDialogCommand().getCommandSpec(), "set" )
+                .child( new GetDialogCommand().getCommandSpec(), "get" )
                 .build();
     }
 }
