@@ -30,9 +30,7 @@ public class GetDialogCommand implements CommandExecutor {
                 Entity next = entityHit.getEntity();
                 if ( next instanceof Player ) continue;
                 Optional<DialogTree> tree = DialogManager.getInstance().getDialog( entityHit.getEntity() );
-                tree.ifPresent( t -> p.sendMessage( Text.of( "Dialog ID: ", t ) ));
-                p.sendMessage( Text.of( "Dialog ID: ", DialogManager.getInstance().getDialog( entityHit.getEntity() ).isPresent() ) );
-
+                p.sendMessage( tree.isPresent() ? Text.of("Dialog ID: ", tree.get().getId()) : Text.of("Dialog ID: none"));
             }
         } );
         return CommandResult.success();

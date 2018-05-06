@@ -5,6 +5,7 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.Entity;
@@ -37,6 +38,7 @@ public class AttachDialogCommand implements CommandExecutor {
     public CommandSpec getCommandSpec(){
         return CommandSpec.builder()
                 .executor( this )
+                .arguments( GenericArguments.string( Text.of("dialogId" ) ) )
                 .build();
     }
 }
