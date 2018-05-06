@@ -19,14 +19,10 @@ public class QuestLogCommand implements CommandExecutor {
     public CommandResult execute( @Nonnull CommandSource src, @Nonnull CommandContext args ) throws CommandException {
         if ( !(src instanceof Player ) ) return CommandResult.empty();
 
-    Optional<Player> player = ( (Player) src ).getPlayer();
-        if (player.isPresent()) {
-        QuesterManager.getInstance().getQuester( player.get()).getLog().show( player.get() );
+        Optional<Player> player = ( (Player) src ).getPlayer();
+        player.ifPresent((p -> QuesterManager.getInstance().getQuester( p ).getLog().show( p )));
         return CommandResult.success();
-    } else {
-        return CommandResult.empty();
     }
-}
 
     public CommandSpec getCommandSpec() {
         return CommandSpec.builder()
