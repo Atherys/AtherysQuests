@@ -134,34 +134,6 @@ public class AtherysQuests {
 
         QuesterManager.getInstance().loadAll();
 
-        Sponge.getCommandManager().register( this, CommandSpec.builder()
-                .executor( ( src, args ) -> {
-                    Player player = (Player) src;
-
-                    for ( EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities( player, 100 ) ) {
-                        Entity next = entityHit.getEntity();
-                        if ( next instanceof Player ) continue;
-
-                        player.sendMessage( Text.of( DialogManager.getInstance().setDialog( entityHit.getEntity(), DialogManager.getInstance().getDialogFromId( args.<String>getOne( "dialogId" ).get() ).get() ) ) );
-                    }
-
-                    return CommandResult.empty();
-                } )
-                .arguments(
-                        GenericArguments.string( Text.of( "dialogId" ) )
-                )
-                .build(), "setdialog"
-        );
-
-        Sponge.getCommandManager().register( this, CommandSpec.builder()
-                .executor( ( src, args ) -> {
-                    Player player = (Player) src;
-
-
-                    return CommandResult.empty();
-                } )
-                .build(), "testdialog"
-        );
         Sponge.getCommandManager().register( this, new DialogCommand().getCommandSpec(), "dialog" );
         Sponge.getCommandManager().register( this, new QuestCommand().getCommandSpec(), "quest" );
     }
