@@ -14,17 +14,17 @@ import java.util.UUID;
 
 public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
 
-    protected LocationManager () {
-        super( AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questLocations" );
+    protected LocationManager() {
+        super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questLocations");
     }
 
     @Override
-    protected Optional<Document> toDocument ( QuestLocation questLocation ) {
+    protected Optional<Document> toDocument(QuestLocation questLocation) {
         return Optional.empty();
     }
 
     @Override
-    protected Optional<QuestLocation> fromDocument ( Document document ) {
+    protected Optional<QuestLocation> fromDocument(Document document) {
         return Optional.empty();
     }
 
@@ -37,7 +37,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
 
         private String questId;
 
-        private QuestLocation ( Location<World> location, Quest quest, double radius ) {
+        private QuestLocation(Location<World> location, Quest quest, double radius) {
             this.uuid = UUID.randomUUID();
             this.location = location;
             this.radius = radius;
@@ -45,7 +45,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         }
 
         @Override
-        public UUID getUUID () {
+        public UUID getUUID() {
             return uuid;
         }
     }

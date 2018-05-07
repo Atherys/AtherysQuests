@@ -21,31 +21,31 @@ public class MoneyRequirement extends NumericRequirement {
     @Expose
     private Currency currency;
 
-    MoneyRequirement( double amount, Currency currency ) {
-        super( amount );
+    MoneyRequirement(double amount, Currency currency) {
+        super(amount);
         this.currency = currency;
     }
 
     @Override
-    public boolean check( Quester quester ) {
+    public boolean check(Quester quester) {
         Optional<? extends User> user = quester.getUser();
-        if ( !user.isPresent() ) return false;
+        if(!user.isPresent()) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();
-        if ( !service.isPresent() ) return false;
+        if(!service.isPresent()) return false;
 
-        Optional<UniqueAccount> account = service.get().getOrCreateAccount( user.get().getUniqueId() );
-        return account.filter( uniqueAccount -> check( uniqueAccount.getBalance( currency ).doubleValue() ) ).isPresent();
+        Optional<UniqueAccount> account = service.get().getOrCreateAccount(user.get().getUniqueId());
+        return account.filter(uniqueAccount -> check(uniqueAccount.getBalance(currency).doubleValue())).isPresent();
 
     }
 
     @Override
     public Requirement copy() {
-        return new MoneyRequirement( this.number, this.currency );
+        return new MoneyRequirement(this.number, this.currency);
     }
 
     @Override
     public Text toText() {
-        return Text.of( "You must have at least ", currency.format( BigDecimal.valueOf( super.number ) ) );
+        return Text.of("You must have at least ", currency.format(BigDecimal.valueOf(super.number)));
     }
 }

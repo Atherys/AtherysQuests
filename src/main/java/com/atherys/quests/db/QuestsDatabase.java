@@ -7,8 +7,8 @@ public class QuestsDatabase extends AbstractMongoDatabase {
 
     private static QuestsDatabase instance = new QuestsDatabase();
 
-    protected QuestsDatabase( ) {
-        super( AtherysQuests.getConfig().DATABASE );
+    protected QuestsDatabase() {
+        super(AtherysQuests.getConfig().DATABASE);
     }
 
     public static QuestsDatabase getInstance() {

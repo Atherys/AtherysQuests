@@ -11,12 +11,12 @@ public class AtherysQuestsGsonBuildEvent implements Event {
     private GsonBuilder builder;
     private Cause cause;
 
-    public AtherysQuestsGsonBuildEvent( GsonBuilder builder ) {
+    public AtherysQuestsGsonBuildEvent(GsonBuilder builder) {
         this.builder = builder;
         this.cause = Cause.builder()
-                .append( AtherysQuests.getInstance() )
-                .append( builder )
-                .build( Sponge.getCauseStackManager().getCurrentContext() );
+                .append(AtherysQuests.getInstance())
+                .append(builder)
+                .build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override

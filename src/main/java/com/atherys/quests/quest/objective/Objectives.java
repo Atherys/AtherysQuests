@@ -12,20 +12,20 @@ import javax.annotation.Nullable;
  */
 public final class Objectives {
 
-    public static DialogObjective dialog ( String treeId, int node, @Nullable Text description ) {
-        return new DialogObjective( treeId, node, description );
+    public static DialogObjective dialog(String treeId, int node, @Nullable Text description) {
+        return new DialogObjective(treeId, node, description);
     }
 
-    public static InteractWithBlockObjective blockInteract ( BlockSnapshot snapshot ) {
-        return new InteractWithBlockObjective( snapshot );
+    public static InteractWithBlockObjective blockInteract(BlockSnapshot snapshot) {
+        return new InteractWithBlockObjective(snapshot);
     }
 
-    public static KillEntityObjective killEntity ( String entityName, int amount ) {
-        return new KillEntityObjective( entityName, amount );
+    public static KillEntityObjective killEntity(String entityName, int amount) {
+        return new KillEntityObjective(entityName, amount);
     }
 
-    public static ReachLocationObjective reachLocation ( Text name, Location<World> location, double radius ) {
-        return new ReachLocationObjective( name, location, radius );
+    public static ReachLocationObjective reachLocation(Text name, Location<World> location, double radius) {
+        return new ReachLocationObjective(name, location, radius);
     }
 
 }

@@ -21,46 +21,46 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     @Expose
     private int progress;
 
-    KillEntityObjective ( String entityName, int numberToKill ) {
-        super( DestructEntityEvent.Death.class );
+    KillEntityObjective(String entityName, int numberToKill) {
+        super(DestructEntityEvent.Death.class);
         this.entityName = entityName;
         this.requirement = numberToKill;
         this.progress = numberToKill;
     }
 
-    public String getEntityName () {
+    public String getEntityName() {
         return entityName;
     }
 
-    public int getRequirement () {
+    public int getRequirement() {
         return requirement;
     }
 
-    public int getProgress () {
+    public int getProgress() {
         return progress;
     }
 
     @Override
-    protected void onNotify ( DestructEntityEvent.Death event, Quester quester ) {
-        String displayName = event.getTargetEntity().get( Keys.DISPLAY_NAME ).orElse( Text.of( event.getTargetEntity().getType().getName() ) ).toPlain();
+    protected void onNotify(DestructEntityEvent.Death event, Quester quester) {
+        String displayName = event.getTargetEntity().get(Keys.DISPLAY_NAME).orElse(Text.of(event.getTargetEntity().getType().getName())).toPlain();
 
-        if ( !displayName.equals( entityName ) ) return;
+        if(!displayName.equals(entityName)) return;
 
-        if ( progress != 0 ) progress--;
+        if(progress != 0) progress--;
     }
 
     @Override
-    public boolean isComplete () {
+    public boolean isComplete() {
         return progress == 0;
     }
 
     @Override
-    public KillEntityObjective copy () {
-        return new KillEntityObjective( entityName, requirement );
+    public KillEntityObjective copy() {
+        return new KillEntityObjective(entityName, requirement);
     }
 
     @Override
-    public Text toText () {
-        return Text.of( "Kill ", entityName, ": ", requirement - progress, "/", requirement );
+    public Text toText() {
+        return Text.of("Kill ", entityName, ": ", requirement - progress, "/", requirement);
     }
 }

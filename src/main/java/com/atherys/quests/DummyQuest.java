@@ -21,7 +21,7 @@ import org.spongepowered.api.world.World;
 
 public class DummyQuest {
 
-    public static DialogTree dialog ( String id, Quest quest ) {
+    public static DialogTree dialog(String id, Quest quest) {
         DialogNode root = DialogNode.builder(0)
                 .npc(Text.of("Hello, weary traveller!"))
                 .responses(
@@ -55,21 +55,21 @@ public class DummyQuest {
 
     public static class Staged extends StagedQuest {
 
-        protected Staged () {
-            super( "simpleStagedQuest", 1 );
+        protected Staged() {
+            super("simpleStagedQuest", 1);
 
-            setName( Text.of( "Simple Staged Quest" ) );
+            setName(Text.of("Simple Staged Quest"));
 
-            setDescription( Text.of( "This is a simple staged quest. Go kill some stuff." ) );
+            setDescription(Text.of("This is a simple staged quest. Go kill some stuff."));
 
-            addRequirement( Requirements.level(12) );
+            addRequirement(Requirements.level(12));
 
-            addStage( new Stage( Objectives.killEntity("zombie", 6) ) );
-            addStage( new Stage( Objectives.killEntity("creeper", 4) ) );
-            World world = Sponge.getServer().getWorld( Sponge.getServer().getDefaultWorldName() ).get();
-            addStage( new Stage( Objectives.reachLocation( Text.of("a high place"), new Location<>( world, Vector3d.from( 2500, 130, 4000 ) ), 5.0 ) ) );
+            addStage(new Stage(Objectives.killEntity("zombie", 6)));
+            addStage(new Stage(Objectives.killEntity("creeper", 4)));
+            World world = Sponge.getServer().getWorld(Sponge.getServer().getDefaultWorldName()).get();
+            addStage(new Stage(Objectives.reachLocation(Text.of("a high place"), new Location<>(world, Vector3d.from(2500, 130, 4000)), 5.0)));
 
-            addReward( Rewards.item( ItemStack.of( ItemTypes.ANVIL, 5 ) ) );
+            addReward(Rewards.item(ItemStack.of(ItemTypes.ANVIL, 5)));
         }
 
     }

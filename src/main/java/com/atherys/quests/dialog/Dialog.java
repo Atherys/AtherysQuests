@@ -28,53 +28,53 @@ public class Dialog implements Viewable<DialogView> {
 
     private Player cachedPlayer;
 
-    private Dialog( Quester player, Entity entity, DialogTree tree ) {
+    private Dialog(Quester player, Entity entity, DialogTree tree) {
         this.treeId = tree.getId();
         this.quester = player;
         this.npc = entity;
         this.lastNode = tree.getRoot();
     }
 
-    public static Optional<Dialog> between( Player player, Entity entity, DialogTree dialogTree ) {
-        Quester quester = QuesterManager.getInstance().getQuester( player );
+    public static Optional<Dialog> between(Player player, Entity entity, DialogTree dialogTree) {
+        Quester quester = QuesterManager.getInstance().getQuester(player);
 
-        Dialog dialog = new Dialog( quester, entity, dialogTree );
-        dialog.proceed( player, dialog.getLastNode() );
-        return Optional.of( dialog );
+        Dialog dialog = new Dialog(quester, entity, dialogTree);
+        dialog.proceed(player, dialog.getLastNode());
+        return Optional.of(dialog);
     }
 
     public DialogNode getLastNode() {
         return lastNode;
     }
 
-    public void setLastNode( DialogNode lastNode ) {
+    public void setLastNode(DialogNode lastNode) {
         this.lastNode = lastNode;
     }
 
-    public void proceed( Player player, DialogNode node ) {
+    public void proceed(Player player, DialogNode node) {
 
         // update the cached player
         this.cachedPlayer = player;
 
-        DialogProceedEvent event = new DialogProceedEvent( this );
-        Sponge.getEventManager().post( event );
+        DialogProceedEvent event = new DialogProceedEvent(this);
+        Sponge.getEventManager().post(event);
 
         // If the node provided is not the current node or a child of the current node, return.
-        if ( this.lastNode == node || lastNode.getResponses().contains( node ) ) {
+        if(this.lastNode == node || lastNode.getResponses().contains(node)) {
 
-            if ( !node.meetsRequirements( quester ) ) {
-                DialogMsg.error( player, "You do not meet the requirements for this response." );
+            if(!node.meetsRequirements(quester)) {
+                DialogMsg.error(player, "You do not meet the requirements for this response.");
                 return;
             }
 
             this.lastNode = node;
 
-            new DialogView( this ).show( player );
+            new DialogView(this).show(player);
 
-            node.getQuest().ifPresent( quest -> new TakeQuestView( quest ).show( player ) );
+            node.getQuest().ifPresent(quest -> new TakeQuestView(quest).show(player));
 
-            if ( node.getResponses().isEmpty() ) {
-                DialogManager.getInstance().removePlayerDialog( player );
+            if(node.getResponses().isEmpty()) {
+                DialogManager.getInstance().removePlayerDialog(player);
             }
         }
     }
@@ -98,6 +98,6 @@ public class Dialog implements Viewable<DialogView> {
 
     @Override
     public DialogView createView() {
-        return new DialogView( this );
+        return new DialogView(this);
     }
 }

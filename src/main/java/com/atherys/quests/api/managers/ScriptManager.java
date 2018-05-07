@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ScriptManager<T extends Script> {
 
-    Optional<T> forQuest ( Quest quest );
+    Optional<T> forQuest(Quest quest);
 
 }
