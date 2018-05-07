@@ -33,104 +33,104 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
     @Expose
     private boolean complete = false;
 
-    protected SimpleQuest ( String id, int version ) {
-        super( id, version );
+    protected SimpleQuest(String id, int version) {
+        super(id, version);
     }
 
-    protected SimpleQuest ( SimpleQuest quest ) {
-        super( quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription() );
-        this.requirements = CopyUtils.copyList( quest.getRequirements() );
-        this.objectives = CopyUtils.copyList( quest.getObjectives() );
-        this.rewards = CopyUtils.copyList( quest.getRewards() );
+    protected SimpleQuest(SimpleQuest quest) {
+        super(quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription());
+        this.requirements = CopyUtils.copyList(quest.getRequirements());
+        this.objectives = CopyUtils.copyList(quest.getObjectives());
+        this.rewards = CopyUtils.copyList(quest.getRewards());
         this.started = quest.isStarted();
         this.complete = quest.isComplete();
     }
 
-    protected void setDescription ( Text description ) {
+    protected void setDescription(Text description) {
         super.description = description;
     }
 
-    protected void setName ( Text name ) {
+    protected void setName(Text name) {
         this.name = name;
     }
 
     @Override
-    public List<Requirement> getRequirements () {
+    public List<Requirement> getRequirements() {
         return requirements;
     }
 
-    protected <T extends Requirement> void addRequirement ( T requirement ) {
-        if ( !requirements.contains( requirement ) ) requirements.add( requirement );
+    protected <T extends Requirement> void addRequirement(T requirement) {
+        if(!requirements.contains(requirement)) requirements.add(requirement);
     }
 
     @Override
-    public List<Objective> getObjectives () {
+    public List<Objective> getObjectives() {
         return objectives;
     }
 
-    protected <T extends Objective> void addObjective ( T objective ) {
-        if ( !objectives.contains( objective ) ) objectives.add( objective );
+    protected <T extends Objective> void addObjective(T objective) {
+        if(!objectives.contains(objective)) objectives.add(objective);
     }
 
     @Override
-    public List<Reward> getRewards () {
+    public List<Reward> getRewards() {
         return rewards;
     }
 
-    protected <T extends Reward> void addReward ( T reward ) {
-        if ( !rewards.contains( reward ) ) rewards.add( reward );
+    protected <T extends Reward> void addReward(T reward) {
+        if(!rewards.contains(reward)) rewards.add(reward);
     }
 
     @Override
-    @SuppressWarnings( "unchecked" )
-    public void notify ( Event event, Quester quester ) {
+    @SuppressWarnings("unchecked")
+    public void notify(Event event, Quester quester) {
         // if the quest hasn't been completed yet
-        if ( !isComplete() ) {
+        if(!isComplete()) {
 
             // if the quest hasn't been started yet ( this is the first notification )
-            if ( !isStarted() ) {
+            if(!isStarted()) {
                 // set it as started
                 this.started = true;
             }
 
             // updated completed status based on the status of the objectives
-            for ( Objective objective : getObjectives() ) {
-                if ( objective.isComplete() ) continue; // if the objective has already been completed, skip it
+            for(Objective objective : getObjectives()) {
+                if(objective.isComplete()) continue; // if the objective has already been completed, skip it
 
-                objective.notify( event, quester ); // notify the objective
+                objective.notify(event, quester); // notify the objective
 
-                if ( objective.isComplete() ) { // if the objective is completed after being notified
-                    QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" ); // tell the player they have completed another objective of the quest
+                if(objective.isComplete()) { // if the objective is completed after being notified
+                    QuestMsg.info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the quest
 
                     // update quest complete status by iterating every objective, checking it's complete status, and concatenate with this.complete
                     this.complete = true;
-                    for ( Objective objective1 : getObjectives() ) {
+                    for(Objective objective1 : getObjectives()) {
                         this.complete = this.complete && objective1.isComplete();
                     }
                 }
             }
 
-            if ( isComplete() ) complete( quester );
+            if(isComplete()) complete(quester);
         }
     }
 
     @Override
-    public boolean isStarted () {
+    public boolean isStarted() {
         return started;
     }
 
     @Override
-    public boolean isComplete () {
+    public boolean isComplete() {
         return complete;
     }
 
     @Override
-    public SimpleQuest copy () {
-        return new SimpleQuest( this );
+    public SimpleQuest copy() {
+        return new SimpleQuest(this);
     }
 
     @Override
-    public AnyQuestView<SimpleQuest> createView () {
-        return new AnyQuestView<>( this );
+    public AnyQuestView<SimpleQuest> createView() {
+        return new AnyQuestView<>(this);
     }
 }

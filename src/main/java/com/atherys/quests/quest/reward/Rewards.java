@@ -9,16 +9,16 @@ import org.spongepowered.api.service.economy.Currency;
  */
 public final class Rewards {
 
-    public static MoneyReward money ( double amount, Currency currency ) {
-        return new MoneyReward( amount, currency );
+    public static MoneyReward money(double amount, Currency currency) {
+        return new MoneyReward(amount, currency);
     }
 
-    public static SingleItemReward item ( ItemStack itemStack ) {
-        return new SingleItemReward( itemStack );
+    public static SingleItemReward item(ItemStack itemStack) {
+        return new SingleItemReward(itemStack);
     }
 
-    public static SingleItemReward item ( ItemStackSnapshot itemStack ) {
-        return new SingleItemReward( itemStack );
+    public static SingleItemReward item(ItemStackSnapshot itemStack) {
+        return new SingleItemReward(itemStack);
     }
-    
+
 }

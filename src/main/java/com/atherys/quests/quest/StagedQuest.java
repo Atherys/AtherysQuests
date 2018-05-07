@@ -20,58 +20,66 @@ import java.util.List;
  */
 public class StagedQuest extends AbstractQuest<StagedQuest> {
 
-    @Expose private List<Requirement> requirements = new ArrayList<>();
+    @Expose
+    private List<Requirement> requirements = new ArrayList<>();
 
-    @Expose private List<Stage> stages = new ArrayList<>();
-    @Expose private int current = 0;
+    @Expose
+    private List<Stage> stages = new ArrayList<>();
+    @Expose
+    private int current = 0;
 
-    @Expose private List<Reward> rewards = new ArrayList<>();
+    @Expose
+    private List<Reward> rewards = new ArrayList<>();
 
-    @Expose private boolean started = false;
-    @Expose private boolean complete = false;
+    @Expose
+    private boolean started = false;
+    @Expose
+    private boolean complete = false;
 
-    protected StagedQuest ( String id, int version ) {
-        super ( id, version );
+    protected StagedQuest(String id, int version) {
+        super(id, version);
     }
 
-    private StagedQuest ( StagedQuest quest ) {
-        super ( quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription() );
-        this.requirements = CopyUtils.copyList( quest.getRequirements() );
-        this.stages = CopyUtils.copyList( quest.getStages() );
-        this.rewards = CopyUtils.copyList( quest.getRewards() );
+    private StagedQuest(StagedQuest quest) {
+        super(quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription());
+        this.requirements = CopyUtils.copyList(quest.getRequirements());
+        this.stages = CopyUtils.copyList(quest.getStages());
+        this.rewards = CopyUtils.copyList(quest.getRewards());
         this.started = false;
         this.complete = false;
     }
 
-    protected void setName ( Text name ) {
+    protected void setName(Text name) {
         this.name = name;
     }
 
-    protected void setDescription ( Text description ) {
+    protected void setDescription(Text description) {
         this.description = description;
     }
 
     @Override
-    public List<Requirement> getRequirements () {
+    public List<Requirement> getRequirements() {
         return requirements;
     }
 
-    public void addRequirement ( Requirement requirement ) {
-        requirements.add( requirement );
+    public void addRequirement(Requirement requirement) {
+        requirements.add(requirement);
     }
 
     public List<Stage> getStages() {
         return stages;
     }
 
-    public Stage getCurrent() { return stages.get( current ); }
+    public Stage getCurrent() {
+        return stages.get(current);
+    }
 
-    protected void addStage ( Stage stage ) {
-        stages.add( stage );
+    protected void addStage(Stage stage) {
+        stages.add(stage);
     }
 
     public Stage getNextStage() {
-        return stages.get( current + 1 );
+        return stages.get(current + 1);
     }
 
     public boolean hasNextStage() {
@@ -79,71 +87,71 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     }
 
     @Override
-    public List<Objective> getObjectives () {
+    public List<Objective> getObjectives() {
         List<Objective> objectives = new ArrayList<>();
-        stages.forEach( stage -> objectives.add( stage.getObjective() ) );
+        stages.forEach(stage -> objectives.add(stage.getObjective()));
         return objectives;
     }
 
     @Override
-    public List<Reward> getRewards () {
+    public List<Reward> getRewards() {
         return rewards;
     }
 
-    protected void addReward ( Reward reward ) {
-        this.rewards.add( reward );
+    protected void addReward(Reward reward) {
+        this.rewards.add(reward);
     }
 
     @Override
-    public void notify ( Event event, Quester quester ) {
+    public void notify(Event event, Quester quester) {
         // if the quest has already been completed, just return
-        if ( isComplete() ) return;
+        if(isComplete()) return;
 
         // set started as true, in case this was the first objective
-        if ( !isStarted() ) this.started = true;
+        if(!isStarted()) this.started = true;
 
         // notify the current stage of the event
-        stages.get( current ).notify( event, quester );
+        stages.get(current).notify(event, quester);
 
         // if the current stage is complete
-        if ( stages.get( current ).isComplete() ) {
+        if(stages.get(current).isComplete()) {
 
             // award the player for completing the current stage
-            stages.get( current ).award( quester );
+            stages.get(current).award(quester);
 
             // and has a next stage
-            if ( this.hasNextStage() ) {
+            if(this.hasNextStage()) {
 
                 // set the current stage to the next one
                 current++;
-                QuestMsg.info( quester, "You have completed an objective for the quest \"", this.getName(), "\"" );
+                QuestMsg.info(quester, "You have completed an objective for the quest \"", this.getName(), "\"");
 
-            // if it does not have a next stage
+                // if it does not have a next stage
             } else {
                 // set quest as completed
                 this.complete = true;
-                complete( quester );
+                complete(quester);
             }
         }
     }
 
     @Override
-    public boolean isStarted () {
+    public boolean isStarted() {
         return started;
     }
 
     @Override
-    public boolean isComplete () {
+    public boolean isComplete() {
         return complete;
     }
 
     @Override
-    public StagedQuestView createView () {
-        return new StagedQuestView( this );
+    public StagedQuestView createView() {
+        return new StagedQuestView(this);
     }
 
     @Override
-    public StagedQuest copy () {
-        return new StagedQuest( this );
+    public StagedQuest copy() {
+        return new StagedQuest(this);
     }
 }

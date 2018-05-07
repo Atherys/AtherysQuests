@@ -19,28 +19,28 @@ public class InteractWithBlockObjective extends AbstractObjective<InteractBlockE
     @Expose
     private boolean complete = false;
 
-    InteractWithBlockObjective ( BlockSnapshot snapshot ) {
-        super( InteractBlockEvent.class );
+    InteractWithBlockObjective(BlockSnapshot snapshot) {
+        super(InteractBlockEvent.class);
         this.snapshot = snapshot;
     }
 
     @Override
-    protected void onNotify ( InteractBlockEvent event, Quester quester ) {
-        if ( event.getTargetBlock().equals( this.snapshot ) ) this.complete = true;
+    protected void onNotify(InteractBlockEvent event, Quester quester) {
+        if(event.getTargetBlock().equals(this.snapshot)) this.complete = true;
     }
 
     @Override
-    public boolean isComplete () {
+    public boolean isComplete() {
         return complete;
     }
 
     @Override
-    public InteractWithBlockObjective copy () {
-        return new InteractWithBlockObjective( snapshot );
+    public InteractWithBlockObjective copy() {
+        return new InteractWithBlockObjective(snapshot);
     }
 
     @Override
-    public Text toText () {
-        return Text.builder().append( Text.of( "Interact With ", snapshot.getState().getType().getName() ) ).onHover( TextActions.showText( Text.of( "Located at ", snapshot.getPosition() ) ) ).build();
+    public Text toText() {
+        return Text.builder().append(Text.of("Interact With ", snapshot.getState().getType().getName())).onHover(TextActions.showText(Text.of("Located at ", snapshot.getPosition()))).build();
     }
 }

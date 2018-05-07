@@ -7,8 +7,8 @@ import org.spongepowered.api.event.item.inventory.InteractInventoryEvent;
 public class InventoryListener {
 
     @Listener
-    public void onInventoryClose( InteractInventoryEvent.Close event ) {
-        InventoryManager.getInstance().removeInventory( event.getTargetInventory() );
+    public void onInventoryClose(InteractInventoryEvent.Close event) {
+        InventoryManager.getInstance().removeInventory(event.getTargetInventory());
     }
 
 }

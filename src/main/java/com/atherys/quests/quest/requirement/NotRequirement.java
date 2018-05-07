@@ -12,22 +12,22 @@ public class NotRequirement implements Requirement {
     private Requirement requirement;
 
 
-    NotRequirement ( Requirement requirement ) {
+    NotRequirement(Requirement requirement) {
         this.requirement = requirement;
     }
 
     @Override
-    public boolean check( Quester quester ) {
-        return !requirement.check( quester );
+    public boolean check(Quester quester) {
+        return !requirement.check(quester);
     }
 
     @Override
     public Requirement copy() {
-        return new NotRequirement( requirement.copy() );
+        return new NotRequirement(requirement.copy());
     }
 
     @Override
     public Text toText() {
-        return Text.of( "NOT ", requirement.toText() );
+        return Text.of("NOT ", requirement.toText());
     }
 }

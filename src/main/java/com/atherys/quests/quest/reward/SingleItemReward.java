@@ -24,48 +24,48 @@ public class SingleItemReward implements Reward {
     @Expose
     private ItemStackSnapshot item;
 
-    SingleItemReward( ItemStack stack ) {
+    SingleItemReward(ItemStack stack) {
         this.item = stack.createSnapshot();
     }
 
-    SingleItemReward( ItemStackSnapshot snapshot ) {
+    SingleItemReward(ItemStackSnapshot snapshot) {
         this.item = snapshot;
     }
 
     @Override
     public Reward copy() {
-        return new SingleItemReward( item );
+        return new SingleItemReward(item);
     }
 
     @Override
     public Text toText() {
-        return Text.builder().append( item.get( Keys.DISPLAY_NAME ).orElse( Text.of( item.getType().getName() ) ) ).onHover( TextActions.showItem( item ) ).build();
+        return Text.builder().append(item.get(Keys.DISPLAY_NAME).orElse(Text.of(item.getType().getName()))).onHover(TextActions.showItem(item)).build();
     }
 
     @Override
-    public boolean award( Quester quester ) {
+    public boolean award(Quester quester) {
         Player player = quester.getCachedPlayer();
-        if ( player == null || !player.isOnline() || player.isRemoved() ) return false;
+        if(player == null || !player.isOnline() || player.isRemoved()) return false;
 
         // Create chest inventory
         Inventory inventory = Inventory.builder()
-                .property( InventoryDimension.PROPERTY_NAME, InventoryDimension.of( 9, 3 ) )
-                .property( InventoryTitle.of( Text.of( "Quest Item Reward" ) ) )
-                .build( AtherysQuests.getInstance() );
+                .property(InventoryDimension.PROPERTY_NAME, InventoryDimension.of(9, 3))
+                .property(InventoryTitle.of(Text.of("Quest Item Reward")))
+                .build(AtherysQuests.getInstance());
 
 
         // put all itemstacks inside
-        inventory.offer( item.createStack() );
+        inventory.offer(item.createStack());
 
         // send inventory to player
-        player.openInventory( inventory );
+        player.openInventory(inventory);
 
         // upon closing the inventory, drop all items which have not been picked up to the ground
-        InventoryManager.getInstance().addInventory( inventory, ( container ) -> {
-            ItemUtils.getItemsInInventory( container ).forEach( item -> {
-                ItemUtils.dropItemStack( item, player.getWorld(), player.getLocation().getPosition() );
-            } );
-        } );
+        InventoryManager.getInstance().addInventory(inventory, (container) -> {
+            ItemUtils.getItemsInInventory(container).forEach(item -> {
+                ItemUtils.dropItemStack(item, player.getWorld(), player.getLocation().getPosition());
+            });
+        });
 
         return false;
     }

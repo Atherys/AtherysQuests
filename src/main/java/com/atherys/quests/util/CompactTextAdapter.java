@@ -8,12 +8,12 @@ import java.lang.reflect.Type;
 
 public final class CompactTextAdapter implements JsonSerializer<Text>, JsonDeserializer<Text> {
     @Override
-    public Text deserialize( JsonElement json, Type typeOfT, JsonDeserializationContext context ) throws JsonParseException {
-        return TextSerializers.FORMATTING_CODE.deserialize( json.getAsString() );
+    public Text deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        return TextSerializers.FORMATTING_CODE.deserialize(json.getAsString());
     }
 
     @Override
-    public JsonElement serialize( Text src, Type typeOfSrc, JsonSerializationContext context ) {
-        return new JsonPrimitive( TextSerializers.FORMATTING_CODE.serialize( src ) );
+    public JsonElement serialize(Text src, Type typeOfSrc, JsonSerializationContext context) {
+        return new JsonPrimitive(TextSerializers.FORMATTING_CODE.serialize(src));
     }
 }

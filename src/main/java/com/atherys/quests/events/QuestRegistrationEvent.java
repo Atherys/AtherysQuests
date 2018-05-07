@@ -14,12 +14,12 @@ public class QuestRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public QuestRegistrationEvent () {
-        this.cause = Cause.builder().append( AtherysQuests.getInstance() ).append( QuestManager.getInstance() ).build( Sponge.getCauseStackManager().getCurrentContext() );
+    public QuestRegistrationEvent() {
+        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(QuestManager.getInstance()).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override
-    public Cause getCause () {
+    public Cause getCause() {
         return cause;
     }
 
@@ -27,7 +27,7 @@ public class QuestRegistrationEvent implements Event {
         return QuestManager.getInstance();
     }
 
-    public void register ( Quest quest ) {
-        getManager().registerQuest( quest );
+    public void register(Quest quest) {
+        getManager().registerQuest(quest);
     }
 }

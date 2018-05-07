@@ -1,9 +1,9 @@
 package com.atherys.quests;
 
+import com.atherys.core.command.CommandService;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.commands.dialog.DialogCommand;
-import com.atherys.quests.commands.quest.QuestCommand;
-import com.atherys.quests.commands.quest.QuestLogCommand;
+import com.atherys.quests.commands.dialog.DialogMasterCommand;
+import com.atherys.quests.commands.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.events.DialogRegistrationEvent;
@@ -30,12 +30,7 @@ import com.atherys.quests.util.GsonUtils;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.args.GenericArguments;
-import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.data.DataRegistration;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
@@ -44,15 +39,13 @@ import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.extent.EntityUniverse;
 
 import java.io.IOException;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
 
-@Plugin( id = ID, name = NAME, description = DESCRIPTION, version = VERSION )
+@Plugin(id = ID, name = NAME, description = DESCRIPTION, version = VERSION)
 public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
@@ -69,20 +62,20 @@ public class AtherysQuests {
     @Inject
     Logger logger;
 
-    private void init () {
+    private void init() {
         instance = this;
 
         try {
-            config = new QuestsConfig( getWorkingDirectory(), "config.conf" );
+            config = new QuestsConfig(getWorkingDirectory(), "config.conf");
             config.init();
-        } catch ( IOException e ) {
+        } catch(IOException e) {
             init = false;
             e.printStackTrace();
             return;
         }
 
-        if ( config.IS_DEFAULT ) {
-            logger.error( "The AtherysQuests config is set to default. Please change default config settings and then set 'isDefault' to 'false'." );
+        if(config.IS_DEFAULT) {
+            logger.error("The AtherysQuests config is set to default. Please change default config settings and then set 'isDefault' to 'false'.");
             init = false;
             return;
         }
@@ -90,109 +83,113 @@ public class AtherysQuests {
         init = true;
     }
 
-    private void start () {
+    private void start() {
 
-        Sponge.getEventManager().registerListeners( this, new GsonListener() );
-        Sponge.getEventManager().registerListeners( this, new EntityListener() );
-        Sponge.getEventManager().registerListeners( this, new InventoryListener() );
-        Sponge.getEventManager().registerListeners( this, new MasterEventListener() );
+        Sponge.getEventManager().registerListeners(this, new GsonListener());
+        Sponge.getEventManager().registerListeners(this, new EntityListener());
+        Sponge.getEventManager().registerListeners(this, new InventoryListener());
+        Sponge.getEventManager().registerListeners(this, new MasterEventListener());
         //Sponge.getEventManager().registerListeners( this, new DialogQuestRegistrationListener() );
 
         GsonUtils.getQuestRuntimeTypeAdapterFactory()
-                .registerSubtype( SimpleQuest.class )
-                .registerSubtype( StagedQuest.class )
-                .registerSubtype( DeliverableSimpleQuest.class )
-                .registerSubtype( DeliverableStagedQuest.class );
+                .registerSubtype(SimpleQuest.class)
+                .registerSubtype(StagedQuest.class)
+                .registerSubtype(DeliverableSimpleQuest.class)
+                .registerSubtype(DeliverableStagedQuest.class);
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
-                .registerSubtype( AndRequirement.class )
-                .registerSubtype( OrRequirement.class )
-                .registerSubtype( NotRequirement.class )
-                .registerSubtype( LevelRequirement.class )
-                .registerSubtype( MoneyRequirement.class )
-                .registerSubtype( QuestRequirement.class );
+                .registerSubtype(AndRequirement.class)
+                .registerSubtype(OrRequirement.class)
+                .registerSubtype(NotRequirement.class)
+                .registerSubtype(LevelRequirement.class)
+                .registerSubtype(MoneyRequirement.class)
+                .registerSubtype(QuestRequirement.class);
 
         GsonUtils.getObjectiveTypeAdapterFactory()
-                .registerSubtype( KillEntityObjective.class )
-                .registerSubtype( DialogObjective.class )
-                .registerSubtype( ReachLocationObjective.class )
-                .registerSubtype( InteractWithBlockObjective.class );
+                .registerSubtype(KillEntityObjective.class)
+                .registerSubtype(DialogObjective.class)
+                .registerSubtype(ReachLocationObjective.class)
+                .registerSubtype(InteractWithBlockObjective.class);
 
         GsonUtils.getRewardRuntimeTypeAdapterFactory()
-                .registerSubtype( MoneyReward.class )
-                .registerSubtype( SingleItemReward.class );
+                .registerSubtype(MoneyReward.class)
+                .registerSubtype(SingleItemReward.class);
 
         Quest quest = new DummyQuest.Staged();
-        QuestManager.getInstance().registerQuest( quest );
-        DialogManager.getInstance().registerDialog( DummyQuest.dialog( "stagedQuestDialog", quest ) );
+        QuestManager.getInstance().registerQuest(quest);
+        DialogManager.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
         QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
-        Sponge.getEventManager().post( questRegistrationEvent );
+        Sponge.getEventManager().post(questRegistrationEvent);
 
         DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
-        Sponge.getEventManager().post( dialogRegistrationEvent );
+        Sponge.getEventManager().post(dialogRegistrationEvent);
 
         QuesterManager.getInstance().loadAll();
 
-        Sponge.getCommandManager().register( this, new DialogCommand().getCommandSpec(), "dialog" );
-        Sponge.getCommandManager().register( this, new QuestCommand().getCommandSpec(), "quest" );
+        try {
+            CommandService.getInstance().register(new DialogMasterCommand(), this);
+            CommandService.getInstance().register(new QuestMasterCommand(), this);
+        } catch(CommandService.AnnotatedCommandException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void stop () {
+    private void stop() {
         QuesterManager.getInstance().saveAll();
     }
 
     @Listener
-    public void preInit ( GamePreInitializationEvent event ) {
+    public void preInit(GamePreInitializationEvent event) {
         QuestKeys.DIALOG_DATA_REGISTRATION = DataRegistration.builder()
-                .dataClass( DialogData.class )
-                .immutableClass( DialogData.Immutable.class )
-                .builder( new DialogData.Builder() )
-                .dataName( "Dialog" )
-                .manipulatorId( "dialog" )
-                .buildAndRegister( this.container );
+                .dataClass(DialogData.class)
+                .immutableClass(DialogData.Immutable.class)
+                .builder(new DialogData.Builder())
+                .dataName("Dialog")
+                .manipulatorId("dialog")
+                .buildAndRegister(this.container);
 
         QuestKeys.QUEST_DATA_REGISTRATION = DataRegistration.builder()
-                .dataClass( QuestData.class )
-                .immutableClass( QuestData.Immutable.class )
-                .builder( new QuestData.Builder() )
-                .dataName( "Quest" )
-                .manipulatorId( "quest" )
-                .buildAndRegister( this.container );
+                .dataClass(QuestData.class)
+                .immutableClass(QuestData.Immutable.class)
+                .builder(new QuestData.Builder())
+                .dataName("Quest")
+                .manipulatorId("quest")
+                .buildAndRegister(this.container);
     }
 
     @Listener
-    public void onInit ( GameInitializationEvent event ) {
+    public void onInit(GameInitializationEvent event) {
         init();
     }
 
     @Listener
-    public void onStart ( GameStartedServerEvent event ) {
-        if ( init ) start();
+    public void onStart(GameStartedServerEvent event) {
+        if(init) start();
     }
 
     @Listener
-    public void onStop ( GameStoppingServerEvent event ) {
-        if ( init ) stop();
+    public void onStop(GameStoppingServerEvent event) {
+        if(init) stop();
     }
 
-    public String getWorkingDirectory () {
+    public String getWorkingDirectory() {
         return "config/" + ID;
     }
 
-    public static AtherysQuests getInstance () {
+    public static AtherysQuests getInstance() {
         return instance;
     }
 
-    public static QuestsConfig getConfig () {
+    public static QuestsConfig getConfig() {
         return config;
     }
 
-    public Optional<EconomyService> getEconomyService () {
-        return Sponge.getServiceManager().provide( EconomyService.class );
+    public Optional<EconomyService> getEconomyService() {
+        return Sponge.getServiceManager().provide(EconomyService.class);
     }
 
-    public Logger getLogger () {
+    public Logger getLogger() {
         return logger;
     }
 }

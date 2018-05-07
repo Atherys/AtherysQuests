@@ -13,17 +13,17 @@ import java.util.List;
 
 public final class ItemUtils {
 
-    public static Item dropItemStack( ItemStack stack, World world, Vector3d position ) {
-        Item item = ( Item ) world.createEntity( EntityTypes.ITEM, position );
-        item.offer( Keys.REPRESENTED_ITEM, stack.createSnapshot() );
-        world.spawnEntity( item );
+    public static Item dropItemStack(ItemStack stack, World world, Vector3d position) {
+        Item item = (Item) world.createEntity(EntityTypes.ITEM, position);
+        item.offer(Keys.REPRESENTED_ITEM, stack.createSnapshot());
+        world.spawnEntity(item);
 
         return item;
     }
 
-    public static List<ItemStack> getItemsInInventory( Inventory inventory ) {
+    public static List<ItemStack> getItemsInInventory(Inventory inventory) {
         List<ItemStack> items = new ArrayList<>();
-        inventory.slots().forEach( slot -> slot.peek().ifPresent( items::add ) );
+        inventory.slots().forEach(slot -> slot.peek().ifPresent(items::add));
         return items;
     }
 

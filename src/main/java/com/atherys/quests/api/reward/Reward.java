@@ -6,6 +6,6 @@ import org.spongepowered.api.text.TextRepresentable;
 
 public interface Reward extends Prototype<Reward>, TextRepresentable {
 
-    boolean award( Quester quester );
+    boolean award(Quester quester);
 
 }

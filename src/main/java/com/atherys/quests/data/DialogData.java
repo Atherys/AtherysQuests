@@ -17,7 +17,7 @@ import org.spongepowered.api.data.value.mutable.Value;
 import javax.annotation.Generated;
 import java.util.Optional;
 
-@Generated( value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.072Z" )
+@Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.072Z")
 public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
     private String dialogId;
@@ -27,57 +27,57 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
         registerGettersAndSetters();
     }
 
-    public DialogData( String dialogId ) {
+    public DialogData(String dialogId) {
         this.dialogId = dialogId;
         registerGettersAndSetters();
     }
 
     @Override
     public void registerGettersAndSetters() {
-        registerFieldGetter( QuestKeys.DIALOG, this::getDialogId );
-        registerFieldSetter( QuestKeys.DIALOG, this::setDialogId );
-        registerKeyValue( QuestKeys.DIALOG, this::dialogId );
+        registerFieldGetter(QuestKeys.DIALOG, this::getDialogId);
+        registerFieldSetter(QuestKeys.DIALOG, this::setDialogId);
+        registerKeyValue(QuestKeys.DIALOG, this::dialogId);
     }
 
     public String getDialogId() {
         return dialogId;
     }
 
-    public void setDialogId( String dialog ) {
+    public void setDialogId(String dialog) {
         this.dialogId = dialog;
     }
 
     public Value<String> dialogId() {
-        return Sponge.getRegistry().getValueFactory().createValue( QuestKeys.DIALOG, dialogId );
+        return Sponge.getRegistry().getValueFactory().createValue(QuestKeys.DIALOG, dialogId);
     }
 
     @Override
-    public Optional<DialogData> fill( DataHolder dataHolder, MergeFunction overlap ) {
-        dataHolder.get( DialogData.class ).ifPresent( that -> {
-            DialogData data = overlap.merge( this, that );
+    public Optional<DialogData> fill(DataHolder dataHolder, MergeFunction overlap) {
+        dataHolder.get(DialogData.class).ifPresent(that -> {
+            DialogData data = overlap.merge(this, that);
             this.dialogId = data.dialogId;
-        } );
-        return Optional.of( this );
+        });
+        return Optional.of(this);
     }
 
     @Override
-    public Optional<DialogData> from( DataContainer container ) {
-        return from( ( DataView ) container );
+    public Optional<DialogData> from(DataContainer container) {
+        return from((DataView) container);
     }
 
-    public Optional<DialogData> from( DataView container ) {
-        container.getString( QuestKeys.DIALOG.getQuery() ).ifPresent( v -> dialogId = v );
-        return Optional.of( this );
+    public Optional<DialogData> from(DataView container) {
+        container.getString(QuestKeys.DIALOG.getQuery()).ifPresent(v -> dialogId = v);
+        return Optional.of(this);
     }
 
     @Override
     public DialogData copy() {
-        return new DialogData( dialogId );
+        return new DialogData(dialogId);
     }
 
     @Override
     public Immutable asImmutable() {
-        return new Immutable( dialogId );
+        return new Immutable(dialogId);
     }
 
     @Override
@@ -87,10 +87,10 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
     @Override
     public DataContainer toContainer() {
-        return super.toContainer().set( QuestKeys.DIALOG.getQuery(), dialogId );
+        return super.toContainer().set(QuestKeys.DIALOG.getQuery(), dialogId);
     }
 
-    @Generated( value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.096Z" )
+    @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.096Z")
     public static class Immutable extends AbstractImmutableData<Immutable, DialogData> {
 
         private String dialog;
@@ -103,14 +103,14 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
             dialog = "";
         }
 
-        Immutable( String dialog ) {
+        Immutable(String dialog) {
             this.dialog = dialog;
         }
 
         @Override
         protected void registerGetters() {
-            registerFieldGetter( QuestKeys.DIALOG, this::getDialogId );
-            registerKeyValue( QuestKeys.DIALOG, this::dialogId );
+            registerFieldGetter(QuestKeys.DIALOG, this::getDialogId);
+            registerKeyValue(QuestKeys.DIALOG, this::dialogId);
         }
 
         public String getDialogId() {
@@ -118,12 +118,12 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
         }
 
         public ImmutableValue<String> dialogId() {
-            return Sponge.getRegistry().getValueFactory().createValue( QuestKeys.DIALOG, dialog ).asImmutable();
+            return Sponge.getRegistry().getValueFactory().createValue(QuestKeys.DIALOG, dialog).asImmutable();
         }
 
         @Override
         public DialogData asMutable() {
-            return new DialogData( dialog );
+            return new DialogData(dialog);
         }
 
         @Override
@@ -133,16 +133,16 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
         @Override
         public DataContainer toContainer() {
-            return super.toContainer().set( QuestKeys.DIALOG.getQuery(), dialog );
+            return super.toContainer().set(QuestKeys.DIALOG.getQuery(), dialog);
         }
 
     }
 
-    @Generated( value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.099Z" )
+    @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.099Z")
     public static class Builder extends AbstractDataBuilder<DialogData> implements DataManipulatorBuilder<DialogData, Immutable> {
 
-        public Builder () {
-            super( DialogData.class, 1 );
+        public Builder() {
+            super(DialogData.class, 1);
         }
 
         @Override
@@ -151,13 +151,13 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
         }
 
         @Override
-        public Optional<DialogData> createFrom( DataHolder dataHolder ) {
-            return create().fill( dataHolder );
+        public Optional<DialogData> createFrom(DataHolder dataHolder) {
+            return create().fill(dataHolder);
         }
 
         @Override
-        protected Optional<DialogData> buildContent( DataView container ) throws InvalidDataException {
-            return create().from( container );
+        protected Optional<DialogData> buildContent(DataView container) throws InvalidDataException {
+            return create().from(container);
         }
 
     }

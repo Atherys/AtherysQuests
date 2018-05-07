@@ -6,12 +6,12 @@ public interface Script {
 
     String getId();
 
-    void pickUp( Quester quester );
+    void pickUp(Quester quester);
 
-    void progress( Quester quester );
+    void progress(Quester quester);
 
-    void complete( Quester quester );
+    void complete(Quester quester);
 
-    void turnIn( Quester quester );
+    void turnIn(Quester quester);
 
 }

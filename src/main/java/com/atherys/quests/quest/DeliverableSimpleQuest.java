@@ -15,30 +15,30 @@ public class DeliverableSimpleQuest extends SimpleQuest {
     @Expose
     private UUID entity;
 
-    public DeliverableSimpleQuest ( String id, int version ) {
-        super( id, version );
+    public DeliverableSimpleQuest(String id, int version) {
+        super(id, version);
     }
 
-    private DeliverableSimpleQuest ( DeliverableSimpleQuest quest ) {
-        super( quest );
+    private DeliverableSimpleQuest(DeliverableSimpleQuest quest) {
+        super(quest);
         this.entity = quest.getEntity();
     }
 
     @Override
-    public void pickUp( Quester quester ) {
+    public void pickUp(Quester quester) {
 
     }
 
     @Override
     public SimpleQuest copy() {
-        return new DeliverableSimpleQuest( this );
+        return new DeliverableSimpleQuest(this);
     }
 
-    protected void setEntity( UUID uuid ) {
+    protected void setEntity(UUID uuid) {
         this.entity = uuid;
     }
 
-    public UUID getEntity () {
+    public UUID getEntity() {
         return entity;
     }
 }

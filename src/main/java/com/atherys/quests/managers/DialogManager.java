@@ -31,8 +31,8 @@ public final class DialogManager {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().DIALOG_FOLDER;
     }
 
-    public void registerDialog ( DialogTree tree ) {
-        this.trees.put( tree.getId(), tree );
+    public void registerDialog(DialogTree tree) {
+        this.trees.put(tree.getId(), tree);
     }
 
     /**
@@ -41,26 +41,26 @@ public final class DialogManager {
      * @param folder The File representing the directory.
      * @throws FileNotFoundException If the file could not be found
      */
-    public void loadDialogs( @Nonnull File folder ) throws FileNotFoundException {
-        if ( !folder.isDirectory() ) return;
+    public void loadDialogs(@Nonnull File folder) throws FileNotFoundException {
+        if(!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
 
-        if ( files == null ) {
-            throw new FileNotFoundException( "Could not list files in provided directory." );
+        if(files == null) {
+            throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
-            for ( File file : files ) {
-                if ( !file.getName().endsWith( ".json" ) ) continue;
+            for(File file : files) {
+                if(!file.getName().endsWith(".json")) continue;
 
-                DialogTree tree = GsonUtils.getGson().fromJson( new FileReader( file ), DialogTree.class );
-                tree.setId( file.getName().replace( ".json", "" ) );
-                registerDialog( tree );
+                DialogTree tree = GsonUtils.getGson().fromJson(new FileReader(file), DialogTree.class);
+                tree.setId(file.getName().replace(".json", ""));
+                registerDialog(tree);
             }
         }
     }
 
-    public Optional<DialogTree> getDialogFromId( String id ) {
-        return Optional.ofNullable( trees.get( id ) );
+    public Optional<DialogTree> getDialogFromId(String id) {
+        return Optional.ofNullable(trees.get(id));
     }
 
     /**
@@ -69,8 +69,8 @@ public final class DialogManager {
      * @param entity The entity to be checked
      * @return Whether or not this entity contains a DialogTree
      */
-    public boolean hasDialog( Entity entity ) {
-        return entity.get( DialogData.class ).isPresent();
+    public boolean hasDialog(Entity entity) {
+        return entity.get(DialogData.class).isPresent();
     }
 
     /**
@@ -79,11 +79,11 @@ public final class DialogManager {
      * @param entity The entity whose dialog is to be retrieved
      * @return An optional containing the dialog this entity is associated with. The optional is empty if the entity does not contain a dialog.
      */
-    public Optional<DialogTree> getDialog( Entity entity ) {
-        Optional<DialogData> dialogData = entity.get( DialogData.class );
-        if ( dialogData.isPresent() ) {
-            AtherysQuests.getInstance().getLogger().error( "Dialog Data Detected: " + dialogData.get().getDialogId() );
-            return Optional.ofNullable( trees.get( dialogData.get().getDialogId() ) );
+    public Optional<DialogTree> getDialog(Entity entity) {
+        Optional<DialogData> dialogData = entity.get(DialogData.class);
+        if(dialogData.isPresent()) {
+            AtherysQuests.getInstance().getLogger().error("Dialog Data Detected: " + dialogData.get().getDialogId());
+            return Optional.ofNullable(trees.get(dialogData.get().getDialogId()));
         } else return Optional.empty();
     }
 
@@ -94,8 +94,8 @@ public final class DialogManager {
      * @param tree   The dialog tree itself
      * @return Whether or not setting the dialog was successful.
      */
-    public boolean setDialog( Entity entity, DialogTree tree ) {
-        return entity.offer( new DialogData( tree.getId() ) ).isSuccessful();
+    public boolean setDialog(Entity entity, DialogTree tree) {
+        return entity.offer(new DialogData(tree.getId())).isSuccessful();
     }
 
     /**
@@ -104,8 +104,8 @@ public final class DialogManager {
      * @param player The player to check
      * @return Whether or not the player is participating in a dialog
      */
-    public boolean hasPlayerDialog( Player player ) {
-        return ongoingDialogs.containsKey( player.getUniqueId() );
+    public boolean hasPlayerDialog(Player player) {
+        return ongoingDialogs.containsKey(player.getUniqueId());
     }
 
     /**
@@ -114,12 +114,12 @@ public final class DialogManager {
      * @param player The player whose dialog is to be gotten
      * @return An optional containing the dialog. Is empty if no dialog is found.
      */
-    public Optional<Dialog> getPlayerDialog( Player player ) {
-        return Optional.ofNullable( ongoingDialogs.get( player.getUniqueId() ) );
+    public Optional<Dialog> getPlayerDialog(Player player) {
+        return Optional.ofNullable(ongoingDialogs.get(player.getUniqueId()));
     }
 
-    public void removePlayerDialog ( Player player ) {
-        ongoingDialogs.remove( player.getUniqueId() );
+    public void removePlayerDialog(Player player) {
+        ongoingDialogs.remove(player.getUniqueId());
     }
 
     /**
@@ -131,16 +131,16 @@ public final class DialogManager {
      * @param entity The entity participant
      * @return An optional containing the dialog. Empty if failure.
      */
-    public Optional<Dialog> startDialog( Player player, Entity entity ) {
-        Optional<DialogTree> tree = getDialog( entity );
+    public Optional<Dialog> startDialog(Player player, Entity entity) {
+        Optional<DialogTree> tree = getDialog(entity);
 
-        if ( !tree.isPresent() || hasPlayerDialog( player ) ) return Optional.empty();
+        if(!tree.isPresent() || hasPlayerDialog(player)) return Optional.empty();
 
-        Optional<Dialog> dialog = Dialog.between( player, entity, tree.get() );
+        Optional<Dialog> dialog = Dialog.between(player, entity, tree.get());
 
-        if ( !dialog.isPresent() ) return Optional.empty();
+        if(!dialog.isPresent()) return Optional.empty();
 
-        this.ongoingDialogs.put( player.getUniqueId(), dialog.get() );
+        this.ongoingDialogs.put(player.getUniqueId(), dialog.get());
         return dialog;
     }
 
