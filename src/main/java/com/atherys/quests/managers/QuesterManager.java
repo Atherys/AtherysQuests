@@ -16,9 +16,9 @@ import java.util.UUID;
 
 public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
 
-    private static Gson gson = GsonUtils.getGson();
-
     private static QuesterManager instance = new QuesterManager();
+
+    private Gson gson = GsonUtils.getGson();
 
     protected QuesterManager() {
         super( AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questers" );
@@ -113,6 +113,12 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester>{
         completedQuests.forEach( (k,v) -> quester.getCompletedQuests().put( k, (long) v ) );
 
         return Optional.of( quester );
+    }
+
+    @Override
+    public void loadAll() {
+        gson = GsonUtils.getGson();
+        super.loadAll();
     }
 
     public void saveAll() {
