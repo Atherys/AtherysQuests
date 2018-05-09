@@ -17,7 +17,7 @@ import java.util.UUID;
 public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
 
     private static LocationManager instance = new LocationManager();
-    private static Gson gson = GsonUtils.getGson();
+    private Gson gson = GsonUtils.getGson();
 
     private LocationManager() {
         super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questLocations");
@@ -40,10 +40,10 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
        saveAll(this.getCache().values());
     }
 
-    public boolean addLocationQuest(Location<World> location, String questId, double radius){
+    public boolean addQuestLocation(Location<World> location, String questId, double radius){
         Optional<QuestLocation> questLocation = QuestManager.getInstance().getQuest(questId).map(quest ->
             new QuestLocation(location, quest, radius));
-        
+
         if(questLocation.isPresent()){
             for(QuestLocation ql : this.getCache().values()){
                 if(questLocation.get().overlaps(ql)) return false;
@@ -73,7 +73,8 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         private String questId;
 
         private boolean overlaps(QuestLocation questLocation){
-            return (this.location.getPosition().distance(questLocation.location.getPosition()) < this.radius + questLocation.radius);
+            return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
+                    < this.radius + questLocation.radius);
         }
 
         private boolean contains(Location<World> loc){

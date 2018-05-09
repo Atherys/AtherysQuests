@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Aliases("tolocation")
 @Description("Attaches a quest to a location.")
-public class AttachQuestToLocationCommand implements CommandExecutor, ParameterizedCommand {
+public class AttachQuestToLocationCommand implements ParameterizedCommand {
 
     @Nonnull
     @Override
@@ -28,8 +28,11 @@ public class AttachQuestToLocationCommand implements CommandExecutor, Parameteri
         if(!(src instanceof Player)) return CommandResult.empty();
 
         Optional<Player> player = ((Player) src).getPlayer();
-        if(player.isPresent() && args.getOne(Text.of("questId")).isPresent() && args.getOne(Text.of("radius")).isPresent()) {
-            if(LocationManager.getInstance().addLocationQuest(player.get().getLocation(), args.<String>getOne("questId").get(), args.<Double>getOne(Text.of("radius")).get())){
+        if(player.isPresent() && args.getOne(Text.of("questId")).isPresent()
+                              && args.getOne(Text.of("radius")).isPresent()) {
+            if(LocationManager.getInstance().addQuestLocation(player.get().getLocation(),
+                    args.<String>getOne("questId").get(),
+                    args.<Double>getOne(Text.of("radius")).get())){
                 PartyMsg.info(player.get(), "Quest set to location successfully.");
             } else {
                 PartyMsg.error(player.get(), "Quest not set. The location overlaps with another or the quest does not exist");

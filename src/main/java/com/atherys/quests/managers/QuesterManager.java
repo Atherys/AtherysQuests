@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> {
 
-    private static Gson gson = GsonUtils.getGson();
+    private Gson gson = GsonUtils.getGson();
 
     private static QuesterManager instance = new QuesterManager();
 

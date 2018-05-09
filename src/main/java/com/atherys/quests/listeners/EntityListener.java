@@ -31,6 +31,8 @@ public class EntityListener {
 
     @Listener
     public void onPlayerMove(MoveEntityEvent e, @Root Player player){
+        if(e.getFromTransform().getLocation().getBlockPosition().equals
+                (e.getToTransform().getLocation().getBlockPosition())) return;
         if(LocationManager.getInstance().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
 
         LocationManager.getInstance().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
