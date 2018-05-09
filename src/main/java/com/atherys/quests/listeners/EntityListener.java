@@ -31,8 +31,11 @@ public class EntityListener {
 
     @Listener
     public void onPlayerMove(MoveEntityEvent e, @Root Player player){
+        if(LocationManager.getInstance().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
+
         LocationManager.getInstance().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
             Quest quest = QuestManager.getInstance().getQuest(questLocation.getQuestId()).get();
+            if(QuesterManager.getInstance().getQuester(player).hasQuest(quest)) return;
             new TakeQuestView(quest).show(player);
         });
     }

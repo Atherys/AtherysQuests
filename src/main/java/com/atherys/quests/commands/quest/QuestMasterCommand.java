@@ -12,7 +12,8 @@ import org.spongepowered.api.entity.living.player.Player;
 
 @Aliases("quest")
 @Description("Base quest command.")
-@Children({QuestLogCommand.class})
+@Children({QuestLogCommand.class,
+           AttachQuestToLocationCommand.class})
 public class QuestMasterCommand implements CommandExecutor {
 
     @Override

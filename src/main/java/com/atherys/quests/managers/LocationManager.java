@@ -5,7 +5,9 @@ import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
+import com.atherys.quests.util.GsonUtils;
 import com.flowpowered.math.vector.Vector3d;
+import com.google.gson.Gson;
 import org.bson.Document;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -17,15 +19,13 @@ import java.util.UUID;
 public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
 
     private static LocationManager instance = new LocationManager();
+    private static Gson gson = GsonUtils.getGson();
 
     private LocationManager() {
         super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questLocations");
     }
 
-    @Override
-    protected Optional<Document> toDocument(QuestLocation questLocation) {
-        return Optional.empty();
-    }
+
 
     public Optional<QuestLocation> getByLocation(Location<World> location){
         for(QuestLocation loc : getCache().values()){
@@ -40,12 +40,25 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         return instance;
     }
 
+    public void saveAll(){
+       saveAll(this.getCache().values());
+    }
+
     public void addLocationQuest(Location<World> location, String questId, double radius){
         QuestManager.getInstance().getQuest(questId).ifPresent(quest -> {
+
             QuestLocation questLocation = new QuestLocation(location, quest, radius);
+            for(QuestLocation ql : this.getCache().values()){
+                if(questLocation.overlaps(ql)) return;
+            }
             this.save(questLocation);
         });
 
+    }
+
+    @Override
+    protected Optional<Document> toDocument(QuestLocation questLocation) {
+        return Optional.empty();
     }
 
     @Override
@@ -61,6 +74,10 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         private double radius;
 
         private String questId;
+
+        private boolean overlaps(QuestLocation questLocation){
+            return (this.location.getPosition().distance(questLocation.location.getPosition()) < this.radius + questLocation.radius);
+        }
 
         private boolean contains(Location<World> loc){
             if(loc.getExtent().equals(location.getExtent())){

@@ -80,7 +80,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
      * @return An empty optional
      */
     @Override
-    public Optional<Quester> get(UUID uuid) {
+    public Optional<Quester> get(UUID uuid){
         return Optional.ofNullable(getCache().get(uuid));
     }
 

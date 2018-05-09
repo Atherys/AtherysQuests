@@ -13,6 +13,7 @@ import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
+import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.quest.DeliverableSimpleQuest;
@@ -126,6 +127,7 @@ public class AtherysQuests {
         Sponge.getEventManager().post(dialogRegistrationEvent);
 
         QuesterManager.getInstance().loadAll();
+        LocationManager.getInstance().loadAll();
 
         try {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
@@ -137,6 +139,7 @@ public class AtherysQuests {
 
     private void stop() {
         QuesterManager.getInstance().saveAll();
+        LocationManager.getInstance().saveAll();
     }
 
     @Listener
