@@ -9,21 +9,21 @@ import org.spongepowered.api.text.format.TextStyles;
 
 public class StagedQuestView extends AnyQuestView<StagedQuest> {
 
-    public StagedQuestView( Quest<StagedQuest> quest ) {
-        super( quest );
+    public StagedQuestView(Quest<StagedQuest> quest) {
+        super(quest);
     }
 
     @Override
-    public Text getFormattedObjectives () {
+    public Text getFormattedObjectives() {
         Text.Builder objectives = Text.builder();
         StagedQuest quest = (StagedQuest) super.quest;
-        for ( Stage stage : quest.getStages() ) {
-            if ( stage.equals( quest.getCurrent() ) ) {
-                objectives.append( Text.of( stage.getObjective().toText() ) );
+        for(Stage stage : quest.getStages()) {
+            if(stage.equals(quest.getCurrent())) {
+                objectives.append(Text.of(stage.getObjective().toText()));
             } else {
-                objectives.append( Text.of( TextStyles.ITALIC, TextColors.GRAY, stage.getObjective(), TextStyles.RESET, TextColors.RESET ) );
+                objectives.append(Text.of(TextStyles.ITALIC, TextColors.GRAY, stage.getObjective(), TextStyles.RESET, TextColors.RESET));
             }
-            objectives.append( Text.NEW_LINE );
+            objectives.append(Text.NEW_LINE);
         }
         return objectives.build();
     }

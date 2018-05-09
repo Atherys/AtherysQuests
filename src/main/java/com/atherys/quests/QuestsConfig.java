@@ -8,22 +8,22 @@ import java.io.IOException;
 
 public class QuestsConfig extends PluginConfig {
 
-    @Setting( "is_default" )
+    @Setting("is_default")
     public boolean IS_DEFAULT = true;
 
-    @Setting( "dialog_msg_delay" )
+    @Setting("dialog_msg_delay")
     public long DIALOG_MESSAGE_DELAY = 2;
 
-    @Setting( "database" )
+    @Setting("database")
     public MongoDatabaseConfig DATABASE = new MongoDatabaseConfig();
 
-    @Setting( "dialogs_folder" )
+    @Setting("dialogs_folder")
     public String DIALOG_FOLDER = "dialogs";
 
-    @Setting( "scripts_folder" )
+    @Setting("scripts_folder")
     public String SCRIPTS_FOLDER = "scripts";
 
-    protected QuestsConfig( String directory, String filename ) throws IOException {
-        super( directory, filename );
+    protected QuestsConfig(String directory, String filename) throws IOException {
+        super(directory, filename);
     }
 }

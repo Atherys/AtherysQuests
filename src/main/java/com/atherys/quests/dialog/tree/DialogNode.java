@@ -1,8 +1,8 @@
 package com.atherys.quests.dialog.tree;
 
-import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
+import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
@@ -14,17 +14,23 @@ import java.util.Optional;
 
 public class DialogNode {
 
-    @Expose private int id;
-    @Expose private List<Requirement> requirements = new ArrayList<>();
+    @Expose
+    private int id;
+    @Expose
+    private List<Requirement> requirements = new ArrayList<>();
 
-    @Expose private Text playerText;
-    @Expose private Text[] npcResponse;
+    @Expose
+    private Text playerText;
+    @Expose
+    private Text[] npcResponse;
 
-    @Expose private String questId;
+    @Expose
+    private String questId;
 
-    @Expose private List<DialogNode> responses = new ArrayList<>();
+    @Expose
+    private List<DialogNode> responses = new ArrayList<>();
 
-    protected DialogNode( int id ) {
+    protected DialogNode(int id) {
         this.id = id;
     }
 
@@ -32,8 +38,8 @@ public class DialogNode {
         return new DialogNodeBuilder();
     }
 
-    public static DialogNodeBuilder builder ( int id ) {
-        return new DialogNodeBuilder( id );
+    public static DialogNodeBuilder builder(int id) {
+        return new DialogNodeBuilder(id);
     }
 
     public List<DialogNode> getResponses() {
@@ -52,42 +58,42 @@ public class DialogNode {
         return requirements;
     }
 
-    public boolean meetsRequirements( Quester player ) {
-        for ( Requirement requirement : requirements ) {
-            if ( !requirement.check( player ) ) return false;
+    public boolean meetsRequirements(Quester player) {
+        for(Requirement requirement : requirements) {
+            if(!requirement.check(player)) return false;
         }
         return true;
     }
 
     public Optional<Quest> getQuest() {
-        return QuestManager.getInstance().getQuest( questId );
+        return QuestManager.getInstance().getQuest(questId);
     }
 
     public int getId() {
         return id;
     }
 
-    protected void setPlayerText( Text playerText ) {
+    protected void setPlayerText(Text playerText) {
         this.playerText = playerText;
     }
 
-    protected void setNPCText( Text... NPCText ) {
+    protected void setNPCText(Text... NPCText) {
         this.npcResponse = NPCText;
     }
 
-    protected void setQuest( String quest ) {
+    protected void setQuest(String quest) {
         this.questId = quest;
     }
 
-    protected void setRequirements( Requirement... requirements ) {
-        this.requirements = Arrays.asList( requirements );
+    protected void setRequirements(Requirement... requirements) {
+        this.requirements = Arrays.asList(requirements);
     }
 
-    protected void setResponses( DialogNode... responses ) {
-        this.responses = Arrays.asList( responses );
+    protected void setResponses(DialogNode... responses) {
+        this.responses = Arrays.asList(responses);
     }
 
-    public void setId( int id ) {
+    public void setId(int id) {
         this.id = id;
     }
 }

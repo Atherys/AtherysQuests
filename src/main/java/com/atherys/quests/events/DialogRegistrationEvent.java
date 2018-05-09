@@ -14,12 +14,12 @@ public class DialogRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public DialogRegistrationEvent () {
-        this.cause = Cause.builder().append( AtherysQuests.getInstance() ).append( DialogManager.getInstance() ).build( Sponge.getCauseStackManager().getCurrentContext() );
+    public DialogRegistrationEvent() {
+        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(DialogManager.getInstance()).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override
-    public Cause getCause () {
+    public Cause getCause() {
         return cause;
     }
 
@@ -27,7 +27,7 @@ public class DialogRegistrationEvent implements Event {
         return DialogManager.getInstance();
     }
 
-    public void register ( DialogTree tree ) {
-        getManager().registerDialog( tree );
+    public void register(DialogTree tree) {
+        getManager().registerDialog(tree);
     }
 }

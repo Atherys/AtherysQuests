@@ -12,13 +12,13 @@ import org.spongepowered.api.text.Text;
 
 public class GsonListener {
 
-    @Listener( order = Order.FIRST )
-    public void onGsonBuild ( AtherysQuestsGsonBuildEvent event ) {
+    @Listener(order = Order.FIRST)
+    public void onGsonBuild(AtherysQuestsGsonBuildEvent event) {
         event.getBuilder()
-                .registerTypeAdapter( Text.class, new CompactTextAdapter() )
-                .registerTypeAdapter( ItemStackSnapshot.class, new ConfigurateAdapter<>( ItemStackSnapshot.class ) )
-                .registerTypeAdapter( Currency.class, new ConfigurateAdapter<>( Currency.class ) )
-                .registerTypeAdapter( BlockSnapshot.class, new ConfigurateAdapter<>( BlockSnapshot.class ) );
+                .registerTypeAdapter(Text.class, new CompactTextAdapter())
+                .registerTypeAdapter(ItemStackSnapshot.class, new ConfigurateAdapter<>(ItemStackSnapshot.class))
+                .registerTypeAdapter(Currency.class, new ConfigurateAdapter<>(Currency.class))
+                .registerTypeAdapter(BlockSnapshot.class, new ConfigurateAdapter<>(BlockSnapshot.class));
     }
 
 }

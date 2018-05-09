@@ -21,17 +21,19 @@ public final class QuestKeys {
 
     static {
         DIALOG = Key.builder()
-                .type( new TypeToken<Value<String>>() {} )
-                .id( "dialog" )
-                .name( "Dialog" )
-                .query( DataQuery.of( "atherysquests", "Dialog" ) )
+                .type(new TypeToken<Value<String>>() {
+                })
+                .id("dialog")
+                .name("Dialog")
+                .query(DataQuery.of("atherysquests", "Dialog"))
                 .build();
 
         QUEST = Key.builder()
-                .type( new TypeToken<Value<String>>() {} )
-                .id( "quest" )
-                .name( "Quest" )
-                .query( DataQuery.of( "atherysquests", "Quest" ) )
+                .type(new TypeToken<Value<String>>() {
+                })
+                .id("quest")
+                .name("Quest")
+                .query(DataQuery.of("atherysquests", "Quest"))
                 .build();
     }
 

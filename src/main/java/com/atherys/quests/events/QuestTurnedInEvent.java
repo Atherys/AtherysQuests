@@ -13,12 +13,12 @@ public class QuestTurnedInEvent implements Event {
     private Quest quest;
     private Quester quester;
 
-    public QuestTurnedInEvent( Quest quest, Quester quester ) {
+    public QuestTurnedInEvent(Quest quest, Quester quester) {
         this.quest = quest;
         this.quester = quester;
         cause = Cause.builder()
-                .append( quester.getCachedPlayer() )
-                .build( Sponge.getCauseStackManager().getCurrentContext() );
+                .append(quester.getCachedPlayer())
+                .build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override

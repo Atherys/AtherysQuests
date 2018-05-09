@@ -13,12 +13,12 @@ public class ObjectiveProgressedEvent implements Event {
     private Objective objective;
     private Quester quester;
 
-    public ObjectiveProgressedEvent( Objective objective, Quester quester ) {
+    public ObjectiveProgressedEvent(Objective objective, Quester quester) {
         this.objective = objective;
         this.quester = quester;
         cause = Cause.builder()
-                .append( quester.getCachedPlayer() )
-                .build( Sponge.getCauseStackManager().getCurrentContext() );
+                .append(quester.getCachedPlayer())
+                .build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override

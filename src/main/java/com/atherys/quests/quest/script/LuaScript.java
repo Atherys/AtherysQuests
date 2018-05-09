@@ -9,36 +9,36 @@ public class LuaScript implements Script {
 
     private String id;
 
-    private LuaScript () {
+    private LuaScript() {
     }
 
-    public static LuaScript fromFile ( File file ) {
+    public static LuaScript fromFile(File file) {
         // TODO: Implement
         return null;
     }
 
     @Override
-    public String getId () {
+    public String getId() {
         return id;
     }
 
     @Override
-    public void pickUp ( Quester quester ) {
+    public void pickUp(Quester quester) {
         // TODO: Implement
     }
 
     @Override
-    public void progress ( Quester quester ) {
+    public void progress(Quester quester) {
         // TODO: Implement
     }
 
     @Override
-    public void complete ( Quester quester ) {
+    public void complete(Quester quester) {
         // TODO: Implement
     }
 
     @Override
-    public void turnIn ( Quester quester ) {
+    public void turnIn(Quester quester) {
         // TODO: Implement
     }
 

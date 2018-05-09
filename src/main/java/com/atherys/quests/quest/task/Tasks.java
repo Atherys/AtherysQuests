@@ -13,7 +13,7 @@ import org.spongepowered.api.world.World;
  */
 public final class Tasks {
 
-    public static void spawnEntitiesInRadius( Location<World> location, double radius, EntitySnapshot snapshot, int amount ) {
+    public static void spawnEntitiesInRadius(Location<World> location, double radius, EntitySnapshot snapshot, int amount) {
         // TODO: Fix this
         /*for ( int i = 0; i < amount; i++ ) {
 
@@ -33,8 +33,8 @@ public final class Tasks {
         }*/
     }
 
-    public static void destroyEntitiesInBox( World world, AABB box ) {
-        world.getIntersectingEntities( box ).forEach( Entity::remove );
+    public static void destroyEntitiesInBox(World world, AABB box) {
+        world.getIntersectingEntities(box).forEach(Entity::remove);
     }
 
 }

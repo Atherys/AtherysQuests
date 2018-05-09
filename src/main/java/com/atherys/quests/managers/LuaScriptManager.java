@@ -15,7 +15,7 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
 
     private final static LuaScriptManager instance = new LuaScriptManager();
 
-    private Map<String,LuaScript> scripts = new HashMap<>();
+    private Map<String, LuaScript> scripts = new HashMap<>();
 
     private LuaScriptManager() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().SCRIPTS_FOLDER;
@@ -30,33 +30,33 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
      * @param folder The File representing the directory.
      * @throws FileNotFoundException If the file could not be found
      */
-    public void loadScripts( @Nonnull File folder ) throws FileNotFoundException {
-        if ( !folder.isDirectory() ) return;
+    public void loadScripts(@Nonnull File folder) throws FileNotFoundException {
+        if(!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
 
-        if ( files == null ) {
-            throw new FileNotFoundException( "Could not list files in provided directory." );
+        if(files == null) {
+            throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
-            for ( File file : files ) {
-                if ( !file.getName().endsWith( ".lua" ) ) continue;
+            for(File file : files) {
+                if(!file.getName().endsWith(".lua")) continue;
 
-                LuaScript script = LuaScript.fromFile( file );
-                registerScript( script );
+                LuaScript script = LuaScript.fromFile(file);
+                registerScript(script);
             }
         }
     }
 
-    public void registerScript ( LuaScript script ) {
-        this.scripts.put( script.getId(), script );
+    public void registerScript(LuaScript script) {
+        this.scripts.put(script.getId(), script);
     }
 
     @Override
-    public Optional<LuaScript> forQuest ( Quest quest ) {
-        return Optional.ofNullable( scripts.get( quest.getId() ) );
+    public Optional<LuaScript> forQuest(Quest quest) {
+        return Optional.ofNullable(scripts.get(quest.getId()));
     }
 
-    public static LuaScriptManager getInstance () {
+    public static LuaScriptManager getInstance() {
         return instance;
     }
 

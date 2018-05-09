@@ -14,18 +14,22 @@ import org.spongepowered.api.world.World;
  */
 public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
-    @Expose Text name;
+    @Expose
+    Text name;
 
-    @Expose private Location<World> location;
-    @Expose private double radius;
+    @Expose
+    private Location<World> location;
+    @Expose
+    private double radius;
 
-    @Expose private boolean complete;
+    @Expose
+    private boolean complete;
 
-    private ReachLocationObjective () {
-        super( MoveEntityEvent.class );
+    private ReachLocationObjective() {
+        super(MoveEntityEvent.class);
     }
 
-    ReachLocationObjective ( Text name, Location<World> location, double radius ) {
+    ReachLocationObjective(Text name, Location<World> location, double radius) {
         this();
         this.name = name;
         this.location = location;
@@ -33,26 +37,26 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
     }
 
     @Override
-    protected void onNotify ( MoveEntityEvent event, Quester quester ) {
-        if ( event.getToTransform().getLocation().getExtent().equals( location.getExtent() ) ) {
-            if ( event.getToTransform().getPosition().distance( location.getPosition() ) < radius ) {
+    protected void onNotify(MoveEntityEvent event, Quester quester) {
+        if(event.getToTransform().getLocation().getExtent().equals(location.getExtent())) {
+            if(event.getToTransform().getPosition().distance(location.getPosition()) < radius) {
                 this.complete = true;
             }
         }
     }
 
     @Override
-    public boolean isComplete () {
+    public boolean isComplete() {
         return complete;
     }
 
     @Override
-    public ReachLocationObjective copy () {
-        return new ReachLocationObjective( name, location, radius );
+    public ReachLocationObjective copy() {
+        return new ReachLocationObjective(name, location, radius);
     }
 
     @Override
-    public Text toText () {
-        return Text.builder().append( Text.of( "Reach ", name ) ).onHover( TextActions.showText( Text.of( "Located @ ", location.getPosition() ) ) ).build();
+    public Text toText() {
+        return Text.builder().append(Text.of("Reach ", name)).onHover(TextActions.showText(Text.of("Located @ ", location.getPosition()))).build();
     }
 }

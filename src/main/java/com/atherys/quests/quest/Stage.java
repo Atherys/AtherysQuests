@@ -20,43 +20,45 @@ import java.util.List;
  */
 public class Stage implements Observer<Event>, Prototype<Stage> {
 
-    @Expose private Objective objective;
-    @Expose private List<Reward> rewards = new ArrayList<>();
+    @Expose
+    private Objective objective;
+    @Expose
+    private List<Reward> rewards = new ArrayList<>();
 
-    public Stage ( Objective objective ) {
-        this ( objective, null );
+    public Stage(Objective objective) {
+        this(objective, null);
     }
 
-    public Stage ( Objective objective, @Nullable List<Reward> rewards ) {
+    public Stage(Objective objective, @Nullable List<Reward> rewards) {
         this.objective = objective;
-        if ( rewards != null ) this.rewards = rewards;
+        if(rewards != null) this.rewards = rewards;
     }
 
-    private Stage ( Stage stage ) {
-        this.objective = CopyUtils.copy( stage.getObjective() );
-        this.rewards = CopyUtils.copyList( stage.getRewards() );
+    private Stage(Stage stage) {
+        this.objective = CopyUtils.copy(stage.getObjective());
+        this.rewards = CopyUtils.copyList(stage.getRewards());
     }
 
     public Objective getObjective() {
         return objective;
     }
 
-    public List<Reward> getRewards () {
+    public List<Reward> getRewards() {
         return rewards;
     }
 
     @Override
-    public void notify ( Event event, Quester quester ) {
-        objective.notify( event, quester );
+    public void notify(Event event, Quester quester) {
+        objective.notify(event, quester);
     }
 
-    public void award ( Quester quester ) {
-        rewards.forEach( reward -> reward.award( quester ) );
+    public void award(Quester quester) {
+        rewards.forEach(reward -> reward.award(quester));
     }
 
     @Override
-    public Stage copy () {
-        return new Stage( this );
+    public Stage copy() {
+        return new Stage(this);
     }
 
     public boolean isComplete() {

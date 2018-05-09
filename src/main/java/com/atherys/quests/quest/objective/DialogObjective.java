@@ -25,18 +25,18 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
     @Expose
     private boolean complete = false;
 
-    DialogObjective( String treeId, int node, @Nullable Text description ) {
-        super( DialogProceedEvent.class );
+    DialogObjective(String treeId, int node, @Nullable Text description) {
+        super(DialogProceedEvent.class);
         this.requiredDialogTree = treeId;
         this.requiredDialogNode = node;
-        if ( description != null ) {
+        if(description != null) {
             this.description = description;
         }
     }
 
     @Override
-    protected void onNotify( DialogProceedEvent event, Quester quester ) {
-        if ( event.getDialog().getTreeId().equals( requiredDialogTree ) && event.getDialog().getLastNode().getId() == requiredDialogNode ) {
+    protected void onNotify(DialogProceedEvent event, Quester quester) {
+        if(event.getDialog().getTreeId().equals(requiredDialogTree) && event.getDialog().getLastNode().getId() == requiredDialogNode) {
             this.complete = true;
         }
     }
@@ -48,14 +48,14 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
 
     @Override
     public Objective copy() {
-        return new DialogObjective( this.requiredDialogTree, this.requiredDialogNode, this.description );
+        return new DialogObjective(this.requiredDialogTree, this.requiredDialogNode, this.description);
     }
 
     @Override
     public Text toText() {
         return Text.builder()
-                .append( Text.of( "Speak to NPC." ) )
-                .onHover( TextActions.showText( description ) )
+                .append(Text.of("Speak to NPC."))
+                .onHover(TextActions.showText(description))
                 .build();
     }
 
