@@ -8,6 +8,7 @@ import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.events.DialogRegistrationEvent;
 import com.atherys.quests.events.QuestRegistrationEvent;
+import com.atherys.quests.gson.QuestsGson;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
@@ -26,7 +27,6 @@ import com.atherys.quests.quest.objective.ReachLocationObjective;
 import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
-import com.atherys.quests.util.GsonUtils;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -91,13 +91,13 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
         //Sponge.getEventManager().registerListeners( this, new DialogQuestRegistrationListener() );
 
-        GsonUtils.getQuestRuntimeTypeAdapterFactory()
+        QuestsGson.getInstance().getQuestRuntimeTypeAdapterFactory()
                 .registerSubtype(SimpleQuest.class)
                 .registerSubtype(StagedQuest.class)
                 .registerSubtype(DeliverableSimpleQuest.class)
                 .registerSubtype(DeliverableStagedQuest.class);
 
-        GsonUtils.getRequirementRuntimeTypeAdapterFactory()
+        QuestsGson.getInstance().getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype(AndRequirement.class)
                 .registerSubtype(OrRequirement.class)
                 .registerSubtype(NotRequirement.class)
@@ -105,13 +105,13 @@ public class AtherysQuests {
                 .registerSubtype(MoneyRequirement.class)
                 .registerSubtype(QuestRequirement.class);
 
-        GsonUtils.getObjectiveTypeAdapterFactory()
+        QuestsGson.getInstance().getObjectiveTypeAdapterFactory()
                 .registerSubtype(KillEntityObjective.class)
                 .registerSubtype(DialogObjective.class)
                 .registerSubtype(ReachLocationObjective.class)
                 .registerSubtype(InteractWithBlockObjective.class);
 
-        GsonUtils.getRewardRuntimeTypeAdapterFactory()
+        QuestsGson.getInstance().getRewardRuntimeTypeAdapterFactory()
                 .registerSubtype(MoneyReward.class)
                 .registerSubtype(SingleItemReward.class);
 

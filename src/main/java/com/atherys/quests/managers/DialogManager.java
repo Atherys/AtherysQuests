@@ -4,7 +4,8 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.util.GsonUtils;
+import com.atherys.quests.gson.QuestsGson;
+import com.google.gson.Gson;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -49,10 +50,11 @@ public final class DialogManager {
         if(files == null) {
             throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
+            Gson gson = QuestsGson.getInstance().getGson();
             for(File file : files) {
                 if(!file.getName().endsWith(".json")) continue;
 
-                DialogTree tree = GsonUtils.getGson().fromJson(new FileReader(file), DialogTree.class);
+                DialogTree tree = gson.fromJson(new FileReader(file), DialogTree.class);
                 tree.setId(file.getName().replace(".json", ""));
                 registerDialog(tree);
             }

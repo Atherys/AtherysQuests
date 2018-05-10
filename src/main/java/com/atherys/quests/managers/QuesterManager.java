@@ -4,8 +4,8 @@ import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
+import com.atherys.quests.gson.QuestsGson;
 import com.atherys.quests.quester.Quester;
-import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
 import org.bson.Document;
 import org.spongepowered.api.entity.living.player.Player;
@@ -18,7 +18,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
 
     private static QuesterManager instance = new QuesterManager();
 
-    private Gson gson = GsonUtils.getGson();
+    private Gson gson;
 
     protected QuesterManager() {
         super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questers");
@@ -117,7 +117,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
 
     @Override
     public void loadAll() {
-        gson = GsonUtils.getGson();
+        gson = QuestsGson.getInstance().getGson();
         super.loadAll();
     }
 
