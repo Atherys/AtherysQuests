@@ -22,5 +22,4 @@ public class GsonListener {
                 .registerTypeAdapter(BlockSnapshot.class, new ConfigurateAdapter<>(BlockSnapshot.class))
                 .registerTypeAdapter(Location.class, new ConfigurateAdapter<>(Location.class));
     }
-
 }

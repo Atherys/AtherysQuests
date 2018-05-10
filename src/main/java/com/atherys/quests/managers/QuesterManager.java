@@ -2,6 +2,7 @@ package com.atherys.quests.managers;
 
 import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
 import com.atherys.quests.quester.Quester;

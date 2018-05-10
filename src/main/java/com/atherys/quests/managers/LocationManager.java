@@ -5,6 +5,7 @@ import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
+import com.atherys.quests.util.DbUtils;
 import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
 import org.bson.Document;
@@ -37,7 +38,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     }
 
     public void saveAll(){
-       saveAll(this.getCache().values());
+       saveAll(getCache().values());
     }
 
     public boolean addQuestLocation(Location<World> location, String questId, double radius){
@@ -54,13 +55,27 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         } else return false;
     }
 
-    @Override protected Optional<Document> toDocument(QuestLocation questLocation) {
-        return Optional.empty();
+    @Override
+    protected Optional<Document> toDocument(QuestLocation questLocation) {
+        Document document = new Document();
+
+        Document location = DbUtils.Serialize.location(questLocation.location);
+        document.append("location", location);
+
+        document.append("questId", questLocation.questId);
+        document.append("radius", questLocation.radius);
+
+        return Optional.of(document);
     }
 
     @Override
     protected Optional<QuestLocation> fromDocument(Document document) {
-        return Optional.empty();
+        Optional<Location<World>> location = DbUtils.Deserialize.location((Document) document.get("location"));
+        Optional<Quest> quest = QuestManager.getInstance().getQuest(document.getString("questId"));
+
+        if(quest.isPresent() && location.isPresent()){
+            return Optional.of(new QuestLocation(location.get(), quest.get(), document.getDouble("radius")));
+        } else return Optional.empty();
     }
 
     public static class QuestLocation implements DBObject {
