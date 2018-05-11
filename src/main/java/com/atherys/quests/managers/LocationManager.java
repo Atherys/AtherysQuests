@@ -26,9 +26,9 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     }
 
     public Optional<QuestLocation> getByLocation(Location<World> location){
-        for(QuestLocation loc : getCache().values()){
-            if(loc.contains(location)){
-                return Optional.of(loc);
+        for(QuestLocation ql : getCache().values()){
+            if(ql.contains(location)){
+                return Optional.of(ql);
             }
         }
         return Optional.empty();
