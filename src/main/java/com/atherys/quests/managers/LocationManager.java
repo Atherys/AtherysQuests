@@ -18,6 +18,7 @@ import java.util.UUID;
 public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
 
     private static LocationManager instance = new LocationManager();
+
     private Gson gson = GsonUtils.getGson();
 
     private LocationManager() {
@@ -46,12 +47,12 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
             new QuestLocation(location, quest, radius));
 
         if(questLocation.isPresent()){
+            QuestLocation questLoc = questLocation.get();
             for(QuestLocation ql : this.getCache().values()){
-                if(questLocation.get().overlaps(ql)) return false;
+                if(questLoc.overlaps(ql)) return false;
             }
-            this.save(questLocation.get());
+            this.save(questLoc);
             return true;
-
         } else return false;
     }
 
