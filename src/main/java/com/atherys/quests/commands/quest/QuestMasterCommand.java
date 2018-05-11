@@ -10,6 +10,8 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
+import javax.annotation.Nonnull;
+
 @Aliases("quest")
 @Description("Base quest command.")
 @Children({QuestLogCommand.class,
@@ -17,7 +19,8 @@ import org.spongepowered.api.entity.living.player.Player;
 public class QuestMasterCommand implements CommandExecutor {
 
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    @Nonnull
+    public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
         if(!(src instanceof Player)) return CommandResult.empty();
         return CommandResult.empty();
     }
