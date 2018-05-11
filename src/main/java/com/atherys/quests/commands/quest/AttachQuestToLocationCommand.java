@@ -3,7 +3,6 @@ package com.atherys.quests.commands.quest;
 import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
-import com.atherys.core.party.PartyMsg;
 import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
@@ -12,13 +11,11 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
-import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Aliases("tolocation")
 @Description("Attaches a quest to a location.")
