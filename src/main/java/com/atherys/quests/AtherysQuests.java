@@ -96,7 +96,8 @@ public class AtherysQuests {
                 .registerSubtype(SimpleQuest.class)
                 .registerSubtype(StagedQuest.class)
                 .registerSubtype(DeliverableSimpleQuest.class)
-                .registerSubtype(DeliverableStagedQuest.class);
+                .registerSubtype(DeliverableStagedQuest.class)
+                .registerSubtype(DummyQuest.Staged.class);
 
         GsonUtils.getRequirementRuntimeTypeAdapterFactory()
                 .registerSubtype(AndRequirement.class)

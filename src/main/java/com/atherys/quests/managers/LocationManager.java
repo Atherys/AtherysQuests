@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import org.bson.Document;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.extent.Extent;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -60,23 +61,19 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     protected Optional<Document> toDocument(QuestLocation questLocation) {
         Document document = new Document();
 
-        Document location = DbUtils.Serialize.location(questLocation.location);
-        document.append("location", location);
-
-        document.append("questId", questLocation.questId);
-        document.append("radius", questLocation.radius);
+        document.append("location", gson.toJson(questLocation.getLocation()));
+        document.append("questId", questLocation.getQuestId());
+        document.append("radius", questLocation.getRadius());
 
         return Optional.of(document);
     }
 
     @Override
     protected Optional<QuestLocation> fromDocument(Document document) {
-        Optional<Location<World>> location = DbUtils.Deserialize.location((Document) document.get("location"));
+        Location location = gson.fromJson((String) document.get("location"), Location.class);
         Optional<Quest> quest = QuestManager.getInstance().getQuest(document.getString("questId"));
 
-        if(quest.isPresent() && location.isPresent()){
-            return Optional.of(new QuestLocation(location.get(), quest.get(), document.getDouble("radius")));
-        } else return Optional.empty();
+        return quest.map(quest1 -> new QuestLocation(location, quest1, document.getDouble("radius")));
     }
 
     public static class QuestLocation implements DBObject {
@@ -104,6 +101,14 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
             this.location = location;
             this.radius = radius;
             this.questId = quest.getId();
+        }
+
+        public double getRadius() {
+            return radius;
+        }
+
+        public Location getLocation(){
+            return location;
         }
 
         public String getQuestId(){
