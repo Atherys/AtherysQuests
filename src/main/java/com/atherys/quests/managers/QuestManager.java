@@ -2,6 +2,8 @@ package com.atherys.quests.managers;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.QuestData;
+import com.atherys.quests.events.QuestRegistrationEvent;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataHolder;
 
 import java.util.HashMap;
@@ -15,6 +17,8 @@ public final class QuestManager {
     private Map<String, Quest> quests = new HashMap<>();
 
     private QuestManager() {
+        QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
+        Sponge.getEventManager().post(questRegistrationEvent);
     }
 
     public void registerQuest(Quest quest) {

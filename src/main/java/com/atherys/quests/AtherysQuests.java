@@ -6,8 +6,7 @@ import com.atherys.quests.commands.dialog.DialogMasterCommand;
 import com.atherys.quests.commands.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.events.DialogRegistrationEvent;
-import com.atherys.quests.events.QuestRegistrationEvent;
+import com.atherys.quests.gson.AtherysQuestsRegistry;
 import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
@@ -15,18 +14,7 @@ import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
-import com.atherys.quests.quest.DeliverableSimpleQuest;
-import com.atherys.quests.quest.DeliverableStagedQuest;
-import com.atherys.quests.quest.SimpleQuest;
-import com.atherys.quests.quest.StagedQuest;
-import com.atherys.quests.quest.objective.DialogObjective;
-import com.atherys.quests.quest.objective.InteractWithBlockObjective;
-import com.atherys.quests.quest.objective.KillEntityObjective;
-import com.atherys.quests.quest.objective.ReachLocationObjective;
-import com.atherys.quests.quest.requirement.*;
-import com.atherys.quests.quest.reward.MoneyReward;
-import com.atherys.quests.quest.reward.SingleItemReward;
-import com.atherys.quests.util.GsonUtils;
+import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -89,41 +77,12 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new EntityListener());
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
-        //Sponge.getEventManager().registerListeners( this, new DialogQuestRegistrationListener() );
-
-        GsonUtils.getQuestRuntimeTypeAdapterFactory()
-                .registerSubtype(SimpleQuest.class)
-                .registerSubtype(StagedQuest.class)
-                .registerSubtype(DeliverableSimpleQuest.class)
-                .registerSubtype(DeliverableStagedQuest.class);
-
-        GsonUtils.getRequirementRuntimeTypeAdapterFactory()
-                .registerSubtype(AndRequirement.class)
-                .registerSubtype(OrRequirement.class)
-                .registerSubtype(NotRequirement.class)
-                .registerSubtype(LevelRequirement.class)
-                .registerSubtype(MoneyRequirement.class)
-                .registerSubtype(QuestRequirement.class);
-
-        GsonUtils.getObjectiveTypeAdapterFactory()
-                .registerSubtype(KillEntityObjective.class)
-                .registerSubtype(DialogObjective.class)
-                .registerSubtype(ReachLocationObjective.class)
-                .registerSubtype(InteractWithBlockObjective.class);
-
-        GsonUtils.getRewardRuntimeTypeAdapterFactory()
-                .registerSubtype(MoneyReward.class)
-                .registerSubtype(SingleItemReward.class);
 
         Quest quest = new DummyQuest.Staged();
+
         QuestManager.getInstance().registerQuest(quest);
+
         DialogManager.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
-
-        QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
-        Sponge.getEventManager().post(questRegistrationEvent);
-
-        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
-        Sponge.getEventManager().post(dialogRegistrationEvent);
 
         QuesterManager.getInstance().loadAll();
 
@@ -183,6 +142,14 @@ public class AtherysQuests {
 
     public static QuestsConfig getConfig() {
         return config;
+    }
+
+    public static AtherysQuestsRegistry getRegistry() {
+        return AtherysQuestsRegistry.getInstance();
+    }
+
+    public static Gson getGson() {
+        return getRegistry().getGson();
     }
 
     public Optional<EconomyService> getEconomyService() {

@@ -4,7 +4,9 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.util.GsonUtils;
+import com.atherys.quests.events.DialogRegistrationEvent;
+import com.google.gson.Gson;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -29,6 +31,9 @@ public final class DialogManager {
 
     private DialogManager() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().DIALOG_FOLDER;
+
+        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
+        Sponge.getEventManager().post(dialogRegistrationEvent);
     }
 
     public void registerDialog(DialogTree tree) {
@@ -45,6 +50,7 @@ public final class DialogManager {
         if(!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
+        Gson gson = AtherysQuests.getGson();
 
         if(files == null) {
             throw new FileNotFoundException("Could not list files in provided directory.");
@@ -52,7 +58,7 @@ public final class DialogManager {
             for(File file : files) {
                 if(!file.getName().endsWith(".json")) continue;
 
-                DialogTree tree = GsonUtils.getGson().fromJson(new FileReader(file), DialogTree.class);
+                DialogTree tree = gson.fromJson(new FileReader(file), DialogTree.class);
                 tree.setId(file.getName().replace(".json", ""));
                 registerDialog(tree);
             }

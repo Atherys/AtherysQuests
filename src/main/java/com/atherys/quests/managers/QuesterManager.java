@@ -5,7 +5,6 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
 import com.atherys.quests.quester.Quester;
-import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
 import org.bson.Document;
 import org.spongepowered.api.entity.living.player.Player;
