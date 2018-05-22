@@ -24,4 +24,8 @@ public class QuestMsg {
     public static void info(Quester quester, Object... msg) {
         noformat(quester, Text.of(MSG_PREFIX, TextColors.GREEN, " ", Text.of(msg)));
     }
+
+    public static void info(Player player, Object... msg) {
+        player.sendMessage(Text.of(MSG_PREFIX, TextColors.GREEN, " ", Text.of(msg)));
+    }
 }

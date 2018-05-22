@@ -19,8 +19,12 @@ public class InteractWithBlockObjective extends AbstractObjective<InteractBlockE
     @Expose
     private boolean complete = false;
 
-    InteractWithBlockObjective(BlockSnapshot snapshot) {
+    private InteractWithBlockObjective(){
         super(InteractBlockEvent.class);
+    }
+
+    InteractWithBlockObjective(BlockSnapshot snapshot) {
+        this();
         this.snapshot = snapshot;
     }
 

@@ -59,6 +59,7 @@ public final class GsonUtils {
 
         builder.registerTypeAdapterFactory(requirementRuntimeTypeAdapterFactory)
                 .registerTypeAdapterFactory(objectiveTypeAdapterFactory)
+                .registerTypeAdapterFactory(questRuntimeTypeAdapterFactory)
                 .registerTypeAdapterFactory(rewardRuntimeTypeAdapterFactory);
 
         return builder.create();

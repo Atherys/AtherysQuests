@@ -110,6 +110,15 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         return cachedPlayer;
     }
 
+    public boolean hasQuest(Quest quest){
+        for(Quest q : quests.values()){
+            if(q.getId().equals(quest.getId())){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Map<String, Long> getCompletedQuests() {
         return completedQuests;
     }

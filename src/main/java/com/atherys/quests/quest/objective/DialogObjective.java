@@ -25,8 +25,12 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
     @Expose
     private boolean complete = false;
 
-    DialogObjective(String treeId, int node, @Nullable Text description) {
+    private DialogObjective(){
         super(DialogProceedEvent.class);
+    }
+
+    DialogObjective(String treeId, int node, @Nullable Text description) {
+        this();
         this.requiredDialogTree = treeId;
         this.requiredDialogNode = node;
         if(description != null) {
