@@ -34,9 +34,9 @@ public class DialogView implements View<Dialog> {
         player.sendMessage(DialogMsg.DIALOG_START_DECORATION);
 
         // Player Text
-        if(node.getPlayerText() != null) {
+        if (node.getPlayerText() != null) {
             String taskName = "atherysquests-dialog-player-" + player.getName();
-            if(Sponge.getScheduler().getTasksByName(taskName).isEmpty()) {
+            if (Sponge.getScheduler().getTasksByName(taskName).isEmpty()) {
                 Task.builder().name(taskName).delay(1, TimeUnit.SECONDS)
                         .execute(() -> player.sendMessage(Text.of(TextColors.AQUA, TextStyles.BOLD, player.getName(), TextStyles.RESET, TextColors.RESET, ": ", node.getPlayerText())))
                         .submit(AtherysQuests.getInstance());
@@ -44,8 +44,8 @@ public class DialogView implements View<Dialog> {
         }
 
         // NPC Text
-        if(node.getNPCText() != null) {
-            for(int i = 0; i < node.getNPCText().length; i++) {
+        if (node.getNPCText() != null) {
+            for (int i = 0; i < node.getNPCText().length; i++) {
                 Text sentence = node.getNPCText()[i];
                 Task.builder()
                         .name("atherysquests-dialog-npc-" + i + "-" + player.getName())
@@ -61,7 +61,7 @@ public class DialogView implements View<Dialog> {
         }
 
         // Possible Responses
-        if(node.getResponses().size() >= 1) {
+        if (node.getResponses().size() >= 1) {
 
             long responsesDelay = AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * node.getNPCText().length + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY;
 
@@ -69,7 +69,7 @@ public class DialogView implements View<Dialog> {
                 player.sendMessage(DialogMsg.DIALOG_REPLIES_DECORATION);
 
                 int i = 1;
-                for(DialogNode response : node.getResponses()) {
+                for (DialogNode response : node.getResponses()) {
                     Text.Builder nextMessage = Text.builder()
                             .append(Text.of(TextColors.DARK_AQUA, "[", TextColors.WHITE, TextStyles.BOLD, i, TextStyles.RESET, TextColors.DARK_AQUA, "]"))
                             .append(Text.of(TextColors.AQUA, TextStyles.BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText()))

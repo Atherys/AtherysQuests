@@ -10,9 +10,9 @@ public final class CopyUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends Prototype> List<T> copyList(List<T> original) {
-        if(original == null) return new ArrayList<>();
+        if (original == null) return new ArrayList<>();
         List<T> copyList = new ArrayList<>(original.size());
-        for(T object : original) {
+        for (T object : original) {
             copyList.add((T) object.copy());
         }
         return copyList;
@@ -20,7 +20,7 @@ public final class CopyUtils {
 
     public static List<ItemStack> copyItemStackList(List<ItemStack> original) {
         List<ItemStack> copy = new ArrayList<>(original.size());
-        for(ItemStack stack : original) {
+        for (ItemStack stack : original) {
             copy.add(stack.copy());
         }
         return copy;

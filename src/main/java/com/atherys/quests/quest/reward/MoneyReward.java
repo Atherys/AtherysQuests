@@ -33,10 +33,10 @@ public class MoneyReward implements Reward {
     @Override
     public boolean award(Quester quester) {
         Optional<? extends User> user = quester.getUser();
-        if(!user.isPresent()) return false;
+        if (!user.isPresent()) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();
-        if(!service.isPresent()) return false;
+        if (!service.isPresent()) return false;
 
         Optional<UniqueAccount> account = service.get().getOrCreateAccount(user.get().getUniqueId());
         return account.filter(uniqueAccount -> uniqueAccount.deposit(currency, BigDecimal.valueOf(amount), Sponge.getCauseStackManager().getCurrentCause()).getResult().equals(ResultType.SUCCESS)).isPresent();

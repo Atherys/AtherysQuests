@@ -17,8 +17,8 @@ public class StagedQuestView extends AnyQuestView<StagedQuest> {
     public Text getFormattedObjectives() {
         Text.Builder objectives = Text.builder();
         StagedQuest quest = (StagedQuest) super.quest;
-        for(Stage stage : quest.getStages()) {
-            if(stage.equals(quest.getCurrent())) {
+        for (Stage stage : quest.getStages()) {
+            if (stage.equals(quest.getCurrent())) {
                 objectives.append(Text.of(stage.getObjective().toText()));
             } else {
                 objectives.append(Text.of(TextStyles.ITALIC, TextColors.GRAY, stage.getObjective(), TextStyles.RESET, TextColors.RESET));

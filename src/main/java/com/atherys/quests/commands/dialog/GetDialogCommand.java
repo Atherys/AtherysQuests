@@ -24,13 +24,13 @@ public class GetDialogCommand implements CommandExecutor {
     @Nonnull
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(!(src instanceof Player)) return CommandResult.empty();
+        if (!(src instanceof Player)) return CommandResult.empty();
 
         Optional<Player> player = ((Player) src).getPlayer();
         player.ifPresent(p -> {
-            for(EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
+            for (EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
                 Entity next = entityHit.getEntity();
-                if(next instanceof Player) continue;
+                if (next instanceof Player) continue;
                 Optional<DialogTree> tree = DialogManager.getInstance().getDialog(entityHit.getEntity());
                 p.sendMessage(tree.isPresent() ? Text.of("Dialog ID: ", tree.get().getId()) : Text.of("Dialog ID: none"));
             }

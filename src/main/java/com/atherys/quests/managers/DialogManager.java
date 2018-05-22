@@ -36,6 +36,10 @@ public final class DialogManager {
         Sponge.getEventManager().post(dialogRegistrationEvent);
     }
 
+    public static DialogManager getInstance() {
+        return instance;
+    }
+
     public void registerDialog(DialogTree tree) {
         this.trees.put(tree.getId(), tree);
     }
@@ -47,16 +51,16 @@ public final class DialogManager {
      * @throws FileNotFoundException If the file could not be found
      */
     public void loadDialogs(@Nonnull File folder) throws FileNotFoundException {
-        if(!folder.isDirectory()) return;
+        if (!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
         Gson gson = AtherysQuests.getGson();
 
-        if(files == null) {
+        if (files == null) {
             throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
-            for(File file : files) {
-                if(!file.getName().endsWith(".json")) continue;
+            for (File file : files) {
+                if (!file.getName().endsWith(".json")) continue;
 
                 DialogTree tree = gson.fromJson(new FileReader(file), DialogTree.class);
                 tree.setId(file.getName().replace(".json", ""));
@@ -87,7 +91,7 @@ public final class DialogManager {
      */
     public Optional<DialogTree> getDialog(Entity entity) {
         Optional<DialogData> dialogData = entity.get(DialogData.class);
-        if(dialogData.isPresent()) {
+        if (dialogData.isPresent()) {
             AtherysQuests.getInstance().getLogger().error("Dialog Data Detected: " + dialogData.get().getDialogId());
             return Optional.ofNullable(trees.get(dialogData.get().getDialogId()));
         } else return Optional.empty();
@@ -140,18 +144,14 @@ public final class DialogManager {
     public Optional<Dialog> startDialog(Player player, Entity entity) {
         Optional<DialogTree> tree = getDialog(entity);
 
-        if(!tree.isPresent() || hasPlayerDialog(player)) return Optional.empty();
+        if (!tree.isPresent() || hasPlayerDialog(player)) return Optional.empty();
 
         Optional<Dialog> dialog = Dialog.between(player, entity, tree.get());
 
-        if(!dialog.isPresent()) return Optional.empty();
+        if (!dialog.isPresent()) return Optional.empty();
 
         this.ongoingDialogs.put(player.getUniqueId(), dialog.get());
         return dialog;
-    }
-
-    public static DialogManager getInstance() {
-        return instance;
     }
 
 }

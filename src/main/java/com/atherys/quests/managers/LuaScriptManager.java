@@ -22,6 +22,10 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
         // TODO: loadScripts from the above folder
     }
 
+    public static LuaScriptManager getInstance() {
+        return instance;
+    }
+
     /**
      * Load all script LUA files within the given folder.
      * A script file's name ( ex. "scriptFile.lua" ) will reflect which quest will use it.
@@ -31,15 +35,15 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
      * @throws FileNotFoundException If the file could not be found
      */
     public void loadScripts(@Nonnull File folder) throws FileNotFoundException {
-        if(!folder.isDirectory()) return;
+        if (!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
 
-        if(files == null) {
+        if (files == null) {
             throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
-            for(File file : files) {
-                if(!file.getName().endsWith(".lua")) continue;
+            for (File file : files) {
+                if (!file.getName().endsWith(".lua")) continue;
 
                 LuaScript script = LuaScript.fromFile(file);
                 registerScript(script);
@@ -54,10 +58,6 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
     @Override
     public Optional<LuaScript> forQuest(Quest quest) {
         return Optional.ofNullable(scripts.get(quest.getId()));
-    }
-
-    public static LuaScriptManager getInstance() {
-        return instance;
     }
 
 }

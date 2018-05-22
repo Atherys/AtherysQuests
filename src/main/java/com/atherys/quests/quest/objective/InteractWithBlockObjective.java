@@ -19,7 +19,7 @@ public class InteractWithBlockObjective extends AbstractObjective<InteractBlockE
     @Expose
     private boolean complete = false;
 
-    private InteractWithBlockObjective(){
+    private InteractWithBlockObjective() {
         super(InteractBlockEvent.class);
     }
 
@@ -30,7 +30,7 @@ public class InteractWithBlockObjective extends AbstractObjective<InteractBlockE
 
     @Override
     protected void onNotify(InteractBlockEvent event, Quester quester) {
-        if(event.getTargetBlock().equals(this.snapshot)) this.complete = true;
+        if (event.getTargetBlock().equals(this.snapshot)) this.complete = true;
     }
 
     @Override

@@ -23,6 +23,10 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
         super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questers");
     }
 
+    public static QuesterManager getInstance() {
+        return instance;
+    }
+
     /**
      * Creates a Quester object for the Player and stores it into the database. Also caches it for easier access.
      *
@@ -47,7 +51,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
      * @return The question object
      */
     public Quester getQuester(Player player) {
-        if(getCache().containsKey(player.getUniqueId())) {
+        if (getCache().containsKey(player.getUniqueId())) {
             return getCache().get(player.getUniqueId());
         } else {
             return createQuester(player);
@@ -68,10 +72,6 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
         getQuester(player).notify(event, player);
     }
 
-    public static QuesterManager getInstance() {
-        return instance;
-    }
-
     /**
      * Do not use this method. Instead, use {@link #getQuester(Player)}.
      *
@@ -79,7 +79,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
      * @return An empty optional
      */
     @Override
-    public Optional<Quester> get(UUID uuid){
+    public Optional<Quester> get(UUID uuid) {
         return Optional.ofNullable(getCache().get(uuid));
     }
 

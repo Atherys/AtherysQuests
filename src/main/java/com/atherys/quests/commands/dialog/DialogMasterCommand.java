@@ -22,7 +22,7 @@ public class DialogMasterCommand implements CommandExecutor {
     @Nonnull
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(!(src instanceof Player)) return CommandResult.empty();
+        if (!(src instanceof Player)) return CommandResult.empty();
 
         return CommandResult.empty();
     }

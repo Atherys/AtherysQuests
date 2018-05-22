@@ -30,14 +30,14 @@ public class QuestLog implements View<Quester> {
         lastPage.append(Text.of("Quest Log:\n"));
 
         int i = 1;
-        for(Quest quest : quester.getQuests().values()) {
+        for (Quest quest : quester.getQuests().values()) {
             Text.Builder questView = Text.builder();
             questView.append(Text.of("[", i, "] "));
             questView.append(Text.of(quest.isComplete() ? TextStyles.STRIKETHROUGH : TextStyles.NONE, quest.getName(), TextStyles.NONE));
             questView.onHover(TextActions.showText(Text.of("Click to view more details.")));
             questView.onClick(TextActions.executeCallback(src -> quest.createView().show(player)));
 
-            if(i % 7 == 0) {
+            if (i % 7 == 0) {
                 pages.add(lastPage.build());
                 lastPage = Text.builder();
             } else {

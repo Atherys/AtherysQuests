@@ -21,6 +21,10 @@ public final class QuestManager {
         Sponge.getEventManager().post(questRegistrationEvent);
     }
 
+    public static QuestManager getInstance() {
+        return instance;
+    }
+
     public void registerQuest(Quest quest) {
         this.quests.put(quest.getId(), quest);
     }
@@ -35,15 +39,11 @@ public final class QuestManager {
 
     public Optional<Quest> getQuest(DataHolder holder) {
         Optional<QuestData> questData = holder.get(QuestData.class);
-        if(questData.isPresent()) return this.getQuest(questData.get().getQuestId());
+        if (questData.isPresent()) return this.getQuest(questData.get().getQuestId());
         else return Optional.empty();
     }
 
     public boolean setQuest(DataHolder holder, Quest quest) {
         return holder.offer(new QuestData(quest.getId())).isSuccessful();
-    }
-
-    public static QuestManager getInstance() {
-        return instance;
     }
 }

@@ -26,8 +26,8 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     protected AbstractQuest(String id, int version, @Nullable Text name, @Nullable Text description) {
         this(id, version);
-        if(name != null) this.name = name;
-        if(description != null) this.description = description;
+        if (name != null) this.name = name;
+        if (description != null) this.description = description;
     }
 
     @Override
@@ -62,15 +62,15 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     @Override
     public boolean meetsRequirements(Quester quester) {
-        for(Requirement req : getRequirements()) {
-            if(!req.check(quester)) return false;
+        for (Requirement req : getRequirements()) {
+            if (!req.check(quester)) return false;
         }
         return true;
     }
 
     @Override
     public void award(Quester quester) {
-        for(Reward reward : getRewards()) {
+        for (Reward reward : getRewards()) {
             reward.award(quester);
         }
     }

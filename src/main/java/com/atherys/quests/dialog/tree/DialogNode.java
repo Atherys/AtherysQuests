@@ -46,21 +46,37 @@ public class DialogNode {
         return responses;
     }
 
+    protected void setResponses(DialogNode... responses) {
+        this.responses = Arrays.asList(responses);
+    }
+
     public Text[] getNPCText() {
         return npcResponse;
+    }
+
+    protected void setNPCText(Text... NPCText) {
+        this.npcResponse = NPCText;
     }
 
     public Text getPlayerText() {
         return playerText;
     }
 
+    protected void setPlayerText(Text playerText) {
+        this.playerText = playerText;
+    }
+
     public List<Requirement> getRequirements() {
         return requirements;
     }
 
+    protected void setRequirements(Requirement... requirements) {
+        this.requirements = Arrays.asList(requirements);
+    }
+
     public boolean meetsRequirements(Quester player) {
-        for(Requirement requirement : requirements) {
-            if(!requirement.check(player)) return false;
+        for (Requirement requirement : requirements) {
+            if (!requirement.check(player)) return false;
         }
         return true;
     }
@@ -69,28 +85,12 @@ public class DialogNode {
         return QuestManager.getInstance().getQuest(questId);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    protected void setPlayerText(Text playerText) {
-        this.playerText = playerText;
-    }
-
-    protected void setNPCText(Text... NPCText) {
-        this.npcResponse = NPCText;
-    }
-
     protected void setQuest(String quest) {
         this.questId = quest;
     }
 
-    protected void setRequirements(Requirement... requirements) {
-        this.requirements = Arrays.asList(requirements);
-    }
-
-    protected void setResponses(DialogNode... responses) {
-        this.responses = Arrays.asList(responses);
+    public int getId() {
+        return id;
     }
 
     public void setId(int id) {

@@ -29,10 +29,10 @@ public class MoneyRequirement extends NumericRequirement {
     @Override
     public boolean check(Quester quester) {
         Optional<? extends User> user = quester.getUser();
-        if(!user.isPresent()) return false;
+        if (!user.isPresent()) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();
-        if(!service.isPresent()) return false;
+        if (!service.isPresent()) return false;
 
         Optional<UniqueAccount> account = service.get().getOrCreateAccount(user.get().getUniqueId());
         return account.filter(uniqueAccount -> check(uniqueAccount.getBalance(currency).doubleValue())).isPresent();

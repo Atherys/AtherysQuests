@@ -30,25 +30,27 @@ public class EntityListener {
     }
 
     @Listener
-    public void onPlayerMove(MoveEntityEvent e, @Root Player player){
-        if(e.getFromTransform().getLocation().getBlockPosition().equals
+    public void onPlayerMove(MoveEntityEvent e, @Root Player player) {
+        if (e.getFromTransform().getLocation().getBlockPosition().equals
                 (e.getToTransform().getLocation().getBlockPosition())) return;
-        if(LocationManager.getInstance().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
+        if (LocationManager.getInstance().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
 
         LocationManager.getInstance().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
-            Quest quest = QuestManager.getInstance().getQuest(questLocation.getQuestId()).get();
-            if(QuesterManager.getInstance().getQuester(player).hasQuest(quest)) return;
-            new TakeQuestView(quest).show(player);
+            QuestManager.getInstance().getQuest(questLocation.getQuestId()).ifPresent(quest -> {
+                if (QuesterManager.getInstance().getQuester(player).hasQuest(quest)) return;
+
+                new TakeQuestView(quest).show(player);
+            });
         });
     }
 
     @Listener
     public void onLeftClick(InteractBlockEvent.Secondary event, @Root Player player) {
         Optional<ItemStack> itemInHand = player.getItemInHand(HandTypes.MAIN_HAND);
-        if(!itemInHand.isPresent()) return;
+        if (!itemInHand.isPresent()) return;
 
         Optional<Quest> quest = QuestManager.getInstance().getQuest(itemInHand.get());
-        if(!quest.isPresent()) return;
+        if (!quest.isPresent()) return;
 
         event.setCancelled(true);
 

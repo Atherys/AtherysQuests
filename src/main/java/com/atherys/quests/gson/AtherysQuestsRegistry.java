@@ -62,6 +62,10 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
         ));
     }
 
+    public static AtherysQuestsRegistry getInstance() {
+        return instance;
+    }
+
     public Gson getGson() {
         GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
 
@@ -71,10 +75,6 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
         registerAll(builder);
 
         return builder.create();
-    }
-
-    public static AtherysQuestsRegistry getInstance() {
-        return instance;
     }
 
 }

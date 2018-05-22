@@ -25,7 +25,7 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
     @Expose
     private boolean complete = false;
 
-    private DialogObjective(){
+    private DialogObjective() {
         super(DialogProceedEvent.class);
     }
 
@@ -33,14 +33,14 @@ public class DialogObjective extends AbstractObjective<DialogProceedEvent> {
         this();
         this.requiredDialogTree = treeId;
         this.requiredDialogNode = node;
-        if(description != null) {
+        if (description != null) {
             this.description = description;
         }
     }
 
     @Override
     protected void onNotify(DialogProceedEvent event, Quester quester) {
-        if(event.getDialog().getTreeId().equals(requiredDialogTree) && event.getDialog().getLastNode().getId() == requiredDialogNode) {
+        if (event.getDialog().getTreeId().equals(requiredDialogTree) && event.getDialog().getLastNode().getId() == requiredDialogNode) {
             this.complete = true;
         }
     }
