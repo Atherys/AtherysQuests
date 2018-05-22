@@ -27,20 +27,20 @@ public abstract class AbstractObjective<T extends Event> implements Objective {
 
     @Override
     public void notify(Event event, Quester quester) {
-        if(!eventClass.isAssignableFrom(event.getClass())) return;
+        if (!eventClass.isAssignableFrom(event.getClass())) return;
 
         // If this objective hasn't been started yet, post an ObjectiveStartedEvent and mark as started
-        if(!started) {
+        if (!started) {
             started = true;
             Sponge.getEventManager().post(new ObjectiveStartedEvent(this, quester));
         }
 
         // If this objective hasn't been completed yet, notify
-        if(!isComplete()) {
+        if (!isComplete()) {
             onNotify(eventClass.cast(event), quester);
 
             // If it still hasn't been completed after notification, post an ObjectiveProgressedEvent
-            if(!isComplete()) {
+            if (!isComplete()) {
                 Sponge.getEventManager().post(new ObjectiveProgressedEvent(this, quester));
                 // Otherwise, post an ObjectiveCompletedEvent
             } else {

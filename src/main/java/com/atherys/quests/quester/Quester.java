@@ -45,14 +45,14 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     }
 
     public void notify(Event event, Player player) {
-        if(!this.player.equals(player.getUniqueId())) return;
+        if (!this.player.equals(player.getUniqueId())) return;
 
         this.cachedPlayer = player;
 
-        for(Quest quest : quests.values()) {
-            if(!quest.isComplete()) {
+        for (Quest quest : quests.values()) {
+            if (!quest.isComplete()) {
                 quest.notify(event, this);
-                if(quest.isComplete()) {
+                if (quest.isComplete()) {
                     QuestMsg.info(this, "You have completed the quest \"", quest.getName(), "\". You may now turn it in.");
 
                     QuestCompletedEvent qsEvent = new QuestCompletedEvent(quest, this);
@@ -63,7 +63,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     }
 
     public void pickupQuest(Quest quest) {
-        if(!quest.meetsRequirements(this)) {
+        if (!quest.meetsRequirements(this)) {
             Text.Builder reqText = Text.builder();
             reqText.append(Text.of(QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest."));
             reqText.append(quest.createView().getFormattedRequirements());
@@ -72,7 +72,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
             return;
         }
 
-        if(!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
+        if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
             quest.pickUp(this);
             quests.put(quest.getId(), (Quest) quest.copy());
             QuestMsg.info(this, "You have started the quest \"", quest.getName(), "\"");
@@ -110,13 +110,8 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         return cachedPlayer;
     }
 
-    public boolean hasQuest(Quest quest){
-        for(Quest q : quests.values()){
-            if(q.getId().equals(quest.getId())){
-                return true;
-            }
-        }
-        return false;
+    public boolean hasQuest(Quest quest) {
+        return quests.containsKey(quest.getId());
     }
 
     public Map<String, Long> getCompletedQuests() {

@@ -10,12 +10,8 @@ import org.spongepowered.api.data.value.mutable.Value;
 
 public final class QuestKeys {
 
-    QuestKeys() {
-    }
-
     public static Key<Value<String>> DIALOG;
     public static Key<Value<String>> QUEST;
-
     static DataRegistration<QuestData, QuestData.Immutable> QUEST_DATA_REGISTRATION;
     static DataRegistration<DialogData, DialogData.Immutable> DIALOG_DATA_REGISTRATION;
 
@@ -35,6 +31,9 @@ public final class QuestKeys {
                 .name("Quest")
                 .query(DataQuery.of("atherysquests", "Quest"))
                 .build();
+    }
+
+    QuestKeys() {
     }
 
 }

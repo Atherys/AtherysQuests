@@ -20,7 +20,7 @@ public class QuestLogCommand implements CommandExecutor {
     @Override
     @Nonnull
     public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
-        if(!(src instanceof Player)) return CommandResult.empty();
+        if (!(src instanceof Player)) return CommandResult.empty();
 
         Optional<Player> player = ((Player) src).getPlayer();
         player.ifPresent((p -> QuesterManager.getInstance().getQuester(p).getLog().show(p)));

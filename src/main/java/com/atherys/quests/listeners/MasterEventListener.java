@@ -10,7 +10,7 @@ public class MasterEventListener {
 
     @Listener
     public void onEvent(Event event) {
-        if(event instanceof GameStateEvent) return;
+        if (event instanceof GameStateEvent) return;
         event.getCause().first(Player.class).ifPresent(player -> QuesterManager.getInstance().notify(event, player));
     }
 

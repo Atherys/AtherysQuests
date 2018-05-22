@@ -34,11 +34,11 @@ public class DeliverableSimpleQuest extends SimpleQuest {
         return new DeliverableSimpleQuest(this);
     }
 
-    protected void setEntity(UUID uuid) {
-        this.entity = uuid;
-    }
-
     public UUID getEntity() {
         return entity;
+    }
+
+    protected void setEntity(UUID uuid) {
+        this.entity = uuid;
     }
 }

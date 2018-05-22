@@ -47,11 +47,11 @@ public class DialogNodeBuilder {
     }
 
     public DialogNode build() {
-        if(node.getId() == -1)
+        if (node.getId() == -1)
             throw new IllegalStateException("DialogNode requires a valid int id. 0 is preferred for root nodes.");
-        if(node.getId() != 0 && node.getPlayerText() == null)
+        if (node.getId() != 0 && node.getPlayerText() == null)
             throw new IllegalStateException("DialogNode cannot have an empty player text unless it is a root node ( it's id = 0 ).");
-        if(node.getResponses().size() != 0 && node.getNPCText() == null)
+        if (node.getResponses().size() != 0 && node.getNPCText() == null)
             throw new IllegalStateException("DialogNode cannot have empty NPC text unless it is a leaf node.");
         return node;
     }

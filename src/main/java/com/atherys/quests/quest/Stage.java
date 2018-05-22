@@ -31,7 +31,7 @@ public class Stage implements Observer<Event>, Prototype<Stage> {
 
     public Stage(Objective objective, @Nullable List<Reward> rewards) {
         this.objective = objective;
-        if(rewards != null) this.rewards = rewards;
+        if (rewards != null) this.rewards = rewards;
     }
 
     private Stage(Stage stage) {
