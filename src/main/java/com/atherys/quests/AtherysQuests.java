@@ -12,6 +12,7 @@ import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.DialogManager;
+import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.google.gson.Gson;
@@ -77,6 +78,35 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new EntityListener());
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
+<<<<<<< HEAD
+=======
+        //Sponge.getEventManager().registerListeners( this, new DialogQuestRegistrationListener() );
+
+        GsonUtils.getQuestRuntimeTypeAdapterFactory()
+                .registerSubtype(SimpleQuest.class)
+                .registerSubtype(StagedQuest.class)
+                .registerSubtype(DeliverableSimpleQuest.class)
+                .registerSubtype(DeliverableStagedQuest.class)
+                .registerSubtype(DummyQuest.Staged.class);
+
+        GsonUtils.getRequirementRuntimeTypeAdapterFactory()
+                .registerSubtype(AndRequirement.class)
+                .registerSubtype(OrRequirement.class)
+                .registerSubtype(NotRequirement.class)
+                .registerSubtype(LevelRequirement.class)
+                .registerSubtype(MoneyRequirement.class)
+                .registerSubtype(QuestRequirement.class);
+
+        GsonUtils.getObjectiveTypeAdapterFactory()
+                .registerSubtype(KillEntityObjective.class)
+                .registerSubtype(DialogObjective.class)
+                .registerSubtype(ReachLocationObjective.class)
+                .registerSubtype(InteractWithBlockObjective.class);
+
+        GsonUtils.getRewardRuntimeTypeAdapterFactory()
+                .registerSubtype(MoneyReward.class)
+                .registerSubtype(SingleItemReward.class);
+>>>>>>> master
 
         Quest quest = new DummyQuest.Staged();
 
@@ -85,6 +115,7 @@ public class AtherysQuests {
         DialogManager.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
         QuesterManager.getInstance().loadAll();
+        LocationManager.getInstance().loadAll();
 
         try {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
@@ -96,6 +127,7 @@ public class AtherysQuests {
 
     private void stop() {
         QuesterManager.getInstance().saveAll();
+        LocationManager.getInstance().saveAll();
     }
 
     @Listener
