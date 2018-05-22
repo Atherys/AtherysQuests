@@ -8,6 +8,7 @@ import com.atherys.quests.db.QuestsDatabase;
 import com.atherys.quests.util.GsonUtils;
 import com.google.gson.Gson;
 import org.bson.Document;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -85,12 +86,12 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
 
         private boolean overlaps(QuestLocation questLocation){
             return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
-                    < this.radius + questLocation.radius);
+                    < Math.pow(this.radius + questLocation.radius, 2));
         }
 
-        private boolean contains(Location<World> loc){
+        public boolean contains(Location<World> loc){
             if(loc.getExtent().equals(location.getExtent())){
-                return(loc.getPosition().distance(location.getPosition()) <= radius);
+                return(loc.getPosition().distanceSquared(location.getPosition()) <= Math.pow(radius, 2));
             } else return false;
         }
 
