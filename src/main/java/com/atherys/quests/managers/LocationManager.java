@@ -1,23 +1,24 @@
 package com.atherys.quests.managers;
 
 import com.atherys.core.database.api.DBObject;
-import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
+import com.atherys.core.database.mongo.MorphiaDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
-import org.bson.Document;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
+public final class LocationManager extends MorphiaDatabaseManager<LocationManager.QuestLocation> {
 
     private static LocationManager instance = new LocationManager();
 
     private LocationManager() {
-        super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questLocations");
+        super(QuestsDatabase.getInstance(), AtherysQuests.getInstance().getLogger(), QuestLocation.class);
     }
 
     public static LocationManager getInstance() {
@@ -53,27 +54,10 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         } else return false;
     }
 
-    @Override
-    protected Optional<Document> toDocument(QuestLocation questLocation) {
-        Document document = new Document();
-
-        document.append("location", AtherysQuests.getGson().toJson(questLocation.getLocation()));
-        document.append("questId", questLocation.getQuestId());
-        document.append("radius", questLocation.getRadius());
-
-        return Optional.of(document);
-    }
-
-    @Override
-    protected Optional<QuestLocation> fromDocument(Document document) {
-        Location location = AtherysQuests.getGson().fromJson((String) document.get("location"), Location.class);
-        Optional<Quest> quest = QuestManager.getInstance().getQuest(document.getString("questId"));
-
-        return quest.map(quest1 -> new QuestLocation(location, quest1, document.getDouble("radius")));
-    }
-
+    @Entity
     public static class QuestLocation implements DBObject {
 
+        @Id
         private UUID uuid;
 
         private Location<World> location;

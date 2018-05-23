@@ -9,6 +9,9 @@ import com.atherys.quests.events.QuestStartedEvent;
 import com.atherys.quests.events.QuestTurnedInEvent;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestLog;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Transient;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
@@ -21,14 +24,17 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Entity
 public class Quester implements DBObject, Viewable<QuestLog> {
 
+    @Id
     private UUID player; // Retrieve player from this. 100% Reliable.
 
+    @Transient
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
 
-    private Map<String, Quest> quests = new HashMap<>();
-    private Map<String, Long> completedQuests = new HashMap<>();
+    private HashMap<String, Quest> quests = new HashMap<>();
+    private HashMap<String, Long> completedQuests = new HashMap<>();
 
     public Quester(UUID uuid) {
         this.player = uuid;

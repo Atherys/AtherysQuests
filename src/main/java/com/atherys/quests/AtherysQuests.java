@@ -40,9 +40,11 @@ public class AtherysQuests {
     public static final String NAME = "A'therys Quests";
     public static final String DESCRIPTION = "A quest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0b";
+
     private static AtherysQuests instance;
     private static boolean init = false;
     private static QuestsConfig config;
+
     @Inject
     PluginContainer container;
     @Inject
@@ -91,6 +93,9 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new EntityListener());
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
+
+        getRegistry().registerSubtype(Quest.class, DummyQuest.Staged.class);
+        getGson();
 
         Quest quest = new DummyQuest.Staged();
 

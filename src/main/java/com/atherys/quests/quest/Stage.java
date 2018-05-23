@@ -21,7 +21,7 @@ import java.util.List;
 public class Stage implements Observer<Event>, Prototype<Stage> {
 
     @Expose
-    private Objective objective;
+    private Objective<?> objective;
     @Expose
     private List<Reward> rewards = new ArrayList<>();
 

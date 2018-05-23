@@ -7,6 +7,7 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.events.AtherysQuestsGsonBuildEvent;
+import com.atherys.quests.quest.DeliverableSimpleQuest;
 import com.atherys.quests.quest.DeliverableStagedQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
@@ -21,11 +22,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.spongepowered.api.Sponge;
 
-import java.util.Arrays;
-
 public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
 
     private static AtherysQuestsRegistry instance = new AtherysQuestsRegistry();
+
+    private Gson gson;
 
     private AtherysQuestsRegistry() {
         add(Quest.class, RuntimeTypeAdapterFactory.of(Quest.class, "questType"));
@@ -33,33 +34,25 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
         add(Requirement.class, RuntimeTypeAdapterFactory.of(Requirement.class, "requirementType"));
         add(Reward.class, RuntimeTypeAdapterFactory.of(Reward.class, "rewardType"));
 
-        registerSubtypes(Quest.class, Arrays.asList(
-                SimpleQuest.class,
-                StagedQuest.class,
-                DeliverableStagedQuest.class,
-                DeliverableStagedQuest.class
-        ));
+        registerSubtype(Quest.class, SimpleQuest.class);
+        registerSubtype(Quest.class, StagedQuest.class);
+        registerSubtype(Quest.class, DeliverableSimpleQuest.class);
+        registerSubtype(Quest.class, DeliverableStagedQuest.class);
 
-        registerSubtypes(Requirement.class, Arrays.asList(
-                AndRequirement.class,
-                OrRequirement.class,
-                NotRequirement.class,
-                LevelRequirement.class,
-                MoneyRequirement.class,
-                QuestRequirement.class
-        ));
+        registerSubtype(Requirement.class, AndRequirement.class);
+        registerSubtype(Requirement.class, OrRequirement.class);
+        registerSubtype(Requirement.class, NotRequirement.class);
+        registerSubtype(Requirement.class, LevelRequirement.class);
+        registerSubtype(Requirement.class, MoneyRequirement.class);
+        registerSubtype(Requirement.class, QuestRequirement.class);
 
-        registerSubtypes(Objective.class, Arrays.asList(
-                KillEntityObjective.class,
-                DialogObjective.class,
-                ReachLocationObjective.class,
-                InteractWithBlockObjective.class
-        ));
+        registerSubtype(Objective.class, KillEntityObjective.class);
+        registerSubtype(Objective.class, DialogObjective.class);
+        registerSubtype(Objective.class, ReachLocationObjective.class);
+        registerSubtype(Objective.class, InteractWithBlockObjective.class);
 
-        registerSubtypes(Reward.class, Arrays.asList(
-                MoneyReward.class,
-                SingleItemReward.class
-        ));
+        registerSubtype(Reward.class, MoneyReward.class);
+        registerSubtype(Reward.class, SingleItemReward.class);
     }
 
     public static AtherysQuestsRegistry getInstance() {
@@ -67,6 +60,8 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
     }
 
     public Gson getGson() {
+        if (gson != null) return gson;
+
         GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
 
         AtherysQuestsGsonBuildEvent event = new AtherysQuestsGsonBuildEvent(builder);
@@ -74,7 +69,8 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
 
         registerAll(builder);
 
-        return builder.create();
+        this.gson = builder.create();
+        return gson;
     }
 
 }

@@ -15,7 +15,7 @@ public class DialogRegistrationEvent implements Event {
     private Cause cause;
 
     public DialogRegistrationEvent() {
-        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(DialogManager.getInstance()).build(Sponge.getCauseStackManager().getCurrentContext());
+        this.cause = Cause.builder().append(AtherysQuests.getInstance()).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override
