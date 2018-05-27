@@ -30,7 +30,7 @@ public class QuestLog implements View<Quester> {
         lastPage.append(Text.of("Quest Log:\n"));
 
         int i = 1;
-        for (Quest quest : quester.getQuests().values()) {
+        for (Quest quest : quester.getQuests()) {
             Text.Builder questView = Text.builder();
             questView.append(Text.of("[", i, "] "));
             questView.append(Text.of(quest.isComplete() ? TextStyles.STRIKETHROUGH : TextStyles.NONE, quest.getName(), TextStyles.NONE));

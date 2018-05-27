@@ -12,9 +12,9 @@ import org.spongepowered.api.text.format.TextStyles;
  */
 public class DialogMsg {
 
-    public static final Text DIALOG_START_DECORATION = Text.of(TextColors.AQUA, "o════════════╡Dialog╞════════════o");
-    public static final Text DIALOG_REPLIES_DECORATION = Text.of(TextColors.AQUA, "o═════════╡Possible Replies╞═════════o");
-    public static final Text DIALOG_END_DECORATION = Text.of(TextColors.AQUA, "o═══════════╡End Dialog╞══════════o");
+    public static final Text DIALOG_START_DECORATION = Text.of(TextColors.AQUA, "o~~~~~~~~~~~~{Dialog}~~~~~~~~~~~~o");
+    public static final Text DIALOG_REPLIES_DECORATION = Text.of(TextColors.AQUA, "o~~~~~~~~~~~~{Reply}~~~~~~~~~~~~o");
+    public static final Text DIALOG_END_DECORATION = Text.of(TextColors.AQUA, "o~~~~~~~~~~~~~{End}~~~~~~~~~~~~~o");
 
     /**
      * The prefix of all {@link Dialog}-related messages;

@@ -115,5 +115,4 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     int getVersion();
 
     QuestView createView();
-
 }

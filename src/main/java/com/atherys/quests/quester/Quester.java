@@ -9,6 +9,7 @@ import com.atherys.quests.events.QuestStartedEvent;
 import com.atherys.quests.events.QuestTurnedInEvent;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestLog;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Transient;
@@ -19,10 +20,7 @@ import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class Quester implements DBObject, Viewable<QuestLog> {
@@ -33,8 +31,12 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     @Transient
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
 
-    private HashMap<String, Quest> quests = new HashMap<>();
+    @Embedded
+    private List<Quest> quests = new ArrayList<>();
+    @Embedded
     private HashMap<String, Long> completedQuests = new HashMap<>();
+
+    public Quester() {}
 
     public Quester(UUID uuid) {
         this.player = uuid;
@@ -55,7 +57,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         this.cachedPlayer = player;
 
-        for (Quest quest : quests.values()) {
+        for (Quest quest : quests) {
             if (!quest.isComplete()) {
                 quest.notify(event, this);
                 if (quest.isComplete()) {
@@ -78,9 +80,9 @@ public class Quester implements DBObject, Viewable<QuestLog> {
             return;
         }
 
-        if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
+        if (!completedQuests.containsKey(quest.getId()) && !quests.contains(quest)) {
             quest.pickUp(this);
-            quests.put(quest.getId(), (Quest) quest.copy());
+            quests.add(quest);
             QuestMsg.info(this, "You have started the quest \"", quest.getName(), "\"");
 
             QuestStartedEvent qsEvent = new QuestStartedEvent(quest, this);
@@ -91,7 +93,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     }
 
     public void removeQuest(Quest quest) {
-        quests.remove(quest.getId());
+        quests.remove(quest);
     }
 
     public void turnInQuest(Quest quest) {
@@ -117,14 +119,14 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     }
 
     public boolean hasQuest(Quest quest) {
-        return quests.containsKey(quest.getId());
+        return quests.contains(quest);
     }
 
     public Map<String, Long> getCompletedQuests() {
         return completedQuests;
     }
 
-    public Map<String, Quest> getQuests() {
+    public List<Quest> getQuests() {
         return quests;
     }
 
