@@ -29,7 +29,7 @@ public class QuestRequirement implements Requirement {
     @Override
     public Text toText() {
         Optional<Quest> quest = QuestManager.getInstance().getQuest(questId);
-        if(quest.isPresent()) {
+        if (quest.isPresent()) {
             return Text.of("You have to have completed the quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
         } else {
             return Text.of("Uh oh. According to this, you have to have completed a quest which isn't registered. Please report this.");

@@ -21,11 +21,11 @@ public class DialogTree {
         return id;
     }
 
-    public DialogNode getRoot() {
-        return root;
-    }
-
     public void setId(String id) {
         this.id = id;
+    }
+
+    public DialogNode getRoot() {
+        return root;
     }
 }

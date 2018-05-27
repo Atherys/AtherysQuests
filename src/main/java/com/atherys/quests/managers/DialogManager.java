@@ -4,7 +4,9 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.util.GsonUtils;
+import com.atherys.quests.events.DialogRegistrationEvent;
+import com.google.gson.Gson;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -29,6 +31,13 @@ public final class DialogManager {
 
     private DialogManager() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().DIALOG_FOLDER;
+
+        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
+        Sponge.getEventManager().post(dialogRegistrationEvent);
+    }
+
+    public static DialogManager getInstance() {
+        return instance;
     }
 
     public void registerDialog(DialogTree tree) {
@@ -42,17 +51,18 @@ public final class DialogManager {
      * @throws FileNotFoundException If the file could not be found
      */
     public void loadDialogs(@Nonnull File folder) throws FileNotFoundException {
-        if(!folder.isDirectory()) return;
+        if (!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
+        Gson gson = AtherysQuests.getGson();
 
-        if(files == null) {
+        if (files == null) {
             throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
-            for(File file : files) {
-                if(!file.getName().endsWith(".json")) continue;
+            for (File file : files) {
+                if (!file.getName().endsWith(".json")) continue;
 
-                DialogTree tree = GsonUtils.getGson().fromJson(new FileReader(file), DialogTree.class);
+                DialogTree tree = gson.fromJson(new FileReader(file), DialogTree.class);
                 tree.setId(file.getName().replace(".json", ""));
                 registerDialog(tree);
             }
@@ -81,7 +91,7 @@ public final class DialogManager {
      */
     public Optional<DialogTree> getDialog(Entity entity) {
         Optional<DialogData> dialogData = entity.get(DialogData.class);
-        if(dialogData.isPresent()) {
+        if (dialogData.isPresent()) {
             AtherysQuests.getInstance().getLogger().error("Dialog Data Detected: " + dialogData.get().getDialogId());
             return Optional.ofNullable(trees.get(dialogData.get().getDialogId()));
         } else return Optional.empty();
@@ -134,18 +144,14 @@ public final class DialogManager {
     public Optional<Dialog> startDialog(Player player, Entity entity) {
         Optional<DialogTree> tree = getDialog(entity);
 
-        if(!tree.isPresent() || hasPlayerDialog(player)) return Optional.empty();
+        if (!tree.isPresent() || hasPlayerDialog(player)) return Optional.empty();
 
         Optional<Dialog> dialog = Dialog.between(player, entity, tree.get());
 
-        if(!dialog.isPresent()) return Optional.empty();
+        if (!dialog.isPresent()) return Optional.empty();
 
         this.ongoingDialogs.put(player.getUniqueId(), dialog.get());
         return dialog;
-    }
-
-    public static DialogManager getInstance() {
-        return instance;
     }
 
 }

@@ -15,22 +15,22 @@ public final class InventoryManager {
     private InventoryManager() {
     }
 
+    public static InventoryManager getInstance() {
+        return instance;
+    }
+
     public boolean hasInventory(Inventory inventory) {
         return inventories.containsKey(inventory);
     }
 
     public void addInventory(Inventory inventory, Consumer<Inventory> closeAction) {
-        if(!hasInventory(inventory)) inventories.put(inventory, closeAction);
+        if (!hasInventory(inventory)) inventories.put(inventory, closeAction);
     }
 
     public void removeInventory(Inventory container) {
-        if(hasInventory(container)) {
+        if (hasInventory(container)) {
             inventories.get(container).accept(container);
             inventories.remove(container);
         }
-    }
-
-    public static InventoryManager getInstance() {
-        return instance;
     }
 }

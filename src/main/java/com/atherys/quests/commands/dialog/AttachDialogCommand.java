@@ -26,13 +26,13 @@ public class AttachDialogCommand implements CommandExecutor, ParameterizedComman
     @Nonnull
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if(!(src instanceof Player)) return CommandResult.empty();
+        if (!(src instanceof Player)) return CommandResult.empty();
 
         Optional<Player> player = ((Player) src).getPlayer();
         player.ifPresent(p -> {
-            for(EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
+            for (EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
                 Entity next = entityHit.getEntity();
-                if(next instanceof Player) continue;
+                if (next instanceof Player) continue;
 
                 p.sendMessage(Text.of(DialogManager.getInstance().setDialog(entityHit.getEntity(), DialogManager.getInstance().getDialogFromId(args.<String>getOne("dialogId").get()).get())));
             }

@@ -15,7 +15,7 @@ public class DialogTreeBuilder {
     }
 
     public DialogTree build() {
-        if(root == null) {
+        if (root == null) {
             throw new IllegalStateException("DialogTree \"" + treeId + "\" contains a null root. Please provide the root for this DialogTree.");
         }
         return new DialogTree(treeId, root);

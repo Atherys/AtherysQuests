@@ -48,7 +48,7 @@ public class DialogMsg {
      * @param msg  The message. Will later be wrapped in a {@link Text} object.
      */
     public static void info(User user, Object... msg) {
-        if(user.isOnline() && user.getPlayer().isPresent()) info(user.getPlayer().get(), msg);
+        if (user.isOnline() && user.getPlayer().isPresent()) info(user.getPlayer().get(), msg);
     }
 
     /**
@@ -58,7 +58,7 @@ public class DialogMsg {
      * @param msg  The message. Will later be wrapped in a {@link Text} object.
      */
     public static void error(User user, Object... msg) {
-        if(user.isOnline() && user.getPlayer().isPresent()) error(user.getPlayer().get(), msg);
+        if (user.isOnline() && user.getPlayer().isPresent()) error(user.getPlayer().get(), msg);
     }
 
     public static void response(Player player, int i, DialogNode response) {

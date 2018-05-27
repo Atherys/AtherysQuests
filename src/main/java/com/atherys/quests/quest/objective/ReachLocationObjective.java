@@ -38,8 +38,8 @@ public class ReachLocationObjective extends AbstractObjective<MoveEntityEvent> {
 
     @Override
     protected void onNotify(MoveEntityEvent event, Quester quester) {
-        if(event.getToTransform().getLocation().getExtent().equals(location.getExtent())) {
-            if(event.getToTransform().getPosition().distance(location.getPosition()) < radius) {
+        if (event.getToTransform().getLocation().getExtent().equals(location.getExtent())) {
+            if (event.getToTransform().getPosition().distance(location.getPosition()) < radius) {
                 this.complete = true;
             }
         }

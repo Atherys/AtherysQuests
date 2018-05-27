@@ -21,7 +21,7 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     @Expose
     private int progress;
 
-    private KillEntityObjective(){
+    private KillEntityObjective() {
         super(DestructEntityEvent.Death.class);
     }
 
@@ -48,9 +48,9 @@ public class KillEntityObjective extends AbstractObjective<DestructEntityEvent.D
     protected void onNotify(DestructEntityEvent.Death event, Quester quester) {
         String displayName = event.getTargetEntity().get(Keys.DISPLAY_NAME).orElse(Text.of(event.getTargetEntity().getType().getName())).toPlain();
 
-        if(!displayName.equals(entityName)) return;
+        if (!displayName.equals(entityName)) return;
 
-        if(progress != 0) progress--;
+        if (progress != 0) progress--;
     }
 
     @Override
