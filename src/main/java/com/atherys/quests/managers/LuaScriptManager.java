@@ -2,11 +2,15 @@ package com.atherys.quests.managers;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.quest.script.LuaScript;
+import com.atherys.quests.script.LuaScript;
+import com.atherys.quests.script.QuestsLib;
+import org.luaj.vm2.Globals;
+import org.luaj.vm2.lib.jse.JsePlatform;
 
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,11 +19,20 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
 
     private final static LuaScriptManager instance = new LuaScriptManager();
 
+    private Globals globals;
     private Map<String, LuaScript> scripts = new HashMap<>();
 
     private LuaScriptManager() {
+        globals = JsePlatform.standardGlobals();
+        globals.load(QuestsLib.get());
+
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().SCRIPTS_FOLDER;
-        // TODO: loadScripts from the above folder
+
+        try {
+            loadScripts(new File(folder));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static LuaScriptManager getInstance() {
@@ -34,7 +47,7 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
      * @param folder The File representing the directory.
      * @throws FileNotFoundException If the file could not be found
      */
-    public void loadScripts(@Nonnull File folder) throws FileNotFoundException {
+    public void loadScripts(@Nonnull File folder) throws IOException {
         if (!folder.isDirectory()) return;
 
         File[] files = folder.listFiles();
@@ -49,6 +62,12 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
                 registerScript(script);
             }
         }
+    }
+
+    public Globals getGlobals() {
+        Globals globals = JsePlatform.standardGlobals();
+        globals.load(QuestsLib.get());
+        return globals;
     }
 
     public void registerScript(LuaScript script) {

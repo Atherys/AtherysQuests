@@ -6,12 +6,14 @@ public interface Script {
 
     String getId();
 
-    void pickUp(Quester quester);
+    void onLoad(Quest quest);
 
-    void progress(Quester quester);
+    void onPickUp(Quest quest, Quester quester);
 
-    void complete(Quester quester);
+    void onProgress(Quest quest, Quester quester);
 
-    void turnIn(Quester quester);
+    void onComplete(Quest quest, Quester quester);
+
+    void onTurnIn(Quest quest, Quester quester);
 
 }
