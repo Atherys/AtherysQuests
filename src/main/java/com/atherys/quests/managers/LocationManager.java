@@ -81,22 +81,22 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
 
         private String questId;
 
+        private boolean overlaps(QuestLocation questLocation){
+            return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
+                    < Math.pow(this.radius + questLocation.radius, 2));
+        }
+
+        public boolean contains(Location<World> loc){
+            if(loc.getExtent().equals(location.getExtent())){
+                return(loc.getPosition().distanceSquared(location.getPosition()) <= Math.pow(radius, 2));
+            } else return false;
+        }
+
         private QuestLocation(Location<World> location, Quest quest, double radius) {
             this.uuid = UUID.randomUUID();
             this.location = location;
             this.radius = radius;
             this.questId = quest.getId();
-        }
-
-        private boolean overlaps(QuestLocation questLocation) {
-            return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
-                    < this.radius + questLocation.radius);
-        }
-
-        private boolean contains(Location<World> loc) {
-            if (loc.getExtent().equals(location.getExtent())) {
-                return (loc.getPosition().distance(location.getPosition()) <= radius);
-            } else return false;
         }
 
         public double getRadius() {
