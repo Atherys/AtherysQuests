@@ -1,11 +1,8 @@
-package com.atherys.quests.managers;
+package com.atherys.quests.script.js;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.managers.ScriptManager;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.script.LuaScript;
-import com.atherys.quests.script.QuestsLib;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -15,17 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptManager<LuaScript> {
+public class JSScriptManager implements ScriptManager {
 
-    private final static LuaScriptManager instance = new LuaScriptManager();
+    private final static JSScriptManager instance = new JSScriptManager();
 
-    private Globals globals;
-    private Map<String, LuaScript> scripts = new HashMap<>();
+    private Map<String, JSScript> scripts = new HashMap<>();
 
-    private LuaScriptManager() {
-        globals = JsePlatform.standardGlobals();
-        globals.load(QuestsLib.get());
-
+    private JSScriptManager() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().SCRIPTS_FOLDER;
 
         try {
@@ -35,13 +28,13 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
         }
     }
 
-    public static LuaScriptManager getInstance() {
+    public static JSScriptManager getInstance() {
         return instance;
     }
 
     /**
      * Load all script LUA files within the given folder.
-     * A script file's name ( ex. "scriptFile.lua" ) will reflect which quest will use it.
+     * A script file's name ( ex. "scriptFile.js" ) will reflect which quest will use it.
      * A script file's name should be identical to the quest id in order for it to be used for the relevant quest.
      *
      * @param folder The File representing the directory.
@@ -56,27 +49,20 @@ public class LuaScriptManager implements com.atherys.quests.api.managers.ScriptM
             throw new FileNotFoundException("Could not list files in provided directory.");
         } else {
             for (File file : files) {
-                if (!file.getName().endsWith(".lua")) continue;
+                if (!file.getName().endsWith(".js")) continue;
 
-                LuaScript script = LuaScript.fromFile(file);
+                JSScript script = JSScript.fromFile(file);
                 registerScript(script);
             }
         }
     }
 
-    public Globals getGlobals() {
-        Globals globals = JsePlatform.standardGlobals();
-        globals.load(QuestsLib.get());
-        return globals;
-    }
-
-    public void registerScript(LuaScript script) {
+    public void registerScript(JSScript script) {
         this.scripts.put(script.getId(), script);
     }
 
     @Override
-    public Optional<LuaScript> forQuest(Quest quest) {
+    public Optional<JSScript> forQuest(Quest quest) {
         return Optional.ofNullable(scripts.get(quest.getId()));
     }
-
 }

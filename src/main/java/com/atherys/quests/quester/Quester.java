@@ -110,6 +110,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         return cachedPlayer;
     }
 
+    public boolean hasQuestWithId(String id) {
+        return quests.containsKey(id);
+    }
+
     public boolean hasQuest(Quest quest) {
         return quests.containsKey(quest.getId());
     }
