@@ -11,16 +11,12 @@ public final class QuestsLib {
     private static QuestsLib instance = new QuestsLib();
 
     private ScriptEngine engine;
-    private ScriptContext context;
 
     private QuestsLib() {
         engine = new ScriptEngineManager().getEngineByName("nashorn");
-        context = new SimpleScriptContext();
 
         new ItemStackFunctions().put(engine);
         new TextFunctions().put(engine);
-
-        engine.setContext(context);
     }
 
     public ScriptEngine getEngine() {
