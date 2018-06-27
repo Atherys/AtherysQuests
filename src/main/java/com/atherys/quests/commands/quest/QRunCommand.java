@@ -30,7 +30,7 @@ public class QRunCommand implements ParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                GenericArguments.remainingJoinedStrings(Text.of("javascript"))
+                GenericArguments.remainingRawJoinedStrings(Text.of("javascript"))
         };
     }
 
