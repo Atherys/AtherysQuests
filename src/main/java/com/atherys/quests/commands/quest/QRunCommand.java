@@ -24,7 +24,8 @@ import java.util.List;
 @Permission("atherysquests.admin.qrun")
 public class QRunCommand implements ParameterizedCommand {
 
-    private static final Text ERROR_PREFIX = Text.of(TextColors.DARK_RED, "[", TextColors.RED, "ERROR", TextColors.DARK_RED, "]", TextColors.RED);
+    private static final Text SUCCESS_PREFIX = Text.of(TextColors.DARK_RED, "[", TextColors.RED, "SUCCESS", TextColors.DARK_RED, "] ", TextColors.RED);
+    private static final Text ERROR_PREFIX = Text.of(TextColors.DARK_GREEN, "[", TextColors.GREEN, "ERROR", TextColors.DARK_GREEN, "] ", TextColors.RESET);
 
     @Override
     public CommandElement[] getArguments() {
@@ -43,7 +44,8 @@ public class QRunCommand implements ParameterizedCommand {
             else {
                 try {
 
-                    QuestsLib.getInstance().getEngine().eval(script);
+                    Object result = QuestsLib.getInstance().getEngine().eval(script);
+                    src.sendMessage(Text.of(SUCCESS_PREFIX, result.toString()));
 
                 } catch (Exception e) {
 
