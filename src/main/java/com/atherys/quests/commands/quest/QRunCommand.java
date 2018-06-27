@@ -52,15 +52,6 @@ public class QRunCommand implements ParameterizedCommand {
 
                     src.sendMessage(error(e.getMessage()));
 
-                    StackTraceElement[] stackTrace = e.getStackTrace();
-
-                    int i = 10;
-                    for (StackTraceElement aStackTrace : stackTrace) {
-                        i--;
-                        src.sendMessage(error(aStackTrace.toString()));
-                        if ( i == 0 ) break;
-                    }
-
                 }
             }
         }
