@@ -32,7 +32,7 @@ public final class DialogManager {
     private DialogManager() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().DIALOG_FOLDER;
 
-        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent();
+        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent(this);
         Sponge.getEventManager().post(dialogRegistrationEvent);
     }
 
