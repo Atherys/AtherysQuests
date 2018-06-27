@@ -17,7 +17,7 @@ public final class QuestManager {
     private Map<String, Quest> quests = new HashMap<>();
 
     private QuestManager() {
-        QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent();
+        QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent(this);
         Sponge.getEventManager().post(questRegistrationEvent);
     }
 
