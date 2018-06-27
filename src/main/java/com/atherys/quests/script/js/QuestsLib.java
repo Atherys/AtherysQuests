@@ -1,7 +1,10 @@
 package com.atherys.quests.script.js;
 
 import com.atherys.quests.script.js.lib.item.ItemStackFunctions;
+import com.atherys.quests.script.js.lib.location.LocationFunctions;
+import com.atherys.quests.script.js.lib.player.PlayerFunctions;
 import com.atherys.quests.script.js.lib.text.TextFunctions;
+import com.atherys.quests.script.js.lib.util.UtilityFunctions;
 
 import javax.script.*;
 import java.util.function.Consumer;
@@ -17,6 +20,9 @@ public final class QuestsLib {
 
         new ItemStackFunctions().put(engine);
         new TextFunctions().put(engine);
+        new PlayerFunctions().put(engine);
+        new LocationFunctions().put(engine);
+        new UtilityFunctions().put(engine);
     }
 
     public ScriptEngine getEngine() {
