@@ -46,7 +46,7 @@ public class QRunCommand implements ParameterizedCommand {
 
                     Object result = QuestsLib.getInstance().getEngine().eval(script);
                     src.sendMessage(Text.of(SUCCESS_PREFIX, TextColors.GREEN, "Executed: ", TextColors.RESET, script));
-                    src.sendMessage(Text.of(SUCCESS_PREFIX, TextColors.GREEN, "Result: ", TextColors.RESET, result == null ? "None" : result.toString()));
+                    src.sendMessage(Text.of(SUCCESS_PREFIX, TextColors.GREEN, "Result: ", TextColors.RESET, result == null ? "None" : result));
 
                 } catch (Exception e) {
 
