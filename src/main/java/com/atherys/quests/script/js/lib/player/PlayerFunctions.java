@@ -9,5 +9,8 @@ public final class PlayerFunctions implements ScriptFunctions {
     public void put(ScriptEngine engine) {
         engine.put("getPlayerFromName", new GetPlayerFromName());
         engine.put("getPlayerFromUUID", new GetPlayerFromUUID());
+        engine.put("getPlayerLocation", new GetPlayerLocation());
+        engine.put("getPlayerUUID", new GetPlayerUUID());
+        engine.put("teleportPlayer", new TeleportPlayer());
     }
 }
