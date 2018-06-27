@@ -1,6 +1,7 @@
 package com.atherys.quests.script.js;
 
 import com.atherys.quests.script.js.lib.item.ItemStackFunctions;
+import com.atherys.quests.script.js.lib.text.TextFunctions;
 
 import javax.script.*;
 import java.util.function.Consumer;
@@ -17,6 +18,7 @@ public final class QuestsLib {
         context = new SimpleScriptContext();
 
         new ItemStackFunctions().put(engine);
+        new TextFunctions().put(engine);
 
         engine.setContext(context);
     }

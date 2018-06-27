@@ -14,8 +14,8 @@ public class QuestRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public QuestRegistrationEvent() {
-        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(QuestManager.getInstance()).build(Sponge.getCauseStackManager().getCurrentContext());
+    public QuestRegistrationEvent(QuestManager manager) {
+        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(manager).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override
