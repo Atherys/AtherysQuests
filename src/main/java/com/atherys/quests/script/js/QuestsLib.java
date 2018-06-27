@@ -1,8 +1,6 @@
 package com.atherys.quests.script.js;
 
-import com.atherys.quests.script.js.hook.QuestsHook;
-import com.atherys.quests.script.js.hook.ScriptHook;
-import com.atherys.quests.script.js.hook.SpongeHook;
+import com.atherys.quests.script.js.lib.item.ItemStackFunctions;
 
 import javax.script.*;
 import java.util.function.Consumer;
@@ -18,25 +16,13 @@ public final class QuestsLib {
         engine = new ScriptEngineManager().getEngineByName("nashorn");
         context = new SimpleScriptContext();
 
-        addHook("sponge", new SpongeHook());
-        addHook("quests", new QuestsHook());
-
-        Bindings bindings = new SimpleBindings();
+        new ItemStackFunctions().put(engine);
 
         engine.setContext(context);
     }
 
     public ScriptEngine getEngine() {
         return engine;
-    }
-
-    public ScriptContext getContext() {
-        return context;
-    }
-
-    public void addHook(String attrib, ScriptHook hook) {
-        hook.registerHooks(getContext());
-        context.setAttribute(attrib, hook, ScriptContext.GLOBAL_SCOPE);
     }
 
     public void compile(String script, Consumer<Invocable> consumer) {

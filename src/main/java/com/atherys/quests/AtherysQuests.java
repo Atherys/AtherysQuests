@@ -3,6 +3,7 @@ package com.atherys.quests;
 import com.atherys.core.command.CommandService;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.commands.dialog.DialogMasterCommand;
+import com.atherys.quests.commands.quest.QRunCommand;
 import com.atherys.quests.commands.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
@@ -102,6 +103,7 @@ public class AtherysQuests {
         LocationManager.getInstance().loadAll();
 
         try {
+            CommandService.getInstance().register(new QRunCommand(), this);
             CommandService.getInstance().register(new DialogMasterCommand(), this);
             CommandService.getInstance().register(new QuestMasterCommand(), this);
         } catch (CommandService.AnnotatedCommandException e) {

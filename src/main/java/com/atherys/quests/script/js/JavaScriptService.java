@@ -1,8 +1,9 @@
 package com.atherys.quests.script.js;
 
 import com.atherys.quests.AtherysQuests;
-import com.atherys.quests.api.managers.ScriptManager;
+import com.atherys.quests.api.script.ScriptService;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.script.js.lib.item.CreateItemStack;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -12,13 +13,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class JSScriptManager implements ScriptManager {
+public class JavaScriptService implements ScriptService {
 
-    private final static JSScriptManager instance = new JSScriptManager();
+    private final static JavaScriptService instance = new JavaScriptService();
 
     private Map<String, JSScript> scripts = new HashMap<>();
 
-    private JSScriptManager() {
+    private JavaScriptService() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().SCRIPTS_FOLDER;
 
         try {
@@ -28,7 +29,7 @@ public class JSScriptManager implements ScriptManager {
         }
     }
 
-    public static JSScriptManager getInstance() {
+    public static JavaScriptService getInstance() {
         return instance;
     }
 

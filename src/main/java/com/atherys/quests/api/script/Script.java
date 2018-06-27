@@ -1,5 +1,6 @@
-package com.atherys.quests.api.quest;
+package com.atherys.quests.api.script;
 
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quester.Quester;
 
 public interface Script {

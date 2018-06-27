@@ -1,7 +1,7 @@
 package com.atherys.quests.script.js;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quest.Script;
+import com.atherys.quests.api.script.Script;
 import com.atherys.quests.quester.Quester;
 import com.google.common.io.Files;
 
