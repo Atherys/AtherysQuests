@@ -24,8 +24,8 @@ import java.util.List;
 @Permission("atherysquests.admin.qrun")
 public class QRunCommand implements ParameterizedCommand {
 
-    private static final Text SUCCESS_PREFIX = Text.of(TextColors.DARK_RED, "[", TextColors.RED, "SUCCESS", TextColors.DARK_RED, "] ", TextColors.RED);
-    private static final Text ERROR_PREFIX = Text.of(TextColors.DARK_GREEN, "[", TextColors.GREEN, "ERROR", TextColors.DARK_GREEN, "] ", TextColors.RESET);
+    private static final Text SUCCESS_PREFIX = Text.of(TextColors.DARK_GREEN, "[", TextColors.GREEN, "ERROR", TextColors.DARK_GREEN, "] ", TextColors.RESET);
+    private static final Text ERROR_PREFIX = Text.of(TextColors.DARK_RED, "[", TextColors.RED, "SUCCESS", TextColors.DARK_RED, "] ", TextColors.RED);
 
     @Override
     public CommandElement[] getArguments() {
@@ -45,22 +45,16 @@ public class QRunCommand implements ParameterizedCommand {
                 try {
 
                     Object result = QuestsLib.getInstance().getEngine().eval(script);
-                    src.sendMessage(Text.of(SUCCESS_PREFIX, result.toString()));
+                    src.sendMessage(Text.of(SUCCESS_PREFIX, TextColors.GREEN, "Executed: ", TextColors.RESET, script));
+                    src.sendMessage(Text.of(SUCCESS_PREFIX, TextColors.GREEN, "Result: ", TextColors.RESET, result == null ? "None" : result.toString()));
 
                 } catch (Exception e) {
 
-                    Text.Builder errorMsg = Text.builder();
+                    StackTraceElement[] stackTrace = e.getStackTrace();
 
-                    errorMsg.append(error(e.getMessage()));
-                    for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                        errorMsg.append(error(stackTraceElement.toString()));
+                    for (StackTraceElement aStackTrace : stackTrace) {
+                        src.sendMessage(error(aStackTrace.toString()));
                     }
-
-                    Text.Builder error = Text.builder();
-                    error.append(Text.of(ERROR_PREFIX, "An Error occured while executring your script. Hover over this message to read the stacktrace."));
-                    error.onHover(TextActions.showText(Text.join(errorMsg.build())));
-
-                    src.sendMessage(error.build());
 
                 }
             }
