@@ -47,16 +47,16 @@ public class QRunCommand implements ParameterizedCommand {
 
                 } catch (Exception e) {
 
-                    List<Text> errorList = new ArrayList<>();
+                    Text.Builder errorMsg = Text.builder();
 
-                    errorList.add(error(e.getMessage()));
+                    errorMsg.append(error(e.getMessage()));
                     for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-                        errorList.add(error(stackTraceElement.toString()));
+                        errorMsg.append(error(stackTraceElement.toString()));
                     }
 
                     Text.Builder error = Text.builder();
                     error.append(Text.of(ERROR_PREFIX, "An Error occured while executring your script. Hover over this message to read the stacktrace."));
-                    error.onHover(TextActions.showText(Text.join((Text[]) errorList.toArray())));
+                    error.onHover(TextActions.showText(Text.join(errorMsg.build())));
 
                     src.sendMessage(error.build());
 
