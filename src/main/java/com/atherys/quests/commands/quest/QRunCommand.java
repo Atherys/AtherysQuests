@@ -24,8 +24,8 @@ import java.util.List;
 @Permission("atherysquests.admin.qrun")
 public class QRunCommand implements ParameterizedCommand {
 
-    private static final Text SUCCESS_PREFIX = Text.of(TextColors.DARK_GREEN, "[", TextColors.GREEN, "ERROR", TextColors.DARK_GREEN, "] ", TextColors.RESET);
-    private static final Text ERROR_PREFIX = Text.of(TextColors.DARK_RED, "[", TextColors.RED, "SUCCESS", TextColors.DARK_RED, "] ", TextColors.RED);
+    private static final Text SUCCESS_PREFIX = Text.of(TextColors.DARK_GREEN, "[", TextColors.GREEN, "SUCCESS", TextColors.DARK_GREEN, "] ", TextColors.RESET);
+    private static final Text ERROR_PREFIX = Text.of(TextColors.DARK_RED, "[", TextColors.RED, "ERROR", TextColors.DARK_RED, "] ", TextColors.RED);
 
     @Override
     public CommandElement[] getArguments() {
@@ -50,10 +50,15 @@ public class QRunCommand implements ParameterizedCommand {
 
                 } catch (Exception e) {
 
+                    src.sendMessage(error(e.getMessage()));
+
                     StackTraceElement[] stackTrace = e.getStackTrace();
 
+                    int i = 10;
                     for (StackTraceElement aStackTrace : stackTrace) {
+                        i--;
                         src.sendMessage(error(aStackTrace.toString()));
+                        if ( i == 0 ) break;
                     }
 
                 }
@@ -63,6 +68,6 @@ public class QRunCommand implements ParameterizedCommand {
     }
 
     private static Text error(String msg) {
-        return Text.of(TextColors.RED, msg, Text.NEW_LINE);
+        return Text.of(ERROR_PREFIX, msg);
     }
 }
