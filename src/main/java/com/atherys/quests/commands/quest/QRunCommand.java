@@ -50,8 +50,8 @@ public class QRunCommand implements ParameterizedCommand {
 
                 } catch (Exception e) {
 
-                    src.sendMessage(Text.of(ERROR_PREFIX, "Executed: ", script));
-                    src.sendMessage(Text.of(ERROR_PREFIX, "Error: ", e.getMessage()));
+                    src.sendMessage(Text.of(ERROR_PREFIX, TextColors.RED, "Executed: ", TextColors.RESET, script));
+                    src.sendMessage(Text.of(ERROR_PREFIX, TextColors.RED, "Error: ", TextColors.RESET, e.getMessage()));
 
                 }
             }
