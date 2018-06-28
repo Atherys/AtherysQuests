@@ -17,7 +17,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     private static LocationManager instance = new LocationManager();
 
     private LocationManager() {
-        super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questLocations");
+        super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), QuestLocation.class);
     }
 
     public static LocationManager getInstance() {

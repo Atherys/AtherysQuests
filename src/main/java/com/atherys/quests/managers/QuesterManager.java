@@ -20,7 +20,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
     private Gson gson;
 
     protected QuesterManager() {
-        super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), "questers");
+        super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), Quester.class);
     }
 
     public static QuesterManager getInstance() {

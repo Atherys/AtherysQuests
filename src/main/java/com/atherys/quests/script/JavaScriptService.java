@@ -1,9 +1,8 @@
-package com.atherys.quests.script.js;
+package com.atherys.quests.script;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.script.ScriptService;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.script.js.lib.item.CreateItemStack;
 
 import javax.annotation.Nonnull;
 import java.io.File;

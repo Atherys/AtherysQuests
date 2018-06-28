@@ -1,5 +1,7 @@
-package com.atherys.quests.script.js;
+package com.atherys.quests.script;
 
+import com.atherys.core.AtherysCore;
+import com.atherys.core.script.AtherysScript;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.script.Script;
 import com.atherys.quests.quester.Quester;
@@ -32,7 +34,7 @@ public class JSScript implements Script {
 
     @Override
     public void onLoad(Quest quest) {
-        QuestsLib.getInstance().compile(contents, script -> {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
                 script.invokeFunction("onLoad", quest);
             } catch (ScriptException | NoSuchMethodException e) {
@@ -43,7 +45,7 @@ public class JSScript implements Script {
 
     @Override
     public void onPickUp(Quest quest, Quester quester) {
-        QuestsLib.getInstance().compile(contents, script -> {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
                 script.invokeFunction("onPickUp", quest, quester);
             } catch (ScriptException | NoSuchMethodException e) {
@@ -54,7 +56,7 @@ public class JSScript implements Script {
 
     @Override
     public void onProgress(Quest quest, Quester quester) {
-        QuestsLib.getInstance().compile(contents, script -> {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
                 script.invokeFunction("onProgress", quest, quester);
             } catch (ScriptException | NoSuchMethodException e) {
@@ -65,7 +67,7 @@ public class JSScript implements Script {
 
     @Override
     public void onComplete(Quest quest, Quester quester) {
-        QuestsLib.getInstance().compile(contents, script -> {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
                 script.invokeFunction("onComplete", quest, quester);
             } catch (ScriptException | NoSuchMethodException e) {
@@ -76,7 +78,7 @@ public class JSScript implements Script {
 
     @Override
     public void onTurnIn(Quest quest, Quester quester) {
-        QuestsLib.getInstance().compile(contents, script -> {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
                 script.invokeFunction("onTurnIn", quest, quester);
             } catch (ScriptException | NoSuchMethodException e) {
