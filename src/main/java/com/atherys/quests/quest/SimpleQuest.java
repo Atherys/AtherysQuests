@@ -91,6 +91,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
             if (!isStarted()) {
                 // set it as started
                 this.started = true;
+                getScript().ifPresent(script -> script.onBegin(this, quester));
             }
 
             // updated completed status based on the status of the objectives
@@ -102,15 +103,21 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
                 if (objective.isComplete()) { // if the objective is completed after being notified
                     QuestMsg.info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the quest
 
+                    // notify script
+                    getScript().ifPresent(script -> script.onProgress(this, quester, objective));
+
                     // update quest complete status by iterating every objective, checking it's complete status, and concatenate with this.complete
                     this.complete = true;
+
                     for (Objective objective1 : getObjectives()) {
                         this.complete = this.complete && objective1.isComplete();
                     }
                 }
             }
 
-            if (isComplete()) complete(quester);
+            if (isComplete()) {
+                getScript().ifPresent(script -> script.onComplete(this, quester));
+            }
         }
     }
 

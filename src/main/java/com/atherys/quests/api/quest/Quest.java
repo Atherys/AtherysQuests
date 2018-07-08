@@ -6,12 +6,14 @@ import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.api.script.QuestScript;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Common interface for all Quest classes. <br>
@@ -53,12 +55,18 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     List<Reward> getRewards();
 
     /**
-     * A method which gets called when this quest is picked up by a {@link Quester}.
-     * This method can be overridden to provide additional functionality
+     * Retrieves the {@link QuestScript} responsible for the creation of this quest.
      *
-     * @param quester The quester who picked up the quest
+     * @return The script object
      */
-    void pickUp(Quester quester);
+    Optional<QuestScript> getScript();
+
+    /**
+     * Sets the script responsible for the creation of this quest;
+     *
+     * @param questScript The script
+     */
+    void setScript(QuestScript questScript);
 
     /**
      * Checks whether or not the Quester meets the requirements of this quest.
@@ -84,22 +92,6 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     void award(Quester quester);
 
     /**
-     * A method which gets called when this quest is completed ( not turned in ) by a {@link Quester}.
-     * This method can be overridden to provide additional functionality
-     *
-     * @param quester The quester completing the quest
-     */
-    void complete(Quester quester);
-
-    /**
-     * A method which gets called when this quest is turned in by a {@link Quester}.
-     * This method can be overridden to provide additional functionality
-     *
-     * @param quester The quester turning in the quest
-     */
-    void turnIn(Quester quester);
-
-    /**
      * @return Whether or not this Quest has been started, i.e. if any progress has been made on it's completion.
      */
     boolean isStarted();
@@ -115,5 +107,4 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     int getVersion();
 
     QuestView createView();
-
 }

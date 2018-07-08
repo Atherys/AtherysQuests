@@ -1,12 +1,15 @@
 package com.atherys.quests.api.quest;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.api.script.QuestScript;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
@@ -18,6 +21,9 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     protected Text description = Text.of("No Description");
     @Expose
     protected int version;
+
+    @Expose
+    protected String scriptId;
 
     protected AbstractQuest(String id, int version) {
         this.id = id;
@@ -46,21 +52,6 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
-    public void pickUp(Quester quester) {
-        //ScriptService.getInstance().forQuest(this).pickUp( quester );
-    }
-
-    @Override
-    public void complete(Quester quester) {
-        //ScriptService.getInstance().forQuest(this).complete( quester );
-    }
-
-    @Override
-    public void turnIn(Quester quester) {
-        //ScriptService.getInstance().forQuest(this).turnIn( quester );
-    }
-
-    @Override
     public boolean meetsRequirements(Quester quester) {
         for (Requirement req : getRequirements()) {
             if (!req.check(quester)) return false;
@@ -73,6 +64,16 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
         for (Reward reward : getRewards()) {
             reward.award(quester);
         }
+    }
+
+    @Override
+    public Optional<QuestScript> getScript() {
+        return AtherysQuests.getScriptService().getScriptById(scriptId);
+    }
+
+    @Override
+    public void setScript(QuestScript questScript) {
+        this.scriptId = questScript.getId();
     }
 
     @Override

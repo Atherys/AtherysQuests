@@ -1,8 +1,8 @@
 package com.atherys.quests.script;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.script.QuestScript;
 import com.atherys.quests.api.script.ScriptService;
-import com.atherys.quests.api.quest.Quest;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -12,11 +12,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Script loading pipeline:<br>
+ *     Start Plugin -> Start JS Service -> Load Script Files
+ */
 public class JavaScriptService implements ScriptService {
 
     private final static JavaScriptService instance = new JavaScriptService();
 
-    private Map<String, JSScript> scripts = new HashMap<>();
+    private Map<String, JSQuestScript> scripts = new HashMap<>();
 
     private JavaScriptService() {
         String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().SCRIPTS_FOLDER;
@@ -26,6 +30,8 @@ public class JavaScriptService implements ScriptService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        startScripts();
     }
 
     public static JavaScriptService getInstance() {
@@ -33,7 +39,7 @@ public class JavaScriptService implements ScriptService {
     }
 
     /**
-     * Load all script LUA files within the given folder.
+     * Load all script files within the given folder.
      * A script file's name ( ex. "scriptFile.js" ) will reflect which quest will use it.
      * A script file's name should be identical to the quest id in order for it to be used for the relevant quest.
      *
@@ -51,18 +57,22 @@ public class JavaScriptService implements ScriptService {
             for (File file : files) {
                 if (!file.getName().endsWith(".js")) continue;
 
-                JSScript script = JSScript.fromFile(file);
+                JSQuestScript script = JSQuestScript.fromFile(file);
                 registerScript(script);
             }
         }
     }
 
-    public void registerScript(JSScript script) {
+    public void registerScript(JSQuestScript script) {
         this.scripts.put(script.getId(), script);
     }
 
+    public void startScripts() {
+        scripts.forEach((id, script) -> script.onStart());
+    }
+
     @Override
-    public Optional<JSScript> forQuest(Quest quest) {
-        return Optional.ofNullable(scripts.get(quest.getId()));
+    public Optional<QuestScript> getQuestScriptById(String scriptId) {
+        return Optional.ofNullable(scripts.get(scriptId));
     }
 }

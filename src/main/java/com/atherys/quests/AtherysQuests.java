@@ -2,6 +2,7 @@ package com.atherys.quests;
 
 import com.atherys.core.command.CommandService;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.script.ScriptService;
 import com.atherys.quests.commands.dialog.DialogMasterCommand;
 import com.atherys.quests.commands.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
@@ -11,10 +12,8 @@ import com.atherys.quests.listeners.EntityListener;
 import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
-import com.atherys.quests.managers.DialogManager;
-import com.atherys.quests.managers.LocationManager;
-import com.atherys.quests.managers.QuestManager;
-import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.managers.*;
+import com.atherys.quests.script.JavaScriptService;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -43,8 +42,17 @@ public class AtherysQuests {
     private static AtherysQuests instance;
     private static boolean init = false;
     private static QuestsConfig config;
+
+    private ScriptService scriptService;
+    private QuestManager questManager;
+    private QuesterManager questerManager;
+    private DialogManager dialogManager;
+    private LocationManager locationManager;
+    private InventoryManager inventoryManager;
+
     @Inject
     PluginContainer container;
+
     @Inject
     Logger logger;
 
@@ -91,6 +99,14 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new EntityListener());
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
+
+        scriptService = JavaScriptService.getInstance();
+        dialogManager = DialogManager.getInstance();
+        questManager = QuestManager.getInstance();
+        questerManager = QuesterManager.getInstance();
+        locationManager = LocationManager.getInstance();
+
+        inventoryManager = InventoryManager.getInstance();
 
         Quest quest = new DummyQuest.Staged();
 
@@ -154,6 +170,30 @@ public class AtherysQuests {
 
     public Optional<EconomyService> getEconomyService() {
         return Sponge.getServiceManager().provide(EconomyService.class);
+    }
+
+    public static QuesterManager getQuesterManager() {
+        return getInstance().questerManager;
+    }
+
+    public static DialogManager getDialogManager() {
+        return getInstance().dialogManager;
+    }
+
+    public static LocationManager getLocationManager() {
+        return getInstance().locationManager;
+    }
+
+    public static InventoryManager getInventoryManager() {
+        return getInstance().inventoryManager;
+    }
+
+    public static QuestManager getQuestManager() {
+        return getInstance().questManager;
+    }
+
+    public static ScriptService getScriptService() {
+        return getInstance().scriptService;
     }
 
     public Logger getLogger() {

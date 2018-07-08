@@ -1,11 +1,11 @@
 package com.atherys.quests.api.script;
 
-import com.atherys.quests.api.quest.Quest;
-
 import java.util.Optional;
 
-public interface ScriptService<T extends Script> {
+public interface ScriptService {
 
-    Optional<T> forQuest(Quest quest);
+    Optional<QuestScript> getQuestScriptById(String scriptId);
+
+    Optional<DialogScript> getDialogScriptById(String scriptId);
 
 }
