@@ -2,19 +2,19 @@ package com.atherys.quests.events;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.managers.DialogManager;
+import com.atherys.quests.services.DialogService;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 /**
- * An event for registering dialogs with the {@link DialogManager}. This event is called immediately after {@link QuestRegistrationEvent}.
+ * An event for registering dialogs with the {@link DialogService}. This event is called immediately after {@link QuestRegistrationEvent}.
  */
 public class DialogRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public DialogRegistrationEvent(DialogManager manager) {
+    public DialogRegistrationEvent(DialogService manager) {
         this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(manager).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
@@ -23,8 +23,8 @@ public class DialogRegistrationEvent implements Event {
         return cause;
     }
 
-    public DialogManager getManager() {
-        return DialogManager.getInstance();
+    public DialogService getManager() {
+        return DialogService.getInstance();
     }
 
     public void register(DialogTree tree) {

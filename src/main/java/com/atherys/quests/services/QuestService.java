@@ -1,4 +1,4 @@
-package com.atherys.quests.managers;
+package com.atherys.quests.services;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.QuestData;
@@ -10,18 +10,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public final class QuestManager {
+public final class QuestService {
 
-    private static QuestManager instance = new QuestManager();
+    private static QuestService instance = new QuestService();
 
     private Map<String, Quest> quests = new HashMap<>();
 
-    private QuestManager() {
+    private QuestService() {
         QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent(this);
         Sponge.getEventManager().post(questRegistrationEvent);
     }
 
-    public static QuestManager getInstance() {
+    public static QuestService getInstance() {
         return instance;
     }
 

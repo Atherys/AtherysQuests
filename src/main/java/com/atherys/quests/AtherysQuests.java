@@ -2,7 +2,8 @@ package com.atherys.quests;
 
 import com.atherys.core.command.CommandService;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.script.ScriptService;
+import com.atherys.quests.api.script.DialogScriptService;
+import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.commands.dialog.DialogMasterCommand;
 import com.atherys.quests.commands.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
@@ -13,7 +14,7 @@ import com.atherys.quests.listeners.GsonListener;
 import com.atherys.quests.listeners.InventoryListener;
 import com.atherys.quests.listeners.MasterEventListener;
 import com.atherys.quests.managers.*;
-import com.atherys.quests.script.JavaScriptService;
+import com.atherys.quests.services.*;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -43,12 +44,13 @@ public class AtherysQuests {
     private static boolean init = false;
     private static QuestsConfig config;
 
-    private ScriptService scriptService;
-    private QuestManager questManager;
+    private QuestService questService;
     private QuesterManager questerManager;
-    private DialogManager dialogManager;
+    private DialogService dialogService;
     private LocationManager locationManager;
-    private InventoryManager inventoryManager;
+    private InventoryService inventoryService;
+    private QuestScriptService questScriptService;
+    private DialogScriptService dialogScriptService;
 
     @Inject
     PluginContainer container;
@@ -100,19 +102,25 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
 
-        scriptService = JavaScriptService.getInstance();
-        dialogManager = DialogManager.getInstance();
-        questManager = QuestManager.getInstance();
-        questerManager = QuesterManager.getInstance();
+        dialogService = DialogService.getInstance();
+        questService = QuestService.getInstance();
         locationManager = LocationManager.getInstance();
 
-        inventoryManager = InventoryManager.getInstance();
+        dialogScriptService = DialogJavaScriptService.getInstance();
+        dialogScriptService.loadAllFromFolder(config.DIALOGS_FOLDER);
+
+        questScriptService = QuestJavaScriptService.getInstance();
+        questScriptService.loadAllFromFolder(config.QUESTS_FOLDER);
+
+        questerManager = QuesterManager.getInstance();
+
+        inventoryService = InventoryService.getInstance();
 
         Quest quest = new DummyQuest.Staged();
 
-        QuestManager.getInstance().registerQuest(quest);
+        QuestService.getInstance().registerQuest(quest);
 
-        DialogManager.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
+        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
@@ -176,25 +184,25 @@ public class AtherysQuests {
         return getInstance().questerManager;
     }
 
-    public static DialogManager getDialogManager() {
-        return getInstance().dialogManager;
+    public static DialogService getDialogManager() {
+        return getInstance().dialogService;
     }
 
     public static LocationManager getLocationManager() {
         return getInstance().locationManager;
     }
 
-    public static InventoryManager getInventoryManager() {
-        return getInstance().inventoryManager;
+    public static InventoryService getInventoryManager() {
+        return getInstance().inventoryService;
     }
 
-    public static QuestManager getQuestManager() {
-        return getInstance().questManager;
+    public static QuestService getQuestManager() {
+        return getInstance().questService;
     }
 
-    public static ScriptService getScriptService() {
-        return getInstance().scriptService;
-    }
+    public static DialogScriptService getDialogScriptService() { return getInstance().dialogScriptService; }
+
+    public static QuestScriptService getQuestScriptService() { return getInstance().questScriptService; }
 
     public Logger getLogger() {
         return logger;

@@ -2,6 +2,7 @@ package com.atherys.quests.script;
 
 import com.atherys.core.AtherysCore;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.script.QuestScript;
 import com.atherys.quests.quester.Quester;
@@ -22,10 +23,10 @@ public class JSQuestScript extends AbstractJSScript implements QuestScript {
     }
 
     @Override
-    public void onStart() {
+    public void start() {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
-                Quest quest = (Quest) script.invokeFunction("onStart");
+                Quest quest = (Quest) script.invokeFunction("onStartServer");
                 quest.setScript(this);
 
                 AtherysQuests.getQuestManager().registerQuest(quest);
@@ -58,10 +59,10 @@ public class JSQuestScript extends AbstractJSScript implements QuestScript {
     }
 
     @Override
-    public void onProgress(Quest quest, Quester quester) {
+    public void onProgress(Quest quest, Quester quester, Objective objective) {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
-                script.invokeFunction("onProgress", quest, quester);
+                script.invokeFunction("onProgress", quest, quester, objective);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -84,6 +85,17 @@ public class JSQuestScript extends AbstractJSScript implements QuestScript {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
                 script.invokeFunction("onTurnIn", quest, quester);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void stop() {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
+            try {
+                script.invokeFunction("onStopServer");
             } catch (Exception e) {
                 e.printStackTrace();
             }

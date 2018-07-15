@@ -1,19 +1,14 @@
-package com.atherys.quests.managers;
+package com.atherys.quests.services;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.events.DialogRegistrationEvent;
-import com.google.gson.Gson;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
-import javax.annotation.Nonnull;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -22,51 +17,24 @@ import java.util.UUID;
 /**
  * A class responsible for managing all dialogs
  */
-public final class DialogManager {
+public final class DialogService {
 
-    private static DialogManager instance = new DialogManager();
+    private static DialogService instance = new DialogService();
 
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
     private Map<String, DialogTree> trees = new HashMap<>();
 
-    private DialogManager() {
-        String folder = AtherysQuests.getInstance().getWorkingDirectory() + "/" + AtherysQuests.getConfig().DIALOG_FOLDER;
-
+    private DialogService() {
         DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent(this);
         Sponge.getEventManager().post(dialogRegistrationEvent);
     }
 
-    public static DialogManager getInstance() {
+    public static DialogService getInstance() {
         return instance;
     }
 
     public void registerDialog(DialogTree tree) {
         this.trees.put(tree.getId(), tree);
-    }
-
-    /**
-     * Load all dialog JSON files within the given folder.
-     *
-     * @param folder The File representing the directory.
-     * @throws FileNotFoundException If the file could not be found
-     */
-    public void loadDialogs(@Nonnull File folder) throws FileNotFoundException {
-        if (!folder.isDirectory()) return;
-
-        File[] files = folder.listFiles();
-        Gson gson = AtherysQuests.getGson();
-
-        if (files == null) {
-            throw new FileNotFoundException("Could not list files in provided directory.");
-        } else {
-            for (File file : files) {
-                if (!file.getName().endsWith(".json")) continue;
-
-                DialogTree tree = gson.fromJson(new FileReader(file), DialogTree.class);
-                tree.setId(file.getName().replace(".json", ""));
-                registerDialog(tree);
-            }
-        }
     }
 
     public Optional<DialogTree> getDialogFromId(String id) {

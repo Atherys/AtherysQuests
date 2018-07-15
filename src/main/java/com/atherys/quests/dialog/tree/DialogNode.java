@@ -2,7 +2,7 @@ package com.atherys.quests.dialog.tree;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
-import com.atherys.quests.managers.QuestManager;
+import com.atherys.quests.services.QuestService;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
@@ -82,7 +82,7 @@ public class DialogNode {
     }
 
     public Optional<Quest> getQuest() {
-        return QuestManager.getInstance().getQuest(questId);
+        return QuestService.getInstance().getQuest(questId);
     }
 
     protected void setQuest(String quest) {

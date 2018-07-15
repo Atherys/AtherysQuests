@@ -19,15 +19,15 @@ public class JSDialogScript extends AbstractJSScript implements DialogScript {
         super(id, content);
     }
 
-    public static JSQuestScript fromFile(File file) throws IOException {
-        return new JSQuestScript(file.getName(), Files.toString(file, Charset.defaultCharset()));
+    public static JSDialogScript fromFile(File file) throws IOException {
+        return new JSDialogScript(file.getName(), Files.toString(file, Charset.defaultCharset()));
     }
 
     @Override
-    public void onStart() {
+    public void start() {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
-                DialogTree dialogTree = (DialogTree) script.invokeFunction("onStart");
+                DialogTree dialogTree = (DialogTree) script.invokeFunction("onStartServer");
                 AtherysQuests.getDialogManager().registerDialog(dialogTree);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -39,7 +39,7 @@ public class JSDialogScript extends AbstractJSScript implements DialogScript {
     public void onBegin(Quester quester, Entity entity, DialogTree tree) {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
-                script.invokeFunction("onBegin");
+                script.invokeFunction("onBeginDialog", quester, entity, tree);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -50,7 +50,7 @@ public class JSDialogScript extends AbstractJSScript implements DialogScript {
     public void onProgress(Quester quester, Entity entity, DialogTree tree, DialogNode node) {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
-                script.invokeFunction("onProgress");
+                script.invokeFunction("onProgressDialog", quester, entity, tree, node);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -61,7 +61,18 @@ public class JSDialogScript extends AbstractJSScript implements DialogScript {
     public void onEnd(Quester quester, Entity entity, DialogTree tree, DialogNode node) {
         AtherysCore.getScriptingEngine().compile(contents, script -> {
             try {
-                script.invokeFunction("onEnd");
+                script.invokeFunction("onEndDialog", quester, entity, tree, node);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void stop() {
+        AtherysCore.getScriptingEngine().compile(contents, script -> {
+            try {
+                script.invokeFunction("onStopServer");
             } catch (Exception e) {
                 e.printStackTrace();
             }

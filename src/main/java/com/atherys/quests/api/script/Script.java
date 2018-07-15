@@ -4,6 +4,8 @@ public interface Script {
 
     String getId();
 
-    void onStart();
+    void start();
+
+    void stop();
 
 }

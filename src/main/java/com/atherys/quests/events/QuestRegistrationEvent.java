@@ -2,19 +2,19 @@ package com.atherys.quests.events;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.managers.QuestManager;
+import com.atherys.quests.services.QuestService;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 /**
- * An event for registering quests with the {@link QuestManager}. This event is called immediately before {@link DialogRegistrationEvent}.
+ * An event for registering quests with the {@link QuestService}. This event is called immediately before {@link DialogRegistrationEvent}.
  */
 public class QuestRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public QuestRegistrationEvent(QuestManager manager) {
+    public QuestRegistrationEvent(QuestService manager) {
         this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(manager).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
@@ -23,8 +23,8 @@ public class QuestRegistrationEvent implements Event {
         return cause;
     }
 
-    public QuestManager getManager() {
-        return QuestManager.getInstance();
+    public QuestService getManager() {
+        return QuestService.getInstance();
     }
 
     public void register(Quest quest) {

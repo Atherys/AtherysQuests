@@ -2,9 +2,9 @@ package com.atherys.quests.listeners;
 
 import com.atherys.core.utils.Question;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.managers.DialogManager;
+import com.atherys.quests.services.DialogService;
 import com.atherys.quests.managers.LocationManager;
-import com.atherys.quests.managers.QuestManager;
+import com.atherys.quests.services.QuestService;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.TakeQuestView;
@@ -31,7 +31,7 @@ public class EntityListener {
 
     @Listener
     public void onEntityInteract(InteractEntityEvent.Secondary.MainHand event, @Root Player player) {
-        DialogManager.getInstance().startDialog(player, event.getTargetEntity());
+        DialogService.getInstance().startDialog(player, event.getTargetEntity());
     }
 
     @Listener
@@ -41,7 +41,7 @@ public class EntityListener {
         if (LocationManager.getInstance().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
 
         LocationManager.getInstance().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
-            Quest quest = QuestManager.getInstance().getQuest(questLocation.getQuestId()).get();
+            Quest quest = QuestService.getInstance().getQuest(questLocation.getQuestId()).get();
             if(QuesterManager.getInstance().getQuester(player).hasQuest(quest)) return;
 
             Question question = Question.of(Text.of("You have found the quest \"", quest.getName(), "\", would you like to take it?"))
@@ -65,7 +65,7 @@ public class EntityListener {
         Optional<ItemStack> itemInHand = player.getItemInHand(HandTypes.MAIN_HAND);
         if (!itemInHand.isPresent()) return;
 
-        Optional<Quest> quest = QuestManager.getInstance().getQuest(itemInHand.get());
+        Optional<Quest> quest = QuestService.getInstance().getQuest(itemInHand.get());
         if (!quest.isPresent()) return;
 
         event.setCancelled(true);

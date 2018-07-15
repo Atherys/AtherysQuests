@@ -1,4 +1,4 @@
-package com.atherys.quests.managers;
+package com.atherys.quests.services;
 
 import org.spongepowered.api.item.inventory.Inventory;
 
@@ -6,16 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public final class InventoryManager {
+public final class InventoryService {
 
-    private static InventoryManager instance = new InventoryManager();
+    private static InventoryService instance = new InventoryService();
 
     private Map<Inventory, Consumer<Inventory>> inventories = new HashMap<>();
 
-    private InventoryManager() {
+    private InventoryService() {
     }
 
-    public static InventoryManager getInstance() {
+    public static InventoryService getInstance() {
         return instance;
     }
 

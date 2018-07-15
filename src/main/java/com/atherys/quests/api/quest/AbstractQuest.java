@@ -68,7 +68,7 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     @Override
     public Optional<QuestScript> getScript() {
-        return AtherysQuests.getScriptService().getScriptById(scriptId);
+        return AtherysQuests.getScriptService().getQuestScriptById(scriptId);
     }
 
     @Override
