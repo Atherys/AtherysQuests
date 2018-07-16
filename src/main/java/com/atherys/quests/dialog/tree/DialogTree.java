@@ -1,8 +1,6 @@
 package com.atherys.quests.dialog.tree;
 
 import com.atherys.quests.AtherysQuests;
-import com.atherys.quests.api.script.DialogScript;
-import com.atherys.quests.api.script.Script;
 import com.google.gson.annotations.Expose;
 
 import java.util.Optional;

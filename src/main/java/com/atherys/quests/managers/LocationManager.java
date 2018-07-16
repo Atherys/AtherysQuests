@@ -5,7 +5,7 @@ import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
-import com.atherys.quests.services.QuestService;
+import com.atherys.quests.service.QuestService;
 import org.bson.Document;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;

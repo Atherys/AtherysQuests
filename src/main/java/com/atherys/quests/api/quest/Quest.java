@@ -6,7 +6,6 @@ import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.api.script.QuestScript;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;

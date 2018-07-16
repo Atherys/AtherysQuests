@@ -1,8 +1,8 @@
 package com.atherys.quests.api.objective;
 
-import com.atherys.quests.events.ObjectiveCompletedEvent;
-import com.atherys.quests.events.ObjectiveProgressedEvent;
-import com.atherys.quests.events.ObjectiveStartedEvent;
+import com.atherys.quests.event.ObjectiveCompletedEvent;
+import com.atherys.quests.event.ObjectiveProgressedEvent;
+import com.atherys.quests.event.ObjectiveStartedEvent;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;

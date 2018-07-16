@@ -4,17 +4,22 @@ import com.atherys.core.command.CommandService;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
-import com.atherys.quests.commands.dialog.DialogMasterCommand;
-import com.atherys.quests.commands.quest.QuestMasterCommand;
+import com.atherys.quests.command.dialog.DialogMasterCommand;
+import com.atherys.quests.command.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
-import com.atherys.quests.listeners.EntityListener;
-import com.atherys.quests.listeners.GsonListener;
-import com.atherys.quests.listeners.InventoryListener;
-import com.atherys.quests.listeners.MasterEventListener;
-import com.atherys.quests.managers.*;
-import com.atherys.quests.services.*;
+import com.atherys.quests.listener.EntityListener;
+import com.atherys.quests.listener.GsonListener;
+import com.atherys.quests.listener.InventoryListener;
+import com.atherys.quests.listener.MasterEventListener;
+import com.atherys.quests.managers.LocationManager;
+import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.script.lib.QuestExtension;
+import com.atherys.quests.service.DialogService;
+import com.atherys.quests.service.InventoryService;
+import com.atherys.quests.service.QuestService;
+import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -49,8 +54,9 @@ public class AtherysQuests {
     private DialogService dialogService;
     private LocationManager locationManager;
     private InventoryService inventoryService;
-    private QuestScriptService questScriptService;
+
     private DialogScriptService dialogScriptService;
+    private QuestScriptService questScriptService;
 
     @Inject
     PluginContainer container;
@@ -102,15 +108,11 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
         Sponge.getEventManager().registerListeners(this, new MasterEventListener());
 
+        JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
+
         dialogService = DialogService.getInstance();
         questService = QuestService.getInstance();
         locationManager = LocationManager.getInstance();
-
-        dialogScriptService = DialogJavaScriptService.getInstance();
-        dialogScriptService.loadAllFromFolder(config.DIALOGS_FOLDER);
-
-        questScriptService = QuestJavaScriptService.getInstance();
-        questScriptService.loadAllFromFolder(config.QUESTS_FOLDER);
 
         questerManager = QuesterManager.getInstance();
 
@@ -184,7 +186,7 @@ public class AtherysQuests {
         return getInstance().questerManager;
     }
 
-    public static DialogService getDialogManager() {
+    public static DialogService getDialogService() {
         return getInstance().dialogService;
     }
 
@@ -192,17 +194,21 @@ public class AtherysQuests {
         return getInstance().locationManager;
     }
 
-    public static InventoryService getInventoryManager() {
+    public static InventoryService getInventoryService() {
         return getInstance().inventoryService;
     }
 
-    public static QuestService getQuestManager() {
+    public static QuestService getQuestService() {
         return getInstance().questService;
     }
 
-    public static DialogScriptService getDialogScriptService() { return getInstance().dialogScriptService; }
+    public static DialogScriptService getDialogScriptService() {
+        return getInstance().dialogScriptService;
+    }
 
-    public static QuestScriptService getQuestScriptService() { return getInstance().questScriptService; }
+    public static QuestScriptService getQuestScriptService() {
+        return getInstance().questScriptService;
+    }
 
     public Logger getLogger() {
         return logger;
