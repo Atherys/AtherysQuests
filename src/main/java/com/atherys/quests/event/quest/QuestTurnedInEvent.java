@@ -1,20 +1,20 @@
-package com.atherys.quests.event;
+package com.atherys.quests.event.quest;
 
-import com.atherys.quests.api.objective.Objective;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quester.Quester;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
-public class ObjectiveCompletedEvent implements Event {
+public class QuestTurnedInEvent implements Event {
 
     private Cause cause;
 
-    private Objective objective;
+    private Quest quest;
     private Quester quester;
 
-    public ObjectiveCompletedEvent(Objective objective, Quester quester) {
-        this.objective = objective;
+    public QuestTurnedInEvent(Quest quest, Quester quester) {
+        this.quest = quest;
         this.quester = quester;
         cause = Cause.builder()
                 .append(quester.getCachedPlayer())
@@ -26,11 +26,12 @@ public class ObjectiveCompletedEvent implements Event {
         return cause;
     }
 
-    public Objective getObjective() {
-        return objective;
-    }
-
     public Quester getQuester() {
         return quester;
     }
+
+    public Quest getQuest() {
+        return quest;
+    }
+
 }

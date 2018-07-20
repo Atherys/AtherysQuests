@@ -2,7 +2,7 @@ package com.atherys.quests.service;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.event.QuestRegistrationEvent;
+import com.atherys.quests.event.quest.QuestRegistrationEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataHolder;
 

@@ -4,9 +4,9 @@ import com.atherys.core.database.api.DBObject;
 import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.event.QuestCompletedEvent;
-import com.atherys.quests.event.QuestStartedEvent;
-import com.atherys.quests.event.QuestTurnedInEvent;
+import com.atherys.quests.event.quest.QuestCompletedEvent;
+import com.atherys.quests.event.quest.QuestStartedEvent;
+import com.atherys.quests.event.quest.QuestTurnedInEvent;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestLog;
 import org.spongepowered.api.Sponge;
@@ -73,7 +73,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         }
 
         if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
-            quest.pickUp(this);
             quests.put(quest.getId(), (Quest) quest.copy());
             QuestMsg.info(this, "You have started the quest \"", quest.getName(), "\"");
 
@@ -96,7 +95,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         QuestMsg.info(this, "You have turned in the quest \"", quest.getName(), "\"");
 
-        quest.turnIn(this);
         QuestTurnedInEvent qsEvent = new QuestTurnedInEvent(quest, this);
         Sponge.getEventManager().post(qsEvent);
     }

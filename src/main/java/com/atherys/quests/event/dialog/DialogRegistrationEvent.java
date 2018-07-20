@@ -1,7 +1,8 @@
-package com.atherys.quests.event;
+package com.atherys.quests.event.dialog;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogTree;
+import com.atherys.quests.event.quest.QuestRegistrationEvent;
 import com.atherys.quests.service.DialogService;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;

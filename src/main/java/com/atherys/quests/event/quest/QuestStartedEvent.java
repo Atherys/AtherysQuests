@@ -1,4 +1,4 @@
-package com.atherys.quests.event;
+package com.atherys.quests.event.quest;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quester.Quester;
@@ -6,14 +6,14 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
-public class QuestCompletedEvent implements Event {
+public class QuestStartedEvent implements Event {
 
     private Cause cause;
 
     private Quest quest;
     private Quester quester;
 
-    public QuestCompletedEvent(Quest quest, Quester quester) {
+    public QuestStartedEvent(Quest quest, Quester quester) {
         this.quest = quest;
         this.quester = quester;
         cause = Cause.builder()
@@ -33,5 +33,4 @@ public class QuestCompletedEvent implements Event {
     public Quest getQuest() {
         return quest;
     }
-
 }

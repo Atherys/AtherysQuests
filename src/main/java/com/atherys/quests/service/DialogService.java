@@ -4,7 +4,7 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.event.DialogRegistrationEvent;
+import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;

@@ -1,9 +1,6 @@
 package com.atherys.quests.dialog.tree;
 
-import com.atherys.quests.AtherysQuests;
 import com.google.gson.annotations.Expose;
-
-import java.util.Optional;
 
 public class DialogTree {
     @Expose
@@ -34,9 +31,5 @@ public class DialogTree {
 
     public DialogNode getRoot() {
         return root;
-    }
-
-    public Optional<DialogScript> getScript() {
-        return AtherysQuests.getScriptService().getScriptById(dialogId);
     }
 }
