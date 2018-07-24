@@ -1,6 +1,7 @@
 package com.atherys.quests.data;
 
 import com.atherys.quests.QuestKeys;
+import com.atherys.quests.api.quest.Quest;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
@@ -22,16 +23,13 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
     private String questId;
 
-    {
-        registerGettersAndSetters();
-    }
-
     QuestData() {
-        questId = "";
+        this("");
     }
 
     public QuestData(String questId) {
         this.questId = questId;
+        registerGettersAndSetters();
     }
 
     @Override
@@ -54,22 +52,27 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
     }
 
     @Override
+    public Optional<QuestData> fill(DataHolder dataHolder){
+        QuestData questData = dataHolder.get(QuestData.class).orElse(null);
+        return Optional.ofNullable(questData);
+    }
+
+    @Override
     public Optional<QuestData> fill(DataHolder dataHolder, MergeFunction overlap) {
-        dataHolder.get(QuestData.class).ifPresent(that -> {
-            QuestData data = overlap.merge(this, that);
-            this.questId = data.questId;
-        });
+        QuestData questData = overlap.merge(this, dataHolder.get(QuestData.class).orElse(null));
+        setQuestId(questData.getQuestId());
         return Optional.of(this);
     }
 
     @Override
     public Optional<QuestData> from(DataContainer container) {
-        return from((DataView) container);
-    }
+        if(container.contains(QuestKeys.QUEST.getQuery())){
+            final String questId = container.getString(QuestKeys.QUEST.getQuery()).get();
+            setQuestId(questId);
 
-    public Optional<QuestData> from(DataView container) {
-        container.getObject(QuestKeys.QUEST.getQuery(), String.class).ifPresent(v -> questId = v);
-        return Optional.of(this);
+            return Optional.of(this);
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -90,7 +93,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
     @Override
     public DataContainer toContainer() {
         return super.toContainer()
-                .set(QuestKeys.QUEST.getQuery(), questId);
+                .set(QuestKeys.QUEST, this.questId);
     }
 
     @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.096Z")
@@ -98,25 +101,22 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
         private String questId;
 
-        {
-            registerGetters();
+        public Immutable(){
+            this("");
         }
 
-        Immutable() {
-            questId = "";
-        }
-
-        Immutable(String questId) {
+        public Immutable(String questId) {
             this.questId = questId;
+            registerGetters();
         }
 
         @Override
         protected void registerGetters() {
-            registerFieldGetter(QuestKeys.QUEST, this::getDialogId);
+            registerFieldGetter(QuestKeys.QUEST, this::getQuestId);
             registerKeyValue(QuestKeys.QUEST, this::questId);
         }
 
-        public String getDialogId() {
+        private String getQuestId() {
             return questId;
         }
 
@@ -124,9 +124,10 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
             return Sponge.getRegistry().getValueFactory().createValue(QuestKeys.QUEST, questId).asImmutable();
         }
 
+
         @Override
         public QuestData asMutable() {
-            return new QuestData(questId);
+            return new QuestData(this.getQuestId());
         }
 
         @Override
@@ -136,8 +137,8 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
         @Override
         public DataContainer toContainer() {
-            return super.toContainer()
-                    .set(QuestKeys.QUEST.getQuery(), questId);
+           return super.toContainer()
+                   .set(QuestKeys.QUEST, this.getQuestId());
         }
 
     }
@@ -156,13 +157,16 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
         @Override
         public Optional<QuestData> createFrom(DataHolder dataHolder) {
-            return create().fill(dataHolder);
+            return Optional.of(dataHolder.get(QuestData.class).orElse(new QuestData()));
         }
 
         @Override
         protected Optional<QuestData> buildContent(DataView container) throws InvalidDataException {
-            return create().from(container);
+            if(container.contains(QuestKeys.QUEST.getQuery())){
+                final String questId = container.getString(QuestKeys.QUEST.getQuery()).get();
+                return Optional.of(new QuestData(questId));
+            }
+            return Optional.empty();
         }
-
     }
 }
