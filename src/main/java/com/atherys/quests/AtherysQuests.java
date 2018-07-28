@@ -30,6 +30,7 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -39,7 +40,16 @@ import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
 
-@Plugin(id = ID, name = NAME, description = DESCRIPTION, version = VERSION)
+@Plugin(
+        id = ID,
+        name = NAME,
+        description = DESCRIPTION,
+        version = VERSION,
+        dependencies = {
+                @Dependency(id = "atheryscore"),
+                @Dependency(id = "atherysscript")
+        }
+)
 public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
