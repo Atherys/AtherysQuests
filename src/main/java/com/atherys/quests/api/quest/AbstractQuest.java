@@ -1,6 +1,5 @@
 package com.atherys.quests.api.quest;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quester.Quester;
@@ -8,7 +7,6 @@ import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 
 public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
@@ -20,9 +18,6 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     protected Text description = Text.of("No Description");
     @Expose
     protected int version;
-
-    @Expose
-    protected String scriptId;
 
     protected AbstractQuest(String id, int version) {
         this.id = id;
@@ -63,16 +58,6 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
         for (Reward reward : getRewards()) {
             reward.award(quester);
         }
-    }
-
-    @Override
-    public Optional<QuestScript> getScript() {
-        return AtherysQuests.getScriptService().getQuestScriptById(scriptId);
-    }
-
-    @Override
-    public void setScript(QuestScript questScript) {
-        this.scriptId = questScript.getId();
     }
 
     @Override
