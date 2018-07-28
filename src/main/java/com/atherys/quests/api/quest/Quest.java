@@ -12,7 +12,6 @@ import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Common interface for all Quest classes. <br>
@@ -52,20 +51,6 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
      * @return The List of {@link Reward}s this quest will award to the {@link Quester} once all {@link Objective}s have been fulfilled.
      */
     List<Reward> getRewards();
-
-    /**
-     * Retrieves the {@link QuestScript} responsible for the creation of this quest.
-     *
-     * @return The script object
-     */
-    Optional<QuestScript> getScript();
-
-    /**
-     * Sets the script responsible for the creation of this quest;
-     *
-     * @param questScript The script
-     */
-    void setScript(QuestScript questScript);
 
     /**
      * Checks whether or not the Quester meets the requirements of this quest.
