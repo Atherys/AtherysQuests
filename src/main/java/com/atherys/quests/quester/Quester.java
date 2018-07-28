@@ -62,14 +62,14 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         }
     }
 
-    public void pickupQuest(Quest quest) {
+    public boolean pickupQuest(Quest quest) {
         if (!quest.meetsRequirements(this)) {
             Text.Builder reqText = Text.builder();
             reqText.append(Text.of(QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest."));
             reqText.append(quest.createView().getFormattedRequirements());
             QuestMsg.noformat(this, reqText.build());
 
-            return;
+            return false;
         }
 
         if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
@@ -78,8 +78,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
             QuestStartedEvent qsEvent = new QuestStartedEvent(quest, this);
             Sponge.getEventManager().post(qsEvent);
+            return true;
         } else {
             QuestMsg.error(this, "You are either already doing this quest, or have done it before in the past.");
+            return false;
         }
     }
 

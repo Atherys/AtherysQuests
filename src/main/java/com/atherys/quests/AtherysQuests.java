@@ -160,7 +160,7 @@ public class AtherysQuests {
                 .manipulatorId("dialog")
                 .buildAndRegister(this.container);
 
-        QuestKeys.QUEST_DATA_REGISTRATION = DataRegistration.builder()
+        QuestKeys.QUEST_DATA_REGISTRATION = DataRegistration.<QuestData, QuestData.Immutable>builder()
                 .dataClass(QuestData.class)
                 .immutableClass(QuestData.Immutable.class)
                 .builder(new QuestData.Builder())

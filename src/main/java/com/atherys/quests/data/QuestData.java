@@ -25,6 +25,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
     QuestData() {
         this("");
+        registerGettersAndSetters();
     }
 
     public QuestData(String questId) {

@@ -1,12 +1,14 @@
 package com.atherys.quests.listener;
 
 import com.atherys.core.utils.Question;
+import com.atherys.quests.QuestKeys;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.service.DialogService;
 import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.service.QuestService;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.util.QuestMsg;
+import com.atherys.quests.views.QuestFromItemView;
 import com.atherys.quests.views.TakeQuestView;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -15,8 +17,10 @@ import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
+import org.spongepowered.api.event.item.inventory.InteractItemEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
@@ -61,18 +65,16 @@ public class EntityListener {
     }
 
     @Listener
-    public void onLeftClick(InteractBlockEvent.Secondary event, @Root Player player) {
-        Optional<ItemStack> itemInHand = player.getItemInHand(HandTypes.MAIN_HAND);
-        if (!itemInHand.isPresent()) return;
-
-        Optional<Quest> quest = QuestService.getInstance().getQuest(itemInHand.get());
-        if (!quest.isPresent()) return;
-
-        event.setCancelled(true);
-
-        new TakeQuestView(quest.get()).show(player);
-
-        //quester.get().pickupQuest( quest.get() );
+    public void onRightClick(InteractItemEvent.Secondary event, @Root Player player) {
+        ItemStackSnapshot item = event.getItemStack();
+        Optional<String> questId = item.get(QuestKeys.QUEST);
+        questId.ifPresent(id ->{
+            Optional<Quest> quest = QuestService.getInstance().getQuest(id);
+            if(quest.isPresent()){
+                new QuestFromItemView(quest.get()).show(player);
+            }
+            event.setCancelled(true);
+        });
     }
 
 }

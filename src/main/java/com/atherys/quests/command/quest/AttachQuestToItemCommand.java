@@ -1,11 +1,11 @@
-package com.atherys.quests.commands.quest;
+package com.atherys.quests.command.quest;
 
 import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.managers.QuestManager;
+import com.atherys.quests.service.QuestService;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -42,7 +42,7 @@ public class AttachQuestToItemCommand implements ParameterizedCommand {
         Optional<String> questId = args.getOne("questId");
 
         if(player.isPresent() && questId.isPresent()) {
-            Optional<Quest> quest = QuestManager.getInstance().getQuest(questId.get());
+            Optional<Quest> quest = QuestService.getInstance().getQuest(questId.get());
             Optional<ItemStack> itemStack = player.get().getItemInHand(HandTypes.MAIN_HAND);
             if(quest.isPresent() && itemStack.isPresent()) {
                 ItemStack item = itemStack.get();

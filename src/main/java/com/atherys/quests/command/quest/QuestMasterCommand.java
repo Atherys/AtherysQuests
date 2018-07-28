@@ -1,4 +1,4 @@
-package com.atherys.quests.commands.quest;
+package com.atherys.quests.command.quest;
 
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Children;

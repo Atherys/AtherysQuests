@@ -18,6 +18,10 @@ public class TakeQuestView implements QuestView<Quest> {
         this.quest = quest;
     }
 
+    public Quest<?> getQuest(){
+        return quest;
+    }
+
     @Override
     public void show(Player viewer) {
         BookView.Builder questView = BookView.builder();
