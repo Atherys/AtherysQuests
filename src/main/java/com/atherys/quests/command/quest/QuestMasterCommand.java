@@ -15,7 +15,8 @@ import javax.annotation.Nonnull;
 @Aliases("quest")
 @Description("Base quest command.")
 @Children({QuestLogCommand.class,
-        AttachQuestToLocationCommand.class})
+           AttachQuestToLocationCommand.class,
+           AttachQuestToItemCommand.class})
 public class QuestMasterCommand implements CommandExecutor {
 
     @Override
