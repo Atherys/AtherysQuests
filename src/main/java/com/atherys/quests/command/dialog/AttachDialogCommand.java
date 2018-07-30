@@ -3,7 +3,7 @@ package com.atherys.quests.command.dialog;
 import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
-import com.atherys.quests.service.DialogService;
+import com.atherys.quests.AtherysQuests;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -34,7 +34,7 @@ public class AttachDialogCommand implements CommandExecutor, ParameterizedComman
                 Entity next = entityHit.getEntity();
                 if (next instanceof Player) continue;
 
-                p.sendMessage(Text.of(DialogService.getInstance().setDialog(entityHit.getEntity(), DialogService.getInstance().getDialogFromId(args.<String>getOne("dialogId").get()).get())));
+                p.sendMessage(Text.of(AtherysQuests.getDialogService().setDialog(entityHit.getEntity(), AtherysQuests.getDialogService().getDialogFromId(args.<String>getOne("dialogId").get()).get())));
             }
         });
         return CommandResult.success();

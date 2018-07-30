@@ -2,7 +2,6 @@ package com.atherys.quests.views;
 
 import com.atherys.core.utils.Question;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
@@ -39,7 +38,7 @@ public class QuestFromItemView extends TakeQuestView{
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of(Text.of("Do you accept the quest \"", getQuest().getName(), "\"?"))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), player -> {
-                    if(QuesterManager.getInstance().getQuester(player).pickupQuest(getQuest())){
+                    if(AtherysQuests.getQuesterManager().getQuester(player).pickupQuest(getQuest())){
                         player.setItemInHand(HandTypes.MAIN_HAND, ItemStack.builder().itemType(ItemTypes.AIR).build());
                     }
                 }))

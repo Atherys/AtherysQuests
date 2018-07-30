@@ -6,7 +6,6 @@ import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.service.QuestService;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;

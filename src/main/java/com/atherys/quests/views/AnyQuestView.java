@@ -2,7 +2,6 @@ package com.atherys.quests.views;
 
 import com.atherys.core.utils.Question;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
@@ -39,7 +38,7 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
         if (quest.isComplete()) {
             Question completeQuest = Question.of(Text.of("You have completed this quest. Would you like to turn it in?"))
                     .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Turn In"), (src) -> {
-                        QuesterManager.getInstance().getQuester(src).turnInQuest(quest);
+                        AtherysQuests.getQuesterManager().getQuester(src).turnInQuest(quest);
                     }))
                     .build();
 

@@ -5,7 +5,6 @@ import com.atherys.core.database.mongo.AbstractMongoDatabaseManager;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.db.QuestsDatabase;
-import com.atherys.quests.service.QuestService;
 import org.bson.Document;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -39,7 +38,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     }
 
     public boolean addQuestLocation(Location<World> location, String questId, double radius) {
-        Optional<QuestLocation> questLocation = QuestService.getInstance().getQuest(questId).map(quest -> new QuestLocation(location, quest, radius));
+        Optional<QuestLocation> questLocation = AtherysQuests.getQuestService().getQuest(questId).map(quest -> new QuestLocation(location, quest, radius));
 
         if (questLocation.isPresent()) {
             QuestLocation questLoc = questLocation.get();
@@ -68,7 +67,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     @Override
     protected Optional<QuestLocation> fromDocument(Document document) {
         Location location = AtherysQuests.getGson().fromJson((String) document.get("location"), Location.class);
-        Optional<Quest> quest = QuestService.getInstance().getQuest(document.getString("questId"));
+        Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(document.getString("questId"));
 
         return quest.map(quest1 -> new QuestLocation(location, quest1, document.getDouble("radius")));
     }
