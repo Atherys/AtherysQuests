@@ -42,14 +42,14 @@ function onQuestRegistration( function() {
     registerQuest(quest);
 });
 
-function onQuestPickUp( function (quester, quest) {
+function onQuestPickUp( function (event) {
 });
 
-function onQuestProgress( function (quester, quest, objective) {
+function onQuestProgress( function (event) {
 });
 
-function onQuestComplete( function (quester, quest) {
+function onQuestComplete( function (event) {
 });
 
-function onQuestTurnIn( function (quester, quest) {
+function onQuestTurnIn( function (event) {
 });

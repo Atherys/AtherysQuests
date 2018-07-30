@@ -1,0 +1,4 @@
+package com.atherys.quests.script.lib.objective;
+
+public class InteractWithBlockFunc {
+}

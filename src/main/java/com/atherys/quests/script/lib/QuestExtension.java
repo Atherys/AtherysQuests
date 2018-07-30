@@ -5,6 +5,8 @@ import com.atherys.quests.event.dialog.DialogProceedEvent;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.atherys.quests.event.dialog.DialogStartEvent;
 import com.atherys.quests.event.quest.*;
+import com.atherys.quests.script.lib.quest.AddQuestObjectives;
+import com.atherys.quests.script.lib.quest.CreateSimpleQuest;
 import com.atherys.script.api.library.LibraryExtension;
 import com.atherys.script.api.library.ScriptLibrary;
 import com.atherys.script.js.library.event.EventHandlerFunction;
@@ -29,6 +31,9 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("onStagedQuestProgress", new EventHandlerFunction<>(StagedQuestProgressEvent.class));
         scriptLibrary.put("onQuestComplete", new EventHandlerFunction<>(QuestCompletedEvent.class));
         scriptLibrary.put("onQuestTurnIn", new EventHandlerFunction<>(QuestTurnedInEvent.class));
+
+        scriptLibrary.put("createSimpleQuest", new CreateSimpleQuest());
+        scriptLibrary.put("addQuestObjectives", new AddQuestObjectives());
     }
 
     public static QuestExtension getInstance() {

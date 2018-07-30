@@ -50,6 +50,10 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
         this.complete = quest.isComplete();
     }
 
+    public SimpleQuest(String id, Text name, Text description, Integer version) {
+        super(id, version, name, description);
+    }
+
     protected void setDescription(Text description) {
         super.description = description;
     }

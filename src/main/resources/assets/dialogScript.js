@@ -58,11 +58,11 @@ function onDialogRegistration( function() {
     registerDialogTree(tree);
 });
 
-function onDialogBegin( function (quester, npc, tree) {
+function onDialogBegin( function (event) {
 });
 
-function onDialogProgress( function (quester, npc, tree, node) {
+function onDialogProgress( function (event) {
 });
 
-function onDialogEnd( function (queter, npc, tree, node) {
+function onDialogEnd( function (event) {
 });
