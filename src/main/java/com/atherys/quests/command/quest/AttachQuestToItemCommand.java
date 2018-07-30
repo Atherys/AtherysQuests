@@ -43,7 +43,7 @@ public class AttachQuestToItemCommand implements ParameterizedCommand {
         Optional<String> questId = args.getOne("questId");
 
         if(player.isPresent() && questId.isPresent()) {
-            Optional<Quest> quest = QuestService.getInstance().getQuest(questId.get());
+            Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(questId.get());
             Optional<ItemStack> itemStack = player.get().getItemInHand(HandTypes.MAIN_HAND);
             if(quest.isPresent() && itemStack.isPresent()) {
                 ItemStack item = itemStack.get();
