@@ -7,8 +7,10 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestFromItemView;
 import com.atherys.quests.views.TakeQuestView;
+import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
@@ -59,7 +61,7 @@ public class EntityListener {
     }
 
     @Listener
-    public void onRightClick(InteractItemEvent.Secondary event, @Root Player player) {
+    public void onItemRightClick(InteractItemEvent.Secondary event, @Root Player player) {
         ItemStackSnapshot item = event.getItemStack();
         Optional<String> questId = item.get(QuestKeys.QUEST);
         questId.ifPresent(id ->{
@@ -69,6 +71,14 @@ public class EntityListener {
             }
             event.setCancelled(true);
         });
+    }
+
+    @Listener
+    public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player){
+        if(AtherysQuests.getQuestAdminService().isSettingQuest(player)) {
+            BlockSnapshot block = event.getTargetBlock();
+
+        }
     }
 
 }
