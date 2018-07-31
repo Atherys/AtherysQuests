@@ -1,10 +1,8 @@
 package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.api.objective.Objective;
-import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.quest.SimpleQuest;
 
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 public class AddQuestObjectives implements BiFunction<SimpleQuest, Objective[], Boolean> {

@@ -9,8 +9,8 @@ function onDialogRegistration( function() {
         {
             id: 0,
             requirements: [
-              createQuestRequirement("some-quest-id"),
-              createCurrencyRequirement(50.0d, "atherys:argent")
+              questRequirement("some-quest-id"),
+              currencyRequirement(50.0d, "atherys:argent")
             ]
             player: null,
             npc: [

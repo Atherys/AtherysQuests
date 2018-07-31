@@ -40,8 +40,10 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Expose
     private boolean complete = false;
 
-    protected StagedQuest(String id, int version) {
+    public StagedQuest(String id, Text name, Text description, int version) {
         super(id, version);
+        this.setName(name);
+        this.setDescription(description);
     }
 
     private StagedQuest(StagedQuest quest) {
