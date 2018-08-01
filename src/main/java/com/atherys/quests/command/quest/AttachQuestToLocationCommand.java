@@ -4,6 +4,7 @@ import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.quest.QuestLocationType;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -31,7 +32,7 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
         Optional<String> questId = args.getOne("questId");
 
         if (player.isPresent() && radius.isPresent() && questId.isPresent()) {
-            if (AtherysQuests.getLocationManager().addQuestLocation(player.get().getLocation(), questId.get(), radius.get())) {
+            if (AtherysQuests.getLocationManager().addQuestLocation(player.get().getLocation(), questId.get(), radius.get(), QuestLocationType.RADIUS)) {
                 QuestMsg.info(player.get(), "Quest set to location successfully.");
             } else {
                 QuestMsg.error(player.get(), "Quest not set. The location overlaps with another or the quest does not exist");

@@ -18,6 +18,7 @@ import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.script.lib.QuestExtension;
 import com.atherys.quests.service.DialogService;
 import com.atherys.quests.service.InventoryService;
+import com.atherys.quests.service.QuestAdminService;
 import com.atherys.quests.service.QuestService;
 import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
@@ -60,6 +61,7 @@ public class AtherysQuests {
     private static QuestsConfig config;
 
     private QuestService questService;
+    private QuestAdminService questAdminService;
     private QuesterManager questerManager;
     private DialogService dialogService;
     private LocationManager locationManager;
@@ -194,6 +196,10 @@ public class AtherysQuests {
 
     public static QuesterManager getQuesterManager() {
         return getInstance().questerManager;
+    }
+
+    public static QuestAdminService getQuestAdminService() {
+        return getInstance().questAdminService;
     }
 
     public static DialogService getDialogService() {
