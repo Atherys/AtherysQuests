@@ -1,7 +1,6 @@
 package com.atherys.quests.data;
 
 import com.atherys.quests.QuestKeys;
-import com.atherys.quests.api.quest.Quest;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;

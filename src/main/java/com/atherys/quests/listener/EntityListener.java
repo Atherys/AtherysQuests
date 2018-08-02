@@ -1,25 +1,19 @@
 package com.atherys.quests.listener;
 
 import com.atherys.core.utils.Question;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.QuestKeys;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.service.DialogService;
-import com.atherys.quests.managers.LocationManager;
-import com.atherys.quests.service.QuestService;
-import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestFromItemView;
 import com.atherys.quests.views.TakeQuestView;
-import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
-import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -35,18 +29,18 @@ public class EntityListener {
 
     @Listener
     public void onEntityInteract(InteractEntityEvent.Secondary.MainHand event, @Root Player player) {
-        DialogService.getInstance().startDialog(player, event.getTargetEntity());
+        AtherysQuests.getDialogService().startDialog(player, event.getTargetEntity());
     }
 
     @Listener
     public void onPlayerMove(MoveEntityEvent e, @Root Player player) {
         if (e.getFromTransform().getLocation().getBlockPosition().equals
                 (e.getToTransform().getLocation().getBlockPosition())) return;
-        if (LocationManager.getInstance().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
+        if (AtherysQuests.getLocationManager().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
 
-        LocationManager.getInstance().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
-            Quest quest = QuestService.getInstance().getQuest(questLocation.getQuestId()).get();
-            if(QuesterManager.getInstance().getQuester(player).hasQuest(quest)) return;
+        AtherysQuests.getLocationManager().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
+            Quest quest = AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).get();
+            if(AtherysQuests.getQuesterManager().getQuester(player).hasQuest(quest)) return;
 
             Question question = Question.of(Text.of("You have found the quest \"", quest.getName(), "\", would you like to take it?"))
                     .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), quester -> {
@@ -69,7 +63,7 @@ public class EntityListener {
         ItemStackSnapshot item = event.getItemStack();
         Optional<String> questId = item.get(QuestKeys.QUEST);
         questId.ifPresent(id ->{
-            Optional<Quest> quest = QuestService.getInstance().getQuest(id);
+            Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(id);
             if(quest.isPresent()){
                 new QuestFromItemView(quest.get()).show(player);
             }

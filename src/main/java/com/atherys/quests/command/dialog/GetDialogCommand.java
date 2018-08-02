@@ -3,7 +3,6 @@ package com.atherys.quests.command.dialog;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.service.DialogService;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;

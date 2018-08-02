@@ -27,6 +27,7 @@ public final class QuesterManager extends AbstractMongoDatabaseManager<Quester> 
         return instance;
     }
 
+
     /**
      * Creates a Quester object for the Player and stores it into the database. Also caches it for easier access.
      *

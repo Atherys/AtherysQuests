@@ -2,7 +2,6 @@ package com.atherys.quests.quest.reward;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.service.InventoryService;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.ItemUtils;
 import com.google.gson.annotations.Expose;
@@ -61,7 +60,7 @@ public class SingleItemReward implements Reward {
         player.openInventory(inventory);
 
         // upon closing the inventory, drop all items which have not been picked up to the ground
-        InventoryService.getInstance().addInventory(inventory, (container) -> {
+        AtherysQuests.getInventoryService().addInventory(inventory, (container) -> {
             ItemUtils.getItemsInInventory(container).forEach(item -> {
                 ItemUtils.dropItemStack(item, player.getWorld(), player.getLocation().getPosition());
             });
