@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 
 @Permission("atherysquests.admin.quest.toitem")
-@Aliases("toitem")
+@Aliases("item")
 @Description("Sets a quest to the item in hand.")
 public class AttachQuestToItemCommand implements ParameterizedCommand {
 

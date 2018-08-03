@@ -7,7 +7,6 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestFromItemView;
 import com.atherys.quests.views.TakeQuestView;
-import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
@@ -20,6 +19,8 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.util.Optional;
 
@@ -38,9 +39,9 @@ public class EntityListener {
     public void onPlayerMove(MoveEntityEvent e, @Root Player player) {
         if (e.getFromTransform().getLocation().getBlockPosition().equals
                 (e.getToTransform().getLocation().getBlockPosition())) return;
-        if (AtherysQuests.getLocationManager().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
+        if (AtherysQuests.getLocationManager().getByRadius(e.getFromTransform().getLocation()).isPresent()) return;
 
-        AtherysQuests.getLocationManager().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
+        AtherysQuests.getLocationManager().getByRadius(e.getToTransform().getLocation()).ifPresent(questLocation -> {
             Quest quest = AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).get();
             if(AtherysQuests.getQuesterManager().getQuester(player).hasQuest(quest)) return;
 
@@ -61,7 +62,28 @@ public class EntityListener {
     }
 
     @Listener
-    public void onItemRightClick(InteractItemEvent.Secondary event, @Root Player player) {
+    public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player){
+        if(AtherysQuests.getQuestCommandService().isRemovingQuest(player)) {
+            AtherysQuests.getLocationManager().getByLocation(player.getLocation()).ifPresent(questLocation -> {
+                AtherysQuests.getLocationManager().remove(questLocation);
+                QuestMsg.info(player, "Removed quest location with ID: " + questLocation.getQuestId());
+            });
+
+        } else if (AtherysQuests.getQuestCommandService().isAttachingQuest(player)){
+            Location<World> location = event.getTargetBlock().getLocation().get();
+            AtherysQuests.getQuestCommandService().addQuestLocation(player, location);
+
+        } else {
+            AtherysQuests.getLocationManager().getByBlock(event.getTargetBlock().getLocation().get()).ifPresent(questLocation -> {
+                AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).ifPresent(q -> {
+                    q.createView().show(player);
+                });
+            });
+        }
+    }
+
+    @Listener
+    public void onRightClick(InteractItemEvent.Secondary event, @Root Player player) {
         ItemStackSnapshot item = event.getItemStack();
         Optional<String> questId = item.get(QuestKeys.QUEST);
         questId.ifPresent(id ->{
@@ -71,14 +93,6 @@ public class EntityListener {
             }
             event.setCancelled(true);
         });
-    }
-
-    @Listener
-    public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player){
-        if(AtherysQuests.getQuestAdminService().isSettingQuest(player)) {
-            BlockSnapshot block = event.getTargetBlock();
-
-        }
     }
 
 }
