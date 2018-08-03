@@ -17,10 +17,12 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
-@Permission("atherysquests.admin.quest.tolocation")
-@Aliases("tolocation")
+@Permission("atherysquests.admin.quest.location")
+@Aliases("location")
 @Description("Attaches a quest to a location.")
 public class AttachQuestToLocationCommand implements ParameterizedCommand {
 
@@ -29,25 +31,43 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
     public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
 
-        Optional<Player> player = ((Player) src).getPlayer();
+        Player player = (Player) src;
+
+        if (AtherysQuests.getQuestCommandService().isRemovingQuest(player)){
+            QuestMsg.error(player, "You're currently removing a quest.");
+            return CommandResult.empty();
+        }
+
         Optional<Double> radius = args.getOne("radius");
         Optional<String> questId = args.getOne("questId");
+        Optional<String> type = args.getOne("type");
 
-        if (player.isPresent() && radius.isPresent() && questId.isPresent()) {
-            if (AtherysQuests.getLocationManager().addQuestLocation(player.get().getLocation(), questId.get(), radius.get(), QuestLocationType.RADIUS)) {
-                QuestMsg.info(player.get(), "Quest set to location successfully.");
+        if (radius.isPresent() && questId.isPresent() && type.isPresent()) {
+            if (AtherysQuests.getQuestService().getQuest(questId.get()).isPresent()){
+                AtherysQuests.getQuestCommandService().startQuestAttachment(player, questId.get(), radius.get(), QuestLocationType.valueOf(type.get()));
+                QuestMsg.info(player, "Right click on a block to set the quest.");
+                return CommandResult.success();
             } else {
-                QuestMsg.error(player.get(), "Quest not set. The location overlaps with another or the quest does not exist");
+                QuestMsg.error(player, "Quest ID invalid.");
+                return CommandResult.empty();
             }
-            return CommandResult.success();
-        } else return CommandResult.empty();
+        }
+        return CommandResult.empty();
+    }
+
+    private static Map<String, String> choices;
+    static {
+        choices = new HashMap<String, String>();
+        choices.put("BLOCK", "BLOCK");
+        choices.put("RADIUS", "RADIUS");
     }
 
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
                 GenericArguments.string(Text.of("questId")),
-                GenericArguments.doubleNum(Text.of("radius"))
+                GenericArguments.doubleNum(Text.of("radius")),
+                GenericArguments.choices(Text.of("type"), choices)
         };
     }
 }

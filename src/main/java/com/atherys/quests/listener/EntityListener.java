@@ -4,8 +4,6 @@ import com.atherys.core.utils.Question;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.QuestKeys;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quest.QuestLocationType;
-import com.atherys.quests.service.QuestAdminService;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestFromItemView;
 import com.atherys.quests.views.TakeQuestView;
@@ -41,9 +39,9 @@ public class EntityListener {
     public void onPlayerMove(MoveEntityEvent e, @Root Player player) {
         if (e.getFromTransform().getLocation().getBlockPosition().equals
                 (e.getToTransform().getLocation().getBlockPosition())) return;
-        if (AtherysQuests.getLocationManager().getByLocation(e.getFromTransform().getLocation()).isPresent()) return;
+        if (AtherysQuests.getLocationManager().getByRadius(e.getFromTransform().getLocation()).isPresent()) return;
 
-        AtherysQuests.getLocationManager().getByLocation(e.getToTransform().getLocation()).ifPresent(questLocation -> {
+        AtherysQuests.getLocationManager().getByRadius(e.getToTransform().getLocation()).ifPresent(questLocation -> {
             Quest quest = AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).get();
             if(AtherysQuests.getQuesterManager().getQuester(player).hasQuest(quest)) return;
 
@@ -65,16 +63,15 @@ public class EntityListener {
 
     @Listener
     public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player){
-        if (AtherysQuests.getQuestAdminService().isSettingQuest(player)){
-            Location<World> location = event.getTargetBlock().getLocation().get();
-            QuestAdminService.QuestSet questSet = AtherysQuests.getQuestAdminService().getQuestSet(player);
+        if(AtherysQuests.getQuestCommandService().isRemovingQuest(player)) {
+            AtherysQuests.getLocationManager().getByLocation(player.getLocation()).ifPresent(questLocation -> {
+                AtherysQuests.getLocationManager().remove(questLocation);
+                QuestMsg.info(player, "Removed quest location with ID: " + questLocation.getQuestId());
+            });
 
-            AtherysQuests.getLocationManager().addQuestLocation(
-                    event.getTargetBlock().getLocation().get(),
-                    questSet.getQuestId(),
-                    questSet.getRadius(),
-                    QuestLocationType.BLOCK
-            );
+        } else if (AtherysQuests.getQuestCommandService().isAttachingQuest(player)){
+            Location<World> location = event.getTargetBlock().getLocation().get();
+            AtherysQuests.getQuestCommandService().addQuestLocation(player, location);
 
         } else {
             AtherysQuests.getLocationManager().getByBlock(event.getTargetBlock().getLocation().get()).ifPresent(questLocation -> {

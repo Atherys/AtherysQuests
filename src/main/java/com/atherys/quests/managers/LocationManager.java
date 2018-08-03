@@ -25,7 +25,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         return instance;
     }
 
-    public Optional<QuestLocation> getByLocation(Location<World> location) {
+    public Optional<QuestLocation> getByRadius(Location<World> location) {
         for (QuestLocation ql : getCache().values()) {
             if (ql.contains(location)) {
                 return Optional.of(ql);
@@ -43,13 +43,17 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         return Optional.empty();
     }
 
+    public Optional<QuestLocation> getByLocation(Location<World> location) {
+        return Optional.of(getByBlock(location)).orElse(getByRadius(location));
+    }
+
     public void saveAll() {
         saveAll(getCache().values());
     }
 
     public boolean addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
         Optional<QuestLocation> questLocation = AtherysQuests.getQuestService().getQuest(questId).map(quest -> {
-           return  new QuestLocation(location, quest, radius, type);
+           return new QuestLocation(location, quest, radius, type);
         });
 
         if (questLocation.isPresent()) {
