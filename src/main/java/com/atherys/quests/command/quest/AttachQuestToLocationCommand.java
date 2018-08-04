@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Permission("atherysquests.admin.quest.location")
+@Permission("atherysquests.admin.quest.attach.location")
 @Aliases("location")
 @Description("Attaches a quest to a location.")
 public class AttachQuestToLocationCommand implements ParameterizedCommand {
@@ -32,7 +32,7 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
         if (!(src instanceof Player)) return CommandResult.empty();
 
         Player player = (Player) src;
-
+        AtherysQuests.getInstance().getLogger().info(player.toString());
         if (AtherysQuests.getQuestCommandService().isRemovingQuest(player)){
             QuestMsg.error(player, "You're currently removing a quest.");
             return CommandResult.empty();

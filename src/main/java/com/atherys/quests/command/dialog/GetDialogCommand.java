@@ -2,6 +2,7 @@ package com.atherys.quests.command.dialog;
 
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogTree;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -30,7 +31,7 @@ public class GetDialogCommand implements CommandExecutor {
             for (EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
                 Entity next = entityHit.getEntity();
                 if (next instanceof Player) continue;
-                Optional<DialogTree> tree = DialogService.getInstance().getDialog(entityHit.getEntity());
+                Optional<DialogTree> tree = AtherysQuests.getDialogService().getDialog(entityHit.getEntity());
                 p.sendMessage(tree.map(dialogTree -> Text.of("Dialog ID: ", dialogTree.getId())).orElseGet(() -> Text.of("Dialog ID: none")));
             }
         });

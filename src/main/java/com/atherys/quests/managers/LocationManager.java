@@ -36,7 +36,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
 
     public Optional<QuestLocation> getByBlock(Location<World> location) {
         for (QuestLocation ql : getCache().values()) {
-            if (ql.sameBlockAs(location)){
+            if (ql.sameBlockAs(location)) {
                 return Optional.of(ql);
             }
         }
@@ -44,34 +44,39 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     }
 
     public Optional<QuestLocation> getByLocation(Location<World> location) {
-        return Optional.of(getByBlock(location)).orElse(getByRadius(location));
+        for (QuestLocation ql : getCache().values()) {
+            if (ql.sameBlockAs(location)) {
+                return Optional.of(ql);
+            } else if (ql.contains(location)) {
+                return Optional.of(ql);
+            }
+        }
+        return Optional.empty();
     }
 
     public void saveAll() {
         saveAll(getCache().values());
     }
 
-    public boolean addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
+    public void addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
         Optional<QuestLocation> questLocation = AtherysQuests.getQuestService().getQuest(questId).map(quest -> {
-           return new QuestLocation(location, quest, radius, type);
+            return new QuestLocation(location, quest, radius, type);
         });
 
         if (questLocation.isPresent()) {
             QuestLocation questLoc = questLocation.get();
             if (questLoc.getType() == QuestLocationType.RADIUS) {
                 for (QuestLocation ql : this.getCache().values()) {
-                    if (questLoc.overlaps(ql)) return false;
+                    if (questLoc.overlaps(ql)) return;
                 }
-            } else if(questLoc.getType() == QuestLocationType.BLOCK){
-                for (QuestLocation ql: this.getCache().values()) {
-                    if (questLoc.sameBlockAs(ql.getLocation())) return false;
+            } else if (questLoc.getType() == QuestLocationType.BLOCK) {
+                for (QuestLocation ql : this.getCache().values()) {
+                    if (questLoc.sameBlockAs(ql.getLocation())) return;
                 }
             }
 
             this.save(questLoc);
-
-            return true;
-        } else return false;
+        }
     }
 
     @Override
@@ -105,19 +110,19 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
 
         private String questId;
 
-        private boolean overlaps(QuestLocation questLocation){
+        private boolean overlaps(QuestLocation questLocation) {
             return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
                     < Math.pow(this.radius + questLocation.radius, 2));
         }
 
-        private boolean sameBlockAs(Location<World> location){
+        private boolean sameBlockAs(Location<World> location) {
             return (this.location.getExtent().equals(location.getExtent()) &&
                     this.location.getBlockPosition().equals(location.getBlockPosition()));
         }
 
-        public boolean contains(Location<World> loc){
-            if(loc.getExtent().equals(location.getExtent())){
-                return(loc.getPosition().distanceSquared(location.getPosition()) <= Math.pow(radius, 2));
+        public boolean contains(Location<World> loc) {
+            if (loc.getExtent().equals(location.getExtent())) {
+                return (loc.getPosition().distanceSquared(location.getPosition()) <= Math.pow(radius, 2));
             } else return false;
         }
 

@@ -124,6 +124,7 @@ public class AtherysQuests {
 
         dialogService = DialogService.getInstance();
         questService = QuestService.getInstance();
+        questCommandService = QuestCommandService.getInstance();
         locationManager = LocationManager.getInstance();
 
         questerManager = QuesterManager.getInstance();

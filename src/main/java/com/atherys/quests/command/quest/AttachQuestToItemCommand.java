@@ -22,7 +22,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-@Permission("atherysquests.admin.quest.toitem")
+@Permission("atherysquests.admin.quest.attach.item")
 @Aliases("item")
 @Description("Sets a quest to the item in hand.")
 public class AttachQuestToItemCommand implements ParameterizedCommand {
