@@ -10,12 +10,13 @@ import org.bson.Document;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
 
     private static LocationManager instance = new LocationManager();
+    private Map<Location, QuestLocation> questBlocks = new HashMap<>();
+    private Map<Location, QuestLocation> questRads = new HashMap<>();
 
     private LocationManager() {
         super(AtherysQuests.getInstance().getLogger(), QuestsDatabase.getInstance(), QuestLocation.class);
@@ -25,8 +26,12 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         return instance;
     }
 
+    public Map<Location, QuestLocation> getQuestBlocks() {
+        return questBlocks;
+    }
+
     public Optional<QuestLocation> getByRadius(Location<World> location) {
-        for (QuestLocation ql : getCache().values()) {
+        for (QuestLocation ql : questRads.values()) {
             if (ql.contains(location)) {
                 return Optional.of(ql);
             }
@@ -35,7 +40,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     }
 
     public Optional<QuestLocation> getByBlock(Location<World> location) {
-        for (QuestLocation ql : getCache().values()) {
+        for (QuestLocation ql : questBlocks.values()) {
             if (ql.sameBlockAs(location)) {
                 return Optional.of(ql);
             }
@@ -43,19 +48,34 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         return Optional.empty();
     }
 
+    /**
+     * Gets the quest block if there is a quest block at the location, and if not tries to get a radius one.
+     * @param location
+     * @return
+     */
     public Optional<QuestLocation> getByLocation(Location<World> location) {
-        for (QuestLocation ql : getCache().values()) {
-            if (ql.sameBlockAs(location)) {
-                return Optional.of(ql);
-            } else if (ql.contains(location)) {
-                return Optional.of(ql);
-            }
+        Optional<QuestLocation> questLocation = getByBlock(location);
+        if (questLocation.isPresent()){
+            return questLocation;
+        } else {
+            return getByRadius(location);
         }
-        return Optional.empty();
     }
 
     public void saveAll() {
         saveAll(getCache().values());
+    }
+
+    @Override
+    public void loadAll(){
+       super.loadAll();
+       for (QuestLocation ql : getCache().values()) {
+           if (ql.getType() == QuestLocationType.RADIUS){
+               questRads.put(ql.getLocation(), ql);
+           } else {
+               questBlocks.put(ql.getLocation(), ql);
+           }
+       }
     }
 
     public void addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
@@ -69,10 +89,12 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
                 for (QuestLocation ql : this.getCache().values()) {
                     if (questLoc.overlaps(ql)) return;
                 }
+                questRads.put(questLoc.getLocation(), questLoc);
             } else if (questLoc.getType() == QuestLocationType.BLOCK) {
                 for (QuestLocation ql : this.getCache().values()) {
                     if (questLoc.sameBlockAs(ql.getLocation())) return;
                 }
+                questBlocks.put(questLoc.getLocation(), questLoc);
             }
 
             this.save(questLoc);

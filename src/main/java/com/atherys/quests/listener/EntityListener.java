@@ -80,6 +80,7 @@ public class EntityListener {
             AtherysQuests.getLocationManager().getByBlock(event.getTargetBlock().getLocation().get()).ifPresent(questLocation -> {
                 if (questLocation.getType() == QuestLocationType.RADIUS) return;
                 AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).ifPresent(q -> {
+                    player.sendMessage(Text.of(questLocation.getLocation()));
                     q.createView().show(player);
                 });
             });
