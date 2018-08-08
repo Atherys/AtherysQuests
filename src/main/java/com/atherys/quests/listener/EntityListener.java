@@ -64,6 +64,8 @@ public class EntityListener {
 
     @Listener
     public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player) {
+        if (!(event.getTargetBlock().getLocation().isPresent())) return;
+
         if (AtherysQuests.getQuestCommandService().isRemovingQuest(player)) {
             AtherysQuests.getLocationManager().getByLocation(player.getLocation()).ifPresent(questLocation -> {
                 AtherysQuests.getLocationManager().remove(questLocation);
@@ -71,16 +73,14 @@ public class EntityListener {
             });
 
         } else if (AtherysQuests.getQuestCommandService().isAttachingQuest(player)) {
-            Location<World> location = event.getTargetBlock().getLocation().get();
-            AtherysQuests.getQuestCommandService().addQuestLocation(player, location);
-            AtherysQuests.getQuestCommandService().endQuestAttachment(player);
-            QuestMsg.info(player, "Quest set at location.");
+                AtherysQuests.getQuestCommandService().addQuestLocation(player, event.getTargetBlock().getLocation().get());
+                AtherysQuests.getQuestCommandService().endQuestAttachment(player);
+                QuestMsg.info(player, "Quest set at location.");
 
         } else {
             AtherysQuests.getLocationManager().getByBlock(event.getTargetBlock().getLocation().get()).ifPresent(questLocation -> {
                 if (questLocation.getType() == QuestLocationType.RADIUS) return;
                 AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).ifPresent(q -> {
-                    player.sendMessage(Text.of(questLocation.getLocation()));
                     q.createView().show(player);
                 });
             });

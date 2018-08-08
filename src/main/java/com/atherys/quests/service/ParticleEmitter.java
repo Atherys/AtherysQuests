@@ -20,7 +20,6 @@ public class ParticleEmitter {
                 .type(ParticleTypes.REDSTONE_DUST)
                 .option(ParticleOptions.COLOR, Color.YELLOW)
                 .velocity(Vector3d.ONE)
-                .o
                 .quantity(10)
                 .build();
     private Task particleEmissionTask;
