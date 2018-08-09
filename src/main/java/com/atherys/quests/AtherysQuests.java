@@ -16,9 +16,7 @@ import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.managers.QuesterManager;
 import com.atherys.quests.script.lib.QuestExtension;
-import com.atherys.quests.service.DialogService;
-import com.atherys.quests.service.InventoryService;
-import com.atherys.quests.service.QuestService;
+import com.atherys.quests.service.*;
 import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -60,10 +58,12 @@ public class AtherysQuests {
     private static QuestsConfig config;
 
     private QuestService questService;
+    private QuestCommandService questCommandService;
     private QuesterManager questerManager;
     private DialogService dialogService;
     private LocationManager locationManager;
     private InventoryService inventoryService;
+    private ParticleEmitter particleEmitter;
 
     private DialogScriptService dialogScriptService;
     private QuestScriptService questScriptService;
@@ -122,7 +122,10 @@ public class AtherysQuests {
 
         dialogService = DialogService.getInstance();
         questService = QuestService.getInstance();
+        questCommandService = QuestCommandService.getInstance();
         locationManager = LocationManager.getInstance();
+        particleEmitter = ParticleEmitter.getInstance();
+
 
         questerManager = QuesterManager.getInstance();
 
@@ -143,6 +146,7 @@ public class AtherysQuests {
         } catch (CommandService.AnnotatedCommandException e) {
             e.printStackTrace();
         }
+        particleEmitter.startEmitting();
     }
 
     private void stop() {
@@ -194,6 +198,10 @@ public class AtherysQuests {
 
     public static QuesterManager getQuesterManager() {
         return getInstance().questerManager;
+    }
+
+    public static QuestCommandService getQuestCommandService() {
+        return getInstance().questCommandService;
     }
 
     public static DialogService getDialogService() {

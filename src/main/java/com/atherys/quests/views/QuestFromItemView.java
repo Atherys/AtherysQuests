@@ -1,6 +1,7 @@
 package com.atherys.quests.views;
 
 import com.atherys.core.utils.Question;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.data.type.HandTypes;
