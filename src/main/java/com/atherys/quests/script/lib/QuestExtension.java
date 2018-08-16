@@ -13,7 +13,7 @@ import com.atherys.quests.script.lib.objective.InteractWithBlockFunc;
 import com.atherys.quests.script.lib.objective.KillEntityObjectiveFunc;
 import com.atherys.quests.script.lib.objective.ReachLocationObjectiveFunc;
 import com.atherys.quests.script.lib.quest.*;
-import com.atherys.quests.script.lib.requriement.*;
+import com.atherys.quests.script.lib.requirement.*;
 import com.atherys.quests.script.lib.reward.SingleItemRewardFunc;
 import com.atherys.script.api.library.LibraryExtension;
 import com.atherys.script.api.library.ScriptLibrary;
