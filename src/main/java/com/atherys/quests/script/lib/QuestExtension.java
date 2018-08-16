@@ -5,6 +5,8 @@ import com.atherys.quests.event.dialog.DialogProceedEvent;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.atherys.quests.event.dialog.DialogStartEvent;
 import com.atherys.quests.event.quest.*;
+import com.atherys.quests.script.lib.dialog.CreateDialogNode;
+import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
 import com.atherys.quests.script.lib.objective.DialogObjectiveFunc;
 import com.atherys.quests.script.lib.objective.InteractWithBlockFunc;
@@ -37,6 +39,9 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("onStagedQuestProgress", new EventHandlerFunction<>(StagedQuestProgressEvent.class));
         scriptLibrary.put("onQuestComplete", new EventHandlerFunction<>(QuestCompletedEvent.class));
         scriptLibrary.put("onQuestTurnIn", new EventHandlerFunction<>(QuestTurnedInEvent.class));
+
+        scriptLibrary.put("dialogNode", new CreateDialogNode());
+        scriptLibrary.put("dialogTree", new CreateDialogTree());
 
         scriptLibrary.put("createSimpleQuest", new CreateSimpleQuest());
         scriptLibrary.put("createStagedQuest", new CreateStagedQuest());
