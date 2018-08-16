@@ -1,12 +1,22 @@
 package com.atherys.quests.script.lib.dialog;
 
+import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.dialog.tree.DialogNode;
-import com.atherys.script.api.util.QuadFunction;
+import com.atherys.quests.dialog.tree.DialogNodeBuilder;
 import org.spongepowered.api.text.Text;
 
-public class CreateDialogNode implements QuadFunction<Integer, Text, Text[], DialogNode[], DialogNode> {
+public class CreateDialogNode implements HexaFunction<Integer, Requirement[], Text, Quest, Text[], DialogNode[], DialogNode> {
     @Override
-    public DialogNode apply(Integer id, Text player, Text[] npc, DialogNode[] responses) {
-        return DialogNode.builder(id).player(player).npc(npc).responses(responses).build();
+    public DialogNode apply(Integer id, Requirement[] requirements, Text player, Quest quest, Text[] npc, DialogNode[] responses) {
+        DialogNodeBuilder builder = DialogNode.builder(id);
+
+        if ( requirements != null ) builder.requirements(requirements);
+
+        if ( quest != null ) builder.quest(quest);
+
+        if ( responses != null ) builder.responses(responses);
+
+        return builder.player(player).npc(npc).build();
     }
 }
