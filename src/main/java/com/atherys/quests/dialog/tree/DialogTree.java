@@ -9,9 +9,6 @@ public class DialogTree {
     @Expose
     private DialogNode root;
 
-    @Expose
-    private String dialogId;
-
     protected DialogTree(String id, DialogNode root) {
         this.id = id;
         this.root = root;

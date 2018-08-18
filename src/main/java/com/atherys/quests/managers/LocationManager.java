@@ -173,7 +173,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
         }
 
         @Override
-        public UUID getUUID() {
+        public UUID getUniqueId() {
             return uuid;
         }
     }
