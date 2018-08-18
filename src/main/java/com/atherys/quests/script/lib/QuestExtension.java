@@ -15,6 +15,7 @@ import com.atherys.quests.script.lib.objective.ReachLocationObjectiveFunc;
 import com.atherys.quests.script.lib.quest.*;
 import com.atherys.quests.script.lib.requirement.*;
 import com.atherys.quests.script.lib.reward.SingleItemRewardFunc;
+import com.atherys.quests.script.lib.test.TextOf;
 import com.atherys.script.api.library.LibraryExtension;
 import com.atherys.script.api.library.ScriptLibrary;
 import com.atherys.script.js.library.event.EventHandlerFunction;
@@ -75,6 +76,8 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("registerQuest", new RegisterQuest());
         scriptLibrary.put("registerDialogTree", new RegisterDialogTree());
+
+        scriptLibrary.put("textOf", new TextOf());
     }
 
     public static QuestExtension getInstance() {
