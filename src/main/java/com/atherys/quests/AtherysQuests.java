@@ -122,12 +122,23 @@ public class AtherysQuests {
 
         JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
 
-        dialogService = DialogService.getInstance();
+        dialogScriptService = SimpleDialogScriptService.getInstance();
+        questScriptService = SimpleQuestScriptService.getInstance();
+
+        try {
+            questScriptService.registerFolder(new File("config/" + ID + "/quests"));
+            dialogScriptService.registerFolder(new File("config/" + ID + "/dialogs"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         questService = QuestService.getInstance();
+        dialogService = DialogService.getInstance();
+
         questCommandService = QuestCommandService.getInstance();
+
         locationManager = LocationManager.getInstance();
         particleEmitter = ParticleEmitter.getInstance();
-
 
         questerManager = QuesterManager.getInstance();
 
@@ -138,16 +149,6 @@ public class AtherysQuests {
 //        QuestService.getInstance().registerQuest(quest);
 //
 //        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
-
-        dialogScriptService = SimpleDialogScriptService.getInstance();
-        questScriptService = SimpleQuestScriptService.getInstance();
-
-        try {
-            questScriptService.registerFolder(new File("config/" + ID + "/quests"));
-            dialogScriptService.registerFolder(new File("config/" + ID + "/dialogs"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
