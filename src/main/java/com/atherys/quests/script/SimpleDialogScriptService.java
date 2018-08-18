@@ -6,7 +6,7 @@ import com.atherys.script.api.AbstractScriptService;
 
 public class SimpleDialogScriptService extends AbstractScriptService<DialogScript> implements DialogScriptService {
 
-    private SimpleDialogScriptService instance = new SimpleDialogScriptService();
+    private static SimpleDialogScriptService instance = new SimpleDialogScriptService();
 
     @Override
     public DialogScript createScript(String id, String contents) {
@@ -28,7 +28,7 @@ public class SimpleDialogScriptService extends AbstractScriptService<DialogScrip
 
     }
 
-    public SimpleDialogScriptService getInstance() {
+    public static SimpleDialogScriptService getInstance() {
         return instance;
     }
 }

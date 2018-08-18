@@ -139,8 +139,8 @@ public class AtherysQuests {
 //
 //        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
-        dialogScriptService = new SimpleDialogScriptService();
-        questScriptService = new SimpleQuestScriptService();
+        dialogScriptService = SimpleDialogScriptService.getInstance();
+        questScriptService = SimpleQuestScriptService.getInstance();
 
         try {
             questScriptService.registerFolder(new File("config/" + ID + "/quests"));
