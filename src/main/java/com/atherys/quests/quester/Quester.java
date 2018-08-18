@@ -39,11 +39,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         this.cachedPlayer = player;
     }
 
-    @Override
-    public UUID getUUID() {
-        return player;
-    }
-
     public void notify(Event event, Player player) {
         if (!this.player.equals(player.getUniqueId())) return;
 
@@ -137,5 +132,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
     public QuestLog getLog() {
         return new QuestLog(this);
+    }
+
+    @Override
+    public UUID getUniqueId() {
+        return player;
     }
 }
