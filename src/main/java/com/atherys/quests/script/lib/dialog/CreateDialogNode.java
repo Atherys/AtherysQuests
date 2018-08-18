@@ -7,20 +7,22 @@ import com.atherys.quests.dialog.tree.DialogNodeBuilder;
 import com.atherys.quests.util.HexaFunction;
 import org.spongepowered.api.text.Text;
 
-import java.util.List;
-
-public class CreateDialogNode implements HexaFunction<Integer, List<Requirement>, Text, List<Text>, Quest, List<DialogNode>, DialogNode> {
+public class CreateDialogNode implements HexaFunction<Integer, Requirement[], Text, Text[], Quest, DialogNode[], DialogNode> {
 
     @Override
-    public DialogNode apply(Integer id, List<Requirement> requirements, Text player, List<Text> npc, Quest quest, List<DialogNode> responses) {
+    public DialogNode apply(Integer id, Requirement[] requirements, Text player, Text[] npc, Quest quest, DialogNode[] responses) {
         DialogNodeBuilder builder = DialogNode.builder(id);
 
-        if ( requirements != null && requirements.size() != 0 ) builder.requirements((Requirement[]) requirements.toArray());
+        if (requirements != null) builder.requirements(requirements);
 
-        if ( quest != null ) builder.quest(quest);
+        if (quest != null) builder.quest(quest);
 
-        if ( responses != null && responses.size() != 0 ) builder.responses((DialogNode[]) responses.toArray());
+        if (responses != null) builder.responses(responses);
 
-        return builder.player(player).npc((Text[]) npc.toArray()).build();
+        builder.player(player);
+        builder.npc(npc);
+
+        return builder.build();
     }
+
 }
