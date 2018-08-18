@@ -1,7 +1,6 @@
 package com.atherys.quests;
 
 import com.atherys.core.command.CommandService;
-import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
@@ -15,6 +14,8 @@ import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.script.SimpleDialogScriptService;
+import com.atherys.quests.script.SimpleQuestScriptService;
 import com.atherys.quests.script.lib.QuestExtension;
 import com.atherys.quests.service.*;
 import com.atherys.script.js.JavaScriptLibrary;
@@ -33,6 +34,7 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -131,11 +133,21 @@ public class AtherysQuests {
 
         inventoryService = InventoryService.getInstance();
 
-        Quest quest = new DummyQuest.Staged();
+//        Quest quest = new DummyQuest.Staged();
+//
+//        QuestService.getInstance().registerQuest(quest);
+//
+//        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
-        QuestService.getInstance().registerQuest(quest);
+        dialogScriptService = new SimpleDialogScriptService();
+        questScriptService = new SimpleQuestScriptService();
 
-        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
+        try {
+            questScriptService.registerFolder(new File("config/" + ID + "/quests"));
+            dialogScriptService.registerFolder(new File("config/" + ID + "/dialogs"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
