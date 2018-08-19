@@ -45,7 +45,7 @@ public class DialogNode {
     }
 
     public List<DialogNode> getResponses() {
-        return responses;
+        return responses == null ? new ArrayList<>() : responses;
     }
 
     protected void setResponses(DialogNode... responses) {
