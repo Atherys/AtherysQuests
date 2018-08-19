@@ -16,11 +16,13 @@ public class DialogNode {
 
     @Expose
     private int id;
+
     @Expose
     private List<Requirement> requirements = new ArrayList<>();
 
     @Expose
     private Text playerText;
+
     @Expose
     private Text[] npcResponse;
 
