@@ -15,8 +15,11 @@ public class DialogRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public DialogRegistrationEvent(DialogService manager) {
-        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(manager).build(Sponge.getCauseStackManager().getCurrentContext());
+    private DialogService service;
+
+    public DialogRegistrationEvent(DialogService service) {
+        this.service = service;
+        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(service).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override
@@ -25,7 +28,7 @@ public class DialogRegistrationEvent implements Event {
     }
 
     public DialogService getManager() {
-        return DialogService.getInstance();
+        return service;
     }
 
     public void register(DialogTree tree) {
