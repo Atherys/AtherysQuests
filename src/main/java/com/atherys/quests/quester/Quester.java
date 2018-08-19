@@ -5,7 +5,6 @@ import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.event.quest.QuestCompletedEvent;
-import com.atherys.quests.event.quest.QuestStartedEvent;
 import com.atherys.quests.event.quest.QuestTurnedInEvent;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestLog;
@@ -70,9 +69,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
             quests.put(quest.getId(), (Quest) quest.copy());
             QuestMsg.info(this, "You have started the quest \"", quest.getName(), "\"");
-
-            QuestStartedEvent qsEvent = new QuestStartedEvent(quest, this);
-            Sponge.getEventManager().post(qsEvent);
             return true;
         } else {
             QuestMsg.error(this, "You are either already doing this quest, or have done it before in the past.");
