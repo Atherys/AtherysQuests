@@ -49,6 +49,9 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("getQuestById", new GetQuestById());
 
+        scriptLibrary.put("addQuestObjective", new AddQuestObjective());
+        scriptLibrary.put("addQuestReward", new AddQuestReward());
+
         scriptLibrary.put("addQuestStages", new AddQuestStages());
         scriptLibrary.put("addQuestObjectives", new AddQuestObjectives());
         scriptLibrary.put("addQuestRequirements", new AddQuestRequirements());

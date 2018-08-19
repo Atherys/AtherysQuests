@@ -15,8 +15,11 @@ public class QuestRegistrationEvent implements Event {
 
     private Cause cause;
 
-    public QuestRegistrationEvent(QuestService manager) {
-        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(manager).build(Sponge.getCauseStackManager().getCurrentContext());
+    private QuestService service;
+
+    public QuestRegistrationEvent(QuestService service) {
+        this.service = service;
+        this.cause = Cause.builder().append(AtherysQuests.getInstance()).append(service).build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
     @Override
@@ -25,7 +28,7 @@ public class QuestRegistrationEvent implements Event {
     }
 
     public QuestService getManager() {
-        return QuestService.getInstance();
+        return service;
     }
 
     public void register(Quest quest) {
