@@ -122,7 +122,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
                 }
             }
 
-            Sponge.getEventManager().post(new QuestCompletedEvent(this, quester));
+            if ( isComplete() ) Sponge.getEventManager().post(new QuestCompletedEvent(this, quester));
         }
     }
 
