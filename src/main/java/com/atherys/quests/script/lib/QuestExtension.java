@@ -8,10 +8,7 @@ import com.atherys.quests.event.quest.*;
 import com.atherys.quests.script.lib.dialog.CreateDialogNode;
 import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
-import com.atherys.quests.script.lib.objective.DialogObjectiveFunc;
-import com.atherys.quests.script.lib.objective.InteractWithBlockFunc;
-import com.atherys.quests.script.lib.objective.KillEntityObjectiveFunc;
-import com.atherys.quests.script.lib.objective.ReachLocationObjectiveFunc;
+import com.atherys.quests.script.lib.objective.*;
 import com.atherys.quests.script.lib.quest.*;
 import com.atherys.quests.script.lib.requirement.*;
 import com.atherys.quests.script.lib.reward.SingleItemRewardFunc;
@@ -66,6 +63,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("interactWithBlockObjective", new InteractWithBlockFunc());
         scriptLibrary.put("killEntityObjective", new KillEntityObjectiveFunc());
         scriptLibrary.put("reachLocationObjective", new ReachLocationObjectiveFunc());
+        scriptLibrary.put("itemDeliveryObjective", new ItemDeliveryFunc());
 
         scriptLibrary.put("andRequirement", new AndRequirementFunc());
         scriptLibrary.put("orRequirement", new OrRequirementFunc());

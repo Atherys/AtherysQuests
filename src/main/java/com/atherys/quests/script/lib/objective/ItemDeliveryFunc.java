@@ -1,0 +1,16 @@
+package com.atherys.quests.script.lib.objective;
+
+import com.atherys.quests.quest.objective.ItemDeliveryObjective;
+import com.atherys.quests.quest.objective.Objectives;
+import com.atherys.script.api.util.TriFunction;
+import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.text.Text;
+
+import java.util.UUID;
+
+public class ItemDeliveryFunc implements TriFunction<ItemStack, UUID, Text, ItemDeliveryObjective> {
+    @Override
+    public ItemDeliveryObjective apply(ItemStack itemStack, UUID target, Text targetName) {
+        return Objectives.itemDelivery(itemStack.createSnapshot(), target, targetName);
+    }
+}
