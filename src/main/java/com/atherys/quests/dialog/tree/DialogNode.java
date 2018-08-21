@@ -1,8 +1,8 @@
 package com.atherys.quests.dialog.tree;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
-import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
@@ -16,11 +16,13 @@ public class DialogNode {
 
     @Expose
     private int id;
+
     @Expose
     private List<Requirement> requirements = new ArrayList<>();
 
     @Expose
     private Text playerText;
+
     @Expose
     private Text[] npcResponse;
 
@@ -43,7 +45,7 @@ public class DialogNode {
     }
 
     public List<DialogNode> getResponses() {
-        return responses;
+        return responses == null ? new ArrayList<>() : responses;
     }
 
     protected void setResponses(DialogNode... responses) {
@@ -75,6 +77,7 @@ public class DialogNode {
     }
 
     public boolean meetsRequirements(Quester player) {
+        if ( requirements == null ) return true;
         for (Requirement requirement : requirements) {
             if (!requirement.check(player)) return false;
         }
@@ -82,7 +85,7 @@ public class DialogNode {
     }
 
     public Optional<Quest> getQuest() {
-        return QuestManager.getInstance().getQuest(questId);
+        return AtherysQuests.getQuestService().getQuest(questId);
     }
 
     protected void setQuest(String quest) {

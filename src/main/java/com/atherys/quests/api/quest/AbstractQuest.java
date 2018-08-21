@@ -46,21 +46,6 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
-    public void pickUp(Quester quester) {
-        //ScriptManager.getInstance().forQuest(this).pickUp( quester );
-    }
-
-    @Override
-    public void complete(Quester quester) {
-        //ScriptManager.getInstance().forQuest(this).complete( quester );
-    }
-
-    @Override
-    public void turnIn(Quester quester) {
-        //ScriptManager.getInstance().forQuest(this).turnIn( quester );
-    }
-
-    @Override
     public boolean meetsRequirements(Quester quester) {
         for (Requirement req : getRequirements()) {
             if (!req.check(quester)) return false;

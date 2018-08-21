@@ -4,11 +4,15 @@ import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.event.quest.QuestCompletedEvent;
+import com.atherys.quests.event.quest.QuestStartedEvent;
+import com.atherys.quests.event.quest.StagedQuestProgressEvent;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.StagedQuestView;
 import com.google.gson.annotations.Expose;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
@@ -36,8 +40,10 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Expose
     private boolean complete = false;
 
-    protected StagedQuest(String id, int version) {
+    public StagedQuest(String id, Text name, Text description, int version) {
         super(id, version);
+        this.setName(name);
+        this.setDescription(description);
     }
 
     private StagedQuest(StagedQuest quest) {
@@ -108,16 +114,21 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         if (isComplete()) return;
 
         // set started as true, in case this was the first objective
-        if (!isStarted()) this.started = true;
+        if (!isStarted()) {
+            this.started = true;
+            Sponge.getEventManager().post(new QuestStartedEvent(this, quester));
+        }
+
+        Stage currentStage = stages.get(current);
 
         // notify the current stage of the event
-        stages.get(current).notify(event, quester);
+        currentStage.notify(event, quester);
 
         // if the current stage is complete
-        if (stages.get(current).isComplete()) {
+        if (currentStage.isComplete()) {
 
             // award the player for completing the current stage
-            stages.get(current).award(quester);
+            currentStage.award(quester);
 
             // and has a next stage
             if (this.hasNextStage()) {
@@ -126,11 +137,12 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
                 current++;
                 QuestMsg.info(quester, "You have completed an objective for the quest \"", this.getName(), "\"");
 
+                Sponge.getEventManager().post(new StagedQuestProgressEvent(this, currentStage, quester));
                 // if it does not have a next stage
             } else {
                 // set quest as completed
                 this.complete = true;
-                complete(quester);
+                Sponge.getEventManager().post(new QuestCompletedEvent(this, quester));
             }
         }
     }

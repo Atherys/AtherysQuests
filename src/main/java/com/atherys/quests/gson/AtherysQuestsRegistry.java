@@ -6,7 +6,8 @@ import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.events.AtherysQuestsGsonBuildEvent;
+import com.atherys.quests.event.AtherysQuestsGsonBuildEvent;
+import com.atherys.quests.quest.DeliverableSimpleQuest;
 import com.atherys.quests.quest.DeliverableStagedQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
@@ -36,7 +37,7 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
         registerSubtypes(Quest.class, Arrays.asList(
                 SimpleQuest.class,
                 StagedQuest.class,
-                DeliverableStagedQuest.class,
+                DeliverableSimpleQuest.class,
                 DeliverableStagedQuest.class
         ));
 

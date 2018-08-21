@@ -14,6 +14,12 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 sourceSets {
     main {
         resources {
@@ -37,9 +43,9 @@ repositories {
 }
 
 dependencies {
-    shadow 'org.luaj:luaj-jse:3.0.1'
     shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
     shadow 'com.github.Atherys-Horizons:AtherysCore:master-SNAPSHOT'
+    shadow 'com.github.Atherys-Horizons:AtherysScript:master-SNAPSHOT'
 }
 
 shadowJar {

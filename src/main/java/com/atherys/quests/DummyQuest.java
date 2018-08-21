@@ -56,11 +56,7 @@ public class DummyQuest {
     public static class Staged extends StagedQuest {
 
         protected Staged() {
-            super("simpleStagedQuest", 1);
-
-            setName(Text.of("Simple Staged Quest"));
-
-            setDescription(Text.of("This is a simple staged quest. Go kill some stuff."));
+            super("simpleStagedQuest", Text.of("Simple Staged Quest"), Text.of("This is a simple staged quest. Go kill some stuff."), 1);
 
             addRequirement(Requirements.level(12));
 

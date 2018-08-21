@@ -53,14 +53,6 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     List<Reward> getRewards();
 
     /**
-     * A method which gets called when this quest is picked up by a {@link Quester}.
-     * This method can be overridden to provide additional functionality
-     *
-     * @param quester The quester who picked up the quest
-     */
-    void pickUp(Quester quester);
-
-    /**
      * Checks whether or not the Quester meets the requirements of this quest.
      *
      * @param quester The Quester to be checked
@@ -84,22 +76,6 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     void award(Quester quester);
 
     /**
-     * A method which gets called when this quest is completed ( not turned in ) by a {@link Quester}.
-     * This method can be overridden to provide additional functionality
-     *
-     * @param quester The quester completing the quest
-     */
-    void complete(Quester quester);
-
-    /**
-     * A method which gets called when this quest is turned in by a {@link Quester}.
-     * This method can be overridden to provide additional functionality
-     *
-     * @param quester The quester turning in the quest
-     */
-    void turnIn(Quester quester);
-
-    /**
      * @return Whether or not this Quest has been started, i.e. if any progress has been made on it's completion.
      */
     boolean isStarted();
@@ -115,5 +91,4 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     int getVersion();
 
     QuestView createView();
-
 }

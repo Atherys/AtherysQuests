@@ -1,8 +1,8 @@
 package com.atherys.quests.quest.requirement;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
-import com.atherys.quests.managers.QuestManager;
 import com.atherys.quests.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
@@ -28,7 +28,7 @@ public class QuestRequirement implements Requirement {
 
     @Override
     public Text toText() {
-        Optional<Quest> quest = QuestManager.getInstance().getQuest(questId);
+        Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(questId);
         if (quest.isPresent()) {
             return Text.of("You have to have completed the quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
         } else {

@@ -18,10 +18,10 @@ public class QuestsConfig extends PluginConfig {
     public MongoDatabaseConfig DATABASE = new MongoDatabaseConfig();
 
     @Setting("dialogs_folder")
-    public String DIALOG_FOLDER = "dialogs";
+    public String DIALOGS_FOLDER = "dialogs";
 
-    @Setting("scripts_folder")
-    public String SCRIPTS_FOLDER = "scripts";
+    @Setting("quests_folder")
+    public String QUESTS_FOLDER = "scripts";
 
     protected QuestsConfig(String directory, String filename) throws IOException {
         super(directory, filename);

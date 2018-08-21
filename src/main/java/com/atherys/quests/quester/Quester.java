@@ -4,9 +4,8 @@ import com.atherys.core.database.api.DBObject;
 import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.events.QuestCompletedEvent;
-import com.atherys.quests.events.QuestStartedEvent;
-import com.atherys.quests.events.QuestTurnedInEvent;
+import com.atherys.quests.event.quest.QuestCompletedEvent;
+import com.atherys.quests.event.quest.QuestTurnedInEvent;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestLog;
 import org.spongepowered.api.Sponge;
@@ -39,11 +38,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         this.cachedPlayer = player;
     }
 
-    @Override
-    public UUID getUUID() {
-        return player;
-    }
-
     public void notify(Event event, Player player) {
         if (!this.player.equals(player.getUniqueId())) return;
 
@@ -62,25 +56,23 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         }
     }
 
-    public void pickupQuest(Quest quest) {
+    public boolean pickupQuest(Quest quest) {
         if (!quest.meetsRequirements(this)) {
             Text.Builder reqText = Text.builder();
             reqText.append(Text.of(QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest."));
             reqText.append(quest.createView().getFormattedRequirements());
             QuestMsg.noformat(this, reqText.build());
 
-            return;
+            return false;
         }
 
         if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
-            quest.pickUp(this);
             quests.put(quest.getId(), (Quest) quest.copy());
             QuestMsg.info(this, "You have started the quest \"", quest.getName(), "\"");
-
-            QuestStartedEvent qsEvent = new QuestStartedEvent(quest, this);
-            Sponge.getEventManager().post(qsEvent);
+            return true;
         } else {
             QuestMsg.error(this, "You are either already doing this quest, or have done it before in the past.");
+            return false;
         }
     }
 
@@ -96,7 +88,6 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         QuestMsg.info(this, "You have turned in the quest \"", quest.getName(), "\"");
 
-        quest.turnIn(this);
         QuestTurnedInEvent qsEvent = new QuestTurnedInEvent(quest, this);
         Sponge.getEventManager().post(qsEvent);
     }
@@ -108,6 +99,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     @Nullable
     public Player getCachedPlayer() {
         return cachedPlayer;
+    }
+
+    public boolean hasQuestWithId(String id) {
+        return quests.containsKey(id);
     }
 
     public boolean hasQuest(Quest quest) {
@@ -133,5 +128,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
     public QuestLog getLog() {
         return new QuestLog(this);
+    }
+
+    @Override
+    public UUID getUniqueId() {
+        return player;
     }
 }

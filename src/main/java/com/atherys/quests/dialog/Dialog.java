@@ -1,11 +1,12 @@
 package com.atherys.quests.dialog;
 
 import com.atherys.core.views.Viewable;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.events.DialogProceedEvent;
-import com.atherys.quests.managers.DialogManager;
-import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.event.dialog.DialogEndEvent;
+import com.atherys.quests.event.dialog.DialogProceedEvent;
+import com.atherys.quests.event.dialog.DialogStartEvent;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.DialogView;
 import com.atherys.quests.views.TakeQuestView;
@@ -36,7 +37,7 @@ public class Dialog implements Viewable<DialogView> {
     }
 
     public static Optional<Dialog> between(Player player, Entity entity, DialogTree dialogTree) {
-        Quester quester = QuesterManager.getInstance().getQuester(player);
+        Quester quester = AtherysQuests.getQuesterManager().getQuester(player);
 
         Dialog dialog = new Dialog(quester, entity, dialogTree);
         dialog.proceed(player, dialog.getLastNode());
@@ -56,8 +57,13 @@ public class Dialog implements Viewable<DialogView> {
         // update the cached player
         this.cachedPlayer = player;
 
-        DialogProceedEvent event = new DialogProceedEvent(this);
-        Sponge.getEventManager().post(event);
+        if ( node.getId() == 0 ) {
+            Sponge.getEventManager().post(new DialogStartEvent(node, this));
+        } else if ( node.getResponses().isEmpty() ) {
+            Sponge.getEventManager().post(new DialogEndEvent(node, this));
+        } else {
+            Sponge.getEventManager().post(new DialogProceedEvent(node, this));
+        }
 
         // If the node provided is not the current node or a child of the current node, return.
         if (this.lastNode == node || lastNode.getResponses().contains(node)) {
@@ -74,7 +80,7 @@ public class Dialog implements Viewable<DialogView> {
             node.getQuest().ifPresent(quest -> new TakeQuestView(quest).show(player));
 
             if (node.getResponses().isEmpty()) {
-                DialogManager.getInstance().removePlayerDialog(player);
+                AtherysQuests.getDialogService().removePlayerDialog(player);
             }
         }
     }

@@ -5,11 +5,15 @@ import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.event.quest.QuestCompletedEvent;
+import com.atherys.quests.event.quest.QuestStartedEvent;
+import com.atherys.quests.event.quest.SimpleQuestProgressEvent;
 import com.atherys.quests.quester.Quester;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.AnyQuestView;
 import com.google.gson.annotations.Expose;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
@@ -44,6 +48,10 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
         this.rewards = CopyUtils.copyList(quest.getRewards());
         this.started = quest.isStarted();
         this.complete = quest.isComplete();
+    }
+
+    public SimpleQuest(String id, Text name, Text description, Integer version) {
+        super(id, version, name, description);
     }
 
     protected void setDescription(Text description) {
@@ -91,6 +99,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
             if (!isStarted()) {
                 // set it as started
                 this.started = true;
+                Sponge.getEventManager().post(new QuestStartedEvent(this, quester));
             }
 
             // updated completed status based on the status of the objectives
@@ -102,15 +111,18 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
                 if (objective.isComplete()) { // if the objective is completed after being notified
                     QuestMsg.info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the quest
 
+                    Sponge.getEventManager().post(new SimpleQuestProgressEvent(this, objective, quester));
+
                     // update quest complete status by iterating every objective, checking it's complete status, and concatenate with this.complete
                     this.complete = true;
+
                     for (Objective objective1 : getObjectives()) {
                         this.complete = this.complete && objective1.isComplete();
                     }
                 }
             }
 
-            if (isComplete()) complete(quester);
+            if ( isComplete() ) Sponge.getEventManager().post(new QuestCompletedEvent(this, quester));
         }
     }
 
