@@ -14,7 +14,9 @@ import javax.annotation.Nonnull;
 
 @Aliases("dialog")
 @Description("Base dialog command.")
-@Children({AttachDialogCommand.class,
+@Children({
+        AttachDialogCommand.class,
+        RemoveDialogCommand.class,
         GetDialogCommand.class
 })
 public class DialogMasterCommand implements CommandExecutor {

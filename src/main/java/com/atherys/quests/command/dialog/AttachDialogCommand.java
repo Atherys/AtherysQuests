@@ -4,6 +4,7 @@ import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -20,7 +21,7 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 
 @Aliases("set")
-@Description("Attaches a dialog to an entity in the player's view.")
+@Description("Attaches a dialog to an entity.")
 public class AttachDialogCommand implements CommandExecutor, ParameterizedCommand {
 
     @Nonnull
@@ -28,16 +29,16 @@ public class AttachDialogCommand implements CommandExecutor, ParameterizedComman
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
 
-        Optional<Player> player = ((Player) src).getPlayer();
-        player.ifPresent(p -> {
-            for (EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
-                Entity next = entityHit.getEntity();
-                if (next instanceof Player) continue;
-
-                p.sendMessage(Text.of(AtherysQuests.getDialogService().setDialog(entityHit.getEntity(), AtherysQuests.getDialogService().getDialogFromId(args.<String>getOne("dialogId").get()).get())));
-            }
-        });
-        return CommandResult.success();
+        Player player = (Player) src;
+        String id = args.<String>getOne("dialogId").get();
+        if (AtherysQuests.getDialogService().getDialogFromId(id).isPresent()) {
+            AtherysQuests.getDialogAttachmentService().startAttachment(player, id);
+            QuestMsg.error(player, "Right click an entity to attach the dialog.");
+            return CommandResult.success();
+        } else {
+            QuestMsg.error(player, "Dialog with ID ", id, " does not exist.");
+            return CommandResult.empty();
+        }
     }
 
     @Override
