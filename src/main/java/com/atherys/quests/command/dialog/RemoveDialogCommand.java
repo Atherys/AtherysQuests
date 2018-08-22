@@ -3,6 +3,7 @@ package com.atherys.quests.command.dialog;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -20,6 +21,7 @@ public class RemoveDialogCommand implements CommandExecutor {
 
         Player player = (Player) src;
         AtherysQuests.getDialogAttachmentService().startRemoval(player);
+        QuestMsg.info(player, "Right click an entity to remove their dialog.");
         return CommandResult.success();
     }
 }

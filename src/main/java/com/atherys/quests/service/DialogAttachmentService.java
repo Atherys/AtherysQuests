@@ -23,6 +23,7 @@ public class DialogAttachmentService extends AbstractAttachmentService<String> {
                 AtherysQuests.getDialogService().setDialog(entity, dialogTree);
             });
         });
+        endAttachment(player);
     }
 
     @Override

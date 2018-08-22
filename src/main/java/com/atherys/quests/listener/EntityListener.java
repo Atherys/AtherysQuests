@@ -38,6 +38,7 @@ public class EntityListener {
         } else if (AtherysQuests.getDialogAttachmentService().isRemoving(player)) {
             AtherysQuests.getDialogService().removeDialog(event.getTargetEntity());
             QuestMsg.info(player, "Dialog removed from entity.");
+            AtherysQuests.getDialogAttachmentService().endRemoval(player);
 
         } else {
             AtherysQuests.getDialogService().startDialog(player, event.getTargetEntity());

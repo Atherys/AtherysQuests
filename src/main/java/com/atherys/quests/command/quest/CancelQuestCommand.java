@@ -23,8 +23,8 @@ public class CancelQuestCommand implements CommandExecutor {
         if (!(src instanceof Player)) return CommandResult.empty();
 
         Player player = (Player) src;
-        AtherysQuests.getQuestCommandService().endQuestAttachment(player);
-        AtherysQuests.getQuestCommandService().endQuestRemoval(player);
+        AtherysQuests.getQuestAttachmentService().endAttachment(player);
+        AtherysQuests.getQuestAttachmentService().endRemoval(player);
 
         QuestMsg.info(player, "Quest attachment/removal cleared.");
 
