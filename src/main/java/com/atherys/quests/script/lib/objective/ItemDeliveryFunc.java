@@ -8,9 +8,9 @@ import org.spongepowered.api.text.Text;
 
 import java.util.UUID;
 
-public class ItemDeliveryFunc implements TriFunction<ItemStack, UUID, Text, ItemDeliveryObjective> {
+public class ItemDeliveryFunc implements TriFunction<ItemStack, String, Text, ItemDeliveryObjective> {
     @Override
-    public ItemDeliveryObjective apply(ItemStack itemStack, UUID target, Text targetName) {
-        return Objectives.itemDelivery(itemStack.createSnapshot(), target, targetName);
+    public ItemDeliveryObjective apply(ItemStack itemStack, String targetUUID, Text targetName) {
+        return Objectives.itemDelivery(itemStack.createSnapshot(), UUID.fromString(targetUUID), targetName);
     }
 }
