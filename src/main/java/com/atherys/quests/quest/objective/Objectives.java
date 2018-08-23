@@ -1,11 +1,13 @@
 package com.atherys.quests.quest.objective;
 
 import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 /**
  * A factory class for accessing the default Objectives
@@ -26,6 +28,10 @@ public final class Objectives {
 
     public static ReachLocationObjective reachLocation(Text name, Location<World> location, double radius) {
         return new ReachLocationObjective(name, location, radius);
+    }
+
+    public static ItemDeliveryObjective itemDelivery(ItemStackSnapshot item, UUID entity, Text entityName) {
+        return new ItemDeliveryObjective(item, entity, entityName);
     }
 
 }
