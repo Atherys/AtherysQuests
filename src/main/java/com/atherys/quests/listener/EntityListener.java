@@ -20,8 +20,6 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
 
 import java.util.Optional;
 
@@ -33,7 +31,18 @@ public class EntityListener {
 
     @Listener
     public void onEntityInteract(InteractEntityEvent.Secondary.MainHand event, @Root Player player) {
-        AtherysQuests.getDialogService().startDialog(player, event.getTargetEntity());
+        if (AtherysQuests.getDialogAttachmentService().isAttaching(player)) {
+            AtherysQuests.getDialogAttachmentService().applyAttachment(player, event.getTargetEntity());
+            QuestMsg.info(player, "Dialog set.");
+
+        } else if (AtherysQuests.getDialogAttachmentService().isRemoving(player)) {
+            AtherysQuests.getDialogService().removeDialog(event.getTargetEntity());
+            QuestMsg.info(player, "Dialog removed from entity.");
+            AtherysQuests.getDialogAttachmentService().endRemoval(player);
+
+        } else {
+            AtherysQuests.getDialogService().startDialog(player, event.getTargetEntity());
+        }
     }
 
     @Listener
@@ -66,15 +75,15 @@ public class EntityListener {
     public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player) {
         if (!(event.getTargetBlock().getLocation().isPresent())) return;
 
-        if (AtherysQuests.getQuestCommandService().isRemovingQuest(player)) {
+        if (AtherysQuests.getQuestAttachmentService().isRemoving(player)) {
             AtherysQuests.getLocationManager().getByLocation(player.getLocation()).ifPresent(questLocation -> {
                 AtherysQuests.getLocationManager().remove(questLocation);
                 QuestMsg.info(player, "Removed quest location with ID: " + questLocation.getQuestId());
             });
 
-        } else if (AtherysQuests.getQuestCommandService().isAttachingQuest(player)) {
-                AtherysQuests.getQuestCommandService().addQuestLocation(player, event.getTargetBlock().getLocation().get());
-                AtherysQuests.getQuestCommandService().endQuestAttachment(player);
+        } else if (AtherysQuests.getQuestAttachmentService().isAttaching(player)) {
+                AtherysQuests.getQuestAttachmentService().addQuestLocation(player, event.getTargetBlock().getLocation().get());
+                AtherysQuests.getQuestAttachmentService().endAttachment(player);
                 QuestMsg.info(player, "Quest set at location.");
 
         } else {

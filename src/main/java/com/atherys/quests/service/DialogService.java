@@ -1,6 +1,7 @@
 package com.atherys.quests.service;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.QuestKeys;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
@@ -74,6 +75,15 @@ public final class DialogService {
      */
     public boolean setDialog(Entity entity, DialogTree tree) {
         return entity.offer(new DialogData(tree.getId())).isSuccessful();
+    }
+
+    /**
+     * Removes any {@link DialogTree} from an entity.
+     * @param entity The entity to have its dialog removed
+     * @return Whether the removal was successful
+     */
+    public boolean removeDialog(Entity entity) {
+        return entity.remove(QuestKeys.DIALOG).isSuccessful();
     }
 
     /**

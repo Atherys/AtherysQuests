@@ -23,14 +23,14 @@ public class RemoveQuestFromLocationCommand implements CommandExecutor {
 
         Player player = (Player) src;
 
-        if (AtherysQuests.getQuestCommandService().isAttachingQuest(player)) {
+        if (AtherysQuests.getQuestAttachmentService().isAttaching(player)) {
             QuestMsg.error(player, "You're currently attaching a quest.");
             return CommandResult.empty();
-        } else if (AtherysQuests.getQuestCommandService().isRemovingQuest(player)){
+        } else if (AtherysQuests.getQuestAttachmentService().isRemoving(player)){
             QuestMsg.info(player, "You're already removing a quest.");
             return CommandResult.success();
         } else {
-            AtherysQuests.getQuestCommandService().startQuestRemoval(player);
+            AtherysQuests.getQuestAttachmentService().startRemoval(player);
             QuestMsg.info(player, "Right click to remove a quest from the location/block.");
             return CommandResult.success();
         }

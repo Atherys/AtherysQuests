@@ -60,9 +60,10 @@ public class AtherysQuests {
     private static QuestsConfig config;
 
     private QuestService questService;
-    private QuestCommandService questCommandService;
+    private QuestAttachmentService questAttachmentService;
     private QuesterManager questerManager;
     private DialogService dialogService;
+    private DialogAttachmentService dialogAttachmentService;
     private LocationManager locationManager;
     private InventoryService inventoryService;
     private ParticleEmitter particleEmitter;
@@ -135,7 +136,8 @@ public class AtherysQuests {
         questService = QuestService.getInstance();
         dialogService = DialogService.getInstance();
 
-        questCommandService = QuestCommandService.getInstance();
+        questAttachmentService= QuestAttachmentService.getInstance();
+        dialogAttachmentService = DialogAttachmentService.getInstance();
 
         locationManager = LocationManager.getInstance();
         particleEmitter = ParticleEmitter.getInstance();
@@ -213,8 +215,12 @@ public class AtherysQuests {
         return getInstance().questerManager;
     }
 
-    public static QuestCommandService getQuestCommandService() {
-        return getInstance().questCommandService;
+    public static QuestAttachmentService getQuestAttachmentService() {
+        return getInstance().questAttachmentService;
+    }
+
+    public static DialogAttachmentService getDialogAttachmentService() {
+        return getInstance().dialogAttachmentService;
     }
 
     public static DialogService getDialogService() {

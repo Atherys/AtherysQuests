@@ -33,7 +33,7 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
 
         Player player = (Player) src;
         AtherysQuests.getInstance().getLogger().info(player.toString());
-        if (AtherysQuests.getQuestCommandService().isRemovingQuest(player)){
+        if (AtherysQuests.getQuestAttachmentService().isRemoving(player)){
             QuestMsg.error(player, "You're currently removing a quest.");
             return CommandResult.empty();
         }
@@ -44,7 +44,7 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
 
         if (radius.isPresent() && questId.isPresent() && type.isPresent()) {
             if (AtherysQuests.getQuestService().getQuest(questId.get()).isPresent()){
-                AtherysQuests.getQuestCommandService().startQuestAttachment(player, questId.get(), radius.get(), QuestLocationType.valueOf(type.get()));
+                AtherysQuests.getQuestAttachmentService().startAttachment(player, questId.get(), radius.get(), QuestLocationType.valueOf(type.get()));
                 QuestMsg.info(player, "Right click on a block to set the quest.");
                 return CommandResult.success();
             } else {
