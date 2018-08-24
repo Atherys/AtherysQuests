@@ -11,6 +11,6 @@ import java.util.UUID;
 public class ItemDeliveryFunc implements TriFunction<ItemStack, String, Text, ItemDeliveryObjective> {
     @Override
     public ItemDeliveryObjective apply(ItemStack itemStack, String targetUUID, Text targetName) {
-        return Objectives.itemDelivery(itemStack.createSnapshot(), UUID.fromString(targetUUID), targetName);
+        return Objectives.itemDelivery(itemStack, UUID.fromString(targetUUID), targetName);
     }
 }
