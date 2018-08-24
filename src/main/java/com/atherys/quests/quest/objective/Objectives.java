@@ -1,12 +1,14 @@
 package com.atherys.quests.quest.objective;
 
 import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,6 +24,10 @@ public final class Objectives {
         return new InteractWithBlockObjective(snapshot);
     }
 
+    public static InteractWithBlockObjective blockInteractItems(BlockSnapshot snapshot, List<ItemStack> items) {
+        return new InteractWithBlockObjective(snapshot, items);
+    }
+
     public static KillEntityObjective killEntity(String entityName, int amount) {
         return new KillEntityObjective(entityName, amount);
     }
@@ -30,7 +36,7 @@ public final class Objectives {
         return new ReachLocationObjective(name, location, radius);
     }
 
-    public static ItemDeliveryObjective itemDelivery(ItemStackSnapshot item, UUID entity, Text entityName) {
+    public static ItemDeliveryObjective itemDelivery(ItemStack item, UUID entity, Text entityName) {
         return new ItemDeliveryObjective(item, entity, entityName);
     }
 
