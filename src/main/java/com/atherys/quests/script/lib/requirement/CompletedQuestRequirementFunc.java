@@ -5,9 +5,9 @@ import com.atherys.quests.quest.requirement.Requirements;
 
 import java.util.function.Function;
 
-public class QuestRequirementFunc implements Function<String, Requirement> {
+public class CompletedQuestRequirementFunc implements Function<String, Requirement> {
     @Override
     public Requirement apply(String questId) {
-        return Requirements.quest(questId);
+        return Requirements.completedQuest(questId);
     }
 }

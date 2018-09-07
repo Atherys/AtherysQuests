@@ -11,18 +11,18 @@ import org.spongepowered.api.text.format.TextStyles;
 import java.util.Optional;
 
 /**
- * A requirement for checking whether or not the player has completed another quest.
+ * A requirement for checking whether or not the player has completed another completedQuest.
  */
-public class QuestRequirement implements Requirement {
+public class QuestCompleteRequirement implements Requirement {
 
     @Expose
     private String questId;
 
-    QuestRequirement(String questId) {
+    QuestCompleteRequirement(String questId) {
         this.questId = questId;
     }
 
-    QuestRequirement(Quest quest) {
+    QuestCompleteRequirement(Quest quest) {
         this.questId = quest.getId();
     }
 
@@ -30,9 +30,9 @@ public class QuestRequirement implements Requirement {
     public Text toText() {
         Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(questId);
         if (quest.isPresent()) {
-            return Text.of("You have to have completed the quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
+            return Text.of("You have to have completed the completedQuest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
         } else {
-            return Text.of("Uh oh. According to this, you have to have completed a quest which isn't registered. Please report this.");
+            return Text.of("Uh oh. According to this, you have to have completed a completedQuest which isn't registered. Please report this.");
         }
     }
 
@@ -43,6 +43,6 @@ public class QuestRequirement implements Requirement {
 
     @Override
     public Requirement copy() {
-        return new QuestRequirement(questId);
+        return new QuestCompleteRequirement(questId);
     }
 }

@@ -5,6 +5,7 @@ import com.atherys.quests.event.dialog.DialogProceedEvent;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.atherys.quests.event.dialog.DialogStartEvent;
 import com.atherys.quests.event.quest.*;
+import com.atherys.quests.quest.requirement.HasQuestRequirement;
 import com.atherys.quests.script.lib.dialog.CreateDialogNode;
 import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
@@ -68,7 +69,8 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("andRequirement", new AndRequirementFunc());
         scriptLibrary.put("orRequirement", new OrRequirementFunc());
         scriptLibrary.put("notRequirement", new NotRequirementFunc());
-        scriptLibrary.put("questRequirement", new QuestRequirementFunc());
+        scriptLibrary.put("completedQuestRequirement", new CompletedQuestRequirementFunc());
+        scriptLibrary.put("hasQuestRequirement", new HasQuestRequirementFunc());
         scriptLibrary.put("moneyRequirement", new MoneyRequirementFunc());
         scriptLibrary.put("levelRequirement", new LevelRequirementFunc());
 

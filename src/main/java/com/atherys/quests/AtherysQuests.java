@@ -53,7 +53,7 @@ import static com.atherys.quests.AtherysQuests.*;
 public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
-    public static final String DESCRIPTION = "A quest plugin written for the A'therys Horizons server.";
+    public static final String DESCRIPTION = "A completedQuest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0b";
     private static AtherysQuests instance;
     private static boolean init = false;
@@ -146,11 +146,11 @@ public class AtherysQuests {
 
         inventoryService = InventoryService.getInstance();
 
-//        Quest quest = new DummyQuest.Staged();
+//        Quest completedQuest = new DummyQuest.Staged();
 //
-//        QuestService.getInstance().registerQuest(quest);
+//        QuestService.getInstance().registerQuest(completedQuest);
 //
-//        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
+//        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", completedQuest));
 
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
@@ -184,7 +184,7 @@ public class AtherysQuests {
                 .immutableClass(QuestData.Immutable.class)
                 .builder(new QuestData.Builder())
                 .dataName("Quest")
-                .manipulatorId("quest")
+                .manipulatorId("completedQuest")
                 .buildAndRegister(this.container);
     }
 

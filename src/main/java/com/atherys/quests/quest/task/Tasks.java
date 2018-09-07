@@ -7,7 +7,7 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 /**
- * A "task" in the context of the Quests plugin is defined as any generic executive action the quest maker would like the quest to do.
+ * A "task" in the context of the Quests plugin is defined as any generic executive action the completedQuest maker would like the completedQuest to do.
  * Examples include: spawning mobs, spawning particles, adding/removing blocks from the world, etc. etc.
  * This factory class is designed to ease the creation of such tasks
  */

@@ -49,7 +49,7 @@ public final class LocationManager extends AbstractMongoDatabaseManager<Location
     }
 
     /**
-     * Gets the quest block if there is a quest block at the location, and if not tries to get a radius one.
+     * Gets the completedQuest block if there is a completedQuest block at the location, and if not tries to get a radius one.
      * @param location
      * @return
      */

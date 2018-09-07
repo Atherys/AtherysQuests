@@ -47,7 +47,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
             if (!quest.isComplete()) {
                 quest.notify(event, this);
                 if (quest.isComplete()) {
-                    QuestMsg.info(this, "You have completed the quest \"", quest.getName(), "\". You may now turn it in.");
+                    QuestMsg.info(this, "You have completed the completedQuest \"", quest.getName(), "\". You may now turn it in.");
 
                     QuestCompletedEvent qsEvent = new QuestCompletedEvent(quest, this);
                     Sponge.getEventManager().post(qsEvent);
@@ -59,7 +59,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
     public boolean pickupQuest(Quest quest) {
         if (!quest.meetsRequirements(this)) {
             Text.Builder reqText = Text.builder();
-            reqText.append(Text.of(QuestMsg.MSG_PREFIX, " You do not meet the requirements for this quest."));
+            reqText.append(Text.of(QuestMsg.MSG_PREFIX, " You do not meet the requirements for this completedQuest."));
             reqText.append(quest.createView().getFormattedRequirements());
             QuestMsg.noformat(this, reqText.build());
 
@@ -68,10 +68,10 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
             quests.put(quest.getId(), (Quest) quest.copy());
-            QuestMsg.info(this, "You have started the quest \"", quest.getName(), "\"");
+            QuestMsg.info(this, "You have started the completedQuest \"", quest.getName(), "\"");
             return true;
         } else {
-            QuestMsg.error(this, "You are either already doing this quest, or have done it before in the past.");
+            QuestMsg.error(this, "You are either already doing this completedQuest, or have done it before in the past.");
             return false;
         }
     }
@@ -86,7 +86,7 @@ public class Quester implements DBObject, Viewable<QuestLog> {
 
         quest.award(this);
 
-        QuestMsg.info(this, "You have turned in the quest \"", quest.getName(), "\"");
+        QuestMsg.info(this, "You have turned in the completedQuest \"", quest.getName(), "\"");
 
         QuestTurnedInEvent qsEvent = new QuestTurnedInEvent(quest, this);
         Sponge.getEventManager().post(qsEvent);

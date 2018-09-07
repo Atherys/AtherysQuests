@@ -30,7 +30,7 @@ public class ParticleEmitter {
     }
 
     /**
-     * Emits particles for every quest block.
+     * Emits particles for every completedQuest block.
      */
     private void emitParticles(){
         AtherysQuests.getLocationManager().getQuestBlocks().forEach((location, questLocation) ->{
