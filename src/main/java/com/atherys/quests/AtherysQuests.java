@@ -1,6 +1,7 @@
 package com.atherys.quests;
 
 import com.atherys.core.command.CommandService;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
@@ -146,11 +147,11 @@ public class AtherysQuests {
 
         inventoryService = InventoryService.getInstance();
 
-//        Quest quest = new DummyQuest.Staged();
+        Quest quest = new CatQuest.Simple();
 //
-//        QuestService.getInstance().registerQuest(quest);
+        QuestService.getInstance().registerQuest(quest);
 //
-//        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
+        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
