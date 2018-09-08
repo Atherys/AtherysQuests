@@ -55,16 +55,16 @@ public class EntityListener {
             Quest quest = AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).get();
             if (AtherysQuests.getQuesterManager().getQuester(player).hasQuest(quest)) return;
 
-            Question question = Question.of(Text.of("You have found the quest \"", quest.getName(), "\", would you like to take it?"))
+            Question question = Question.of(Text.of("You have found the completedQuest \"", quest.getName(), "\", would you like to take it?"))
                     .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), quester -> {
                         if (questLocation.contains(player.getLocation())) {
                             new TakeQuestView(quest).show(quester);
                         } else {
-                            QuestMsg.error(quester, "You have left the quest area.");
+                            QuestMsg.error(quester, "You have left the completedQuest area.");
                         }
                     }))
                     .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), quester -> {
-                        QuestMsg.error(quester, "You have declined the quest \"", quest.getName(), "\".");
+                        QuestMsg.error(quester, "You have declined the completedQuest \"", quest.getName(), "\".");
                     }))
                     .build();
             question.pollChat(player);
@@ -78,7 +78,7 @@ public class EntityListener {
         if (AtherysQuests.getQuestAttachmentService().isRemoving(player)) {
             AtherysQuests.getLocationManager().getByLocation(player.getLocation()).ifPresent(questLocation -> {
                 AtherysQuests.getLocationManager().remove(questLocation);
-                QuestMsg.info(player, "Removed quest location with ID: " + questLocation.getQuestId());
+                QuestMsg.info(player, "Removed completedQuest location with ID: " + questLocation.getQuestId());
             });
 
         } else if (AtherysQuests.getQuestAttachmentService().isAttaching(player)) {

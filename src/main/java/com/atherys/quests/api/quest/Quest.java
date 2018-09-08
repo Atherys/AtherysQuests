@@ -16,14 +16,14 @@ import java.util.List;
 /**
  * Common interface for all Quest classes. <br>
  * A Quest represents a series of tasks ( {@link Objective}s ), which once completed will reward the player with {@link Reward}(s).
- * A quest may optionally contain {@link Requirement}s which the player must fulfill prior to starting work on the objectives.
+ * A completedQuest may optionally contain {@link Requirement}s which the player must fulfill prior to starting work on the objectives.
  *
  * @param <T>
  */
 public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, Viewable {
 
     /**
-     * @return The unique String ID of this quest
+     * @return The unique String ID of this completedQuest
      */
     String getId();
 
@@ -33,27 +33,27 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     Text getName();
 
     /**
-     * @return The formatted description of this quest
+     * @return The formatted description of this completedQuest
      */
     Text getDescription();
 
     /**
-     * @return The List of {@link Requirement}s this quest will check the {@link Quester} for
+     * @return The List of {@link Requirement}s this completedQuest will check the {@link Quester} for
      */
     List<Requirement> getRequirements();
 
     /**
-     * @return The List of {@link Objective}s this quest requires the {@link Quester} to complete prior to being eligible for reward.
+     * @return The List of {@link Objective}s this completedQuest requires the {@link Quester} to complete prior to being eligible for reward.
      */
     List<Objective> getObjectives();
 
     /**
-     * @return The List of {@link Reward}s this quest will award to the {@link Quester} once all {@link Objective}s have been fulfilled.
+     * @return The List of {@link Reward}s this completedQuest will award to the {@link Quester} once all {@link Objective}s have been fulfilled.
      */
     List<Reward> getRewards();
 
     /**
-     * Checks whether or not the Quester meets the requirements of this quest.
+     * Checks whether or not the Quester meets the requirements of this completedQuest.
      *
      * @param quester The Quester to be checked
      * @return Whether or not the Quester meets the requirements
@@ -69,7 +69,7 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     void notify(Event event, Quester quester);
 
     /**
-     * Awards the Quester for having completed all Objectives of this quest.
+     * Awards the Quester for having completed all Objectives of this completedQuest.
      *
      * @param quester The quester to be awarded
      */
@@ -86,7 +86,7 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     boolean isComplete();
 
     /**
-     * @return The version of this quest.
+     * @return The version of this completedQuest.
      */
     int getVersion();
 

@@ -21,13 +21,17 @@ public final class Requirements {
         return new NotRequirement(requirement);
     }
 
-    public static QuestRequirement quest(String questId) {
-        return new QuestRequirement(questId);
+    public static QuestCompleteRequirement completedQuest(String questId) {
+        return new QuestCompleteRequirement(questId);
     }
 
-    public static QuestRequirement quest(Quest quest) {
-        return new QuestRequirement(quest);
+    public static QuestCompleteRequirement completedQuest(Quest quest) {
+        return new QuestCompleteRequirement(quest);
     }
+
+    public static HasQuestRequirement hasQuest(String questId) { return new HasQuestRequirement(questId); }
+
+    public static HasQuestRequirement hasQuest(Quest quest) { return new HasQuestRequirement(quest); }
 
     public static MoneyRequirement money(double amount, Currency currency) {
         return new MoneyRequirement(amount, currency);

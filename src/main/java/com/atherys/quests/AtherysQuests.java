@@ -6,6 +6,7 @@ import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
 import com.atherys.quests.command.quest.QuestMasterCommand;
+import com.atherys.quests.command.dialog.GetUUIDCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
@@ -54,7 +55,7 @@ import static com.atherys.quests.AtherysQuests.*;
 public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
-    public static final String DESCRIPTION = "A quest plugin written for the A'therys Horizons server.";
+    public static final String DESCRIPTION = "A completedQuest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0b";
     private static AtherysQuests instance;
     private static boolean init = false;
@@ -159,6 +160,7 @@ public class AtherysQuests {
         try {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
             CommandService.getInstance().register(new QuestMasterCommand(), this);
+            CommandService.getInstance().register(new GetUUIDCommand(), this);
         } catch (CommandService.AnnotatedCommandException e) {
             e.printStackTrace();
         }
@@ -185,7 +187,7 @@ public class AtherysQuests {
                 .immutableClass(QuestData.Immutable.class)
                 .builder(new QuestData.Builder())
                 .dataName("Quest")
-                .manipulatorId("quest")
+                .manipulatorId("completedQuest")
                 .buildAndRegister(this.container);
     }
 

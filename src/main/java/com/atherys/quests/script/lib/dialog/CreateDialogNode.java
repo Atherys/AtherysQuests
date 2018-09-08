@@ -9,12 +9,12 @@ import java.util.function.Function;
 public class CreateDialogNode implements Function<String, DialogNode> {
 
 //    @Override
-//    public DialogNode apply(Integer id, Requirement[] requirements, Text player, Text[] npc, Quest quest, DialogNode[] responses) {
+//    public DialogNode apply(Integer id, Requirement[] requirements, Text player, Text[] npc, Quest completedQuest, DialogNode[] responses) {
 //        DialogNodeBuilder builder = DialogNode.builder(id);
 //
 //        if (requirements != null) builder.requirements(requirements);
 //
-//        if (quest != null) builder.quest(quest);
+//        if (completedQuest != null) builder.completedQuest(completedQuest);
 //
 //        if (responses != null) builder.responses(responses);
 //

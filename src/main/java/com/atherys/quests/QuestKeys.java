@@ -27,7 +27,7 @@ public final class QuestKeys {
         QUEST = Key.builder()
                 .type(new TypeToken<Value<String>>() {
                 })
-                .id("quest")
+                .id("completedQuest")
                 .name("Quest")
                 .query(DataQuery.of("atherysquests", "Quest"))
                 .build();
