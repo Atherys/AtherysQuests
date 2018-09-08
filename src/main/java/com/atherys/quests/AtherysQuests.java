@@ -5,6 +5,7 @@ import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
 import com.atherys.quests.command.quest.QuestMasterCommand;
+import com.atherys.quests.command.dialog.GetUUIDCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
@@ -158,6 +159,7 @@ public class AtherysQuests {
         try {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
             CommandService.getInstance().register(new QuestMasterCommand(), this);
+            CommandService.getInstance().register(new GetUUIDCommand(), this);
         } catch (CommandService.AnnotatedCommandException e) {
             e.printStackTrace();
         }
