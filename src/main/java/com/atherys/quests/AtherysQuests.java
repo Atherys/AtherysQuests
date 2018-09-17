@@ -148,11 +148,9 @@ public class AtherysQuests {
 
         inventoryService = InventoryService.getInstance();
 
-        Quest quest = new CatQuest.Simple();
-//
-        QuestService.getInstance().registerQuest(quest);
-//
-        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
+        //Quest quest = new DummyQuest.Staged();
+        //QuestService.getInstance().registerQuest(quest);
+        //DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", quest));
 
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
