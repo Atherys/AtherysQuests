@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -76,22 +77,6 @@ public class AtherysQuests {
 
     @Inject
     Logger logger;
-
-    public static AtherysQuests getInstance() {
-        return instance;
-    }
-
-    public static QuestsConfig getConfig() {
-        return config;
-    }
-
-    public static AtherysQuestsRegistry getRegistry() {
-        return AtherysQuestsRegistry.getInstance();
-    }
-
-    public static Gson getGson() {
-        return getRegistry().getGson();
-    }
 
     private void init() {
         instance = this;
@@ -146,12 +131,6 @@ public class AtherysQuests {
 
         inventoryService = InventoryService.getInstance();
 
-//        Quest completedQuest = new DummyQuest.Staged();
-//
-//        QuestService.getInstance().registerQuest(completedQuest);
-//
-//        DialogService.getInstance().registerDialog(DummyQuest.dialog("stagedQuestDialog", completedQuest));
-
         QuesterManager.getInstance().loadAll();
         LocationManager.getInstance().loadAll();
 
@@ -167,6 +146,10 @@ public class AtherysQuests {
     private void stop() {
         QuesterManager.getInstance().saveAll();
         LocationManager.getInstance().saveAll();
+    }
+
+    private void reload() {
+
     }
 
     @Listener
@@ -198,9 +181,29 @@ public class AtherysQuests {
         if (init) start();
     }
 
+    public void onReload(GameReloadEvent event) {
+        if (init) reload();
+    }
+
     @Listener
     public void onStop(GameStoppingServerEvent event) {
         if (init) stop();
+    }
+
+    public static AtherysQuests getInstance() {
+        return instance;
+    }
+
+    public static QuestsConfig getConfig() {
+        return config;
+    }
+
+    public static AtherysQuestsRegistry getRegistry() {
+        return AtherysQuestsRegistry.getInstance();
+    }
+
+    public static Gson getGson() {
+        return getRegistry().getGson();
     }
 
     public String getWorkingDirectory() {

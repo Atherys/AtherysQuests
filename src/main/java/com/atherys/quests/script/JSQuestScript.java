@@ -1,12 +1,11 @@
 package com.atherys.quests.script;
 
 import com.atherys.quests.api.script.QuestScript;
-import com.atherys.script.api.AbstractScript;
-import com.atherys.script.js.JavaScriptLibrary;
+import com.atherys.script.js.JSScript;
 
-public class JSQuestScript extends AbstractScript implements QuestScript {
+public class JSQuestScript extends JSScript implements QuestScript {
 
     public JSQuestScript(String name, String contents) {
-        super(name, contents, JavaScriptLibrary.getInstance());
+        super(name, contents);
     }
 }

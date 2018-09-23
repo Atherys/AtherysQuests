@@ -18,7 +18,8 @@ import javax.annotation.Nonnull;
         QuestLogCommand.class,
         AttachQuestCommand.class,
         RemoveQuestCommand.class,
-        CancelQuestCommand.class
+        CancelQuestCommand.class,
+        ReloadQuestsCommand.class
 })
 public class QuestMasterCommand implements CommandExecutor {
 

@@ -3,6 +3,9 @@ package com.atherys.quests.script;
 import com.atherys.quests.api.script.QuestScript;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.script.api.AbstractScriptService;
+import com.atherys.script.js.JSScript;
+import com.atherys.script.js.event.JSScriptReloadEvent;
+import org.spongepowered.api.Sponge;
 
 public class SimpleQuestScriptService extends AbstractScriptService<QuestScript> implements QuestScriptService {
 
@@ -20,7 +23,10 @@ public class SimpleQuestScriptService extends AbstractScriptService<QuestScript>
 
     @Override
     public void reloadScripts() {
-
+        getScripts().forEach(qs -> {
+            JSScriptReloadEvent reloadEvent = new JSScriptReloadEvent((JSScript) qs);
+            Sponge.getEventManager().post(reloadEvent);
+        });
     }
 
     @Override
