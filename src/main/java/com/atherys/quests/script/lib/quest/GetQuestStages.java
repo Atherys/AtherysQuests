@@ -5,6 +5,9 @@ import com.atherys.quests.quest.StagedQuest;
 
 import java.util.function.Function;
 
+/**
+ * @jsfunc
+ */ 
 public class GetQuestStages implements Function<StagedQuest, Stage[]> {
     @Override
     public Stage[] apply(StagedQuest quest) {

@@ -7,6 +7,9 @@ import org.spongepowered.api.scheduler.Task;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+/**
+ * @jsfunc
+ */ 
 public class RegisterDialogTree implements Function<DialogTree,Boolean> {
     @Override
     public Boolean apply(DialogTree dialogTree) {

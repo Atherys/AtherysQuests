@@ -4,6 +4,9 @@ import com.atherys.quests.quest.StagedQuest;
 import com.atherys.script.api.util.QuadFunction;
 import org.spongepowered.api.text.Text;
 
+/**
+ * @jsfunc
+ */ 
 public class CreateStagedQuest implements QuadFunction<String, Text, Text, Integer, StagedQuest> {
     @Override
     public StagedQuest apply(String id, Text name, Text description, Integer version) {

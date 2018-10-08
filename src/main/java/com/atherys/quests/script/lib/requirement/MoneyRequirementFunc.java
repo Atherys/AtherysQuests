@@ -6,6 +6,9 @@ import org.spongepowered.api.service.economy.Currency;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class MoneyRequirementFunc implements BiFunction<Double, Currency, Requirement> {
     @Override
     public Requirement apply(Double amount, Currency currency) {

@@ -8,6 +8,9 @@ import org.spongepowered.api.text.Text;
 
 import java.util.UUID;
 
+/**
+ * @jsfunc
+ */ 
 public class ItemDeliveryFunc implements TriFunction<ItemStack, String, Text, ItemDeliveryObjective> {
     @Override
     public ItemDeliveryObjective apply(ItemStack itemStack, String targetUUID, Text targetName) {

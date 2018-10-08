@@ -5,6 +5,9 @@ import com.atherys.quests.quest.requirement.Requirements;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class OrRequirementFunc implements BiFunction<Requirement, Requirement, Requirement> {
     @Override
     public Requirement apply(Requirement requirement, Requirement requirement2) {
