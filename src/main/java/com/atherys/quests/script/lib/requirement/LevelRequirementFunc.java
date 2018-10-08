@@ -5,6 +5,9 @@ import com.atherys.quests.quest.requirement.Requirements;
 
 import java.util.function.Function;
 
+/**
+ * @jsfunc
+ */ 
 public class LevelRequirementFunc implements Function<Integer, Requirement> {
 
     @Override

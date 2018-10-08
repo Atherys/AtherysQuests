@@ -8,6 +8,9 @@ import org.spongepowered.api.world.World;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class InteractWithBlockFunc implements BiFunction<BlockState, Location<World>, Objective> {
     @Override
     public Objective apply(BlockState blockState, Location<World> location) {

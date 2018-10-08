@@ -7,6 +7,9 @@ import com.atherys.quests.quest.Stage;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class StageOf implements BiFunction<Objective, Reward[], Stage> {
     @Override
     public Stage apply(Objective objective, Reward[] rewards) {

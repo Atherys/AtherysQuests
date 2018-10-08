@@ -5,6 +5,9 @@ import com.atherys.quests.api.requirement.Requirement;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class AddQuestRequirements implements BiFunction<Quest, Requirement[], Boolean> {
     @Override
     public Boolean apply(Quest quest, Requirement[] requirements) {

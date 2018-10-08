@@ -5,6 +5,9 @@ import com.atherys.quests.api.requirement.Requirement;
 
 import java.util.function.Function;
 
+/**
+ * @jsfunc
+ */ 
 public class GetQuestRequirements implements Function<Quest, Requirement[]> {
     @Override
     public Requirement[] apply(Quest quest) {

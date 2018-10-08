@@ -5,6 +5,9 @@ import com.atherys.quests.dialog.tree.DialogTree;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class CreateDialogTree implements BiFunction<String, DialogNode, DialogTree> {
     @Override
     public DialogTree apply(String id, DialogNode root) {

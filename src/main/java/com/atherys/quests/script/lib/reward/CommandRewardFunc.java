@@ -6,6 +6,9 @@ import org.spongepowered.api.text.Text;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class CommandRewardFunc implements BiFunction<String, Text, Reward> {
     @Override
     public Reward apply(String command, Text description) {

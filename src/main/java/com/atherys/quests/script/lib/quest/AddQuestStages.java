@@ -7,6 +7,9 @@ import com.atherys.quests.quest.StagedQuest;
 
 import java.util.function.BiFunction;
 
+/**
+ * @jsfunc
+ */ 
 public class AddQuestStages implements BiFunction<StagedQuest, Stage[], Boolean> {
     @Override
     public Boolean apply(StagedQuest stagedQuest, Stage[] stages) {

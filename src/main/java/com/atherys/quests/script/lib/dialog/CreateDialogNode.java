@@ -6,6 +6,9 @@ import com.google.gson.JsonSyntaxException;
 
 import java.util.function.Function;
 
+/**
+ * @jsfunc
+ */ 
 public class CreateDialogNode implements Function<String, DialogNode> {
 
 //    @Override
