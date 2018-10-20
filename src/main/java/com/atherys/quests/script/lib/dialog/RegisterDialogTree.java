@@ -11,6 +11,9 @@ import java.util.function.Function;
  * @jsfunc
  */ 
 public class RegisterDialogTree implements Function<DialogTree,Boolean> {
+    /**
+     * Registers a dialog tree for use.
+     */
     @Override
     public Boolean apply(DialogTree dialogTree) {
         Task.builder()

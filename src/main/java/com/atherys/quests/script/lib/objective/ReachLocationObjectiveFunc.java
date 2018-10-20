@@ -11,7 +11,9 @@ import org.spongepowered.api.world.World;
  * @jsfunc
  */ 
 public class ReachLocationObjectiveFunc implements TriFunction<Location<World>, Text, Double, Objective> {
-
+    /**
+     * An objective that requires reaching a specific location, within a radius.
+     */
     @Override
     public Objective apply(Location<World> location, Text name, Double radius) {
         return Objectives.reachLocation(name, location, radius);

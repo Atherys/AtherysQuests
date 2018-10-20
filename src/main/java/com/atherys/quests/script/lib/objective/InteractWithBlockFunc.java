@@ -12,6 +12,9 @@ import java.util.function.BiFunction;
  * @jsfunc
  */ 
 public class InteractWithBlockFunc implements BiFunction<BlockState, Location<World>, Objective> {
+    /**
+     * An objective that requires interacting with a specific block.
+     */
     @Override
     public Objective apply(BlockState blockState, Location<World> location) {
         return Objectives.blockInteract(blockState.snapshotFor(location));

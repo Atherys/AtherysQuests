@@ -27,6 +27,10 @@ public class CreateDialogNode implements Function<String, DialogNode> {
 //        return builder.build();
 //    }
 
+    /**
+     * Creates a dialog node from a string representing a serialized node. See
+     * [Writing a Dialog](https://atherys.com/docs/quests/Writing-a-Dialog.html) for how to use it.
+     */
     @Override
     public DialogNode apply(String serialized) {
         try {
