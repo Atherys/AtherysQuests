@@ -17,9 +17,10 @@ import javax.annotation.Nonnull;
 @Children({
         QuestLogCommand.class,
         AttachQuestCommand.class,
-        RemoveQuestCommand.class,
+        DetachQuestCommand.class,
         CancelQuestCommand.class,
-        ReloadQuestsCommand.class
+        ReloadQuestsCommand.class,
+        GiveQuestCommand.class
 })
 public class QuestMasterCommand implements CommandExecutor {
 

@@ -16,26 +16,26 @@ import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
-@Permission("atherysquests.command.quest.remove")
-@Description("Removes a quest from the player.")
-@Aliases("remove")
-public class RemoveQuestCommand implements ParameterizedCommand {
+@Permission("atherysquests.admin.quest.give")
+@Description("Offers a quest to a player.")
+@Aliases("give")
+public class GiveQuestCommand implements ParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[] {
-            GenericArguments.player(Text.of("player")),
-            GenericArguments.string(Text.of("questId"))
+                GenericArguments.player(Text.of("player")),
+                GenericArguments.string(Text.of("quest"))
         };
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> player = args.getOne("player");
-        Optional<String> questId = args.getOne("questId");
+        Optional<String> questId = args.getOne("quest");
 
         if (player.isPresent() && questId.isPresent()) {
             AtherysQuests.getQuestService().getQuest(questId.get()).ifPresent(quest -> {
-                AtherysQuests.getQuesterManager().getQuester(player.get()).removeQuest(quest);
+                quest.createView().show(player.get());
             });
             return CommandResult.success();
         }

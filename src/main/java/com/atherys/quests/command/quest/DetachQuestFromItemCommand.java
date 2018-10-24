@@ -19,7 +19,7 @@ import java.util.Optional;
 @Permission("atherysquests.admin.quest.remove.item")
 @Aliases("item")
 @Description("Removes quest from item.")
-public class RemoveQuestFromItemCommand implements CommandExecutor {
+public class DetachQuestFromItemCommand implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {

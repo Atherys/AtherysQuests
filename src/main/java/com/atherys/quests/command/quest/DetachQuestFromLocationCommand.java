@@ -15,7 +15,7 @@ import org.spongepowered.api.entity.living.player.Player;
 @Permission("atherysquests.admin.quest.remove.location")
 @Aliases("location")
 @Description("Remove quest from block or location.")
-public class RemoveQuestFromLocationCommand implements CommandExecutor {
+public class DetachQuestFromLocationCommand implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
