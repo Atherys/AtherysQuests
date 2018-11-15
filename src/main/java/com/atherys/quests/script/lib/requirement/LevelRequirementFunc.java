@@ -9,7 +9,10 @@ import java.util.function.Function;
  * @jsfunc
  */ 
 public class LevelRequirementFunc implements Function<Integer, Requirement> {
-
+    /**
+     * A requirement for the player to be a certain level (experience).
+     * @param level The level, as an integer.
+     */
     @Override
     public Requirement apply(Integer level) {
         return Requirements.level(level);
