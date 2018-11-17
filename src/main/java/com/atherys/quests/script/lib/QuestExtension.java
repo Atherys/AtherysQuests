@@ -8,6 +8,7 @@ import com.atherys.quests.event.quest.*;
 import com.atherys.quests.quest.requirement.HasQuestRequirement;
 import com.atherys.quests.script.lib.dialog.AttachDialog;
 import com.atherys.quests.script.lib.dialog.CreateDialogNode;
+import com.atherys.quests.script.lib.dialog.CreateDialogOther;
 import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
 import com.atherys.quests.script.lib.objective.*;
@@ -42,6 +43,7 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("dialogNode", new CreateDialogNode());
         scriptLibrary.put("dialogTree", new CreateDialogTree());
+        scriptLibrary.put("createDialogNode", new CreateDialogNodeOther());
         scriptLibrary.put("attachDialog", new AttachDialog());
 
         scriptLibrary.put("createSimpleQuest", new CreateSimpleQuest());
