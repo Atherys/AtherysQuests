@@ -8,7 +8,7 @@ import com.atherys.quests.event.quest.*;
 import com.atherys.quests.quest.requirement.HasQuestRequirement;
 import com.atherys.quests.script.lib.dialog.AttachDialog;
 import com.atherys.quests.script.lib.dialog.CreateDialogNode;
-import com.atherys.quests.script.lib.dialog.CreateDialogOther;
+import com.atherys.quests.script.lib.dialog.CreateDialogNodeOther;
 import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
 import com.atherys.quests.script.lib.objective.*;
