@@ -52,3 +52,10 @@ shadowJar {
     relocate 'org.bson', 'com.atherys.libs.org.bson'
     relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
 }
+
+task javadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+    classpath += configurations.shadow
+    title = "AtherysQuests"
+    options.addStringOption('Xdoclint:none', '-quiet')
+}
