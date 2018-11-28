@@ -53,7 +53,7 @@ shadowJar {
     relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
 }
 
-javadocs {
+javadoc {
     source = sourceSets.main.allJava
     classpath += configurations.shadow
     title = "AtherysQuests"
