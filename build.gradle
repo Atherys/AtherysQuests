@@ -63,5 +63,7 @@ javadoc {
             'https://flow.github.io/math/',
             'http://jd.spongepowered.org/7.1.0/'
     )
+    // Exclude JS functions
+    exclude 'com/atherys/quests/script/lib/'
     options.addStringOption('Xdoclint:none', '-quiet')
 }
