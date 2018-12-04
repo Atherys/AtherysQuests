@@ -12,6 +12,7 @@ import java.util.function.Function;
 public class SingleItemRewardFunc implements Function<ItemStack, Reward> {
     /**
      * A reward to give the player an item.
+     * @jsname singleItemReward
      * @param itemStack The item to reward the player.
      */
     @Override

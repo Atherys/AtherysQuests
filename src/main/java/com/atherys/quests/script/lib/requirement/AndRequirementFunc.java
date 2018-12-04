@@ -11,6 +11,7 @@ import java.util.function.BiFunction;
 public class AndRequirementFunc implements BiFunction<Requirement, Requirement, Requirement> {
     /**
      * A requirement that requires two requirements to be met.
+     * @jsname andRequirement
      * @param requirement The first requirement.
      * @param requirement2 The second requirement.
      */

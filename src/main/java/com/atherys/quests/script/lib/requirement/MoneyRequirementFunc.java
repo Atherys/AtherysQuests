@@ -12,6 +12,7 @@ import java.util.function.BiFunction;
 public class MoneyRequirementFunc implements BiFunction<Double, Currency, Requirement> {
     /**
      * A requirement for the player to have a certain amount of money.
+     * @jsname moneyRequirement
      * @param amount The amount of money.
      * @param currency The money's currency.
      */

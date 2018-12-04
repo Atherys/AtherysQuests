@@ -11,6 +11,7 @@ import java.util.function.Function;
 public class CompletedQuestRequirementFunc implements Function<String, Requirement> {
     /**
      * A requirement for completing a quest.
+     * @jsname completedQuestRequirement
      * @param questId The quest's ID.
      */
     @Override

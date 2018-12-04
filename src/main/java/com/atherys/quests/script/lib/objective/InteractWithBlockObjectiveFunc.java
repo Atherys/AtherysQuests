@@ -10,9 +10,10 @@ import java.util.function.Function;
 /**
  * @jsfunc
  */ 
-public class InteractWithBlockFunc implements Function<Location<World>, Objective> {
+public class InteractWithBlockObjectiveFunc implements Function<Location<World>, Objective> {
     /**
      * An objective that requires interacting with a specific block.
+     * @jsname interactWithBlockObjective
      * @param location The block the player has to interact with.
      */
     @Override

@@ -17,7 +17,9 @@ public class CreateDialogNode implements HexaFunction<Integer, List<Requirement>
 
     /**
      * Creates a new dialog node. See
-     * [Writing a Dialog](https://atherys.com/docs/quests/Writing-a-Dialog.html) for how to use it.
+     * [Writing a Dialog](https://atherys.com/docs/scripting/quests/Writing-a-Dialog.html) for how to use it.
+     *
+     * @jsname dialogNode
      *
      * @param id           The numerical id of the node ( must be unique within the Dialog Tree )
      * @param requirements The list of requirements the player must fulfill in order to select this as a response ( can be null )

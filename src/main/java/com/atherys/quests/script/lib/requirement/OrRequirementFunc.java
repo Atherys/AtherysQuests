@@ -11,6 +11,7 @@ import java.util.function.BiFunction;
 public class OrRequirementFunc implements BiFunction<Requirement, Requirement, Requirement> {
     /**
      * A requirement for the player to have either requirement, or both.
+     * @jsname orRequirement
      */
     @Override
     public Requirement apply(Requirement requirement, Requirement requirement2) {

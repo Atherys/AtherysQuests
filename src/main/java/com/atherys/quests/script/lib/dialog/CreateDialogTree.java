@@ -11,6 +11,7 @@ import java.util.function.BiFunction;
 public class CreateDialogTree implements BiFunction<String, DialogNode, DialogTree> {
     /**
      * Creates a dialog tree.
+     * @jsname dialogTree
      * @param id A unique string ID.
      * @param root The starting dialog node.
      */

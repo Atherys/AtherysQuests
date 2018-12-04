@@ -65,10 +65,10 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("getQuestRewards", new GetQuestRewards());
 
         scriptLibrary.put("dialogObjective", new DialogObjectiveFunc());
-        scriptLibrary.put("interactWithBlockObjective", new InteractWithBlockFunc());
+        scriptLibrary.put("interactWithBlockObjective", new InteractWithBlockObjectiveFunc());
         scriptLibrary.put("killEntityObjective", new KillEntityObjectiveFunc());
         scriptLibrary.put("reachLocationObjective", new ReachLocationObjectiveFunc());
-        scriptLibrary.put("itemDeliveryObjective", new ItemDeliveryFunc());
+        scriptLibrary.put("itemDeliveryObjective", new ItemDeliveryObjectiveFunc());
 
         scriptLibrary.put("andRequirement", new AndRequirementFunc());
         scriptLibrary.put("orRequirement", new OrRequirementFunc());
