@@ -17,7 +17,7 @@ public class CreateDialogNode implements Function<Integer, DialogNodeBuilder> {
      * @jsname dialogNode
      *
      * @param id           The numerical id of the node ( must be unique within the Dialog Tree )
-     * @return A new DialogNode object
+     * @return A DialogNodeBuilder object
      */
     @Override
     public DialogNodeBuilder apply(Integer id) {

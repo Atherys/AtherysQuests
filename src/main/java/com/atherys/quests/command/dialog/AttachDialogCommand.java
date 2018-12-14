@@ -13,13 +13,10 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.args.CommandElement;
 import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.extent.EntityUniverse;
 
 import javax.annotation.Nonnull;
-import java.util.Optional;
 
 @Aliases("set")
 @Description("Attaches a dialog to an entity.")

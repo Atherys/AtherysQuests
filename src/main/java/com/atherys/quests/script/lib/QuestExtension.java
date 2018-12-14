@@ -5,17 +5,14 @@ import com.atherys.quests.event.dialog.DialogProceedEvent;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.atherys.quests.event.dialog.DialogStartEvent;
 import com.atherys.quests.event.quest.*;
-import com.atherys.quests.quest.requirement.HasQuestRequirement;
 import com.atherys.quests.script.lib.dialog.AttachDialog;
 import com.atherys.quests.script.lib.dialog.CreateDialogNode;
-import com.atherys.quests.script.lib.dialog.CreateDialogNodeOther;
 import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
 import com.atherys.quests.script.lib.objective.*;
 import com.atherys.quests.script.lib.quest.*;
 import com.atherys.quests.script.lib.requirement.*;
 import com.atherys.quests.script.lib.reward.SingleItemRewardFunc;
-import com.atherys.quests.script.lib.test.TextOf;
 import com.atherys.script.api.library.LibraryExtension;
 import com.atherys.script.api.library.ScriptLibrary;
 import com.atherys.script.js.library.event.EventHandlerFunction;
@@ -43,7 +40,6 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("dialogNode", new CreateDialogNode());
         scriptLibrary.put("dialogTree", new CreateDialogTree());
-        scriptLibrary.put("createDialogNode", new CreateDialogNodeOther());
         scriptLibrary.put("attachDialog", new AttachDialog());
 
         scriptLibrary.put("createSimpleQuest", new CreateSimpleQuest());
@@ -83,8 +79,6 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("registerQuest", new RegisterQuest());
         scriptLibrary.put("registerDialogTree", new RegisterDialogTree());
-
-        scriptLibrary.put("textOf", new TextOf());
     }
 
     public static QuestExtension getInstance() {

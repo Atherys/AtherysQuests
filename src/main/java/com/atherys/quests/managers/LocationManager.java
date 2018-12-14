@@ -10,7 +10,10 @@ import org.bson.Document;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 public final class LocationManager extends AbstractMongoDatabaseManager<LocationManager.QuestLocation> {
 

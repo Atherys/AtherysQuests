@@ -1,7 +1,5 @@
 package com.atherys.quests.script.lib.quest;
 
-import com.atherys.quests.api.objective.Objective;
-import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.Stage;
 import com.atherys.quests.quest.StagedQuest;
 
