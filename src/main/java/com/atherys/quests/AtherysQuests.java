@@ -1,6 +1,7 @@
 package com.atherys.quests;
 
 import com.atherys.core.command.CommandService;
+import com.atherys.core.event.AtherysHibernateConfigurationEvent;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
@@ -15,6 +16,7 @@ import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.managers.LocationManager;
 import com.atherys.quests.managers.QuesterManager;
+import com.atherys.quests.quester.Quester;
 import com.atherys.quests.script.SimpleDialogScriptService;
 import com.atherys.quests.script.SimpleQuestScriptService;
 import com.atherys.quests.script.lib.QuestExtension;
@@ -190,6 +192,11 @@ public class AtherysQuests {
     @Listener
     public void onStop(GameStoppingServerEvent event) {
         if (init) stop();
+    }
+
+    @Listener
+    public void onHibernateConfiguration(AtherysHibernateConfigurationEvent event) {
+        event.registerEntity(Quester.class);
     }
 
     public static AtherysQuests getInstance() {

@@ -1,6 +1,6 @@
 package com.atherys.quests.quester;
 
-import com.atherys.core.database.api.DBObject;
+import com.atherys.core.db.Identifiable;
 import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
 import com.atherys.quests.api.quest.Quest;
@@ -14,14 +14,19 @@ import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Quester implements DBObject, Viewable<QuestLog> {
+@Entity
+public class Quester implements Identifiable<UUID>, Viewable<QuestLog> {
 
+    @Id
     private UUID player; // Retrieve player from this. 100% Reliable.
 
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
@@ -130,8 +135,9 @@ public class Quester implements DBObject, Viewable<QuestLog> {
         return new QuestLog(this);
     }
 
+    @Nonnull
     @Override
-    public UUID getUniqueId() {
+    public UUID getId() {
         return player;
     }
 }
