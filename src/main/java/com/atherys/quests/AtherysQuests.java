@@ -14,9 +14,7 @@ import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
 import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
-import com.atherys.quests.managers.LocationManager;
-import com.atherys.quests.managers.QuesterManager;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.script.SimpleDialogScriptService;
 import com.atherys.quests.script.SimpleQuestScriptService;
 import com.atherys.quests.script.lib.QuestExtension;
@@ -24,6 +22,7 @@ import com.atherys.quests.service.*;
 import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
@@ -65,10 +64,10 @@ public class AtherysQuests {
 
     private QuestService questService;
     private QuestAttachmentService questAttachmentService;
-    private QuesterManager questerManager;
+    private QuesterService questerService;
     private DialogService dialogService;
     private DialogAttachmentService dialogAttachmentService;
-    private LocationManager locationManager;
+    private QuestLocationService locationService;
     private InventoryService inventoryService;
     private ParticleEmitter particleEmitter;
 
@@ -80,6 +79,11 @@ public class AtherysQuests {
 
     @Inject
     Logger logger;
+
+    @Inject
+    Injector injector;
+
+    Injector questsInjector;
 
     private void init() {
         instance = this;
@@ -104,6 +108,8 @@ public class AtherysQuests {
 
     private void start() {
 
+        questsInjector = injector.createChildInjector(new AtherysQuestsModule());
+
         Sponge.getEventManager().registerListeners(this, new GsonListener());
         Sponge.getEventManager().registerListeners(this, new EntityListener());
         Sponge.getEventManager().registerListeners(this, new InventoryListener());
@@ -127,15 +133,15 @@ public class AtherysQuests {
         questAttachmentService= QuestAttachmentService.getInstance();
         dialogAttachmentService = DialogAttachmentService.getInstance();
 
-        locationManager = LocationManager.getInstance();
+//        locationManager = LocationManager.getInstance();
         particleEmitter = ParticleEmitter.getInstance();
 
-        questerManager = QuesterManager.getInstance();
+//        questerManager = QuesterManager.getInstance();
 
         inventoryService = InventoryService.getInstance();
 
-        QuesterManager.getInstance().loadAll();
-        LocationManager.getInstance().loadAll();
+//        QuesterManager.getInstance().loadAll();
+//        LocationManager.getInstance().loadAll();
 
         try {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
@@ -148,8 +154,8 @@ public class AtherysQuests {
     }
 
     private void stop() {
-        QuesterManager.getInstance().saveAll();
-        LocationManager.getInstance().saveAll();
+//        QuesterManager.getInstance().saveAll();
+//        LocationManager.getInstance().saveAll();
     }
 
     private void reload() {
@@ -196,7 +202,7 @@ public class AtherysQuests {
 
     @Listener
     public void onHibernateConfiguration(AtherysHibernateConfigurationEvent event) {
-        event.registerEntity(Quester.class);
+        event.registerEntity(SimpleQuester.class);
     }
 
     public static AtherysQuests getInstance() {
@@ -223,8 +229,8 @@ public class AtherysQuests {
         return Sponge.getServiceManager().provide(EconomyService.class);
     }
 
-    public static QuesterManager getQuesterManager() {
-        return getInstance().questerManager;
+    public static QuesterService getQuesterService() {
+        return getInstance().questerService;
     }
 
     public static QuestAttachmentService getQuestAttachmentService() {
@@ -239,8 +245,8 @@ public class AtherysQuests {
         return getInstance().dialogService;
     }
 
-    public static LocationManager getLocationManager() {
-        return getInstance().locationManager;
+    public static QuestLocationService getQuestLocationService() {
+        return getInstance().locationService;
     }
 
     public static InventoryService getInventoryService() {

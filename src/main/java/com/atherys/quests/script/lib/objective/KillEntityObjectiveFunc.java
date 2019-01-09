@@ -1,7 +1,7 @@
 package com.atherys.quests.script.lib.objective;
 
 import com.atherys.quests.api.objective.Objective;
-import com.atherys.quests.quest.objective.Objectives;
+import com.atherys.quests.model.quest.objective.Objectives;
 
 import java.util.function.BiFunction;
 

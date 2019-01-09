@@ -1,8 +1,8 @@
 package com.atherys.quests.views;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.quest.Stage;
-import com.atherys.quests.quest.StagedQuest;
+import com.atherys.quests.model.quest.Stage;
+import com.atherys.quests.model.quest.StagedQuest;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;

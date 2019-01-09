@@ -2,7 +2,7 @@ package com.atherys.quests.views;
 
 import com.atherys.core.views.View;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
@@ -12,12 +12,12 @@ import org.spongepowered.api.text.format.TextStyles;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestLog implements View<Quester> {
+public class QuestLog implements View<SimpleQuester> {
 
-    private final Quester quester;
+    private final SimpleQuester simpleQuester;
 
-    public QuestLog(Quester quester) {
-        this.quester = quester;
+    public QuestLog(SimpleQuester simpleQuester) {
+        this.simpleQuester = simpleQuester;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class QuestLog implements View<Quester> {
         lastPage.append(Text.of("Quest Log:\n"));
 
         int i = 1;
-        for (Quest quest : quester.getQuests().values()) {
+        for (Quest quest : simpleQuester.getQuests().values()) {
             Text.Builder questView = Text.builder();
             questView.append(Text.of("[", i, "] "));
             questView.append(Text.of(quest.isComplete() ? TextStyles.STRIKETHROUGH : TextStyles.NONE, quest.getName(), TextStyles.NONE));
@@ -54,7 +54,7 @@ public class QuestLog implements View<Quester> {
         player.sendBookView(log.build());
     }
 
-    public Quester getQuester() {
-        return quester;
+    public SimpleQuester getQuester() {
+        return simpleQuester;
     }
 }

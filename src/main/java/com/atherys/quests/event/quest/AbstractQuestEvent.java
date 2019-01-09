@@ -1,18 +1,19 @@
 package com.atherys.quests.event.quest;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.util.AbstractEvent;
 
 public abstract class AbstractQuestEvent extends AbstractEvent {
 
     private Quest quest;
-    private Quester quester;
+    private Quester simpleQuester;
 
-    public AbstractQuestEvent(Quest quest, Quester quester) {
-        super(quest, quester);
+    public AbstractQuestEvent(Quest quest, Quester simpleQuester) {
+        super(quest, simpleQuester);
         this.quest = quest;
-        this.quester = quester;
+        this.simpleQuester = simpleQuester;
     }
 
     public Quest getQuest() {
@@ -20,6 +21,6 @@ public abstract class AbstractQuestEvent extends AbstractEvent {
     }
 
     public Quester getQuester() {
-        return quester;
+        return simpleQuester;
     }
 }

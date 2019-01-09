@@ -35,7 +35,7 @@ public class RemoveQuestCommand implements ParameterizedCommand {
 
         if (player.isPresent() && questId.isPresent()) {
             AtherysQuests.getQuestService().getQuest(questId.get()).ifPresent(quest -> {
-                AtherysQuests.getQuesterManager().getQuester(player.get()).removeQuest(quest);
+                AtherysQuests.getQuesterService().getQuester(player.get()).removeQuest(quest);
             });
             return CommandResult.success();
         }

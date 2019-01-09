@@ -1,7 +1,8 @@
 package com.atherys.quests.event.quest;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
@@ -11,13 +12,14 @@ public class QuestCompletedEvent implements Event {
     private Cause cause;
 
     private Quest quest;
-    private Quester quester;
 
-    public QuestCompletedEvent(Quest quest, Quester quester) {
+    private Quester simpleQuester;
+
+    public QuestCompletedEvent(Quest quest, Quester simpleQuester) {
         this.quest = quest;
-        this.quester = quester;
+        this.simpleQuester = simpleQuester;
         cause = Cause.builder()
-                .append(quester.getCachedPlayer())
+                .append(simpleQuester)
                 .build(Sponge.getCauseStackManager().getCurrentContext());
     }
 
@@ -27,7 +29,7 @@ public class QuestCompletedEvent implements Event {
     }
 
     public Quester getQuester() {
-        return quester;
+        return simpleQuester;
     }
 
     public Quest getQuest() {

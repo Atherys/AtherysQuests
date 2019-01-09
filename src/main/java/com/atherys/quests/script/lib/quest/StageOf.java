@@ -2,7 +2,7 @@ package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.quest.Stage;
+import com.atherys.quests.model.quest.Stage;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;

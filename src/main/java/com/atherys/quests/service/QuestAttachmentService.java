@@ -28,7 +28,7 @@ public class QuestAttachmentService extends AbstractAttachmentService<QuestAttac
     public void addQuestLocation(Player player, Location<World> location){
         Optional<ProtoQuestLocation> proto = getAttachment(player);
         proto.ifPresent(questLocation ->{
-            AtherysQuests.getLocationManager().addQuestLocation(location, questLocation.getQuestId(), questLocation.getRadius(), questLocation.getType());
+            AtherysQuests.getQuestLocationService().addQuestLocation(location, questLocation.getQuestId(), questLocation.getRadius(), questLocation.getType());
         });
     }
 

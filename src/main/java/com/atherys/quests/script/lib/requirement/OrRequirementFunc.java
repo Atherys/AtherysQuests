@@ -1,7 +1,7 @@
 package com.atherys.quests.script.lib.requirement;
 
 import com.atherys.quests.api.requirement.Requirement;
-import com.atherys.quests.quest.requirement.Requirements;
+import com.atherys.quests.model.quest.requirement.Requirements;
 
 import java.util.function.BiFunction;
 

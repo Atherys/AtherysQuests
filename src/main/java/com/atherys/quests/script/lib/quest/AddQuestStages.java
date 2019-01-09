@@ -1,7 +1,7 @@
 package com.atherys.quests.script.lib.quest;
 
-import com.atherys.quests.quest.Stage;
-import com.atherys.quests.quest.StagedQuest;
+import com.atherys.quests.model.quest.Stage;
+import com.atherys.quests.model.quest.StagedQuest;
 
 import java.util.function.BiFunction;
 

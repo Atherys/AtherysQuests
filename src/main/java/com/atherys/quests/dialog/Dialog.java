@@ -2,12 +2,12 @@ package com.atherys.quests.dialog;
 
 import com.atherys.core.views.Viewable;
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.event.dialog.DialogEndEvent;
 import com.atherys.quests.event.dialog.DialogProceedEvent;
 import com.atherys.quests.event.dialog.DialogStartEvent;
-import com.atherys.quests.quester.Quester;
 import com.atherys.quests.views.DialogView;
 import com.atherys.quests.views.TakeQuestView;
 import org.spongepowered.api.Sponge;
@@ -23,6 +23,7 @@ public class Dialog implements Viewable<DialogView> {
     private String treeId;
 
     private Quester quester;
+
     private Entity npc;
 
     private DialogNode lastNode;
@@ -37,9 +38,9 @@ public class Dialog implements Viewable<DialogView> {
     }
 
     public static Optional<Dialog> between(Player player, Entity entity, DialogTree dialogTree) {
-        Quester quester = AtherysQuests.getQuesterManager().getQuester(player);
+        Quester simpleQuester = AtherysQuests.getQuesterService().getQuester(player);
 
-        Dialog dialog = new Dialog(quester, entity, dialogTree);
+        Dialog dialog = new Dialog(simpleQuester, entity, dialogTree);
         dialog.proceed(player, dialog.getLastNode());
         return Optional.of(dialog);
     }
@@ -87,10 +88,6 @@ public class Dialog implements Viewable<DialogView> {
 
     public Entity getNPC() {
         return npc;
-    }
-
-    public Optional<? extends User> getPlayer() {
-        return quester.getUser();
     }
 
     @Nullable

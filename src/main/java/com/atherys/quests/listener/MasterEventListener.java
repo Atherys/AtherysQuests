@@ -11,7 +11,7 @@ public class MasterEventListener {
     @Listener
     public void onEvent(Event event) {
         if (event instanceof GameStateEvent) return;
-        event.getCause().first(Player.class).ifPresent(player -> AtherysQuests.getQuesterManager().notify(event, player));
+        event.getCause().first(Player.class).ifPresent(player -> AtherysQuests.getQuesterService().notify(event, player));
     }
 
 }

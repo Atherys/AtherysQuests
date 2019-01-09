@@ -39,12 +39,12 @@ public class TakeQuestView implements QuestView<Quest> {
         questView.addPage(view.getFormattedRewards());
 
         Text.Builder takeQuest = Text.builder();
-        Question question = Question.of(Text.of("Do you accept the completedQuest \"", quest.getName(), "\"?"))
+        Question question = Question.of(Text.of("Do you accept the quest \"", quest.getName(), "\"?"))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), player -> {
-                    AtherysQuests.getQuesterManager().getQuester(player).pickupQuest(quest);
+                    AtherysQuests.getQuesterService().getQuester(player).pickupQuest(quest);
                 }))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), player -> {
-                    QuestMsg.error(player, "You have declined the completedQuest \"", quest.getName(), "\".");
+                    QuestMsg.error(player, "You have declined the quest \"", quest.getName(), "\".");
                 }))
                 .build();
 

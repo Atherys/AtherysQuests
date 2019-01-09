@@ -6,7 +6,7 @@ import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
@@ -53,10 +53,10 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     List<Reward> getRewards();
 
     /**
-     * Checks whether or not the Quester meets the requirements of this completedQuest.
+     * Checks whether or not the SimpleQuester meets the requirements of this completedQuest.
      *
-     * @param quester The Quester to be checked
-     * @return Whether or not the Quester meets the requirements
+     * @param quester The SimpleQuester to be checked
+     * @return Whether or not the SimpleQuester meets the requirements
      */
     boolean meetsRequirements(Quester quester);
 
@@ -69,7 +69,7 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, V
     void notify(Event event, Quester quester);
 
     /**
-     * Awards the Quester for having completed all Objectives of this completedQuest.
+     * Awards the SimpleQuester for having completed all Objectives of this completedQuest.
      *
      * @param quester The quester to be awarded
      */

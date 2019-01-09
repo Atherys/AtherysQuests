@@ -1,10 +1,11 @@
 package com.atherys.quests.event.objective;
 
 import com.atherys.quests.api.objective.Objective;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 
 public class ObjectiveProgressedEvent extends AbstractObjectiveEvent {
-    public ObjectiveProgressedEvent(Objective objective, Quester quester) {
-        super(objective, quester);
+    public ObjectiveProgressedEvent(Objective objective, Quester simpleQuester) {
+        super(objective, simpleQuester);
     }
 }

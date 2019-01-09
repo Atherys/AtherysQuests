@@ -1,7 +1,7 @@
 package com.atherys.quests.script.lib.reward;
 
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.quest.reward.Rewards;
+import com.atherys.quests.model.quest.reward.Rewards;
 import org.spongepowered.api.text.Text;
 
 import java.util.function.BiFunction;

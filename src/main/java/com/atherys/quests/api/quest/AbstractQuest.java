@@ -1,8 +1,9 @@
 package com.atherys.quests.api.quest;
 
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
@@ -12,10 +13,13 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     @Expose
     protected String id;
+
     @Expose
     protected Text name = Text.of("Unnamed Quest");
+
     @Expose
     protected Text description = Text.of("No Description");
+
     @Expose
     protected int version;
 
@@ -46,17 +50,17 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
-    public boolean meetsRequirements(Quester quester) {
+    public boolean meetsRequirements(Quester simpleQuester) {
         for (Requirement req : getRequirements()) {
-            if (!req.check(quester)) return false;
+            if (!req.check(simpleQuester)) return false;
         }
         return true;
     }
 
     @Override
-    public void award(Quester quester) {
+    public void award(Quester simpleQuester) {
         for (Reward reward : getRewards()) {
-            reward.award(quester);
+            reward.award(simpleQuester);
         }
     }
 

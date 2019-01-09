@@ -30,7 +30,7 @@ public class ParticleEmitter {
      * Emits particles for every completedQuest block.
      */
     private void emitParticles(){
-        AtherysQuests.getLocationManager().getQuestBlocks().forEach((location, questLocation) ->{
+        AtherysQuests.getQuestLocationService().getQuestBlocks().forEach((location, questLocation) ->{
              location.getExtent().getNearbyEntities(location.getPosition(), questLocation.getRadius()).forEach(entity -> {
                  if (entity instanceof Player){
                      ((Player) entity).spawnParticles(effect, location.getPosition(), (int) questLocation.getRadius());
