@@ -11,6 +11,6 @@ import java.util.function.Function;
 public class GetQuestById implements Function<String,Quest> {
     @Override
     public Quest apply(String questId) {
-        return AtherysQuests.getQuestService().getQuest(questId).orElse(null);
+        return AtherysQuests.getInstance().getQuestService().getQuest(questId).orElse(null);
     }
 }

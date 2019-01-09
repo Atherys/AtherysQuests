@@ -38,7 +38,7 @@ public class Dialog implements Viewable<DialogView> {
     }
 
     public static Optional<Dialog> between(Player player, Entity entity, DialogTree dialogTree) {
-        Quester simpleQuester = AtherysQuests.getQuesterService().getQuester(player);
+        Quester simpleQuester = AtherysQuests.getInstance().getQuesterService().getQuester(player);
 
         Dialog dialog = new Dialog(simpleQuester, entity, dialogTree);
         dialog.proceed(player, dialog.getLastNode());
@@ -81,7 +81,7 @@ public class Dialog implements Viewable<DialogView> {
             node.getQuest().ifPresent(quest -> new TakeQuestView(quest).show(player));
 
             if (node.getResponses().isEmpty()) {
-                AtherysQuests.getDialogService().removePlayerDialog(player);
+                AtherysQuests.getInstance().getDialogService().removePlayerDialog(player);
             }
         }
     }

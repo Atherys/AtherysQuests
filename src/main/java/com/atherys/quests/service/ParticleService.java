@@ -11,8 +11,8 @@ import org.spongepowered.api.util.Color;
 
 import java.util.concurrent.TimeUnit;
 
-public class ParticleEmitter {
-    private static ParticleEmitter instance = new ParticleEmitter();
+public class ParticleService {
+    private static ParticleService instance = new ParticleService();
     private static ParticleEffect effect = ParticleEffect.builder()
                 .type(ParticleTypes.REDSTONE_DUST)
                 .option(ParticleOptions.COLOR, Color.YELLOW)
@@ -22,7 +22,7 @@ public class ParticleEmitter {
     private Task particleEmissionTask;
     private boolean isEmitting;
 
-    public static ParticleEmitter getInstance() {
+    public static ParticleService getInstance() {
         return instance;
     }
 
@@ -30,7 +30,7 @@ public class ParticleEmitter {
      * Emits particles for every completedQuest block.
      */
     private void emitParticles(){
-        AtherysQuests.getQuestLocationService().getQuestBlocks().forEach((location, questLocation) ->{
+        AtherysQuests.getInstance().getQuestLocationService().getQuestBlocks().forEach((location, questLocation) ->{
              location.getExtent().getNearbyEntities(location.getPosition(), questLocation.getRadius()).forEach(entity -> {
                  if (entity instanceof Player){
                      ((Player) entity).spawnParticles(effect, location.getPosition(), (int) questLocation.getRadius());

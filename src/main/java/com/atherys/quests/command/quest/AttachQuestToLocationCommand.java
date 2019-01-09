@@ -6,7 +6,6 @@ import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.QuestLocationType;
-import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -33,8 +32,8 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
 
         Player player = (Player) src;
         AtherysQuests.getInstance().getLogger().info(player.toString());
-        if (AtherysQuests.getQuestAttachmentService().isRemoving(player)){
-            QuestMsg.error(player, "You're currently removing a quest.");
+        if (AtherysQuests.getInstance().getQuestAttachmentService().isRemoving(player)){
+            AtherysQuests.getInstance().getQuestMessagingService().error(player, "You're currently removing a quest.");
             return CommandResult.empty();
         }
 
@@ -43,12 +42,12 @@ public class AttachQuestToLocationCommand implements ParameterizedCommand {
         Optional<String> type = args.getOne("type");
 
         if (radius.isPresent() && questId.isPresent() && type.isPresent()) {
-            if (AtherysQuests.getQuestService().getQuest(questId.get()).isPresent()){
-                AtherysQuests.getQuestAttachmentService().startAttachment(player, questId.get(), radius.get(), QuestLocationType.valueOf(type.get()));
-                QuestMsg.info(player, "Right click on a block to set the quest.");
+            if (AtherysQuests.getInstance().getQuestService().getQuest(questId.get()).isPresent()){
+                AtherysQuests.getInstance().getQuestAttachmentService().startAttachment(player, questId.get(), radius.get(), QuestLocationType.valueOf(type.get()));
+                AtherysQuests.getInstance().getQuestMessagingService().info(player, "Right click on a block to set the quest.");
                 return CommandResult.success();
             } else {
-                QuestMsg.error(player, "Quest ID invalid.");
+                AtherysQuests.getInstance().getQuestMessagingService().error(player, "Quest ID invalid.");
                 return CommandResult.empty();
             }
         }

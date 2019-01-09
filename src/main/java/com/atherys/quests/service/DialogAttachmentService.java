@@ -19,8 +19,8 @@ public class DialogAttachmentService extends AbstractAttachmentService<String> {
 
     public void applyAttachment(Player player, Entity entity) {
         getAttachment(player).ifPresent(id -> {
-            AtherysQuests.getDialogService().getDialogFromId(id).ifPresent(dialogTree -> {
-                AtherysQuests.getDialogService().setDialog(entity, dialogTree);
+            AtherysQuests.getInstance().getDialogService().getDialogFromId(id).ifPresent(dialogTree -> {
+                AtherysQuests.getInstance().getDialogService().setDialog(entity, dialogTree);
             });
         });
         endAttachment(player);

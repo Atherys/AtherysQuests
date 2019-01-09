@@ -110,6 +110,9 @@ public class AtherysQuests {
     DialogAttachmentService dialogAttachmentService;
 
     @Inject
+    ParticleService particleService;
+
+    @Inject
     DialogScriptService dialogScriptService;
 
     @Inject
@@ -188,7 +191,7 @@ public class AtherysQuests {
 //        dialogAttachmentService = DialogAttachmentService.getInstance();
 
 //        locationManager = LocationManager.getInstance();
-//        particleEmitter = ParticleEmitter.getInstance();
+//        particleEmitter = ParticleService.getInstance();
 
 //        questerManager = QuesterManager.getInstance();
 
@@ -325,6 +328,10 @@ public class AtherysQuests {
 
     public DialogAttachmentService getDialogAttachmentService() {
         return dialogAttachmentService;
+    }
+
+    public ParticleService getParticleService() {
+        return particleService;
     }
 
     public DialogScriptService getDialogScriptService() {

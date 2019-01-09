@@ -85,7 +85,7 @@ public class DialogNode {
     }
 
     public Optional<Quest> getQuest() {
-        return AtherysQuests.getQuestService().getQuest(questId);
+        return AtherysQuests.getInstance().getQuestService().getQuest(questId);
     }
 
     protected void setQuest(String quest) {

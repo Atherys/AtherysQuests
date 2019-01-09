@@ -5,7 +5,6 @@ import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.AtherysQuests;
-import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -30,12 +29,12 @@ public class AttachDialogCommand implements CommandExecutor, ParameterizedComman
 
         Player player = (Player) src;
         String id = args.<String>getOne("dialogId").get();
-        if (AtherysQuests.getDialogService().getDialogFromId(id).isPresent()) {
-            AtherysQuests.getDialogAttachmentService().startAttachment(player, id);
-            QuestMsg.error(player, "Right click an entity to attach the dialog.");
+        if (AtherysQuests.getInstance().getDialogService().getDialogFromId(id).isPresent()) {
+            AtherysQuests.getInstance().getDialogAttachmentService().startAttachment(player, id);
+            AtherysQuests.getInstance().getQuestMessagingService().error(player, "Right click an entity to attach the dialog.");
             return CommandResult.success();
         } else {
-            QuestMsg.error(player, "Dialog with ID ", id, " does not exist.");
+            AtherysQuests.getInstance().getQuestMessagingService().error(player, "Dialog with ID ", id, " does not exist.");
             return CommandResult.empty();
         }
     }

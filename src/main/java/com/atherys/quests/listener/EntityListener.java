@@ -8,7 +8,6 @@ import com.atherys.quests.api.quest.QuestLocationType;
 import com.atherys.quests.facade.DialogFacade;
 import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
-import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.QuestFromItemView;
 import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;

@@ -17,6 +17,7 @@ import com.atherys.quests.script.SimpleQuestScriptService;
 import com.atherys.quests.service.DialogAttachmentService;
 import com.atherys.quests.service.DialogService;
 import com.atherys.quests.service.InventoryService;
+import com.atherys.quests.service.ParticleService;
 import com.atherys.quests.service.QuestAttachmentService;
 import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
@@ -44,6 +45,7 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(QuesterService.class).in(Scopes.SINGLETON);
         bind(QuestAttachmentService.class).in(Scopes.SINGLETON);
         bind(DialogAttachmentService.class).in(Scopes.SINGLETON);
+        bind(ParticleService.class).in(Scopes.SINGLETON);
         bind(DialogScriptService.class).to(SimpleDialogScriptService.class).in(Scopes.SINGLETON);
         bind(QuestScriptService.class).to(SimpleQuestScriptService.class).in(Scopes.SINGLETON);
 

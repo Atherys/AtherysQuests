@@ -19,7 +19,7 @@ public class RegisterDialogTree implements Function<DialogTree,Boolean> {
         Task.builder()
                 .name("dialog-tree-registration-task-" + dialogTree.getId())
                 .delay(5, TimeUnit.SECONDS)
-                .execute(() -> AtherysQuests.getDialogService().registerDialog(dialogTree))
+                .execute(() -> AtherysQuests.getInstance().getDialogService().registerDialog(dialogTree))
                 .submit(AtherysQuests.getInstance());
         return true;
     }

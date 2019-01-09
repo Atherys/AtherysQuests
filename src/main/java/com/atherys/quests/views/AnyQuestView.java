@@ -4,7 +4,6 @@ import com.atherys.core.utils.Question;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.service.QuestMessagingService;
-import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;

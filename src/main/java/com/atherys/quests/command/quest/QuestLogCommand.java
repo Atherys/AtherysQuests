@@ -23,7 +23,7 @@ public class QuestLogCommand implements CommandExecutor {
         if (!(src instanceof Player)) return CommandResult.empty();
 
         Optional<Player> player = ((Player) src).getPlayer();
-        player.ifPresent((p -> AtherysQuests.getQuesterService().getQuester(p).getLog().show(p)));
+        player.ifPresent((p -> AtherysQuests.getInstance().getQuesterService().getQuester(p).getLog().show(p)));
         return CommandResult.success();
     }
 }

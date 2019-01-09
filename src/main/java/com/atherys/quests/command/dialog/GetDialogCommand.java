@@ -31,7 +31,7 @@ public class GetDialogCommand implements CommandExecutor {
             for (EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
                 Entity next = entityHit.getEntity();
                 if (next instanceof Player) continue;
-                Optional<DialogTree> tree = AtherysQuests.getDialogService().getDialog(entityHit.getEntity());
+                Optional<DialogTree> tree = AtherysQuests.getInstance().getDialogService().getDialog(entityHit.getEntity());
                 p.sendMessage(tree.map(dialogTree -> Text.of("Dialog ID: ", dialogTree.getId())).orElseGet(() -> Text.of("Dialog ID: none")));
             }
         });

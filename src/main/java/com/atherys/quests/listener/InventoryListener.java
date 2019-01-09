@@ -8,7 +8,7 @@ public class InventoryListener {
 
     @Listener
     public void onInventoryClose(InteractInventoryEvent.Close event) {
-        AtherysQuests.getInventoryService().removeInventory(event.getTargetInventory());
+        AtherysQuests.getInstance().getInventoryService().removeInventory(event.getTargetInventory());
     }
 
 }

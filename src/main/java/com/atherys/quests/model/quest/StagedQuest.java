@@ -1,5 +1,6 @@
 package com.atherys.quests.model.quest;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.quester.Quester;
@@ -8,9 +9,7 @@ import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.event.quest.QuestCompletedEvent;
 import com.atherys.quests.event.quest.QuestStartedEvent;
 import com.atherys.quests.event.quest.StagedQuestProgressEvent;
-import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.util.CopyUtils;
-import com.atherys.quests.util.QuestMsg;
 import com.atherys.quests.views.StagedQuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;
@@ -136,7 +135,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
                 // set the current stage to the next one
                 current++;
-                QuestMsg.info(quester, "You have completed an objective for the completedQuest \"", this.getName(), "\"");
+                AtherysQuests.getInstance().getQuestMessagingService().info(quester, "You have completed an objective for the completedQuest \"", this.getName(), "\"");
 
                 Sponge.getEventManager().post(new StagedQuestProgressEvent(this, currentStage, quester));
                 // if it does not have a next stage

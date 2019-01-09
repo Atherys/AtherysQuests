@@ -19,7 +19,7 @@ public class ReloadQuestsCommand implements CommandExecutor {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         try {
-            AtherysQuests.getQuestScriptService().reloadScripts();
+            AtherysQuests.getInstance().getQuestScriptService().reloadScripts();
         } catch (Throwable e) {
             e.printStackTrace();
             src.sendMessage(Text.builder()

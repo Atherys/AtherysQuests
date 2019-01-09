@@ -4,7 +4,6 @@ import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.AtherysQuests;
-import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -23,10 +22,10 @@ public class CancelQuestCommand implements CommandExecutor {
         if (!(src instanceof Player)) return CommandResult.empty();
 
         Player player = (Player) src;
-        AtherysQuests.getQuestAttachmentService().endAttachment(player);
-        AtherysQuests.getQuestAttachmentService().endRemoval(player);
+        AtherysQuests.getInstance().getQuestAttachmentService().endAttachment(player);
+        AtherysQuests.getInstance().getQuestAttachmentService().endRemoval(player);
 
-        QuestMsg.info(player, "Quest attachment/removal cleared.");
+        AtherysQuests.getInstance().getQuestMessagingService().info(player, "Quest attachment/removal cleared.");
 
         return CommandResult.empty();
     }

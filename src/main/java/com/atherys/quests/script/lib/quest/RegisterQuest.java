@@ -11,7 +11,7 @@ import java.util.function.Function;
 public class RegisterQuest implements Function<Quest, Boolean> {
     @Override
     public Boolean apply(Quest quest) {
-        AtherysQuests.getQuestService().registerQuest(quest);
+        AtherysQuests.getInstance().getQuestService().registerQuest(quest);
         return true;
     }
 }

@@ -4,7 +4,6 @@ import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.AtherysQuests;
-import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -23,15 +22,15 @@ public class DetachQuestFromLocationCommand implements CommandExecutor {
 
         Player player = (Player) src;
 
-        if (AtherysQuests.getQuestAttachmentService().isAttaching(player)) {
-            QuestMsg.error(player, "You're currently attaching a quest.");
+        if (AtherysQuests.getInstance().getQuestAttachmentService().isAttaching(player)) {
+            AtherysQuests.getInstance().getQuestMessagingService().error(player, "You're currently attaching a quest.");
             return CommandResult.empty();
-        } else if (AtherysQuests.getQuestAttachmentService().isRemoving(player)){
-            QuestMsg.info(player, "You're already removing a quest.");
+        } else if (AtherysQuests.getInstance().getQuestAttachmentService().isRemoving(player)){
+            AtherysQuests.getInstance().getQuestMessagingService().info(player, "You're already removing a quest.");
             return CommandResult.success();
         } else {
-            AtherysQuests.getQuestAttachmentService().startRemoval(player);
-            QuestMsg.info(player, "Right click to remove a quest from the location/block.");
+            AtherysQuests.getInstance().getQuestAttachmentService().startRemoval(player);
+            AtherysQuests.getInstance().getQuestMessagingService().info(player, "Right click to remove a quest from the location/block.");
             return CommandResult.success();
         }
     }

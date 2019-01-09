@@ -3,8 +3,8 @@ package com.atherys.quests.command.quest;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.data.QuestData;
-import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -30,7 +30,7 @@ public class DetachQuestFromItemCommand implements CommandExecutor {
         Optional<ItemStack> itemStack = player.getItemInHand(HandTypes.MAIN_HAND);
         itemStack.ifPresent(item ->{
             item.remove(QuestData.class);
-            QuestMsg.info(player, "Any quests have been removed from the item.");
+            AtherysQuests.getInstance().getQuestMessagingService().info(player, "Any quests have been removed from the item.");
         });
         return CommandResult.success();
     }

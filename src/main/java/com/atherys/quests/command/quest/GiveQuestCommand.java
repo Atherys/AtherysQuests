@@ -34,7 +34,7 @@ public class GiveQuestCommand implements ParameterizedCommand {
         Optional<String> questId = args.getOne("quest");
 
         if (player.isPresent() && questId.isPresent()) {
-            AtherysQuests.getQuestService().getQuest(questId.get()).ifPresent(quest -> {
+            AtherysQuests.getInstance().getQuestService().getQuest(questId.get()).ifPresent(quest -> {
                 quest.createView().show(player.get());
             });
             return CommandResult.success();

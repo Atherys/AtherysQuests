@@ -1,13 +1,13 @@
 package com.atherys.quests.model;
 
-import com.atherys.core.db.Identifiable;
 import com.atherys.core.utils.UserUtils;
 import com.atherys.core.views.Viewable;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.event.quest.QuestCompletedEvent;
 import com.atherys.quests.event.quest.QuestTurnedInEvent;
-import com.atherys.quests.util.QuestMsg;
+import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.views.QuestLog;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
@@ -55,7 +55,7 @@ public class SimpleQuester implements Quester, Viewable<QuestLog> {
             if (!quest.isComplete()) {
                 quest.notify(event, this);
                 if (quest.isComplete()) {
-                    QuestMsg.info(this, "You have completed the completedQuest \"", quest.getName(), "\". You may now turn it in.");
+                    AtherysQuests.getInstance().getQuestMessagingService().info(this, "You have completed the completedQuest \"", quest.getName(), "\". You may now turn it in.");
 
                     QuestCompletedEvent qsEvent = new QuestCompletedEvent(quest, this);
                     Sponge.getEventManager().post(qsEvent);
@@ -67,19 +67,19 @@ public class SimpleQuester implements Quester, Viewable<QuestLog> {
     public boolean pickupQuest(Quest quest) {
         if (!quest.meetsRequirements(this)) {
             Text.Builder reqText = Text.builder();
-            reqText.append(Text.of(QuestMsg.MSG_PREFIX, " You do not meet the requirements for this completedQuest."));
+            reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " You do not meet the requirements for this completedQuest."));
             reqText.append(quest.createView().getFormattedRequirements());
-            QuestMsg.noformat(this, reqText.build());
+            AtherysQuests.getInstance().getQuestMessagingService().noformat(this, reqText.build());
 
             return false;
         }
 
         if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
             quests.put(quest.getId(), (Quest) quest.copy());
-            QuestMsg.info(this, "You have started the completedQuest \"", quest.getName(), "\"");
+            AtherysQuests.getInstance().getQuestMessagingService().info(this, "You have started the completedQuest \"", quest.getName(), "\"");
             return true;
         } else {
-            QuestMsg.error(this, "You are either already doing this completedQuest, or have done it before in the past.");
+            AtherysQuests.getInstance().getQuestMessagingService().error(this, "You are either already doing this completedQuest, or have done it before in the past.");
             return false;
         }
     }
@@ -94,7 +94,7 @@ public class SimpleQuester implements Quester, Viewable<QuestLog> {
 
         quest.award(this);
 
-        QuestMsg.info(this, "You have turned in the completedQuest \"", quest.getName(), "\"");
+        AtherysQuests.getInstance().getQuestMessagingService().info(this, "You have turned in the completedQuest \"", quest.getName(), "\"");
 
         QuestTurnedInEvent qsEvent = new QuestTurnedInEvent(quest, this);
         Sponge.getEventManager().post(qsEvent);

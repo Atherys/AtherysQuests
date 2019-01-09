@@ -17,9 +17,9 @@ public class AttachDialog implements BiFunction<Entity, String, Boolean> {
      */
     @Override
     public Boolean apply(Entity entity, String dialogId) {
-        Optional<DialogTree> dialogTree = AtherysQuests.getDialogService().getDialogFromId(dialogId);
+        Optional<DialogTree> dialogTree = AtherysQuests.getInstance().getDialogService().getDialogFromId(dialogId);
         if (dialogTree.isPresent()) {
-            return AtherysQuests.getDialogService().setDialog(entity, dialogTree.get());
+            return AtherysQuests.getInstance().getDialogService().setDialog(entity, dialogTree.get());
         }
 
         return false;
