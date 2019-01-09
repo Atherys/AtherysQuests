@@ -3,6 +3,7 @@ package com.atherys.quests.views;
 import com.atherys.core.utils.Question;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.util.QuestMsg;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
@@ -41,10 +42,10 @@ public class TakeQuestView implements QuestView<Quest> {
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of(Text.of("Do you accept the quest \"", quest.getName(), "\"?"))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), player -> {
-                    AtherysQuests.getQuesterService().getQuester(player).pickupQuest(quest);
+                    AtherysQuests.getInstance().getQuesterFacade().pickupQuest(player, quest);
                 }))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), player -> {
-                    QuestMsg.error(player, "You have declined the quest \"", quest.getName(), "\".");
+                    AtherysQuests.getInstance().getQuestMessagingService().error(player, "You have declined the quest \"", quest.getName(), "\".");
                 }))
                 .build();
 
@@ -60,8 +61,8 @@ public class TakeQuestView implements QuestView<Quest> {
     @Override
     public Text getFormattedRequirements() {
         Text.Builder reqText = Text.builder();
-        reqText.append(Text.of(QuestMsg.MSG_PREFIX, " Quest Requirements: "));
-        quest.getRequirements().forEach(requirement -> reqText.append(Text.of(QuestMsg.MSG_PREFIX, " * ", requirement.toText(), Text.NEW_LINE)));
+        reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " Quest Requirements: "));
+        quest.getRequirements().forEach(requirement -> reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " * ", requirement.toText(), Text.NEW_LINE)));
         return reqText.build();
     }
 

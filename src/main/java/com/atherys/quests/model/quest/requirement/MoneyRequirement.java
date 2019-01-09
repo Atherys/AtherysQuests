@@ -29,7 +29,7 @@ public class MoneyRequirement extends NumericRequirement {
 
     @Override
     public boolean check(Quester quester) {
-        Optional<? extends User> user = quester.getUser();
+        Optional<? extends User> user = AtherysQuests.getInstance().getQuesterService().getUser(quester);
         if (!user.isPresent()) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();

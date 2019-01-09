@@ -1,5 +1,6 @@
 package com.atherys.quests.model.quest.objective;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.objective.AbstractObjective;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.model.SimpleQuester;
@@ -38,7 +39,7 @@ public class ItemDeliveryObjective extends AbstractObjective<InteractEntityEvent
     @Override
     protected void onNotify(InteractEntityEvent.Secondary event, Quester quester) {
         if(!event.getTargetEntity().getUniqueId().equals(target)) return;
-        PlayerInventory inventory = (PlayerInventory) quester.getCachedPlayer().getInventory();
+        PlayerInventory inventory = (PlayerInventory) AtherysQuests.getInstance().getQuesterService().getCachedPlayer(quester).getInventory();
         if(inventory.contains(item.createStack()) && !inventory.getEquipment().contains(item.createStack())){
             ItemUtils.removeItemExact(inventory, item.createStack());
             complete = true;

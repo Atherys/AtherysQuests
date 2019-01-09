@@ -1,17 +1,18 @@
 package com.atherys.quests.service;
 
 import com.atherys.quests.api.base.Observer;
+import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.persistence.QuesterRepository;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class QuesterService implements Observer<Event> {
-
-    private static final QuesterService instance = new QuesterService();
 
     private QuesterRepository repository;
 
@@ -23,8 +24,8 @@ public class QuesterService implements Observer<Event> {
         return getQuester(user.getUniqueId());
     }
 
-    public static QuesterService getInstance() {
-        return instance;
+    public Player getCachedPlayer(Quester quester) {
+        return ((SimpleQuester) quester).getCachedPlayer();
     }
 
     @Override
@@ -34,5 +35,13 @@ public class QuesterService implements Observer<Event> {
 
     public void notify(Event event, Player player) {
         notify(event, getQuester(player));
+    }
+
+    public <T extends Quest> void turnInQuest(Player player, Quest<T> quest) {
+
+    }
+
+    public Optional<? extends User> getUser(Quester quester) {
+        return null;
     }
 }

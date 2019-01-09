@@ -1,5 +1,6 @@
 package com.atherys.quests.model.quest.requirement;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.model.SimpleQuester;
@@ -18,7 +19,7 @@ public class LevelRequirement extends NumericRequirement {
 
     @Override
     public boolean check(Quester quester) {
-        Player player = quester.getCachedPlayer();
+        Player player = AtherysQuests.getInstance().getQuesterService().getCachedPlayer(quester);
         return player != null && check(player.get(Keys.EXPERIENCE_LEVEL).orElse(0));
     }
 

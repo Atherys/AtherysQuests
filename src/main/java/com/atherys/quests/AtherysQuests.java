@@ -9,12 +9,17 @@ import com.atherys.quests.command.dialog.GetUUIDCommand;
 import com.atherys.quests.command.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
+import com.atherys.quests.facade.DialogFacade;
+import com.atherys.quests.facade.QuestFacade;
+import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
 import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
 import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.model.SimpleQuester;
+import com.atherys.quests.persistence.QuestLocationRepository;
+import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.SimpleDialogScriptService;
 import com.atherys.quests.script.SimpleQuestScriptService;
 import com.atherys.quests.script.lib.QuestExtension;
@@ -62,18 +67,6 @@ public class AtherysQuests {
     private static boolean init = false;
     private static QuestsConfig config;
 
-    private QuestService questService;
-    private QuestAttachmentService questAttachmentService;
-    private QuesterService questerService;
-    private DialogService dialogService;
-    private DialogAttachmentService dialogAttachmentService;
-    private QuestLocationService locationService;
-    private InventoryService inventoryService;
-    private ParticleEmitter particleEmitter;
-
-    private DialogScriptService dialogScriptService;
-    private QuestScriptService questScriptService;
-
     @Inject
     PluginContainer container;
 
@@ -82,6 +75,66 @@ public class AtherysQuests {
 
     @Inject
     Injector injector;
+
+    @Inject
+    AtherysQuestsRegistry atherysQuestsRegistry;
+
+    @Inject
+    QuesterRepository questerRepository;
+
+    @Inject
+    QuestLocationRepository questLocationRepository;
+
+    @Inject
+    QuestMessagingService questMessagingService;
+
+    @Inject
+    InventoryService inventoryService;
+
+    @Inject
+    QuestService questService;
+
+    @Inject
+    DialogService dialogService;
+
+    @Inject
+    QuestLocationService questLocationService;
+
+    @Inject
+    QuesterService questerService;
+
+    @Inject
+    QuestAttachmentService questAttachmentService;
+
+    @Inject
+    DialogAttachmentService dialogAttachmentService;
+
+    @Inject
+    DialogScriptService dialogScriptService;
+
+    @Inject
+    QuestScriptService questScriptService;
+
+    @Inject
+    DialogFacade dialogFacade;
+
+    @Inject
+    QuestFacade questFacade;
+
+    @Inject
+    QuesterFacade questerFacade;
+
+    @Inject
+    EntityListener entityListener;
+
+    @Inject
+    GsonListener gsonListener;
+
+    @Inject
+    InventoryListener inventoryListener;
+
+    @Inject
+    MasterEventListener masterEventListener;
 
     Injector questsInjector;
 
@@ -109,6 +162,7 @@ public class AtherysQuests {
     private void start() {
 
         questsInjector = injector.createChildInjector(new AtherysQuestsModule());
+        questsInjector.injectMembers(this);
 
         Sponge.getEventManager().registerListeners(this, new GsonListener());
         Sponge.getEventManager().registerListeners(this, new EntityListener());
@@ -117,28 +171,28 @@ public class AtherysQuests {
 
         JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
 
-        dialogScriptService = SimpleDialogScriptService.getInstance();
-        questScriptService = SimpleQuestScriptService.getInstance();
-
-        try {
-            questScriptService.registerFolder(new File("config/" + ID + "/quests"));
-            dialogScriptService.registerFolder(new File("config/" + ID + "/dialogs"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        questService = QuestService.getInstance();
-        dialogService = DialogService.getInstance();
-
-        questAttachmentService= QuestAttachmentService.getInstance();
-        dialogAttachmentService = DialogAttachmentService.getInstance();
+//        dialogScriptService = SimpleDialogScriptService.getInstance();
+//        questScriptService = SimpleQuestScriptService.getInstance();
+//
+//        try {
+//            questScriptService.registerFolder(new File("config/" + ID + "/quests"));
+//            dialogScriptService.registerFolder(new File("config/" + ID + "/dialogs"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        questService = QuestService.getInstance();
+//        dialogService = DialogService.getInstance();
+//
+//        questAttachmentService= QuestAttachmentService.getInstance();
+//        dialogAttachmentService = DialogAttachmentService.getInstance();
 
 //        locationManager = LocationManager.getInstance();
-        particleEmitter = ParticleEmitter.getInstance();
+//        particleEmitter = ParticleEmitter.getInstance();
 
 //        questerManager = QuesterManager.getInstance();
 
-        inventoryService = InventoryService.getInstance();
+//        inventoryService = InventoryService.getInstance();
 
 //        QuesterManager.getInstance().loadAll();
 //        LocationManager.getInstance().loadAll();
@@ -150,7 +204,7 @@ public class AtherysQuests {
         } catch (CommandService.AnnotatedCommandException e) {
             e.printStackTrace();
         }
-        particleEmitter.startEmitting();
+//        particleEmitter.startEmitting();
     }
 
     private void stop() {
@@ -229,40 +283,84 @@ public class AtherysQuests {
         return Sponge.getServiceManager().provide(EconomyService.class);
     }
 
-    public static QuesterService getQuesterService() {
-        return getInstance().questerService;
+    public AtherysQuestsRegistry getAtherysQuestsRegistry() {
+        return atherysQuestsRegistry;
     }
 
-    public static QuestAttachmentService getQuestAttachmentService() {
-        return getInstance().questAttachmentService;
+    public QuesterRepository getQuesterRepository() {
+        return questerRepository;
     }
 
-    public static DialogAttachmentService getDialogAttachmentService() {
-        return getInstance().dialogAttachmentService;
+    public QuestLocationRepository getQuestLocationRepository() {
+        return questLocationRepository;
     }
 
-    public static DialogService getDialogService() {
-        return getInstance().dialogService;
+    public QuestMessagingService getQuestMessagingService() {
+        return questMessagingService;
     }
 
-    public static QuestLocationService getQuestLocationService() {
-        return getInstance().locationService;
+    public InventoryService getInventoryService() {
+        return inventoryService;
     }
 
-    public static InventoryService getInventoryService() {
-        return getInstance().inventoryService;
+    public QuestService getQuestService() {
+        return questService;
     }
 
-    public static QuestService getQuestService() {
-        return getInstance().questService;
+    public DialogService getDialogService() {
+        return dialogService;
     }
 
-    public static DialogScriptService getDialogScriptService() {
-        return getInstance().dialogScriptService;
+    public QuestLocationService getQuestLocationService() {
+        return questLocationService;
     }
 
-    public static QuestScriptService getQuestScriptService() {
-        return getInstance().questScriptService;
+    public QuesterService getQuesterService() {
+        return questerService;
+    }
+
+    public QuestAttachmentService getQuestAttachmentService() {
+        return questAttachmentService;
+    }
+
+    public DialogAttachmentService getDialogAttachmentService() {
+        return dialogAttachmentService;
+    }
+
+    public DialogScriptService getDialogScriptService() {
+        return dialogScriptService;
+    }
+
+    public QuestScriptService getQuestScriptService() {
+        return questScriptService;
+    }
+
+    public DialogFacade getDialogFacade() {
+        return dialogFacade;
+    }
+
+    public QuestFacade getQuestFacade() {
+        return questFacade;
+    }
+
+    public QuesterFacade getQuesterFacade() {
+        return questerFacade;
+    }
+
+    public EntityListener getEntityListener() {
+        return entityListener;
+    }
+
+    public GsonListener getGsonListener() {
+        return gsonListener;
+    }
+
+    public InventoryListener getInventoryListener() {
+        return inventoryListener;
+    }
+
+    public MasterEventListener getMasterEventListener() {
+        return masterEventListener;
     }
 
     public Logger getLogger() {

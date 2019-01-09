@@ -1,5 +1,6 @@
 package com.atherys.quests.model.quest;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.AbstractQuest;
 import com.atherys.quests.api.quest.Quest;
@@ -110,7 +111,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
                 objective.notify(event, quester); // notify the objective
 
                 if (objective.isComplete()) { // if the objective is completed after being notified
-                    QuestMsg.info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the completedQuest
+                    AtherysQuests.getInstance().getQuestMessagingService().info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the completedQuest
 
                     Sponge.getEventManager().post(new SimpleQuestProgressEvent(this, objective, quester));
 

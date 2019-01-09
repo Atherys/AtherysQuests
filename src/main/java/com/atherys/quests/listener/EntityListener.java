@@ -51,22 +51,22 @@ public class EntityListener {
     public void onPlayerMove(MoveEntityEvent e, @Root Player player) {
         if (e.getFromTransform().getLocation().getBlockPosition().equals
                 (e.getToTransform().getLocation().getBlockPosition())) return;
-        if (AtherysQuests.getQuestLocationService().getByRadius(e.getFromTransform().getLocation()).isPresent()) return;
+        if (AtherysQuests.getInstance().getQuestLocationService().getByRadius(e.getFromTransform().getLocation()).isPresent()) return;
 
-        AtherysQuests.getQuestLocationService().getByRadius(e.getToTransform().getLocation()).ifPresent(questLocation -> {
-            Quest quest = AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).get();
-            if (AtherysQuests.getQuesterService().getQuester(player).hasQuest(quest)) return;
+        AtherysQuests.getInstance().getQuestLocationService().getByRadius(e.getToTransform().getLocation()).ifPresent(questLocation -> {
+            Quest quest = AtherysQuests.getInstance().getQuestService().getQuest(questLocation.getQuestId()).get();
+            if (AtherysQuests.getInstance().getQuesterService().getQuester(player).hasQuest(quest)) return;
 
             Question question = Question.of(Text.of("You have found the completedQuest \"", quest.getName(), "\", would you like to take it?"))
                     .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), quester -> {
                         if (questLocation.contains(player.getLocation())) {
                             new TakeQuestView(quest).show(quester);
                         } else {
-                            QuestMsg.error(quester, "You have left the completedQuest area.");
+                            AtherysQuests.getInstance().getQuestMessagingService().error(quester, "You have left the completedQuest area.");
                         }
                     }))
                     .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), quester -> {
-                        QuestMsg.error(quester, "You have declined the completedQuest \"", quest.getName(), "\".");
+                        AtherysQuests.getInstance().getQuestMessagingService().error(quester, "You have declined the completedQuest \"", quest.getName(), "\".");
                     }))
                     .build();
             question.pollChat(player);
@@ -77,21 +77,21 @@ public class EntityListener {
     public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player) {
         if (!(event.getTargetBlock().getLocation().isPresent())) return;
 
-        if (AtherysQuests.getQuestAttachmentService().isRemoving(player)) {
-            AtherysQuests.getQuestLocationService().getByLocation(player.getLocation()).ifPresent(questLocation -> {
-                AtherysQuests.getQuestLocationService().remove(questLocation);
-                QuestMsg.info(player, "Removed completedQuest location with ID: " + questLocation.getQuestId());
+        if (AtherysQuests.getInstance().getQuestAttachmentService().isRemoving(player)) {
+            AtherysQuests.getInstance().getQuestLocationService().getByLocation(player.getLocation()).ifPresent(questLocation -> {
+                AtherysQuests.getInstance().getQuestLocationService().remove(questLocation);
+                AtherysQuests.getInstance().getQuestMessagingService().info(player, "Removed completedQuest location with ID: " + questLocation.getQuestId());
             });
 
-        } else if (AtherysQuests.getQuestAttachmentService().isAttaching(player)) {
-                AtherysQuests.getQuestAttachmentService().addQuestLocation(player, event.getTargetBlock().getLocation().get());
-                AtherysQuests.getQuestAttachmentService().endAttachment(player);
-                QuestMsg.info(player, "Quest set at location.");
+        } else if (AtherysQuests.getInstance().getQuestAttachmentService().isAttaching(player)) {
+                AtherysQuests.getInstance().getQuestAttachmentService().addQuestLocation(player, event.getTargetBlock().getLocation().get());
+                AtherysQuests.getInstance().getQuestAttachmentService().endAttachment(player);
+            AtherysQuests.getInstance().getQuestMessagingService().info(player, "Quest set at location.");
 
         } else {
-            AtherysQuests.getQuestLocationService().getByBlock(event.getTargetBlock().getLocation().get()).ifPresent(questLocation -> {
+            AtherysQuests.getInstance().getQuestLocationService().getByBlock(event.getTargetBlock().getLocation().get()).ifPresent(questLocation -> {
                 if (questLocation.getType() == QuestLocationType.RADIUS) return;
-                AtherysQuests.getQuestService().getQuest(questLocation.getQuestId()).ifPresent(q -> {
+                AtherysQuests.getInstance().getQuestService().getQuest(questLocation.getQuestId()).ifPresent(q -> {
                     q.createView().show(player);
                 });
             });
@@ -103,7 +103,7 @@ public class EntityListener {
         ItemStackSnapshot item = event.getItemStack();
         Optional<String> questId = item.get(QuestKeys.QUEST);
         questId.ifPresent(id -> {
-            Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(id);
+            Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(id);
             if (quest.isPresent()) {
                 new QuestFromItemView(quest.get()).show(player);
             }

@@ -39,12 +39,12 @@ public class QuestFromItemView extends TakeQuestView{
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of(Text.of("Do you accept the quest \"", getQuest().getName(), "\"?"))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), player -> {
-                    if(AtherysQuests.getQuesterService().getQuester(player).pickupQuest(getQuest())){
+                    if(AtherysQuests.getInstance().getQuesterFacade().pickupQuest(viewer, getQuest())){
                         player.setItemInHand(HandTypes.MAIN_HAND, ItemStack.builder().itemType(ItemTypes.AIR).build());
                     }
                 }))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), player -> {
-                    QuestMsg.error(player, "You have declined the quest \"", getQuest().getName(), "\".");
+                    AtherysQuests.getInstance().getQuestMessagingService().error(player, "You have declined the quest \"", getQuest().getName(), "\".");
                 }))
                 .build();
 

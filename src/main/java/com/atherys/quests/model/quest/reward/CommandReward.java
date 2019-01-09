@@ -1,5 +1,6 @@
 package com.atherys.quests.model.quest.reward;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.model.SimpleQuester;
@@ -53,7 +54,7 @@ public class CommandReward implements Reward {
     }
 
     public String getCommand(Quester quester) {
-        Player cachedPlayer = quester.getCachedPlayer();
+        Player cachedPlayer = AtherysQuests.getInstance().getQuesterService().getCachedPlayer(quester);
 
         if (cachedPlayer == null) throw new RuntimeException("Cached Player in CommandReward was null");
 

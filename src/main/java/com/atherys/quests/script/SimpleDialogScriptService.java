@@ -3,7 +3,9 @@ package com.atherys.quests.script;
 import com.atherys.quests.api.script.DialogScript;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.script.api.AbstractScriptService;
+import com.google.inject.Singleton;
 
+@Singleton
 public class SimpleDialogScriptService extends AbstractScriptService<DialogScript> implements DialogScriptService {
 
     private static SimpleDialogScriptService instance = new SimpleDialogScriptService();

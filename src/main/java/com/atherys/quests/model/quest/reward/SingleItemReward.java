@@ -44,7 +44,7 @@ public class SingleItemReward implements Reward {
 
     @Override
     public boolean award(Quester quester) {
-        Player player = quester.getCachedPlayer();
+        Player player = AtherysQuests.getInstance().getQuesterService().getCachedPlayer(quester);
         if (player == null || !player.isOnline() || player.isRemoved()) return false;
 
         // Create chest inventory
@@ -61,7 +61,7 @@ public class SingleItemReward implements Reward {
         player.openInventory(inventory);
 
         // upon closing the inventory, drop all items which have not been picked up to the ground
-        AtherysQuests.getInventoryService().addInventory(inventory, (container) -> {
+        AtherysQuests.getInstance().getInventoryService().addInventory(inventory, (container) -> {
             ItemUtils.getItemsInInventory(container).forEach(item -> {
                 ItemUtils.dropItemStack(item, player.getWorld(), player.getLocation().getPosition());
             });

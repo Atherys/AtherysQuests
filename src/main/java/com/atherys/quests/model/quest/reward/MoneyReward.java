@@ -33,7 +33,7 @@ public class MoneyReward implements Reward {
 
     @Override
     public boolean award(Quester quester) {
-        Optional<? extends User> user = quester.getUser();
+        Optional<? extends User> user = AtherysQuests.getInstance().getQuesterService().getUser(quester);
         if (!user.isPresent()) return false;
 
         Optional<EconomyService> service = AtherysQuests.getInstance().getEconomyService();

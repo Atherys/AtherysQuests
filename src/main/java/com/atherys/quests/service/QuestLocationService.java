@@ -4,6 +4,7 @@ import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.QuestLocationType;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.model.QuestLocation;
+import com.google.inject.Inject;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -15,7 +16,11 @@ public final class QuestLocationService {
 
     private static QuestLocationService instance = new QuestLocationService();
 
-    private QuestLocationRepository repository;
+    @Inject
+    QuestLocationRepository repository;
+
+    @Inject
+    QuestService questService;
 
     private Map<Location, QuestLocation> questBlocks = new HashMap<>();
 
@@ -64,43 +69,53 @@ public final class QuestLocationService {
         }
     }
 
-    public void saveAll() {
-        saveAll(getCache().values());
-    }
-
-
-    public void loadAll(){
-        super.loadAll();
-        for (QuestLocation ql : getCache().values()) {
-            if (ql.getType() == QuestLocationType.RADIUS){
-                questRads.put(ql.getLocation(), ql);
-            } else {
-                questBlocks.put(ql.getLocation(), ql);
-            }
-        }
-    }
+//    public void saveAll() {
+//        saveAll(getCache().values());
+//    }
+//
+//
+//    public void loadAll(){
+//        super.loadAll();
+//        for (QuestLocation ql : getCache().values()) {
+//            if (ql.getType() == QuestLocationType.RADIUS){
+//                questRads.put(ql.getLocation(), ql);
+//            } else {
+//                questBlocks.put(ql.getLocation(), ql);
+//            }
+//        }
+//    }
 
     public void addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
-        Optional<QuestLocation> questLocation = AtherysQuests.getQuestService().getQuest(questId).map(quest -> {
+        Optional<QuestLocation> questLocation = questService.getQuest(questId).map(quest -> {
             return new QuestLocation(location, quest, radius, type);
         });
 
+
         if (questLocation.isPresent()) {
+
             QuestLocation questLoc = questLocation.get();
+
             if (questLoc.getType() == QuestLocationType.RADIUS) {
-                for (QuestLocation ql : this.getCache().values()) {
-                    if (questLoc.overlaps(ql)) return;
-                }
+
+                // if any quest locations already overlap this quest location, return
+                if ( repository.cacheParallelStream().anyMatch(ql -> ql.overlaps(questLoc)) ) return;
+
                 questRads.put(questLoc.getLocation(), questLoc);
+
             } else if (questLoc.getType() == QuestLocationType.BLOCK) {
-                for (QuestLocation ql : this.getCache().values()) {
-                    if (questLoc.sameBlockAs(ql.getLocation())) return;
-                }
+
+                // if any quest locations already have the same location as this one, return
+                if ( repository.cacheParallelStream().anyMatch(ql -> ql.sameBlockAs(questLoc.getLocation())) ) return;
+
                 questBlocks.put(questLoc.getLocation(), questLoc);
             }
 
-            this.save(questLoc);
+            repository.saveOne(questLoc);
         }
+    }
+
+    public void remove(QuestLocation questLocation) {
+
     }
 
 //    @Override

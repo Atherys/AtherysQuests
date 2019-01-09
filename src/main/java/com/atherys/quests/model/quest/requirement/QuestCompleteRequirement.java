@@ -29,7 +29,7 @@ public class QuestCompleteRequirement implements Requirement {
 
     @Override
     public Text toText() {
-        Optional<Quest> quest = AtherysQuests.getQuestService().getQuest(questId);
+        Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(questId);
         if (quest.isPresent()) {
             return Text.of("You have to have completed the completedQuest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
         } else {
@@ -39,7 +39,7 @@ public class QuestCompleteRequirement implements Requirement {
 
     @Override
     public boolean check(Quester quester) {
-        return quester.hasFinishedQuest(questId);
+        return AtherysQuests.getInstance().getQuestService().hasQuesterFinishedQuest(quester, questId);
     }
 
     @Override

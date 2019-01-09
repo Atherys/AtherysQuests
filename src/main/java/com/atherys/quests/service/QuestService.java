@@ -1,6 +1,7 @@
 package com.atherys.quests.service;
 
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.event.quest.QuestRegistrationEvent;
 import org.spongepowered.api.Sponge;
@@ -45,5 +46,9 @@ public final class QuestService {
 
     public boolean setQuest(DataHolder holder, Quest quest) {
         return holder.offer(new QuestData(quest.getId())).isSuccessful();
+    }
+
+    public boolean hasQuesterFinishedQuest(Quester quester, String questId) {
+        return false;
     }
 }
