@@ -20,8 +20,6 @@ import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
-import com.atherys.quests.script.SimpleDialogScriptService;
-import com.atherys.quests.script.SimpleQuestScriptService;
 import com.atherys.quests.script.lib.QuestExtension;
 import com.atherys.quests.service.*;
 import com.atherys.script.js.JavaScriptLibrary;
@@ -42,7 +40,6 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 

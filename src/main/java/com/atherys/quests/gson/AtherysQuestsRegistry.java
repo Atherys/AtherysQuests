@@ -20,13 +20,13 @@ import com.atherys.quests.model.quest.reward.MoneyReward;
 import com.atherys.quests.model.quest.reward.SingleItemReward;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.inject.Singleton;
 import org.spongepowered.api.Sponge;
 
 import java.util.Arrays;
 
+@Singleton
 public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
-
-    private static AtherysQuestsRegistry instance = new AtherysQuestsRegistry();
 
     private AtherysQuestsRegistry() {
         add(Quest.class, RuntimeTypeAdapterFactory.of(Quest.class, "questType"));
@@ -61,10 +61,6 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
                 MoneyReward.class,
                 SingleItemReward.class
         ));
-    }
-
-    public static AtherysQuestsRegistry getInstance() {
-        return instance;
     }
 
     public Gson getGson() {
