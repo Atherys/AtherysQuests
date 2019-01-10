@@ -1,11 +1,7 @@
 package com.atherys.quests.facade;
 
 import com.atherys.core.utils.Question;
-import com.atherys.core.views.View;
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quester.Quester;
-import com.atherys.quests.event.quest.QuestStartedEvent;
 import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.service.QuestService;
@@ -20,8 +16,6 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-
-import javax.swing.*;
 
 @Singleton
 public class QuesterFacade {
