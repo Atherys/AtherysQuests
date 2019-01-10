@@ -33,6 +33,9 @@ public class QuesterFacade {
     @Inject
     QuestMessagingService questMsg;
 
+    QuesterFacade() {
+    }
+
     public <T extends Quest> boolean pickupQuest(Player player, Quest<T> quest) {
         return false;
     }

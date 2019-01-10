@@ -2,17 +2,22 @@ package com.atherys.quests.service;
 
 import com.atherys.quests.api.quester.Quester;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
+@Singleton
 public class QuestMessagingService {
 
     public static final Text MSG_PREFIX = Text.of(TextColors.DARK_GREEN, "[", TextStyles.BOLD, TextColors.GOLD, "Quest", TextStyles.RESET, TextColors.DARK_GREEN, "]", TextColors.RESET);
 
     @Inject
     QuesterService questerService;
+
+    QuestMessagingService() {
+    }
 
     public void noformat(Quester quester, Object... msg) {
         Player player = questerService.getCachedPlayer(quester);

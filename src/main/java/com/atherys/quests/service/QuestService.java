@@ -4,20 +4,27 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.event.quest.QuestRegistrationEvent;
+import com.google.inject.Singleton;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataHolder;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Singleton
 public final class QuestService {
 
     private static QuestService instance = new QuestService();
 
     private Map<String, Quest> quests = new HashMap<>();
 
-    private QuestService() {
+    QuestService() {
+    }
+
+    @PostConstruct
+    private void init() {
         QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent(this);
         Sponge.getEventManager().post(questRegistrationEvent);
     }

@@ -14,6 +14,9 @@ public class MasterEventListener {
     @Inject
     QuesterService questerService;
 
+    MasterEventListener() {
+    }
+
     @Listener
     public void onEvent(Event event) {
         if (event instanceof GameStateEvent) return;

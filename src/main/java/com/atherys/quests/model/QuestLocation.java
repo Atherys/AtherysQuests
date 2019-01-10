@@ -8,10 +8,12 @@ import org.spongepowered.api.world.World;
 
 import javax.annotation.Nonnull;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class QuestLocation implements Identifiable<Long> {
 
+    @Id
     private Long id;
 
     private Location<World> location;

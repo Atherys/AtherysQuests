@@ -10,6 +10,10 @@ import org.spongepowered.api.Sponge;
 
 @Singleton
 public class SimpleQuestScriptService extends AbstractScriptService<QuestScript> implements QuestScriptService {
+
+    SimpleQuestScriptService() {
+    }
+
     @Override
     public QuestScript createScript(String id, String contents) {
         return new JSQuestScript(id, contents);

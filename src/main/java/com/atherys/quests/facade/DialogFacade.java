@@ -1,7 +1,9 @@
 package com.atherys.quests.facade;
 
 import com.atherys.quests.AtherysQuests;
+import com.atherys.quests.service.DialogAttachmentService;
 import com.atherys.quests.service.DialogService;
+import com.atherys.quests.service.QuestMessagingService;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.entity.Entity;
@@ -11,20 +13,30 @@ import org.spongepowered.api.entity.living.player.Player;
 public class DialogFacade {
 
     @Inject
-    private DialogService service;
+    DialogService dialogService;
+
+    @Inject
+    DialogAttachmentService dialogAttachmentService;
+
+    @Inject
+    QuestMessagingService questMsg;
+
+    DialogFacade() {
+    }
 
     public void onPlayerInteractWithEntity(Player player, Entity entity) {
-        if (AtherysQuests.getInstance().getDialogAttachmentService().isAttaching(player)) {
-            AtherysQuests.getInstance().getDialogAttachmentService().applyAttachment(player, entity);
-            AtherysQuests.getInstance().getQuestMessagingService().info(player, "Dialog set.");
+        if (dialogAttachmentService.isAttaching(player)) {
 
-        } else if (AtherysQuests.getInstance().getDialogAttachmentService().isRemoving(player)) {
-            AtherysQuests.getInstance().getDialogService().removeDialog(entity);
-            AtherysQuests.getInstance().getQuestMessagingService().info(player, "Dialog removed from entity.");
-            AtherysQuests.getInstance().getDialogAttachmentService().endRemoval(player);
+            dialogAttachmentService.applyAttachment(player, entity);
 
+            questMsg.info(player, "Dialog set.");
+        } else if (dialogAttachmentService.isRemoving(player)) {
+            dialogService.removeDialog(entity);
+            dialogAttachmentService.endRemoval(player);
+
+            questMsg.info(player, "Dialog removed from entity.");
         } else {
-            AtherysQuests.getInstance().getDialogService().startDialog(player, entity);
+            dialogService.startDialog(player, entity);
         }
     }
 

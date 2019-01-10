@@ -6,10 +6,14 @@ import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,20 +22,23 @@ import java.util.UUID;
 /**
  * A class responsible for managing all dialogs
  */
+@Singleton
 public final class DialogService {
 
-    private static DialogService instance = new DialogService();
+    @Inject
+    Logger logger;
 
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
+
     private Map<String, DialogTree> trees = new HashMap<>();
 
-    private DialogService() {
-        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent(this);
-        Sponge.getEventManager().post(dialogRegistrationEvent);
+    DialogService() {
     }
 
-    public static DialogService getInstance() {
-        return instance;
+    @PostConstruct
+    private void init() {
+        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent(this);
+        Sponge.getEventManager().post(dialogRegistrationEvent);
     }
 
     public void registerDialog(DialogTree tree) {
@@ -61,7 +68,7 @@ public final class DialogService {
     public Optional<DialogTree> getDialog(Entity entity) {
         Optional<DialogData> dialogData = entity.get(DialogData.class);
         if (dialogData.isPresent()) {
-            AtherysQuests.getInstance().getLogger().error("Dialog Data Detected: " + dialogData.get().getDialogId());
+            logger.error("Dialog Data Detected: " + dialogData.get().getDialogId());
             return Optional.ofNullable(trees.get(dialogData.get().getDialogId()));
         } else return Optional.empty();
     }

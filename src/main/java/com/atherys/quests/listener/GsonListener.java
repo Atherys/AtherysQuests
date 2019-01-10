@@ -15,6 +15,9 @@ import org.spongepowered.api.world.Location;
 @Singleton
 public class GsonListener {
 
+    GsonListener() {
+    }
+
     @Listener(order = Order.FIRST)
     public void onGsonBuild(AtherysQuestsGsonBuildEvent event) {
         event.getBuilder()

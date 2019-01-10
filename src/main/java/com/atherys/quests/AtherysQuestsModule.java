@@ -37,6 +37,8 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(QuestLocationRepository.class).in(Scopes.SINGLETON);
 
         // Services
+        bind(DialogScriptService.class).to(SimpleDialogScriptService.class).in(Scopes.SINGLETON);
+        bind(QuestScriptService.class).to(SimpleQuestScriptService.class).in(Scopes.SINGLETON);
         bind(QuestMessagingService.class).in(Scopes.SINGLETON);
         bind(InventoryService.class).in(Scopes.SINGLETON);
         bind(QuestService.class).in(Scopes.SINGLETON);
@@ -46,8 +48,6 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(QuestAttachmentService.class).in(Scopes.SINGLETON);
         bind(DialogAttachmentService.class).in(Scopes.SINGLETON);
         bind(ParticleService.class).in(Scopes.SINGLETON);
-        bind(DialogScriptService.class).to(SimpleDialogScriptService.class).in(Scopes.SINGLETON);
-        bind(QuestScriptService.class).to(SimpleQuestScriptService.class).in(Scopes.SINGLETON);
 
         // Facades
         bind(DialogFacade.class).in(Scopes.SINGLETON);

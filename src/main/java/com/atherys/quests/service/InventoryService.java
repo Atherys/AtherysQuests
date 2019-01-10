@@ -1,22 +1,18 @@
 package com.atherys.quests.service;
 
+import com.google.inject.Singleton;
 import org.spongepowered.api.item.inventory.Inventory;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+@Singleton
 public final class InventoryService {
-
-    private static InventoryService instance = new InventoryService();
 
     private Map<Inventory, Consumer<Inventory>> inventories = new HashMap<>();
 
-    private InventoryService() {
-    }
-
-    public static InventoryService getInstance() {
-        return instance;
+    InventoryService() {
     }
 
     public boolean hasInventory(Inventory inventory) {

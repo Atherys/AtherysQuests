@@ -8,7 +8,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class SimpleDialogScriptService extends AbstractScriptService<DialogScript> implements DialogScriptService {
 
-    private static SimpleDialogScriptService instance = new SimpleDialogScriptService();
+    SimpleDialogScriptService() {
+    }
 
     @Override
     public DialogScript createScript(String id, String contents) {
@@ -28,9 +29,5 @@ public class SimpleDialogScriptService extends AbstractScriptService<DialogScrip
     @Override
     public void stopScripts() {
 
-    }
-
-    public static SimpleDialogScriptService getInstance() {
-        return instance;
     }
 }

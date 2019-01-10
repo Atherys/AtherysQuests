@@ -5,6 +5,8 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.persistence.QuesterRepository;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
@@ -12,9 +14,14 @@ import org.spongepowered.api.event.Event;
 import java.util.Optional;
 import java.util.UUID;
 
+@Singleton
 public class QuesterService implements Observer<Event> {
 
-    private QuesterRepository repository;
+    @Inject
+    QuesterRepository repository;
+
+    QuesterService() {
+    }
 
     public Quester getQuester(UUID uuid) {
         return null;

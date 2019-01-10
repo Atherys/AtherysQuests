@@ -17,6 +17,7 @@ import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
 import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
+import com.atherys.quests.model.QuestLocation;
 import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
@@ -164,10 +165,10 @@ public class AtherysQuests {
         questsInjector = injector.createChildInjector(new AtherysQuestsModule());
         questsInjector.injectMembers(this);
 
-        Sponge.getEventManager().registerListeners(this, new GsonListener());
-        Sponge.getEventManager().registerListeners(this, new EntityListener());
-        Sponge.getEventManager().registerListeners(this, new InventoryListener());
-        Sponge.getEventManager().registerListeners(this, new MasterEventListener());
+        Sponge.getEventManager().registerListeners(this, gsonListener);
+        Sponge.getEventManager().registerListeners(this, entityListener);
+        Sponge.getEventManager().registerListeners(this, inventoryListener);
+        Sponge.getEventManager().registerListeners(this, masterEventListener);
 
         JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
 
@@ -257,6 +258,7 @@ public class AtherysQuests {
     @Listener
     public void onHibernateConfiguration(AtherysHibernateConfigurationEvent event) {
         event.registerEntity(SimpleQuester.class);
+        event.registerEntity(QuestLocation.class);
     }
 
     public static AtherysQuests getInstance() {
@@ -265,14 +267,6 @@ public class AtherysQuests {
 
     public static QuestsConfig getConfig() {
         return config;
-    }
-
-    public static AtherysQuestsRegistry getRegistry() {
-        return AtherysQuestsRegistry.getInstance();
-    }
-
-    public static Gson getGson() {
-        return getRegistry().getGson();
     }
 
     public String getWorkingDirectory() {
@@ -349,22 +343,6 @@ public class AtherysQuests {
 
     public QuesterFacade getQuesterFacade() {
         return questerFacade;
-    }
-
-    public EntityListener getEntityListener() {
-        return entityListener;
-    }
-
-    public GsonListener getGsonListener() {
-        return gsonListener;
-    }
-
-    public InventoryListener getInventoryListener() {
-        return inventoryListener;
-    }
-
-    public MasterEventListener getMasterEventListener() {
-        return masterEventListener;
     }
 
     public Logger getLogger() {

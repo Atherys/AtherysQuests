@@ -27,6 +27,9 @@ public class EntityListener {
     @Inject
     QuesterFacade questerFacade;
 
+    EntityListener() {
+    }
+
     @Listener
     public void onEntityInteract(InteractEntityEvent.Secondary.MainHand event, @Root Player player) {
         dialogFacade.onPlayerInteractWithEntity(

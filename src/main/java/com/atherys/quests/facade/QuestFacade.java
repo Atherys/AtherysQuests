@@ -34,6 +34,9 @@ public class QuestFacade {
     @Inject
     QuestMessagingService questMsg;
 
+    QuestFacade() {
+    }
+
     public void onBlockInteract(Location<World> blockLocation, Player player) {
 
         if (questAttachmentService.isRemoving(player)) {
@@ -64,7 +67,7 @@ public class QuestFacade {
         Optional<String> questId = item.get(QuestKeys.QUEST);
 
         questId.ifPresent(id -> {
-            Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(id);
+            Optional<Quest> quest = questService.getQuest(id);
 
             quest.ifPresent(quest1 -> new QuestFromItemView(quest1).show(player));
 

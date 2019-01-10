@@ -5,6 +5,7 @@ import com.atherys.quests.api.quest.QuestLocationType;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.model.QuestLocation;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
@@ -12,9 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@Singleton
 public final class QuestLocationService {
-
-    private static QuestLocationService instance = new QuestLocationService();
 
     @Inject
     QuestLocationRepository repository;
@@ -26,11 +26,7 @@ public final class QuestLocationService {
 
     private Map<Location, QuestLocation> questRads = new HashMap<>();
 
-    private QuestLocationService() {
-    }
-
-    public static QuestLocationService getInstance() {
-        return instance;
+    QuestLocationService() {
     }
 
     public Map<Location, QuestLocation> getQuestBlocks() {

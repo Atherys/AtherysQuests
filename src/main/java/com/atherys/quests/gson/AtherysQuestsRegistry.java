@@ -28,7 +28,7 @@ import java.util.Arrays;
 @Singleton
 public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
 
-    private AtherysQuestsRegistry() {
+    AtherysQuestsRegistry() {
         add(Quest.class, RuntimeTypeAdapterFactory.of(Quest.class, "questType"));
         add(Objective.class, RuntimeTypeAdapterFactory.of(Objective.class, "objectiveType"));
         add(Requirement.class, RuntimeTypeAdapterFactory.of(Requirement.class, "requirementType"));

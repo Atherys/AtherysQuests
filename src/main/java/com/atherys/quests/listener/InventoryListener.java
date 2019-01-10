@@ -13,6 +13,9 @@ public class InventoryListener {
     @Inject
     InventoryService inventoryService;
 
+    InventoryListener() {
+    }
+
     @Listener
     public void onInventoryClose(InteractInventoryEvent.Close event) {
         inventoryService.removeInventory(event.getTargetInventory());

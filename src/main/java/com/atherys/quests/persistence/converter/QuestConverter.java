@@ -8,7 +8,7 @@ import javax.persistence.AttributeConverter;
 
 public class QuestConverter implements AttributeConverter<Quest,String> {
 
-    private Gson gson = AtherysQuests.getGson();
+    private Gson gson = AtherysQuests.getInstance().getAtherysQuestsRegistry().getGson();
 
     @Override
     public String convertToDatabaseColumn(Quest attribute) {

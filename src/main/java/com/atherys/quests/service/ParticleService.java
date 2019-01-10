@@ -2,6 +2,8 @@ package com.atherys.quests.service;
 
 import com.atherys.quests.AtherysQuests;
 import com.flowpowered.math.vector.Vector3d;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.particle.ParticleOptions;
 import org.spongepowered.api.effect.particle.ParticleTypes;
@@ -11,26 +13,31 @@ import org.spongepowered.api.util.Color;
 
 import java.util.concurrent.TimeUnit;
 
+@Singleton
 public class ParticleService {
-    private static ParticleService instance = new ParticleService();
+
+    @Inject
+    QuestLocationService questLocationService;
+
     private static ParticleEffect effect = ParticleEffect.builder()
                 .type(ParticleTypes.REDSTONE_DUST)
                 .option(ParticleOptions.COLOR, Color.YELLOW)
                 .velocity(Vector3d.ONE)
                 .quantity(10)
                 .build();
+
     private Task particleEmissionTask;
+
     private boolean isEmitting;
 
-    public static ParticleService getInstance() {
-        return instance;
+    ParticleService() {
     }
 
     /**
      * Emits particles for every completedQuest block.
      */
     private void emitParticles(){
-        AtherysQuests.getInstance().getQuestLocationService().getQuestBlocks().forEach((location, questLocation) ->{
+        questLocationService.getQuestBlocks().forEach((location, questLocation) ->{
              location.getExtent().getNearbyEntities(location.getPosition(), questLocation.getRadius()).forEach(entity -> {
                  if (entity instanceof Player){
                      ((Player) entity).spawnParticles(effect, location.getPosition(), (int) questLocation.getRadius());
@@ -47,11 +54,16 @@ public class ParticleService {
                 .execute(this::emitParticles)
                 .interval(1, TimeUnit.SECONDS)
                 .submit(AtherysQuests.getInstance());
+
         isEmitting = true;
     }
 
     public void stopEmitting(){
         particleEmissionTask.cancel();
         isEmitting = false;
+    }
+
+    public boolean isEmitting() {
+        return isEmitting;
     }
 }
