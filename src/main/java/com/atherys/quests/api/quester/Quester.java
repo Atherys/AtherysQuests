@@ -5,19 +5,12 @@ import com.atherys.core.views.Viewable;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.views.QuestLog;
 
+import java.util.Map;
 import java.util.Set;
 
-public interface Quester extends SpongeIdentifiable, Viewable<QuestLog> {
+public interface Quester extends SpongeIdentifiable {
 
-    Set<Quest> getFinishedQuests();
-
-    void addFinishedQuest(Quest quest);
-
-    boolean hasFinishedQuest(Quest quest);
-
-    void removeFinishedQuest(Quest quest);
-
-    Set<Quest> getOngoingQuests();
+    Map<String, Long> getFinishedQuests();
 
     void addQuest(Quest quest);
 
@@ -25,8 +18,12 @@ public interface Quester extends SpongeIdentifiable, Viewable<QuestLog> {
 
     void removeQuest(Quest quest);
 
-    default QuestLog getLog() {
-        return createView();
-    }
+    Set<Quest> getOngoingQuests();
+
+    void addFinishedQuest(String questId, Long timestamp);
+
+    boolean hasFinishedQuest(String questId);
+
+    void removeFinishedQuest(String questId);
 
 }

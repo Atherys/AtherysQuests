@@ -1,5 +1,6 @@
 package com.atherys.quests;
 
+import com.atherys.core.AtherysCore;
 import com.atherys.core.command.CommandService;
 import com.atherys.core.event.AtherysHibernateConfigurationEvent;
 import com.atherys.quests.api.script.DialogScriptService;
@@ -137,6 +138,8 @@ public class AtherysQuests {
     @Inject
     MasterEventListener masterEventListener;
 
+    Gson gson;
+
     Injector questsInjector;
 
     private void init() {
@@ -164,6 +167,11 @@ public class AtherysQuests {
 
         questsInjector = injector.createChildInjector(new AtherysQuestsModule());
         questsInjector.injectMembers(this);
+
+        gson = getGson();
+
+        questLocationRepository.cacheAll();
+        questerRepository.cacheAll();
 
         Sponge.getEventManager().registerListeners(this, gsonListener);
         Sponge.getEventManager().registerListeners(this, entityListener);
@@ -209,6 +217,8 @@ public class AtherysQuests {
     }
 
     private void stop() {
+        questerRepository.flushCache();
+        questLocationRepository.flushCache();
 //        QuesterManager.getInstance().saveAll();
 //        LocationManager.getInstance().saveAll();
     }
@@ -343,6 +353,11 @@ public class AtherysQuests {
 
     public QuesterFacade getQuesterFacade() {
         return questerFacade;
+    }
+
+    public Gson getGson() {
+        if ( gson == null ) gson = atherysQuestsRegistry.getGson();
+        return gson;
     }
 
     public Logger getLogger() {

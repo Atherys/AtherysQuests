@@ -1,9 +1,8 @@
 package com.atherys.quests.service;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.QuestLocationType;
-import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.model.QuestLocation;
+import com.atherys.quests.persistence.QuestLocationRepository;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.world.Location;
@@ -33,18 +32,50 @@ public final class QuestLocationService {
         return questBlocks;
     }
 
-    public Optional<QuestLocation> getByRadius(Location<World> location) {
-        for (QuestLocation ql : questRads.values()) {
-            if (ql.contains(location)) {
-                return Optional.of(ql);
-            }
-        }
-        return Optional.empty();
+    /**
+     * Check if Quest Location A overlaps with Quest Location B
+     *
+     * @param qlA Quest Location A
+     * @param qlB Quest Location B
+     * @return Whether they overlap or not
+     */
+    public boolean checkOverlap(QuestLocation qlA, QuestLocation qlB) {
+        return qlA.getLocation().getExtent().equals(qlB.getLocation().getExtent())
+                && (qlA.getLocation().getPosition().distance(qlB.getLocation().getPosition()) < Math.pow(qlA.getRadius() + qlB.getRadius(), 2));
     }
 
-    public Optional<QuestLocation> getByBlock(Location<World> location) {
-        for (QuestLocation ql : questBlocks.values()) {
-            if (ql.sameBlockAs(location)) {
+    /**
+     * Check if Location A and Location B are on the same block
+     *
+     * @param locA Location A
+     * @param locB Location B
+     * @return Whether they are the same block
+     */
+    public boolean checkSameBlock(Location<World> locA, Location<World> locB) {
+        return locA.getExtent().equals(locB.getExtent()) && locA.getBlockPosition().equals(locB.getBlockPosition());
+    }
+
+    /**
+     * Check if the Quest Location contains the provided Location
+     *
+     * @param ql The Quest Location
+     * @param loc The Location
+     * @return Whether the location is contained within the radius of the quest location
+     */
+    public boolean checkContain(QuestLocation ql, Location<World> loc) {
+        return loc.getExtent().equals(ql.getLocation().getExtent())
+                && loc.getPosition().distanceSquared(ql.getLocation().getPosition()) <= Math.pow(ql.getRadius(), 2);
+    }
+
+    /**
+     * Retrieve a Quest Location by radius ( if the provided location is within it's radius, it will be returned )
+     *
+     * @param location the location to search for
+     * @return A quest location. Empty if not found.
+     */
+    public Optional<QuestLocation> getByRadius(Location<World> location) {
+        for (QuestLocation ql : questRads.values()) {
+            if (checkContain(ql, location)) {
                 return Optional.of(ql);
             }
         }
@@ -52,39 +83,39 @@ public final class QuestLocationService {
     }
 
     /**
-     * Gets the completedQuest block if there is a completedQuest block at the location, and if not tries to get a radius one.
-     * @param location
-     * @return
+     * Retrieve a Quest Location by radius ( if the provided location is within it's radius, it will be returned )
+     *
+     * @param location the location to search for
+     * @return A quest location. Empty if not found.
+     */
+    public Optional<QuestLocation> getByBlock(Location<World> location) {
+        for (QuestLocation ql : questBlocks.values()) {
+            if (checkSameBlock(ql.getLocation(), location)) {
+                return Optional.of(ql);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Gets the quest block if there is a quest block at the location, and if not tries to get a radius one.
+     *
+     * @param location The location
+     * @return the quest location. empty if not found.
      */
     public Optional<QuestLocation> getByLocation(Location<World> location) {
         Optional<QuestLocation> questLocation = getByBlock(location);
-        if (questLocation.isPresent()){
+        if (questLocation.isPresent()) {
             return questLocation;
         } else {
             return getByRadius(location);
         }
     }
 
-//    public void saveAll() {
-//        saveAll(getCache().values());
-//    }
-//
-//
-//    public void loadAll(){
-//        super.loadAll();
-//        for (QuestLocation ql : getCache().values()) {
-//            if (ql.getType() == QuestLocationType.RADIUS){
-//                questRads.put(ql.getLocation(), ql);
-//            } else {
-//                questBlocks.put(ql.getLocation(), ql);
-//            }
-//        }
-//    }
-
     public void addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
-        Optional<QuestLocation> questLocation = questService.getQuest(questId).map(quest -> {
-            return new QuestLocation(location, quest, radius, type);
-        });
+        Optional<QuestLocation> questLocation = questService.getQuest(questId).map(quest ->
+            new QuestLocation(location, quest, radius, type)
+        );
 
 
         if (questLocation.isPresent()) {
@@ -94,14 +125,14 @@ public final class QuestLocationService {
             if (questLoc.getType() == QuestLocationType.RADIUS) {
 
                 // if any quest locations already overlap this quest location, return
-                if ( repository.cacheParallelStream().anyMatch(ql -> ql.overlaps(questLoc)) ) return;
+                if (repository.cacheParallelStream().anyMatch(ql -> checkOverlap(ql, questLoc))) return;
 
                 questRads.put(questLoc.getLocation(), questLoc);
 
             } else if (questLoc.getType() == QuestLocationType.BLOCK) {
 
                 // if any quest locations already have the same location as this one, return
-                if ( repository.cacheParallelStream().anyMatch(ql -> ql.sameBlockAs(questLoc.getLocation())) ) return;
+                if (repository.cacheParallelStream().anyMatch(ql -> checkSameBlock(ql.getLocation(), questLoc.getLocation()))) return;
 
                 questBlocks.put(questLoc.getLocation(), questLoc);
             }

@@ -2,6 +2,7 @@ package com.atherys.quests.views;
 
 import com.atherys.core.views.View;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.model.SimpleQuester;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
@@ -12,7 +13,7 @@ import org.spongepowered.api.text.format.TextStyles;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestLog implements View<SimpleQuester> {
+public class QuestLog implements View {
 
     private final SimpleQuester simpleQuester;
 
@@ -30,7 +31,7 @@ public class QuestLog implements View<SimpleQuester> {
         lastPage.append(Text.of("Quest Log:\n"));
 
         int i = 1;
-        for (Quest quest : simpleQuester.getQuests().values()) {
+        for (Quest quest : simpleQuester.getOngoingQuests()) {
             Text.Builder questView = Text.builder();
             questView.append(Text.of("[", i, "] "));
             questView.append(Text.of(quest.isComplete() ? TextStyles.STRIKETHROUGH : TextStyles.NONE, quest.getName(), TextStyles.NONE));

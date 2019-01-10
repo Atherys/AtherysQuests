@@ -3,19 +3,25 @@ package com.atherys.quests.model;
 import com.atherys.core.db.Identifiable;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quest.QuestLocationType;
+import com.atherys.quests.persistence.converter.LocationConverter;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import javax.annotation.Nonnull;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class QuestLocation implements Identifiable<Long> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Convert(converter = LocationConverter.class)
     private Location<World> location;
 
     private double radius;
@@ -72,20 +78,20 @@ public class QuestLocation implements Identifiable<Long> {
         this.type = type;
     }
 
-    public boolean overlaps(QuestLocation questLocation) {
-        return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
-                < Math.pow(this.radius + questLocation.radius, 2));
-    }
-
-    public boolean sameBlockAs(Location<World> location) {
-        return (this.location.getExtent().equals(location.getExtent()) &&
-                this.location.getBlockPosition().equals(location.getBlockPosition()));
-    }
-
-    public boolean contains(Location<World> loc) {
-        if (loc.getExtent().equals(location.getExtent())) {
-            return (loc.getPosition().distanceSquared(location.getPosition()) <= Math.pow(radius, 2));
-        } else return false;
-    }
+//    public boolean overlaps(QuestLocation questLocation) {
+//        return (this.location.getPosition().distanceSquared(questLocation.location.getPosition())
+//                < Math.pow(this.radius + questLocation.radius, 2));
+//    }
+//
+//    public boolean sameBlockAs(Location<World> location) {
+//        return (this.location.getExtent().equals(location.getExtent()) &&
+//                this.location.getBlockPosition().equals(location.getBlockPosition()));
+//    }
+//
+//    public boolean contains(Location<World> loc) {
+//        if (loc.getExtent().equals(location.getExtent())) {
+//            return (loc.getPosition().distanceSquared(location.getPosition()) <= Math.pow(radius, 2));
+//        } else return false;
+//    }
 
 }
