@@ -8,7 +8,7 @@ import javax.persistence.AttributeConverter;
 public class LocationConverter implements AttributeConverter<Location<World>,String> {
     @Override
     public String convertToDatabaseColumn(Location<World> attribute) {
-        return null;
+        return "";
     }
 
     @Override

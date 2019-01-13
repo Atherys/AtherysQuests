@@ -1,7 +1,7 @@
 package com.atherys.quests.script.lib.objective;
 
-import com.atherys.quests.model.quest.objective.ItemDeliveryObjective;
-import com.atherys.quests.model.quest.objective.Objectives;
+import com.atherys.quests.quest.objective.ItemDeliveryObjective;
+import com.atherys.quests.quest.objective.Objectives;
 import com.atherys.script.api.util.TriFunction;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;

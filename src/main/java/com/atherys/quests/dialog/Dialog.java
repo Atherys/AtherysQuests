@@ -18,7 +18,7 @@ import org.spongepowered.api.entity.living.player.User;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class Dialog implements Viewable<DialogView> {
+public class Dialog implements Viewable {
 
     private String treeId;
 
@@ -99,7 +99,6 @@ public class Dialog implements Viewable<DialogView> {
         return treeId;
     }
 
-    @Override
     public DialogView createView() {
         return new DialogView(this);
     }

@@ -2,8 +2,7 @@ package com.atherys.quests.event.quest;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
-import com.atherys.quests.model.SimpleQuester;
-import com.atherys.quests.model.quest.Stage;
+import com.atherys.quests.quest.Stage;
 
 public class StagedQuestProgressEvent extends AbstractQuestEvent {
 

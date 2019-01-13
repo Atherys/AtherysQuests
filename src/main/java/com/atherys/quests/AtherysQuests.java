@@ -1,8 +1,8 @@
 package com.atherys.quests;
 
-import com.atherys.core.AtherysCore;
 import com.atherys.core.command.CommandService;
 import com.atherys.core.event.AtherysHibernateConfigurationEvent;
+import com.atherys.core.event.AtherysHibernateInitializedEvent;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
@@ -18,8 +18,8 @@ import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
 import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
-import com.atherys.quests.model.QuestLocation;
-import com.atherys.quests.model.SimpleQuester;
+import com.atherys.quests.entity.QuestLocation;
+import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.lib.QuestExtension;
@@ -33,7 +33,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.GameReloadEvent;
-import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
@@ -42,7 +41,6 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 
-import java.io.IOException;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -62,9 +60,10 @@ public class AtherysQuests {
     public static final String NAME = "A'therys Quests";
     public static final String DESCRIPTION = "A completedQuest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0b";
+
     private static AtherysQuests instance;
+
     private static boolean init = false;
-    private static QuestsConfig config;
 
     @Inject
     PluginContainer container;
@@ -75,108 +74,105 @@ public class AtherysQuests {
     @Inject
     Injector injector;
 
-    @Inject
-    AtherysQuestsRegistry atherysQuestsRegistry;
+    private class Components {
 
-    @Inject
-    QuesterRepository questerRepository;
+        @Inject
+        QuestsConfig config;
 
-    @Inject
-    QuestLocationRepository questLocationRepository;
+        @Inject
+        AtherysQuestsRegistry atherysQuestsRegistry;
 
-    @Inject
-    QuestMessagingService questMessagingService;
+        @Inject
+        QuesterRepository questerRepository;
 
-    @Inject
-    InventoryService inventoryService;
+        @Inject
+        QuestLocationRepository questLocationRepository;
 
-    @Inject
-    QuestService questService;
+        @Inject
+        QuestMessagingService questMessagingService;
 
-    @Inject
-    DialogService dialogService;
+        @Inject
+        InventoryService inventoryService;
 
-    @Inject
-    QuestLocationService questLocationService;
+        @Inject
+        QuestService questService;
 
-    @Inject
-    QuesterService questerService;
+        @Inject
+        DialogService dialogService;
 
-    @Inject
-    QuestAttachmentService questAttachmentService;
+        @Inject
+        QuestLocationService questLocationService;
 
-    @Inject
-    DialogAttachmentService dialogAttachmentService;
+        @Inject
+        QuesterService questerService;
 
-    @Inject
-    ParticleService particleService;
+        @Inject
+        QuestAttachmentService questAttachmentService;
 
-    @Inject
-    DialogScriptService dialogScriptService;
+        @Inject
+        DialogAttachmentService dialogAttachmentService;
 
-    @Inject
-    QuestScriptService questScriptService;
+        @Inject
+        ParticleService particleService;
 
-    @Inject
-    DialogFacade dialogFacade;
+        @Inject
+        DialogScriptService dialogScriptService;
 
-    @Inject
-    QuestFacade questFacade;
+        @Inject
+        QuestScriptService questScriptService;
 
-    @Inject
-    QuesterFacade questerFacade;
+        @Inject
+        DialogFacade dialogFacade;
 
-    @Inject
-    EntityListener entityListener;
+        @Inject
+        QuestFacade questFacade;
 
-    @Inject
-    GsonListener gsonListener;
+        @Inject
+        QuesterFacade questerFacade;
 
-    @Inject
-    InventoryListener inventoryListener;
+        @Inject
+        EntityListener entityListener;
 
-    @Inject
-    MasterEventListener masterEventListener;
+        @Inject
+        GsonListener gsonListener;
 
-    Gson gson;
+        @Inject
+        InventoryListener inventoryListener;
 
-    Injector questsInjector;
+        @Inject
+        MasterEventListener masterEventListener;
+    }
+
+    private Components components;
+
+    private Gson gson;
+
+    private Injector questsInjector;
 
     private void init() {
         instance = this;
 
-        try {
-            config = new QuestsConfig(getWorkingDirectory(), "config.conf");
-            config.init();
-        } catch (IOException e) {
-            init = false;
-            e.printStackTrace();
-            return;
-        }
+        components = new Components();
 
-        if (config.IS_DEFAULT) {
-            logger.error("The AtherysQuests config is set to default. Please change default config settings and then set 'isDefault' to 'false'.");
-            init = false;
-            return;
-        }
+        questsInjector = injector.createChildInjector(new AtherysQuestsModule());
+        questsInjector.injectMembers(components);
+
+        components.config.init();
 
         init = true;
     }
 
     private void start() {
 
-        questsInjector = injector.createChildInjector(new AtherysQuestsModule());
-        questsInjector.injectMembers(this);
-
         gson = getGson();
 
-        questLocationRepository.cacheAll();
-        questerRepository.cacheAll();
+        components.questLocationRepository.cacheAll();
+        components.questerRepository.cacheAll();
 
-        Sponge.getEventManager().registerListeners(this, gsonListener);
-        Sponge.getEventManager().registerListeners(this, entityListener);
-        Sponge.getEventManager().registerListeners(this, inventoryListener);
-        Sponge.getEventManager().registerListeners(this, masterEventListener);
+        Sponge.getEventManager().registerListeners(this, components.gsonListener);
+        Sponge.getEventManager().registerListeners(this, components.entityListener);
+        Sponge.getEventManager().registerListeners(this, components.inventoryListener);
+        Sponge.getEventManager().registerListeners(this, components.masterEventListener);
 
         JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
 
@@ -217,14 +213,14 @@ public class AtherysQuests {
     }
 
     private void stop() {
-        questerRepository.flushCache();
-        questLocationRepository.flushCache();
+        components.questerRepository.flushCache();
+        components.questLocationRepository.flushCache();
 //        QuesterManager.getInstance().saveAll();
 //        LocationManager.getInstance().saveAll();
     }
 
     private void reload() {
-
+        // TODO
     }
 
     @Listener
@@ -247,7 +243,7 @@ public class AtherysQuests {
     }
 
     @Listener
-    public void onInit(GameInitializationEvent event) {
+    public void onInit(AtherysHibernateInitializedEvent event) {
         init();
     }
 
@@ -256,6 +252,7 @@ public class AtherysQuests {
         if (init) start();
     }
 
+    @Listener
     public void onReload(GameReloadEvent event) {
         if (init) reload();
     }
@@ -276,11 +273,7 @@ public class AtherysQuests {
     }
 
     public static QuestsConfig getConfig() {
-        return config;
-    }
-
-    public String getWorkingDirectory() {
-        return "config/" + ID;
+        return getInstance().components.config;
     }
 
     public Optional<EconomyService> getEconomyService() {
@@ -288,75 +281,76 @@ public class AtherysQuests {
     }
 
     public AtherysQuestsRegistry getAtherysQuestsRegistry() {
-        return atherysQuestsRegistry;
+        return components.atherysQuestsRegistry;
     }
 
     public QuesterRepository getQuesterRepository() {
-        return questerRepository;
+        return components.questerRepository;
     }
 
     public QuestLocationRepository getQuestLocationRepository() {
-        return questLocationRepository;
+        return components.questLocationRepository;
     }
 
     public QuestMessagingService getQuestMessagingService() {
-        return questMessagingService;
+        return components.questMessagingService;
     }
 
     public InventoryService getInventoryService() {
-        return inventoryService;
+        return components.inventoryService;
     }
 
     public QuestService getQuestService() {
-        return questService;
+        return components.questService;
     }
 
     public DialogService getDialogService() {
-        return dialogService;
+        return components.dialogService;
     }
 
     public QuestLocationService getQuestLocationService() {
-        return questLocationService;
+        return components.questLocationService;
     }
 
     public QuesterService getQuesterService() {
-        return questerService;
+        return components.questerService;
     }
 
     public QuestAttachmentService getQuestAttachmentService() {
-        return questAttachmentService;
+        return components.questAttachmentService;
     }
 
     public DialogAttachmentService getDialogAttachmentService() {
-        return dialogAttachmentService;
+        return components.dialogAttachmentService;
     }
 
     public ParticleService getParticleService() {
-        return particleService;
+        return components.particleService;
     }
 
     public DialogScriptService getDialogScriptService() {
-        return dialogScriptService;
+        return components.dialogScriptService;
     }
 
     public QuestScriptService getQuestScriptService() {
-        return questScriptService;
+        return components.questScriptService;
     }
 
     public DialogFacade getDialogFacade() {
-        return dialogFacade;
+        return components.dialogFacade;
     }
 
     public QuestFacade getQuestFacade() {
-        return questFacade;
+        return components.questFacade;
     }
 
     public QuesterFacade getQuesterFacade() {
-        return questerFacade;
+        return components.questerFacade;
     }
 
     public Gson getGson() {
-        if ( gson == null ) gson = atherysQuestsRegistry.getGson();
+        if (components.atherysQuestsRegistry == null) return null;
+        if (gson == null) gson = components.atherysQuestsRegistry.getGson();
         return gson;
     }
 

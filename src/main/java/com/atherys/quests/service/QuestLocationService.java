@@ -1,7 +1,7 @@
 package com.atherys.quests.service;
 
 import com.atherys.quests.api.quest.QuestLocationType;
-import com.atherys.quests.model.QuestLocation;
+import com.atherys.quests.entity.QuestLocation;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

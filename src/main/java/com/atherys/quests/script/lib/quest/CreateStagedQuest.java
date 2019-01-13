@@ -1,6 +1,6 @@
 package com.atherys.quests.script.lib.quest;
 
-import com.atherys.quests.model.quest.StagedQuest;
+import com.atherys.quests.quest.StagedQuest;
 import com.atherys.script.api.util.QuadFunction;
 import org.spongepowered.api.text.Text;
 

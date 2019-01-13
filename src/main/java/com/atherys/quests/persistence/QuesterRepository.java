@@ -1,8 +1,7 @@
 package com.atherys.quests.persistence;
 
 import com.atherys.core.db.AtherysRepository;
-import com.atherys.quests.AtherysQuests;
-import com.atherys.quests.model.SimpleQuester;
+import com.atherys.quests.entity.SimpleQuester;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;

@@ -2,7 +2,6 @@ package com.atherys.quests.event.objective;
 
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quester.Quester;
-import com.atherys.quests.model.SimpleQuester;
 import com.atherys.quests.util.AbstractEvent;
 
 public abstract class AbstractObjectiveEvent extends AbstractEvent {

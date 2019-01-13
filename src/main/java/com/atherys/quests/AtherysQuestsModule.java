@@ -29,6 +29,9 @@ import com.google.inject.Scopes;
 public class AtherysQuestsModule extends AbstractModule {
     @Override
     protected void configure() {
+        // Config
+        bind(QuestsConfig.class).in(Scopes.SINGLETON);
+
         // Registry
         bind(AtherysQuestsRegistry.class).in(Scopes.SINGLETON);
 

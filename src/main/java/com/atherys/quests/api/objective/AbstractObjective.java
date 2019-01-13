@@ -4,7 +4,7 @@ import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.event.objective.ObjectiveCompletedEvent;
 import com.atherys.quests.event.objective.ObjectiveProgressedEvent;
 import com.atherys.quests.event.objective.ObjectiveStartedEvent;
-import com.atherys.quests.model.SimpleQuester;
+import com.atherys.quests.entity.SimpleQuester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;

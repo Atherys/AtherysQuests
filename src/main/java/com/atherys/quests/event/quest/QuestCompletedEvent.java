@@ -2,7 +2,6 @@ package com.atherys.quests.event.quest;
 
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
-import com.atherys.quests.model.SimpleQuester;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;

@@ -3,7 +3,6 @@ package com.atherys.quests.api.quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.model.SimpleQuester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 

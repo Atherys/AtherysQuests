@@ -3,7 +3,7 @@ package com.atherys.quests.service;
 import com.atherys.quests.api.base.Observer;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
-import com.atherys.quests.model.SimpleQuester;
+import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

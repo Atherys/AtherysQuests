@@ -7,9 +7,6 @@ import java.io.IOException;
 
 public class QuestsConfig extends PluginConfig {
 
-    @Setting("is_default")
-    public boolean IS_DEFAULT = true;
-
     @Setting("dialog_msg_delay")
     public long DIALOG_MESSAGE_DELAY = 2;
 
@@ -19,7 +16,7 @@ public class QuestsConfig extends PluginConfig {
     @Setting("quests_folder")
     public String QUESTS_FOLDER = "scripts";
 
-    protected QuestsConfig(String directory, String filename) throws IOException {
-        super(directory, filename);
+    protected QuestsConfig() throws IOException {
+        super("config/" + AtherysQuests.ID, "config.conf");
     }
 }
