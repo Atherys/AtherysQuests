@@ -19,7 +19,7 @@ import java.util.Optional;
 @Singleton
 public class DialogFacade {
 
-    public static int MAX_ENTITY_RADIUS = 5;
+    public static final int MAX_ENTITY_RADIUS = 5;
 
     @Inject
     DialogService dialogService;
