@@ -1,7 +1,9 @@
 package com.atherys.quests.facade;
 
 import com.atherys.core.utils.Question;
+import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.service.QuestService;
@@ -10,12 +12,15 @@ import com.atherys.quests.views.QuestLog;
 import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+
+import java.util.Optional;
 
 @Singleton
 public class QuesterFacade {
@@ -70,8 +75,21 @@ public class QuesterFacade {
         });
     }
 
-    public QuestLog getQuesterLog(Player p) {
-        // TODO
-        return null;
+    public void showQuestLog(Player player) throws CommandException {
+        Quester quester = questerService.getQuester(player);
+
+        QuestLog questLog = new QuestLog(quester);
+        questLog.show(player);
+    }
+
+    public void removeQuestFromPlayer(Player player, String questId) throws CommandException {
+        Quester quester = questerService.getQuester(player);
+        Optional<Quest> quest = questService.getQuest(questId);
+
+        if ( !quest.isPresent() ) {
+            throw QuestCommandExceptions.invalidQuestId();
+        }
+
+        questerService.removeQuest(quester, quest.get());
     }
 }

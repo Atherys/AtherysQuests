@@ -26,17 +26,11 @@ public class AttachDialogCommand implements CommandExecutor, ParameterizedComman
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
-
-        Player player = (Player) src;
         String id = args.<String>getOne("dialogId").get();
-        if (AtherysQuests.getInstance().getDialogService().getDialogFromId(id).isPresent()) {
-            AtherysQuests.getInstance().getDialogAttachmentService().startAttachment(player, id);
-            AtherysQuests.getInstance().getQuestMessagingService().error(player, "Right click an entity to attach the dialog.");
-            return CommandResult.success();
-        } else {
-            AtherysQuests.getInstance().getQuestMessagingService().error(player, "Dialog with ID ", id, " does not exist.");
-            return CommandResult.empty();
-        }
+
+        AtherysQuests.getInstance().getDialogFacade().beginDialogAttachment((Player) src, id);
+
+        return CommandResult.success();
     }
 
     @Override

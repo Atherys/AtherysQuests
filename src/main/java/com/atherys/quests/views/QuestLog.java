@@ -2,6 +2,7 @@ package com.atherys.quests.views;
 
 import com.atherys.core.views.View;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.entity.SimpleQuester;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class QuestLog implements View {
 
-    private final SimpleQuester simpleQuester;
+    private final Quester simpleQuester;
 
-    public QuestLog(SimpleQuester simpleQuester) {
+    public QuestLog(Quester simpleQuester) {
         this.simpleQuester = simpleQuester;
     }
 
@@ -54,7 +55,4 @@ public class QuestLog implements View {
         player.sendBookView(log.build());
     }
 
-    public SimpleQuester getQuester() {
-        return simpleQuester;
-    }
 }

@@ -24,22 +24,17 @@ public class GiveQuestCommand implements ParameterizedCommand {
     public CommandElement[] getArguments() {
         return new CommandElement[] {
                 GenericArguments.player(Text.of("player")),
-                GenericArguments.string(Text.of("quest"))
+                GenericArguments.string(Text.of("questId"))
         };
     }
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> player = args.getOne("player");
-        Optional<String> questId = args.getOne("quest");
+        Optional<String> questId = args.getOne("questId");
 
-        if (player.isPresent() && questId.isPresent()) {
-            AtherysQuests.getInstance().getQuestService().getQuest(questId.get()).ifPresent(quest -> {
-                quest.createView().show(player.get());
-            });
-            return CommandResult.success();
-        }
+        AtherysQuests.getInstance().getQuestFacade().offerQuest(player.get(), questId.get());
 
-        return CommandResult.empty();
+        return CommandResult.success();
     }
 }

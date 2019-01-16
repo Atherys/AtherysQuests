@@ -2,6 +2,7 @@ package com.atherys.quests.command.quest;
 
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
+import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.AtherysQuests;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Aliases("log")
 @Description("Displays log of current quests.")
+@Permission("atherysquests.quest.log")
 public class QuestLogCommand implements CommandExecutor {
 
     @Override
@@ -22,8 +24,8 @@ public class QuestLogCommand implements CommandExecutor {
     public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
 
-        Optional<Player> player = ((Player) src).getPlayer();
-        player.ifPresent((p -> AtherysQuests.getInstance().getQuesterFacade().getQuesterLog(p).show(p)));
+        AtherysQuests.getInstance().getQuesterFacade().showQuestLog((Player) src);
+
         return CommandResult.success();
     }
 }

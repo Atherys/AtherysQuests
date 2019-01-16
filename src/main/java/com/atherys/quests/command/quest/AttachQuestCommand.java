@@ -11,10 +11,14 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
-@Permission("atherysquests.admin.quest.attach")
 @Aliases("attach")
 @Description("Base command for attaching quests.")
-@Children({AttachQuestToLocationCommand.class, AttachQuestToItemCommand.class})
+@Children({
+        AttachQuestToLocationCommand.class,
+        AttachQuestToItemCommand.class,
+        AttachQuestToBlockCommand.class,
+        CancelQuestAttachmentCommand.class
+})
 public class AttachQuestCommand implements CommandExecutor {
 
     @Override

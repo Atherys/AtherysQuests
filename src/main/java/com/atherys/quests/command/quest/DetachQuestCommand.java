@@ -11,10 +11,13 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
-@Permission("atherysquests.admin.quest.remove")
-@Aliases("remove")
+@Aliases("detach")
 @Description("Base command for removing quests.")
-@Children({DetachQuestFromItemCommand.class, DetachQuestFromLocationCommand.class})
+@Children({
+        DetachQuestFromItemCommand.class,
+        DetachQuestFromLocationCommand.class,
+        DetachQuestFromBlockCommand.class
+})
 public class DetachQuestCommand implements CommandExecutor {
 
     @Override

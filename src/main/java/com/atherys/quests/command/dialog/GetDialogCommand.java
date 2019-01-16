@@ -2,6 +2,7 @@ package com.atherys.quests.command.dialog;
 
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
+import com.atherys.core.command.annotation.Permission;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogTree;
 import org.spongepowered.api.command.CommandException;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Aliases("get")
 @Description("Returns the ID of dialog from an entity.")
+@Permission("atherysquests.admin.dialog.get")
 public class GetDialogCommand implements CommandExecutor {
 
     @Nonnull
@@ -26,15 +28,8 @@ public class GetDialogCommand implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
 
-        Optional<Player> player = ((Player) src).getPlayer();
-        player.ifPresent(p -> {
-            for (EntityUniverse.EntityHit entityHit : p.getWorld().getIntersectingEntities(p, 100)) {
-                Entity next = entityHit.getEntity();
-                if (next instanceof Player) continue;
-                Optional<DialogTree> tree = AtherysQuests.getInstance().getDialogService().getDialog(entityHit.getEntity());
-                p.sendMessage(tree.map(dialogTree -> Text.of("Dialog ID: ", dialogTree.getId())).orElseGet(() -> Text.of("Dialog ID: none")));
-            }
-        });
+        AtherysQuests.getInstance().getDialogFacade().getFacingEntityDialogId((Player) src);
+
         return CommandResult.success();
     }
 }

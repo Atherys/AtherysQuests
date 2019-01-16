@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 @Description("Base dialog command.")
 @Children({
         AttachDialogCommand.class,
-        RemoveDialogCommand.class,
+        DetachDialogCommand.class,
         GetDialogCommand.class
 })
 public class DialogMasterCommand implements CommandExecutor {

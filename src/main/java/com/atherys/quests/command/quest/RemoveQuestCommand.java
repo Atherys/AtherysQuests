@@ -16,7 +16,7 @@ import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 
-@Permission("atherysquests.command.quest.remove")
+@Permission("atherysquests.admin.quest.remove")
 @Description("Removes a quest from the player.")
 @Aliases("remove")
 public class RemoveQuestCommand implements ParameterizedCommand {
@@ -33,12 +33,7 @@ public class RemoveQuestCommand implements ParameterizedCommand {
         Optional<Player> player = args.getOne("player");
         Optional<String> questId = args.getOne("questId");
 
-        if (player.isPresent() && questId.isPresent()) {
-            AtherysQuests.getInstance().getQuestService().getQuest(questId.get()).ifPresent(quest -> {
-                AtherysQuests.getInstance().getQuesterService().getQuester(player.get()).removeQuest(quest);
-            });
-            return CommandResult.success();
-        }
+        AtherysQuests.getInstance().getQuesterFacade().removeQuestFromPlayer(player.get(), questId.get());
 
         return CommandResult.empty();
     }

@@ -39,24 +39,10 @@ public class AttachQuestToItemCommand implements ParameterizedCommand {
     public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
         if(!(src instanceof Player)) return CommandResult.empty();
 
-        Optional<Player> player = ((Player) src).getPlayer();
         Optional<String> questId = args.getOne("questId");
 
-        if(player.isPresent() && questId.isPresent()) {
-            Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(questId.get());
-            Optional<ItemStack> itemStack = player.get().getItemInHand(HandTypes.MAIN_HAND);
-            if(quest.isPresent() && itemStack.isPresent()) {
-                ItemStack item = itemStack.get();
-                boolean isQuestItem = item.get(QuestData.class).isPresent();
-                item.offer(new QuestData(questId.get()));
-                player.get().setItemInHand(HandTypes.MAIN_HAND, item);
-                AtherysQuests.getInstance().getQuestMessagingService().info(player.get(), "Quest set to object successfully.");
-                return CommandResult.success();
-            } else {
-                AtherysQuests.getInstance().getQuestMessagingService().error(player.get(), "The quest does not exist or you are not holding an item.");
-                return CommandResult.empty();
-            }
-        }
+        AtherysQuests.getInstance().getQuestFacade().attachQuestToHeldItem((Player) src, questId.orElse(null));
+
         return CommandResult.empty();
     }
 }

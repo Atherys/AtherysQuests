@@ -18,17 +18,7 @@ import org.spongepowered.api.text.format.TextColors;
 public class ReloadQuestsCommand implements CommandExecutor {
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        try {
-            AtherysQuests.getInstance().getQuestScriptService().reloadScripts();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            src.sendMessage(Text.builder()
-                    .append(Text.of(TextColors.DARK_RED, "Reloading quest script caused following error: ", Text.NEW_LINE))
-                    .append(Text.of(TextColors.RED, e.getMessage()), Text.NEW_LINE)
-                    .append(Text.of(TextColors.DARK_RED, "See console for stacktrace."))
-                    .build()
-            );
-        }
+        AtherysQuests.getInstance().getQuestFacade().reloadQuests();
         return CommandResult.success();
     }
 }

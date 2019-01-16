@@ -18,7 +18,6 @@ import javax.annotation.Nonnull;
         QuestLogCommand.class,
         AttachQuestCommand.class,
         DetachQuestCommand.class,
-        CancelQuestCommand.class,
         ReloadQuestsCommand.class,
         GiveQuestCommand.class
 })

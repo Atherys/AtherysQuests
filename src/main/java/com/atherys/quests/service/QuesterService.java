@@ -51,4 +51,8 @@ public class QuesterService implements Observer<Event> {
     public Optional<? extends User> getUser(Quester quester) {
         return null;
     }
+
+    public void removeQuest(Quester quester, Quest quest) {
+
+    }
 }

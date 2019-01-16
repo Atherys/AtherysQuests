@@ -16,22 +16,17 @@ import org.spongepowered.api.item.inventory.ItemStack;
 
 import java.util.Optional;
 
-@Permission("atherysquests.admin.quest.remove.item")
 @Aliases("item")
 @Description("Removes quest from item.")
+@Permission("atherysquests.admin.quest.detach.item")
 public class DetachQuestFromItemCommand implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
 
-        Player player = (Player) src;
+        AtherysQuests.getInstance().getQuestFacade().detatchQuestFromHeldItem((Player) src);
 
-        Optional<ItemStack> itemStack = player.getItemInHand(HandTypes.MAIN_HAND);
-        itemStack.ifPresent(item ->{
-            item.remove(QuestData.class);
-            AtherysQuests.getInstance().getQuestMessagingService().info(player, "Any quests have been removed from the item.");
-        });
         return CommandResult.success();
     }
 }

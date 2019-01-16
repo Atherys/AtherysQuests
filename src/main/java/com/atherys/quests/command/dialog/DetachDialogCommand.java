@@ -1,4 +1,4 @@
-package com.atherys.quests.command.quest;
+package com.atherys.quests.command.dialog;
 
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
@@ -11,22 +11,17 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
-
-@Permission("atherysquests.admin.quest.cancel")
-@Aliases("cancel")
-@Description("Cancels the attachment or removal of a quest.")
-public class CancelQuestCommand implements CommandExecutor {
+@Aliases("detach")
+@Description("Removes a dialog from an entity.")
+@Permission("atherysquests.admin.dialog.detach")
+public class DetachDialogCommand implements CommandExecutor {
 
     @Override
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         if (!(src instanceof Player)) return CommandResult.empty();
 
-        Player player = (Player) src;
-        AtherysQuests.getInstance().getQuestAttachmentService().endAttachment(player);
-        AtherysQuests.getInstance().getQuestAttachmentService().endRemoval(player);
+        AtherysQuests.getInstance().getDialogFacade().startRemovingDialogFromFacingEntity((Player) src);
 
-        AtherysQuests.getInstance().getQuestMessagingService().info(player, "Quest attachment/removal cleared.");
-
-        return CommandResult.empty();
+        return CommandResult.success();
     }
 }
