@@ -10,6 +10,8 @@ import com.atherys.quests.command.dialog.GetUUIDCommand;
 import com.atherys.quests.command.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
+import com.atherys.quests.entity.QuestLocation;
+import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.facade.DialogFacade;
 import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
@@ -18,12 +20,18 @@ import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
 import com.atherys.quests.listener.InventoryListener;
 import com.atherys.quests.listener.MasterEventListener;
-import com.atherys.quests.entity.QuestLocation;
-import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.lib.QuestExtension;
-import com.atherys.quests.service.*;
+import com.atherys.quests.service.DialogAttachmentService;
+import com.atherys.quests.service.DialogService;
+import com.atherys.quests.service.InventoryService;
+import com.atherys.quests.service.ParticleService;
+import com.atherys.quests.service.QuestAttachmentService;
+import com.atherys.quests.service.QuestLocationService;
+import com.atherys.quests.service.QuestMessagingService;
+import com.atherys.quests.service.QuestService;
+import com.atherys.quests.service.QuesterService;
 import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -41,6 +49,8 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -163,45 +173,34 @@ public class AtherysQuests {
     }
 
     private void start() {
-
+        // Create Gson instance
         gson = getGson();
 
-        components.questLocationRepository.cacheAll();
-        components.questerRepository.cacheAll();
+        // Cache entities
+        getQuestLocationRepository().cacheAll();
+        getQuesterRepository().cacheAll();
 
+        // Register listeners
         Sponge.getEventManager().registerListeners(this, components.gsonListener);
         Sponge.getEventManager().registerListeners(this, components.entityListener);
         Sponge.getEventManager().registerListeners(this, components.inventoryListener);
         Sponge.getEventManager().registerListeners(this, components.masterEventListener);
 
+        // Extend standard javascript library with quests
         JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
 
-//        dialogScriptService = SimpleDialogScriptService.getInstance();
-//        questScriptService = SimpleQuestScriptService.getInstance();
-//
-//        try {
-//            questScriptService.registerFolder(new File("config/" + ID + "/quests"));
-//            dialogScriptService.registerFolder(new File("config/" + ID + "/dialogs"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        questService = QuestService.getInstance();
-//        dialogService = DialogService.getInstance();
-//
-//        questAttachmentService= QuestAttachmentService.getInstance();
-//        dialogAttachmentService = DialogAttachmentService.getInstance();
+        // Load scripts
+        try {
+            getQuestScriptService().registerFolder(new File("config/" + ID + "/quests"));
+            getDialogScriptService().registerFolder(new File("config/" + ID + "/dialogs"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-//        locationManager = LocationManager.getInstance();
-//        particleEmitter = ParticleService.getInstance();
+        // Start emitting quest location particles
+        getParticleService().startEmitting();
 
-//        questerManager = QuesterManager.getInstance();
-
-//        inventoryService = InventoryService.getInstance();
-
-//        QuesterManager.getInstance().loadAll();
-//        LocationManager.getInstance().loadAll();
-
+        // Register commands
         try {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
             CommandService.getInstance().register(new QuestMasterCommand(), this);
@@ -209,14 +208,11 @@ public class AtherysQuests {
         } catch (CommandService.AnnotatedCommandException e) {
             e.printStackTrace();
         }
-//        particleEmitter.startEmitting();
     }
 
     private void stop() {
-        components.questerRepository.flushCache();
-        components.questLocationRepository.flushCache();
-//        QuesterManager.getInstance().saveAll();
-//        LocationManager.getInstance().saveAll();
+        getQuesterRepository().flushCache();
+        getQuestLocationRepository().flushCache();
     }
 
     private void reload() {

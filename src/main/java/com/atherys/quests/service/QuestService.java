@@ -16,8 +16,6 @@ import java.util.Optional;
 @Singleton
 public final class QuestService {
 
-    private static QuestService instance = new QuestService();
-
     private Map<String, Quest> quests = new HashMap<>();
 
     QuestService() {
@@ -27,10 +25,6 @@ public final class QuestService {
     private void init() {
         QuestRegistrationEvent questRegistrationEvent = new QuestRegistrationEvent(this);
         Sponge.getEventManager().post(questRegistrationEvent);
-    }
-
-    public static QuestService getInstance() {
-        return instance;
     }
 
     public void registerQuest(Quest quest) {
@@ -56,6 +50,7 @@ public final class QuestService {
     }
 
     public boolean hasQuesterFinishedQuest(Quester quester, String questId) {
+        // TODO
         return false;
     }
 }

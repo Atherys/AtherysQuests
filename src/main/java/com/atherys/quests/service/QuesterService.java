@@ -37,7 +37,7 @@ public class QuesterService implements Observer<Event> {
 
     @Override
     public void notify(Event event, Quester quester) {
-
+        // TODO
     }
 
     public void notify(Event event, Player player) {
@@ -45,14 +45,15 @@ public class QuesterService implements Observer<Event> {
     }
 
     public <T extends Quest> void turnInQuest(Player player, Quest<T> quest) {
-
+        // TODO
     }
 
     public Optional<? extends User> getUser(Quester quester) {
+        // TODO
         return null;
     }
 
     public void removeQuest(Quester quester, Quest quest) {
-
+        // TODO
     }
 }
