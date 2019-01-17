@@ -1,6 +1,5 @@
 package com.atherys.quests.api.quest;
 
-import com.atherys.core.views.Viewable;
 import com.atherys.quests.api.base.Observer;
 import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
@@ -20,7 +19,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event>, Viewable {
+public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
 
     /**
      * @return The unique String ID of this completedQuest

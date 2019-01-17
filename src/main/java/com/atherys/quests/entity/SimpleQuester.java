@@ -18,9 +18,6 @@ import java.util.UUID;
 public class SimpleQuester implements Quester {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
     private UUID uuid;
 
     @Transient
@@ -36,13 +33,17 @@ public class SimpleQuester implements Quester {
     @CollectionTable(name="simplequester_finishedquests")
     private Map<String,Long> finishedQuests = new HashMap<>();
 
-    SimpleQuester() {
+    public SimpleQuester() {
     }
 
     @Nonnull
     @Override
     public UUID getId() {
         return uuid;
+    }
+
+    public void setId(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public Player getCachedPlayer() {
@@ -93,96 +94,4 @@ public class SimpleQuester implements Quester {
         ongoingQuests.remove(quest);
     }
 
-//
-//    public SimpleQuester(UUID uuid) {
-//        this.player = uuid;
-//    }
-//
-//    public SimpleQuester(Player player) {
-//        this.player = player.getUniqueId();
-//        this.cachedPlayer = player;
-//    }
-//
-//    public void notify(Event event, Player player) {
-//        if (!this.player.equals(player.getUniqueId())) return;
-//
-//        this.cachedPlayer = player;
-//
-//        for (Quest quest : quests.values()) {
-//            if (!quest.isComplete()) {
-//                quest.notify(event, this);
-//                if (quest.isComplete()) {
-//                    AtherysQuests.getInstance().getQuestMessagingService().info(this, "You have completed the completedQuest \"", quest.getName(), "\". You may now turn it in.");
-//
-//                    QuestCompletedEvent qsEvent = new QuestCompletedEvent(quest, this);
-//                    Sponge.getEventManager().post(qsEvent);
-//                }
-//            }
-//        }
-//    }
-//
-//    public boolean pickupQuest(Quest quest) {
-//        if (!quest.meetsRequirements(this)) {
-//            Text.Builder reqText = Text.builder();
-//            reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " You do not meet the requirements for this completedQuest."));
-//            reqText.append(quest.createView().getFormattedRequirements());
-//            AtherysQuests.getInstance().getQuestMessagingService().noformat(this, reqText.build());
-//
-//            return false;
-//        }
-//
-//        if (!completedQuests.containsKey(quest.getId()) && !quests.containsKey(quest.getId())) {
-//            quests.put(quest.getId(), (Quest) quest.copy());
-//            AtherysQuests.getInstance().getQuestMessagingService().info(this, "You have started the completedQuest \"", quest.getName(), "\"");
-//            return true;
-//        } else {
-//            AtherysQuests.getInstance().getQuestMessagingService().error(this, "You are either already doing this completedQuest, or have done it before in the past.");
-//            return false;
-//        }
-//    }
-//
-//    public void removeQuest(Quest quest) {
-//        quests.remove(quest.getId());
-//    }
-//
-//    public void turnInQuest(Quest quest) {
-//        removeQuest(quest);
-//        completedQuests.put(quest.getId(), System.currentTimeMillis());
-//
-//        quest.award(this);
-//
-//        AtherysQuests.getInstance().getQuestMessagingService().info(this, "You have turned in the completedQuest \"", quest.getName(), "\"");
-//
-//        QuestTurnedInEvent qsEvent = new QuestTurnedInEvent(quest, this);
-//        Sponge.getEventManager().post(qsEvent);
-//    }
-//
-//    public Optional<? extends User> getUser() {
-//        return UserUtils.getUser(this.player);
-//    }
-//
-//    @Nullable
-//    public Player getCachedPlayer() {
-//        return cachedPlayer;
-//    }
-//
-//    public boolean hasQuestWithId(String id) {
-//        return quests.containsKey(id);
-//    }
-//
-//    public boolean hasQuest(Quest quest) {
-//        return quests.containsKey(quest.getId());
-//    }
-//
-//    public Map<String, Long> getCompletedQuests() {
-//        return completedQuests;
-//    }
-//
-//    public Map<String, Quest> getQuests() {
-//        return quests;
-//    }
-//
-//    public boolean hasCompletedQuest(String questId) {
-//        return completedQuests.containsKey(questId);
-//    }
 }

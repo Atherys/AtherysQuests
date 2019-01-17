@@ -20,7 +20,7 @@ public class QuestMessagingService {
     }
 
     public void noformat(Quester quester, Object... msg) {
-        Player player = questerService.getCachedPlayer(quester);
+        Player player = questerService.getPlayer(quester);
         if (player != null) player.sendMessage(Text.of(msg));
     }
 

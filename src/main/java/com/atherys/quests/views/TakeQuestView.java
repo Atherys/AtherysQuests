@@ -22,7 +22,6 @@ public class TakeQuestView implements QuestView<Quest> {
         return quest;
     }
 
-    @Override
     public void show(Player viewer) {
         BookView.Builder questView = BookView.builder();
 

@@ -50,7 +50,6 @@ public final class QuestService {
     }
 
     public boolean hasQuesterFinishedQuest(Quester quester, String questId) {
-        // TODO
-        return false;
+        return quester.hasFinishedQuest(questId);
     }
 }

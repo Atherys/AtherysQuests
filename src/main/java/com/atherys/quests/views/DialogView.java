@@ -1,6 +1,5 @@
 package com.atherys.quests.views;
 
-import com.atherys.core.views.View;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.DialogMsg;
@@ -19,7 +18,7 @@ import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.concurrent.TimeUnit;
 
-public class DialogView implements View<Dialog> {
+public class DialogView {
 
     private final Dialog dialog;
 
@@ -98,7 +97,6 @@ public class DialogView implements View<Dialog> {
         } else player.sendMessage(DialogMsg.DIALOG_END_DECORATION);
     }
 
-    @Override
     public void show(Player player) {
         showChat(player);
     }

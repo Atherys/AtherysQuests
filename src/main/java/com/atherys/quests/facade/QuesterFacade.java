@@ -2,6 +2,7 @@ package com.atherys.quests.facade;
 
 import com.atherys.core.utils.Question;
 import com.atherys.quests.api.exception.QuestCommandExceptions;
+import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.service.QuestLocationService;
@@ -41,11 +42,39 @@ public class QuesterFacade {
     }
 
     public <T extends Quest> boolean pickupQuest(Player player, Quest<T> quest) {
-        return false;
+
+        Quester quester = questerService.getQuester(player);
+
+        try {
+            boolean result = questerService.pickupQuest(quester, quest);
+
+            if (result) {
+                questMsg.info(quester, "You have started the quest \"", quest.getName(), "\"");
+            } else {
+                questMsg.error(quester, "You are either already doing this quest, or have done it before in the past.");
+            }
+
+            return result;
+        } catch (QuestRequirementsException e) {
+            Text.Builder reqText = Text.builder();
+            reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " You do not meet the requirements for this quest."));
+            reqText.append(quest.createView().getFormattedRequirements());
+
+            questMsg.noformat(quester, reqText.build());
+
+            return false;
+        }
     }
 
     public <T extends Quest> boolean turnInQuest(Player player, Quest<T> quest) {
-        return false;
+
+        Quester quester = questerService.getQuester(player);
+
+        boolean result = questerService.turnInQuest(quester, quest);
+
+        if (result) questMsg.info(quester, "You have turned in the quest \"", quest.getName(), "\"");
+
+        return result;
     }
 
     public void onPlayerMoveToQuestRadius(Location<World> fromLocation, Location<World> toLocation, Player player) {
@@ -86,7 +115,7 @@ public class QuesterFacade {
         Quester quester = questerService.getQuester(player);
         Optional<Quest> quest = questService.getQuest(questId);
 
-        if ( !quest.isPresent() ) {
+        if (!quest.isPresent()) {
             throw QuestCommandExceptions.invalidQuestId();
         }
 

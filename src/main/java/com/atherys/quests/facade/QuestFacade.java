@@ -38,9 +38,6 @@ public class QuestFacade {
     QuestService questService;
 
     @Inject
-    QuesterService questerService;
-
-    @Inject
     QuestLocationService questLocationService;
 
     @Inject

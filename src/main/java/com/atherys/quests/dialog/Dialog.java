@@ -1,6 +1,5 @@
 package com.atherys.quests.dialog;
 
-import com.atherys.core.views.Viewable;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.dialog.tree.DialogNode;
@@ -13,12 +12,11 @@ import com.atherys.quests.views.TakeQuestView;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.User;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class Dialog implements Viewable {
+public class Dialog {
 
     private String treeId;
 
