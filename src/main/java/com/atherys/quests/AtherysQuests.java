@@ -12,6 +12,8 @@ import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.entity.QuestLocation;
 import com.atherys.quests.entity.SimpleQuester;
+import com.atherys.quests.event.dialog.DialogRegistrationEvent;
+import com.atherys.quests.event.quest.QuestRegistrationEvent;
 import com.atherys.quests.facade.DialogFacade;
 import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
@@ -40,6 +42,7 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataRegistration;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
@@ -197,6 +200,10 @@ public class AtherysQuests {
             e.printStackTrace();
         }
 
+        // Trigger Events
+        Sponge.getEventManager().post(new QuestRegistrationEvent(getQuestService()));
+        Sponge.getEventManager().post(new DialogRegistrationEvent(getDialogService()));
+
         // Start emitting quest location particles
         getParticleService().startEmitting();
 
@@ -243,7 +250,7 @@ public class AtherysQuests {
         init();
     }
 
-    @Listener
+    @Listener(order = Order.EARLY)
     public void onStart(GameStartedServerEvent event) {
         if (init) start();
     }
