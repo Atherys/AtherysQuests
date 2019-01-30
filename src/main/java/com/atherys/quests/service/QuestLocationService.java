@@ -125,14 +125,14 @@ public final class QuestLocationService {
             if (questLoc.getType() == QuestLocationType.RADIUS) {
 
                 // if any quest locations already overlap this quest location, return
-                if (repository.cacheParallelStream().anyMatch(ql -> checkOverlap(ql, questLoc))) return;
+                if (repository.parallelStream().anyMatch(ql -> checkOverlap(ql, questLoc))) return;
 
                 questRads.put(questLoc.getLocation(), questLoc);
 
             } else if (questLoc.getType() == QuestLocationType.BLOCK) {
 
                 // if any quest locations already have the same location as this one, return
-                if (repository.cacheParallelStream().anyMatch(ql -> checkSameBlock(ql.getLocation(), questLoc.getLocation()))) return;
+                if (repository.parallelStream().anyMatch(ql -> checkSameBlock(ql.getLocation(), questLoc.getLocation()))) return;
 
                 questBlocks.put(questLoc.getLocation(), questLoc);
             }
