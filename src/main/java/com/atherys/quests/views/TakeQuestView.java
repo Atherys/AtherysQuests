@@ -18,7 +18,7 @@ public class TakeQuestView implements QuestView<Quest> {
         this.quest = quest;
     }
 
-    public Quest<?> getQuest(){
+    public Quest<?> getQuest() {
         return quest;
     }
 

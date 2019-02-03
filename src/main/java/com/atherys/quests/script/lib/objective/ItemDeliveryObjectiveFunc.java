@@ -10,14 +10,15 @@ import java.util.UUID;
 
 /**
  * @jsfunc
- */ 
+ */
 public class ItemDeliveryObjectiveFunc implements TriFunction<ItemStack, String, Text, ItemDeliveryObjective> {
     /**
      * An objective that requires delivering an item to an entity.
-     * @jsname itemDeliveryObjective
-     * @param itemStack The item to deliver.
+     *
+     * @param itemStack  The item to deliver.
      * @param targetUUID The UUID of the entity to deliver the item to.
      * @param targetName The name of the entity.
+     * @jsname itemDeliveryObjective
      */
     @Override
     public ItemDeliveryObjective apply(ItemStack itemStack, String targetUUID, Text targetName) {

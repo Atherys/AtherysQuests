@@ -3,9 +3,7 @@ package com.atherys.quests.listener;
 import com.atherys.quests.facade.DialogFacade;
 import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
-
 import com.google.inject.Inject;
-
 import com.google.inject.Singleton;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;

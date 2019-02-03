@@ -1,7 +1,6 @@
 package com.atherys.quests.service;
 
 import com.atherys.core.interaction.AbstractAttachmentService;
-import com.atherys.quests.AtherysQuests;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.entity.Entity;

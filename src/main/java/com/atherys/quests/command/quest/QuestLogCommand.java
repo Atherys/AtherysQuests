@@ -12,7 +12,6 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nonnull;
-import java.util.Optional;
 
 @Aliases("log")
 @Description("Displays log of current quests.")

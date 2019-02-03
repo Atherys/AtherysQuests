@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 /**
  * @jsfunc
- */ 
+ */
 public class GetQuestRewards implements Function<Quest, Reward[]> {
     @Override
     public Reward[] apply(Quest quest) {

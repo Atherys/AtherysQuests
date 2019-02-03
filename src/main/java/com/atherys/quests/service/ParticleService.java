@@ -16,16 +16,14 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class ParticleService {
 
+    private static ParticleEffect effect = ParticleEffect.builder()
+            .type(ParticleTypes.REDSTONE_DUST)
+            .option(ParticleOptions.COLOR, Color.YELLOW)
+            .velocity(Vector3d.ONE)
+            .quantity(10)
+            .build();
     @Inject
     QuestLocationService questLocationService;
-
-    private static ParticleEffect effect = ParticleEffect.builder()
-                .type(ParticleTypes.REDSTONE_DUST)
-                .option(ParticleOptions.COLOR, Color.YELLOW)
-                .velocity(Vector3d.ONE)
-                .quantity(10)
-                .build();
-
     private Task particleEmissionTask;
 
     private boolean isEmitting;
@@ -36,20 +34,20 @@ public class ParticleService {
     /**
      * Emits particles for every completedQuest block.
      */
-    private void emitParticles(){
-        questLocationService.getQuestBlocks().forEach((location, questLocation) ->{
-             location.getExtent().getNearbyEntities(location.getPosition(), questLocation.getRadius()).forEach(entity -> {
-                 if (entity instanceof Player){
-                     ((Player) entity).spawnParticles(effect, location.getPosition(), (int) questLocation.getRadius());
-                 }
-             });
+    private void emitParticles() {
+        questLocationService.getQuestBlocks().forEach((location, questLocation) -> {
+            location.getExtent().getNearbyEntities(location.getPosition(), questLocation.getRadius()).forEach(entity -> {
+                if (entity instanceof Player) {
+                    ((Player) entity).spawnParticles(effect, location.getPosition(), (int) questLocation.getRadius());
+                }
+            });
         });
     }
 
     /**
      * Starts the particle emission.
      */
-    public void startEmitting(){
+    public void startEmitting() {
         particleEmissionTask = Task.builder()
                 .execute(this::emitParticles)
                 .interval(1, TimeUnit.SECONDS)
@@ -58,7 +56,7 @@ public class ParticleService {
         isEmitting = true;
     }
 
-    public void stopEmitting(){
+    public void stopEmitting() {
         particleEmissionTask.cancel();
         isEmitting = false;
     }

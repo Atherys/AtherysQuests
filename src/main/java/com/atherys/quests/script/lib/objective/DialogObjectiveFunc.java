@@ -7,14 +7,15 @@ import org.spongepowered.api.text.Text;
 
 /**
  * @jsfunc
- */ 
+ */
 public class DialogObjectiveFunc implements TriFunction<String, Integer, Text, Objective> {
     /**
      * An objective that requires the player to meet a specific dialog node in a dialog tree.
-     * @jsname dialogObjective
-     * @param treeId The dialog tree's ID.
-     * @param dialogNode The node ID within the tree.
+     *
+     * @param treeId      The dialog tree's ID.
+     * @param dialogNode  The node ID within the tree.
      * @param description The objective's description.
+     * @jsname dialogObjective
      */
     @Override
     public Objective apply(String treeId, Integer dialogNode, Text description) {

@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 /**
  * @jsfunc
- */ 
+ */
 public class RegisterQuest implements Function<Quest, Boolean> {
     @Override
     public Boolean apply(Quest quest) {

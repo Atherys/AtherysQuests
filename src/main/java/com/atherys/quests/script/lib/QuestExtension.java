@@ -24,6 +24,10 @@ public class QuestExtension implements LibraryExtension {
     private QuestExtension() {
     }
 
+    public static QuestExtension getInstance() {
+        return instance;
+    }
+
     @Override
     public void extend(ScriptLibrary scriptLibrary) {
         scriptLibrary.put("onDialogRegistration", new EventHandlerFunction<>(DialogRegistrationEvent.class));
@@ -79,9 +83,5 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("registerQuest", new RegisterQuest());
         scriptLibrary.put("registerDialogTree", new RegisterDialogTree());
-    }
-
-    public static QuestExtension getInstance() {
-        return instance;
     }
 }

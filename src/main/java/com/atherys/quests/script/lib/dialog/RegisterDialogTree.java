@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 /**
  * @jsfunc
- */ 
-public class RegisterDialogTree implements Function<DialogTree,Boolean> {
+ */
+public class RegisterDialogTree implements Function<DialogTree, Boolean> {
     /**
      * Registers a dialog tree for use.
      */

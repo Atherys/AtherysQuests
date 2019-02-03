@@ -23,15 +23,7 @@ import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.lib.QuestExtension;
-import com.atherys.quests.service.DialogAttachmentService;
-import com.atherys.quests.service.DialogService;
-import com.atherys.quests.service.InventoryService;
-import com.atherys.quests.service.ParticleService;
-import com.atherys.quests.service.QuestAttachmentService;
-import com.atherys.quests.service.QuestLocationService;
-import com.atherys.quests.service.QuestMessagingService;
-import com.atherys.quests.service.QuestService;
-import com.atherys.quests.service.QuesterService;
+import com.atherys.quests.service.*;
 import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -83,81 +75,17 @@ public class AtherysQuests {
 
     @Inject
     Injector injector;
+    private Components components;
+    private Gson gson;
+    private Injector questsInjector;
 
-    private class Components {
-
-        @Inject
-        QuestsConfig config;
-
-        @Inject
-        AtherysQuestsRegistry atherysQuestsRegistry;
-
-        @Inject
-        QuesterRepository questerRepository;
-
-        @Inject
-        QuestLocationRepository questLocationRepository;
-
-        @Inject
-        QuestMessagingService questMessagingService;
-
-        @Inject
-        InventoryService inventoryService;
-
-        @Inject
-        QuestService questService;
-
-        @Inject
-        DialogService dialogService;
-
-        @Inject
-        QuestLocationService questLocationService;
-
-        @Inject
-        QuesterService questerService;
-
-        @Inject
-        QuestAttachmentService questAttachmentService;
-
-        @Inject
-        DialogAttachmentService dialogAttachmentService;
-
-        @Inject
-        ParticleService particleService;
-
-        @Inject
-        DialogScriptService dialogScriptService;
-
-        @Inject
-        QuestScriptService questScriptService;
-
-        @Inject
-        DialogFacade dialogFacade;
-
-        @Inject
-        QuestFacade questFacade;
-
-        @Inject
-        QuesterFacade questerFacade;
-
-        @Inject
-        EntityListener entityListener;
-
-        @Inject
-        GsonListener gsonListener;
-
-        @Inject
-        InventoryListener inventoryListener;
-
-        @Inject
-        MasterEventListener masterEventListener;
+    public static AtherysQuests getInstance() {
+        return instance;
     }
 
-    private Components components;
-
-    private Gson gson;
-
-    private Injector questsInjector;
+    public static QuestsConfig getConfig() {
+        return getInstance().components.config;
+    }
 
     private void init() {
         instance = this;
@@ -264,14 +192,6 @@ public class AtherysQuests {
         event.registerEntity(QuestLocation.class);
     }
 
-    public static AtherysQuests getInstance() {
-        return instance;
-    }
-
-    public static QuestsConfig getConfig() {
-        return getInstance().components.config;
-    }
-
     public Optional<EconomyService> getEconomyService() {
         return Sponge.getServiceManager().provide(EconomyService.class);
     }
@@ -352,5 +272,74 @@ public class AtherysQuests {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    private class Components {
+
+        @Inject
+        QuestsConfig config;
+
+        @Inject
+        AtherysQuestsRegistry atherysQuestsRegistry;
+
+        @Inject
+        QuesterRepository questerRepository;
+
+        @Inject
+        QuestLocationRepository questLocationRepository;
+
+        @Inject
+        QuestMessagingService questMessagingService;
+
+        @Inject
+        InventoryService inventoryService;
+
+        @Inject
+        QuestService questService;
+
+        @Inject
+        DialogService dialogService;
+
+        @Inject
+        QuestLocationService questLocationService;
+
+        @Inject
+        QuesterService questerService;
+
+        @Inject
+        QuestAttachmentService questAttachmentService;
+
+        @Inject
+        DialogAttachmentService dialogAttachmentService;
+
+        @Inject
+        ParticleService particleService;
+
+        @Inject
+        DialogScriptService dialogScriptService;
+
+        @Inject
+        QuestScriptService questScriptService;
+
+        @Inject
+        DialogFacade dialogFacade;
+
+        @Inject
+        QuestFacade questFacade;
+
+        @Inject
+        QuesterFacade questerFacade;
+
+        @Inject
+        EntityListener entityListener;
+
+        @Inject
+        GsonListener gsonListener;
+
+        @Inject
+        InventoryListener inventoryListener;
+
+        @Inject
+        MasterEventListener masterEventListener;
     }
 }

@@ -58,7 +58,7 @@ public final class QuestLocationService {
     /**
      * Check if the Quest Location contains the provided Location
      *
-     * @param ql The Quest Location
+     * @param ql  The Quest Location
      * @param loc The Location
      * @return Whether the location is contained within the radius of the quest location
      */
@@ -114,7 +114,7 @@ public final class QuestLocationService {
 
     public void addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
         Optional<QuestLocation> questLocation = questService.getQuest(questId).map(quest ->
-            new QuestLocation(location, quest, radius, type)
+                new QuestLocation(location, quest, radius, type)
         );
 
 
@@ -132,7 +132,8 @@ public final class QuestLocationService {
             } else if (questLoc.getType() == QuestLocationType.BLOCK) {
 
                 // if any quest locations already have the same location as this one, return
-                if (repository.cacheParallelStream().anyMatch(ql -> checkSameBlock(ql.getLocation(), questLoc.getLocation()))) return;
+                if (repository.cacheParallelStream().anyMatch(ql -> checkSameBlock(ql.getLocation(), questLoc.getLocation())))
+                    return;
 
                 questBlocks.put(questLoc.getLocation(), questLoc);
             }

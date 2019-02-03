@@ -15,7 +15,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +34,7 @@ public class QuesterService implements Observer<Event> {
     public SimpleQuester getOrCreateQuester(UUID uuid) {
         Optional<SimpleQuester> questerById = repository.findById(uuid);
 
-        if ( questerById.isPresent() ) {
+        if (questerById.isPresent()) {
             return questerById.get();
         } else {
             SimpleQuester quester = new SimpleQuester();
@@ -56,7 +55,7 @@ public class QuesterService implements Observer<Event> {
     }
 
     public Player getPlayer(Quester quester) {
-        if ( quester instanceof SimpleQuester ) {
+        if (quester instanceof SimpleQuester) {
             return getCachedPlayer(quester);
         }
 
@@ -66,7 +65,7 @@ public class QuesterService implements Observer<Event> {
     @Override
     public void notify(Event event, Quester quester) {
 
-        if ( quester == null ) {
+        if (quester == null) {
             throw new IllegalStateException("Quester cannot be null. Possibly failed repository lookup.");
         }
 
@@ -104,7 +103,7 @@ public class QuesterService implements Observer<Event> {
     }
 
     public <T extends Quest> boolean turnInQuest(Quester quester, Quest<T> quest) {
-        if ( quest.isComplete() && quester.hasQuest(quest) ) {
+        if (quest.isComplete() && quester.hasQuest(quest)) {
 
             removeQuest(quester, quest);
 

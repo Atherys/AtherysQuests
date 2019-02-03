@@ -1,7 +1,6 @@
 package com.atherys.quests.service;
 
 import com.atherys.core.interaction.AbstractAttachmentService;
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.QuestLocationType;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -24,9 +23,9 @@ public class QuestAttachmentService extends AbstractAttachmentService<QuestAttac
         super();
     }
 
-    public void addQuestLocation(Player player, Location<World> location){
+    public void addQuestLocation(Player player, Location<World> location) {
         Optional<ProtoQuestLocation> proto = getAttachment(player);
-        proto.ifPresent(questLocation ->{
+        proto.ifPresent(questLocation -> {
             questLocationService.addQuestLocation(location, questLocation.getQuestId(), questLocation.getRadius(), questLocation.getType());
         });
     }
@@ -45,7 +44,7 @@ public class QuestAttachmentService extends AbstractAttachmentService<QuestAttac
         private String questId;
         private QuestLocationType type;
 
-        private ProtoQuestLocation(String questId, double radius, QuestLocationType type){
+        private ProtoQuestLocation(String questId, double radius, QuestLocationType type) {
             this.questId = questId;
             this.radius = radius;
             this.type = type;

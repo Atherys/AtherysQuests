@@ -77,7 +77,7 @@ public class DialogNode {
     }
 
     public boolean meetsRequirements(Quester player) {
-        if ( requirements == null ) return true;
+        if (requirements == null) return true;
         for (Requirement requirement : requirements) {
             if (!requirement.check(player)) return false;
         }

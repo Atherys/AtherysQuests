@@ -1,6 +1,5 @@
 package com.atherys.quests.listener;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.service.InventoryService;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

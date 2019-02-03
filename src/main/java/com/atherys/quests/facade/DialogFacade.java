@@ -1,6 +1,5 @@
 package com.atherys.quests.facade;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.exception.QuestCommandException;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.service.DialogAttachmentService;
@@ -69,7 +68,7 @@ public class DialogFacade {
 
             Optional<DialogTree> tree = dialogService.getDialog(entityHit.getEntity());
 
-            if ( tree.isPresent() ) {
+            if (tree.isPresent()) {
                 questMsg.info(player, Text.of("Dialog ID: ", tree.get().getId()));
                 return;
             }

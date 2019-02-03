@@ -56,9 +56,9 @@ public class Dialog {
         // update the cached player
         this.cachedPlayer = player;
 
-        if ( node.getId() == 0 ) {
+        if (node.getId() == 0) {
             Sponge.getEventManager().post(new DialogStartEvent(node, this));
-        } else if ( node.getResponses().isEmpty() ) {
+        } else if (node.getResponses().isEmpty()) {
             Sponge.getEventManager().post(new DialogEndEvent(node, this));
         } else {
             Sponge.getEventManager().post(new DialogProceedEvent(node, this));

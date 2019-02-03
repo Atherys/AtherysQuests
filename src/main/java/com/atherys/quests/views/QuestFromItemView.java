@@ -12,7 +12,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class QuestFromItemView extends TakeQuestView{
+public class QuestFromItemView extends TakeQuestView {
 
 
     public QuestFromItemView(Quest<?> quest) {
@@ -38,7 +38,7 @@ public class QuestFromItemView extends TakeQuestView{
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of(Text.of("Do you accept the quest \"", getQuest().getName(), "\"?"))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), player -> {
-                    if(AtherysQuests.getInstance().getQuesterFacade().pickupQuest(viewer, getQuest())){
+                    if (AtherysQuests.getInstance().getQuesterFacade().pickupQuest(viewer, getQuest())) {
                         player.setItemInHand(HandTypes.MAIN_HAND, ItemStack.builder().itemType(ItemTypes.AIR).build());
                     }
                 }))

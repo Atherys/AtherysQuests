@@ -9,10 +9,11 @@ import java.util.function.BiFunction;
 
 /**
  * @jsfunc
- */ 
+ */
 public class AttachDialog implements BiFunction<Entity, String, Boolean> {
     /**
      * Attaches a dialog to an `Entity`.
+     *
      * @return Whether the attachment was successful.
      */
     @Override

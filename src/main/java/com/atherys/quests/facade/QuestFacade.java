@@ -6,19 +6,15 @@ import com.atherys.quests.api.exception.QuestCommandException;
 import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quest.QuestLocationType;
-import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.service.QuestAttachmentService;
 import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.service.QuestService;
-import com.atherys.quests.service.QuesterService;
 import com.atherys.quests.views.QuestFromItemView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.command.CommandException;
-import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
@@ -167,10 +163,10 @@ public class QuestFacade {
         throw QuestCommandExceptions.notImplemented();
     }
 
-    public void offerQuest(Player player, String questId) throws CommandException{
+    public void offerQuest(Player player, String questId) throws CommandException {
         Optional<Quest> quest = questService.getQuest(questId);
 
-        if ( quest.isPresent() ) {
+        if (quest.isPresent()) {
             quest.get().createView().show(player);
         } else {
             throw QuestCommandExceptions.invalidQuestId();

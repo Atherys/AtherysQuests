@@ -7,8 +7,8 @@ import java.util.function.Function;
 
 /**
  * @jsfunc
- */ 
-public class GetQuestById implements Function<String,Quest> {
+ */
+public class GetQuestById implements Function<String, Quest> {
     @Override
     public Quest apply(String questId) {
         return AtherysQuests.getInstance().getQuestService().getQuest(questId).orElse(null);

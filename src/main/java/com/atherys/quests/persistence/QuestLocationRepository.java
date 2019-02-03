@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 import org.slf4j.Logger;
 
 @Singleton
-public class QuestLocationRepository extends AtherysRepository<QuestLocation,Long> {
+public class QuestLocationRepository extends AtherysRepository<QuestLocation, Long> {
     @Inject
     QuestLocationRepository(Logger logger) {
         super(QuestLocation.class, logger);

@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 
 /**
  * @jsfunc
- */ 
+ */
 public class AddQuestObjective implements BiFunction<SimpleQuest, Objective, Boolean> {
     @Override
     public Boolean apply(SimpleQuest simpleQuest, Objective objective) {

@@ -24,11 +24,11 @@ public class ItemDeliveryObjective extends AbstractObjective<InteractEntityEvent
     private Text targetName;
 
 
-    private ItemDeliveryObjective(){
+    private ItemDeliveryObjective() {
         super(InteractEntityEvent.Secondary.class);
     }
 
-    ItemDeliveryObjective(ItemStackSnapshot item, UUID target, Text targetName){
+    ItemDeliveryObjective(ItemStackSnapshot item, UUID target, Text targetName) {
         this();
         this.item = item;
         this.target = target;
@@ -37,9 +37,9 @@ public class ItemDeliveryObjective extends AbstractObjective<InteractEntityEvent
 
     @Override
     protected void onNotify(InteractEntityEvent.Secondary event, Quester quester) {
-        if(!event.getTargetEntity().getUniqueId().equals(target)) return;
+        if (!event.getTargetEntity().getUniqueId().equals(target)) return;
         PlayerInventory inventory = (PlayerInventory) AtherysQuests.getInstance().getQuesterService().getCachedPlayer(quester).getInventory();
-        if(inventory.contains(item.createStack()) && !inventory.getEquipment().contains(item.createStack())){
+        if (inventory.contains(item.createStack()) && !inventory.getEquipment().contains(item.createStack())) {
             ItemUtils.removeItemExact(inventory, item.createStack());
             complete = true;
         }
@@ -58,7 +58,7 @@ public class ItemDeliveryObjective extends AbstractObjective<InteractEntityEvent
     @Override
     public Text toText() {
         return Text.builder().append(Text.of("Deliver ", item.getQuantity(), " ", ItemUtils.getItemName(item.createStack())
-                , item.getQuantity() > 1 ? "s":"", " to ", targetName, "."))
+                , item.getQuantity() > 1 ? "s" : "", " to ", targetName, "."))
                 .build();
     }
 

@@ -14,15 +14,7 @@ import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.SimpleDialogScriptService;
 import com.atherys.quests.script.SimpleQuestScriptService;
-import com.atherys.quests.service.DialogAttachmentService;
-import com.atherys.quests.service.DialogService;
-import com.atherys.quests.service.InventoryService;
-import com.atherys.quests.service.ParticleService;
-import com.atherys.quests.service.QuestAttachmentService;
-import com.atherys.quests.service.QuestLocationService;
-import com.atherys.quests.service.QuestMessagingService;
-import com.atherys.quests.service.QuestService;
-import com.atherys.quests.service.QuesterService;
+import com.atherys.quests.service.*;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 

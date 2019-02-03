@@ -6,7 +6,7 @@ import org.spongepowered.api.text.Text;
 
 /**
  * @jsfunc
- */ 
+ */
 public class CreateStagedQuest implements QuadFunction<String, Text, Text, Integer, StagedQuest> {
     @Override
     public StagedQuest apply(String id, Text name, Text description, Integer version) {

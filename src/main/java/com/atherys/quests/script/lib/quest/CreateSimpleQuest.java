@@ -6,12 +6,12 @@ import org.spongepowered.api.text.Text;
 
 /**
  * @jsfunc
- */ 
+ */
 public class CreateSimpleQuest implements QuadFunction<String, Text, Text, Integer, SimpleQuest> {
 
     @Override
     public SimpleQuest apply(String id, Text name, Text description, Integer version) {
         return new SimpleQuest(id, name, description, version);
     }
-    
+
 }

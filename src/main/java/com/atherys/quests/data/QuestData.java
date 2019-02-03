@@ -52,7 +52,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
     }
 
     @Override
-    public Optional<QuestData> fill(DataHolder dataHolder){
+    public Optional<QuestData> fill(DataHolder dataHolder) {
         QuestData questData = dataHolder.get(QuestData.class).orElse(null);
         return Optional.ofNullable(questData);
     }
@@ -66,7 +66,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
     @Override
     public Optional<QuestData> from(DataContainer container) {
-        if(container.contains(QuestKeys.QUEST.getQuery())){
+        if (container.contains(QuestKeys.QUEST.getQuery())) {
             final String questId = container.getString(QuestKeys.QUEST.getQuery()).get();
             setQuestId(questId);
 
@@ -101,7 +101,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
         private String questId;
 
-        public Immutable(){
+        public Immutable() {
             this("");
         }
 
@@ -137,8 +137,8 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
         @Override
         public DataContainer toContainer() {
-           return super.toContainer()
-                   .set(QuestKeys.QUEST, this.getQuestId());
+            return super.toContainer()
+                    .set(QuestKeys.QUEST, this.getQuestId());
         }
 
     }
@@ -162,7 +162,7 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
         @Override
         protected Optional<QuestData> buildContent(DataView container) throws InvalidDataException {
-            if(container.contains(QuestKeys.QUEST.getQuery())){
+            if (container.contains(QuestKeys.QUEST.getQuery())) {
                 final String questId = container.getString(QuestKeys.QUEST.getQuery()).get();
                 return Optional.of(new QuestData(questId));
             }

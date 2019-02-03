@@ -29,9 +29,13 @@ public final class Requirements {
         return new QuestCompleteRequirement(quest);
     }
 
-    public static HasQuestRequirement hasQuest(String questId) { return new HasQuestRequirement(questId); }
+    public static HasQuestRequirement hasQuest(String questId) {
+        return new HasQuestRequirement(questId);
+    }
 
-    public static HasQuestRequirement hasQuest(Quest quest) { return new HasQuestRequirement(quest); }
+    public static HasQuestRequirement hasQuest(Quest quest) {
+        return new HasQuestRequirement(quest);
+    }
 
     public static MoneyRequirement money(double amount, Currency currency) {
         return new MoneyRequirement(amount, currency);

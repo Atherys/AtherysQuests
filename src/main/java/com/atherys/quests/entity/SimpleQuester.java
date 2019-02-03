@@ -3,16 +3,11 @@ package com.atherys.quests.entity;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.persistence.converter.QuestConverter;
-import org.hibernate.annotations.GenericGenerator;
 import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nonnull;
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class SimpleQuester implements Quester {
@@ -28,10 +23,10 @@ public class SimpleQuester implements Quester {
     private Set<Quest> ongoingQuests = new HashSet<>();
 
     @ElementCollection
-    @MapKeyColumn(name="quest_id")
-    @Column(name="timestamp")
-    @CollectionTable(name="simplequester_finishedquests")
-    private Map<String,Long> finishedQuests = new HashMap<>();
+    @MapKeyColumn(name = "quest_id")
+    @Column(name = "timestamp")
+    @CollectionTable(name = "simplequester_finishedquests")
+    private Map<String, Long> finishedQuests = new HashMap<>();
 
     public SimpleQuester() {
     }

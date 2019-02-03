@@ -7,13 +7,14 @@ import java.util.function.Function;
 
 /**
  * @jsfunc
- */ 
+ */
 public class HasQuestRequirementFunc implements Function<String, Requirement> {
     /**
      * A requirement for a player to have a quest.
-     * @jsname hasQuestRequirement
+     *
      * @param questId The quest's ID.
      * @return
+     * @jsname hasQuestRequirement
      */
     @Override
     public Requirement apply(String questId) {

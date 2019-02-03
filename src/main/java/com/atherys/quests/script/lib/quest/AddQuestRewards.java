@@ -7,7 +7,7 @@ import java.util.function.BiFunction;
 
 /**
  * @jsfunc
- */ 
+ */
 public class AddQuestRewards implements BiFunction<Quest, Reward[], Boolean> {
     @Override
     public Boolean apply(Quest quest, Reward[] rewards) {
