@@ -91,7 +91,7 @@ public final class QuestLocationService {
 
     public void addQuestLocation(Location<World> location, String questId, double radius, QuestLocationType type) {
         Optional<QuestLocation> questLocation = questService.getQuest(questId).map(quest ->
-                new QuestLocation(location, quest, radius, type)
+            new QuestLocation(location, quest, radius, type)
         );
 
 
