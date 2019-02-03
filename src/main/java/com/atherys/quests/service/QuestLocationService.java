@@ -33,29 +33,6 @@ public final class QuestLocationService {
     }
 
     /**
-     * Check if Quest Location A overlaps with Quest Location B
-     *
-     * @param qlA Quest Location A
-     * @param qlB Quest Location B
-     * @return Whether they overlap or not
-     */
-    public boolean checkOverlap(QuestLocation qlA, QuestLocation qlB) {
-        return qlA.getLocation().getExtent().equals(qlB.getLocation().getExtent())
-                && (qlA.getLocation().getPosition().distance(qlB.getLocation().getPosition()) < Math.pow(qlA.getRadius() + qlB.getRadius(), 2));
-    }
-
-    /**
-     * Check if Location A and Location B are on the same block
-     *
-     * @param locA Location A
-     * @param locB Location B
-     * @return Whether they are the same block
-     */
-    public boolean checkSameBlock(Location<World> locA, Location<World> locB) {
-        return locA.getExtent().equals(locB.getExtent()) && locA.getBlockPosition().equals(locB.getBlockPosition());
-    }
-
-    /**
      * Check if the Quest Location contains the provided Location
      *
      * @param ql  The Quest Location
@@ -90,7 +67,7 @@ public final class QuestLocationService {
      */
     public Optional<QuestLocation> getByBlock(Location<World> location) {
         for (QuestLocation ql : questBlocks.values()) {
-            if (checkSameBlock(ql.getLocation(), location)) {
+            if (repository.checkSameBlock(ql.getLocation(), location)) {
                 return Optional.of(ql);
             }
         }
@@ -125,15 +102,18 @@ public final class QuestLocationService {
             if (questLoc.getType() == QuestLocationType.RADIUS) {
 
                 // if any quest locations already overlap this quest location, return
-                if (repository.cacheParallelStream().anyMatch(ql -> checkOverlap(ql, questLoc))) return;
+                if (repository.getQuestLocationFromQuestLocation(questLoc).isPresent()) {
+                    return;
+                }
 
                 questRads.put(questLoc.getLocation(), questLoc);
 
             } else if (questLoc.getType() == QuestLocationType.BLOCK) {
 
                 // if any quest locations already have the same location as this one, return
-                if (repository.cacheParallelStream().anyMatch(ql -> checkSameBlock(ql.getLocation(), questLoc.getLocation())))
+                if (repository.getQuestLocationFromBlock(questLoc.getLocation()).isPresent()) {
                     return;
+                }
 
                 questBlocks.put(questLoc.getLocation(), questLoc);
             }

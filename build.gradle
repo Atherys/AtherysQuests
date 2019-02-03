@@ -45,13 +45,8 @@ repositories {
 dependencies {
     shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
     shadow 'com.github.Atherys-Horizons:AtherysScript:master-SNAPSHOT'
-    shadow 'com.github.Atherys-Horizons:AtherysCore:1.11.1'
+    shadow 'com.github.Atherys-Horizons:AtherysCore:1.12.6'
     shadow 'junit:junit:4.12'
-}
-
-shadowJar {
-    relocate 'org.bson', 'com.atherys.libs.org.bson'
-    relocate 'com.mongodb', 'com.atherys.libs.com.mongodb'
 }
 
 javadoc {
