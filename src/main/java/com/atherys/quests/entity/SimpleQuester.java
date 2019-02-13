@@ -13,7 +13,7 @@ import java.util.*;
 public class SimpleQuester implements Quester {
 
     @Id
-    private UUID uuid;
+    private UUID id;
 
     @Transient
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
@@ -34,11 +34,11 @@ public class SimpleQuester implements Quester {
     @Nonnull
     @Override
     public UUID getId() {
-        return uuid;
+        return id;
     }
 
     public void setId(UUID uuid) {
-        this.uuid = uuid;
+        this.id = uuid;
     }
 
     public Player getCachedPlayer() {
