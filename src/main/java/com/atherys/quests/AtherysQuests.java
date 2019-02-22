@@ -108,8 +108,8 @@ public class AtherysQuests {
         gson = getGson();
 
         // Cache entities
-        getQuestLocationRepository().cacheAll();
-        getQuesterRepository().cacheAll();
+        getQuestLocationRepository().initCache();
+        getQuesterRepository().initCache();
 
         // Register listeners
         Sponge.getEventManager().registerListeners(this, components.gsonListener);

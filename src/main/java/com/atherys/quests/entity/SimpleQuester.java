@@ -18,11 +18,11 @@ public class SimpleQuester implements Quester {
     @Transient
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = QuestConverter.class)
     private Set<Quest> ongoingQuests = new HashSet<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "quest_id")
     @Column(name = "timestamp")
     @CollectionTable(name = "simplequester_finishedquests")
