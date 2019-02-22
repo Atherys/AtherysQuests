@@ -20,8 +20,8 @@ import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
 import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
+import com.atherys.quests.listener.InternalListener;
 import com.atherys.quests.listener.InventoryListener;
-import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.lib.QuestExtension;
@@ -115,7 +115,7 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, components.gsonListener);
         Sponge.getEventManager().registerListeners(this, components.entityListener);
         Sponge.getEventManager().registerListeners(this, components.inventoryListener);
-        Sponge.getEventManager().registerListeners(this, components.masterEventListener);
+        Sponge.getEventManager().registerListeners(this, components.internalListener);
 
         // Extend standard javascript library with quests
         JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
@@ -347,6 +347,6 @@ public class AtherysQuests {
         InventoryListener inventoryListener;
 
         @Inject
-        MasterEventListener masterEventListener;
+        InternalListener internalListener;
     }
 }

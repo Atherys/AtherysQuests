@@ -10,7 +10,7 @@ public abstract class AbstractDialogEvent extends AbstractEvent {
     private Dialog dialog;
 
     public AbstractDialogEvent(DialogNode node, Dialog dialog) {
-        super(node, dialog);
+        super(dialog.getCachedPlayer(), node, dialog);
         this.node = node;
         this.dialog = dialog;
     }

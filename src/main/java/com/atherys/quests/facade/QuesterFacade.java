@@ -5,6 +5,7 @@ import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.service.QuestService;
@@ -13,8 +14,10 @@ import com.atherys.quests.views.QuestLog;
 import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
@@ -78,8 +81,6 @@ public class QuesterFacade {
     }
 
     public void onPlayerMoveToQuestRadius(Location<World> fromLocation, Location<World> toLocation, Player player) {
-        if (fromLocation.equals(toLocation)) return;
-
         if (questLocationService.getByRadius(fromLocation).isPresent()) return;
 
         questLocationService.getByRadius(toLocation).ifPresent(questLocation -> {
@@ -120,5 +121,43 @@ public class QuesterFacade {
         }
 
         questerService.removeQuest(quester, quest.get());
+    }
+
+    public boolean validatePlayerObject(Player player) {
+        if (player == null) {
+            throw new RuntimeException("Player object must not be null to validate");
+        }
+
+        if (!player.isOnline()) {
+            throw new RuntimeException("Player must be online to validate");
+        }
+
+        return !player.isRemoved() && player.isLoaded();
+    }
+
+    public void notifyAndUpdateCachedPlayer(Event event, Player player) {
+        // If the player object is invalid, get a new Player reference from the server and re-call the method
+        if (!validatePlayerObject(player)) {
+            player = Sponge.getServer().getPlayer(player.getUniqueId()).orElse(null);
+            notifyAndUpdateCachedPlayer(event, player);
+        }
+
+
+        SimpleQuester quester = questerService.getQuester(player);
+        quester.setCachedPlayer(player);
+
+        questerService.notify(event, quester);
+    }
+
+    public void updateCachedPlayer(Player player) {
+        // If the player object is invalid, get a new Player reference from the server and re-call the method
+        if (!validatePlayerObject(player)) {
+            player = Sponge.getServer().getPlayer(player.getUniqueId()).orElse(null);
+            updateCachedPlayer(player);
+        }
+
+
+        SimpleQuester quester = questerService.getQuester(player);
+        quester.setCachedPlayer(player);
     }
 }

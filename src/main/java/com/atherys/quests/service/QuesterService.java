@@ -84,10 +84,6 @@ public class QuesterService implements Observer<Event> {
         }
     }
 
-    public void notify(Event event, Player player) {
-        notify(event, getQuester(player));
-    }
-
     public <T extends Quest> boolean pickupQuest(Quester quester, Quest<T> quest) throws QuestRequirementsException {
 
         if (!quest.meetsRequirements(quester)) {
