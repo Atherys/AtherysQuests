@@ -1,4 +1,4 @@
-package com.atherys.quests.command.quest;
+package com.atherys.quests.command.quest.detach;
 
 import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;

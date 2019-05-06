@@ -3,6 +3,8 @@ package com.atherys.quests.command.quest;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Children;
 import com.atherys.core.command.annotation.Description;
+import com.atherys.quests.command.quest.attach.AttachQuestCommand;
+import com.atherys.quests.command.quest.detach.DetachQuestCommand;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;

@@ -1,4 +1,4 @@
-package com.atherys.quests.command.quest;
+package com.atherys.quests.command.quest.attach;
 
 import com.atherys.core.command.ParameterizedCommand;
 import com.atherys.core.command.annotation.Aliases;
@@ -14,27 +14,31 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nonnull;
 import java.util.Optional;
 
-@Permission("atherysquests.admin.quest.attach.block")
-@Aliases("block")
-@Description("Attaches a quest to a block.")
-public class AttachQuestToBlockCommand implements ParameterizedCommand {
+@Permission("atherysquests.admin.quest.attach.item")
+@Aliases("item")
+@Description("Sets a quest to the item in hand.")
+public class AttachQuestToItemCommand implements ParameterizedCommand {
+
+    @Nonnull
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
-                GenericArguments.string(Text.of("questId")),
-                GenericArguments.doubleNum(Text.of("radius"))
+                GenericArguments.string(Text.of("questId"))
         };
     }
 
+    @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        Optional<Double> radius = args.getOne("radius");
+    public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
+        if (!(src instanceof Player)) return CommandResult.empty();
+
         Optional<String> questId = args.getOne("questId");
 
-        AtherysQuests.getInstance().getQuestFacade().attachQuestToBlock((Player) src, radius.get(), questId.get());
+        AtherysQuests.getInstance().getQuestFacade().attachQuestToHeldItem((Player) src, questId.orElse(null));
 
-        return CommandResult.success();
+        return CommandResult.empty();
     }
 }

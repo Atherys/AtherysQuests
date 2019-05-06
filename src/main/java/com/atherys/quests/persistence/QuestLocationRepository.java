@@ -1,5 +1,6 @@
 package com.atherys.quests.persistence;
 
+import com.atherys.core.db.CachedHibernateRepository;
 import com.atherys.core.db.HibernateRepository;
 import com.atherys.quests.entity.QuestLocation;
 import com.google.inject.Singleton;
@@ -9,17 +10,17 @@ import org.spongepowered.api.world.World;
 import java.util.Optional;
 
 @Singleton
-public class QuestLocationRepository extends HibernateRepository<QuestLocation, Long> {
+public class QuestLocationRepository extends CachedHibernateRepository<QuestLocation, Long> {
     QuestLocationRepository() {
         super(QuestLocation.class);
     }
 
     public Optional<QuestLocation> getQuestLocationFromQuestLocation(QuestLocation location) {
-        return getCache().values().parallelStream().filter(ql -> checkOverlap(ql, location)).findAny();
+        return cache.getAll().parallelStream().filter(ql -> checkOverlap(ql, location)).findAny();
     }
 
     public Optional<QuestLocation> getQuestLocationFromBlock(Location<World> location) {
-        return getCache().values().parallelStream().filter(ql -> checkSameBlock(ql.getLocation(), location)).findAny();
+        return cache.getAll().parallelStream().filter(ql -> checkSameBlock(ql.getLocation(), location)).findAny();
     }
 
     /**

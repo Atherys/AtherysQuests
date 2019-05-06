@@ -23,7 +23,6 @@ public class ItemDeliveryObjective extends AbstractObjective<InteractEntityEvent
     @Expose
     private Text targetName;
 
-
     private ItemDeliveryObjective() {
         super(InteractEntityEvent.Secondary.class);
     }
