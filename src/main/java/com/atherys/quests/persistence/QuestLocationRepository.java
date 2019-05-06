@@ -16,11 +16,11 @@ public class QuestLocationRepository extends CachedHibernateRepository<QuestLoca
     }
 
     public Optional<QuestLocation> getQuestLocationFromQuestLocation(QuestLocation location) {
-        return cache.getAll().parallelStream().filter(ql -> checkOverlap(ql, location)).findAny();
+        return cache.findOne(ql -> checkOverlap(ql, location));
     }
 
     public Optional<QuestLocation> getQuestLocationFromBlock(Location<World> location) {
-        return cache.getAll().parallelStream().filter(ql -> checkSameBlock(ql.getLocation(), location)).findAny();
+        return cache.findOne(ql -> checkSameBlock(ql.getLocation(), location));
     }
 
     /**

@@ -8,8 +8,8 @@ import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
 import com.atherys.quests.listener.EntityListener;
 import com.atherys.quests.listener.GsonListener;
+import com.atherys.quests.listener.InternalListener;
 import com.atherys.quests.listener.InventoryListener;
-import com.atherys.quests.listener.MasterEventListener;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.SimpleDialogScriptService;
@@ -53,6 +53,6 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(EntityListener.class).in(Scopes.SINGLETON);
         bind(GsonListener.class).in(Scopes.SINGLETON);
         bind(InventoryListener.class).in(Scopes.SINGLETON);
-        bind(MasterEventListener.class).in(Scopes.SINGLETON);
+        bind(InternalListener.class).in(Scopes.SINGLETON);
     }
 }

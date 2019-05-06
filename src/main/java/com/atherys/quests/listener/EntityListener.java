@@ -12,6 +12,10 @@ import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.filter.cause.Root;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
+
+import java.util.Optional;
 
 @Singleton
 public class EntityListener {
@@ -38,17 +42,25 @@ public class EntityListener {
 
     @Listener
     public void onPlayerMove(MoveEntityEvent e, @Root Player player) {
+        Location<World> from = e.getFromTransform().getLocation();
+        Location<World> to = e.getToTransform().getLocation();
+
+        if (from.getPosition().equals(to.getPosition())) {
+            return;
+        }
+
         questerFacade.onPlayerMoveToQuestRadius(
-                e.getFromTransform().getLocation(),
-                e.getToTransform().getLocation(),
+                from,
+                to,
                 player
         );
     }
 
     @Listener
     public void onBlockInteract(InteractBlockEvent.Secondary event, @Root Player player) {
+        Optional<Location<World>> location = event.getTargetBlock().getLocation();
         questFacade.onBlockInteract(
-                event.getTargetBlock().getLocation().get(),
+                location.orElse(null),
                 player
         );
     }

@@ -47,6 +47,10 @@ public class QuestFacade {
 
     public void onBlockInteract(Location<World> blockLocation, Player player) {
 
+        if (blockLocation == null) {
+            return;
+        }
+
         if (questAttachmentService.isRemoving(player)) {
 
             questLocationService.getByLocation(player.getLocation()).ifPresent(questLocation -> {

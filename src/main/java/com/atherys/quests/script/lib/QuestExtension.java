@@ -47,6 +47,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("attachDialog", new AttachDialog());
 
         scriptLibrary.put("createSimpleQuest", new CreateSimpleQuest());
+        scriptLibrary.put("stageOf", new StageOf());
         scriptLibrary.put("createStagedQuest", new CreateStagedQuest());
 
         scriptLibrary.put("getQuestById", new GetQuestById());
