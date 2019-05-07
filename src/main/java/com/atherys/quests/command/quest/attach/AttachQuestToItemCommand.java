@@ -1,6 +1,7 @@
 package com.atherys.quests.command.quest.attach;
 
 import com.atherys.core.command.ParameterizedCommand;
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
@@ -20,7 +21,17 @@ import java.util.Optional;
 @Permission("atherysquests.admin.quest.attach.item")
 @Aliases("item")
 @Description("Sets a quest to the item in hand.")
-public class AttachQuestToItemCommand implements ParameterizedCommand {
+public class AttachQuestToItemCommand implements ParameterizedCommand, PlayerCommand {
+
+    @Nonnull
+    @Override
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
+        Optional<String> questId = args.getOne("questId");
+
+        AtherysQuests.getInstance().getQuestFacade().attachQuestToHeldItem(source, questId.orElse(null));
+
+        return CommandResult.empty();
+    }
 
     @Nonnull
     @Override
@@ -30,15 +41,4 @@ public class AttachQuestToItemCommand implements ParameterizedCommand {
         };
     }
 
-    @Nonnull
-    @Override
-    public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
-
-        Optional<String> questId = args.getOne("questId");
-
-        AtherysQuests.getInstance().getQuestFacade().attachQuestToHeldItem((Player) src, questId.orElse(null));
-
-        return CommandResult.empty();
-    }
 }

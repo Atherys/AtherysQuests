@@ -153,6 +153,12 @@ public class QuestFacade {
     }
 
     public void detachQuestFromLocation(Player player) throws CommandException {
+        questLocationService.getByLocation(player.getLocation()).ifPresent(questLocation -> {
+            questLocationService.remove(questLocation);
+        });
+    }
+
+    public void detachQuestFromBlock(Player player) throws CommandException {
         if (questAttachmentService.isAttaching(player)) {
             throw new QuestCommandException("You are currently attaching a quest.");
         } else if (questAttachmentService.isRemoving(player)) {
@@ -161,10 +167,6 @@ public class QuestFacade {
             questAttachmentService.startRemoval(player);
             questMsg.info(player, "Right-click to remove a quest from the location.");
         }
-    }
-
-    public void detachQuestFromBlock() throws CommandException {
-        throw QuestCommandExceptions.notImplemented();
     }
 
     public void offerQuest(Player player, String questId) throws CommandException {

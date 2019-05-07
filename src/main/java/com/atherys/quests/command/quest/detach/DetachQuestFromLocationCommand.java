@@ -1,5 +1,6 @@
 package com.atherys.quests.command.quest.detach;
 
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
@@ -11,17 +12,17 @@ import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.entity.living.player.Player;
 
+import javax.annotation.Nonnull;
+
 @Aliases("location")
 @Description("Remove quest from block or location.")
 @Permission("atherysquests.admin.quest.detach.location")
-public class DetachQuestFromLocationCommand implements CommandExecutor {
+public class DetachQuestFromLocationCommand implements PlayerCommand {
 
+    @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
-
-        AtherysQuests.getInstance().getQuestFacade().detachQuestFromLocation((Player) src);
-
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
+        AtherysQuests.getInstance().getQuestFacade().detachQuestFromLocation(source);
         return CommandResult.success();
     }
 }
