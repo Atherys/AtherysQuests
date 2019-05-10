@@ -1,5 +1,6 @@
 package com.atherys.quests.command.quest;
 
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Children;
 import com.atherys.core.command.annotation.Description;
@@ -23,12 +24,11 @@ import javax.annotation.Nonnull;
         ReloadQuestsCommand.class,
         GiveQuestCommand.class
 })
-public class QuestMasterCommand implements CommandExecutor {
+public class QuestMasterCommand implements PlayerCommand {
 
     @Override
     @Nonnull
-    public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
-        return CommandResult.empty();
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
+        return CommandResult.success();
     }
 }

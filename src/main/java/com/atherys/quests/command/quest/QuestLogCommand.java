@@ -1,5 +1,6 @@
 package com.atherys.quests.command.quest;
 
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
@@ -16,14 +17,12 @@ import javax.annotation.Nonnull;
 @Aliases("log")
 @Description("Displays log of current quests.")
 @Permission("atherysquests.quest.log")
-public class QuestLogCommand implements CommandExecutor {
+public class QuestLogCommand implements PlayerCommand {
 
-    @Override
     @Nonnull
-    public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
-
-        AtherysQuests.getInstance().getQuesterFacade().showQuestLog((Player) src);
+    @Override
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
+        AtherysQuests.getInstance().getQuesterFacade().showQuestLog(source);
 
         return CommandResult.success();
     }
