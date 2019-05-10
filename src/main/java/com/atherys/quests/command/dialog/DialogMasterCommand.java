@@ -1,5 +1,6 @@
 package com.atherys.quests.command.dialog;
 
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Children;
 import com.atherys.core.command.annotation.Description;
@@ -19,13 +20,11 @@ import javax.annotation.Nonnull;
         DetachDialogCommand.class,
         GetDialogCommand.class
 })
-public class DialogMasterCommand implements CommandExecutor {
+public class DialogMasterCommand implements PlayerCommand {
 
     @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
-
-        return CommandResult.empty();
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
+        return CommandResult.success();
     }
 }

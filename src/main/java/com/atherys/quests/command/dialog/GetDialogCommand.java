@@ -1,5 +1,6 @@
 package com.atherys.quests.command.dialog;
 
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
@@ -16,14 +17,12 @@ import javax.annotation.Nonnull;
 @Aliases("get")
 @Description("Returns the ID of dialog from an entity.")
 @Permission("atherysquests.admin.dialog.get")
-public class GetDialogCommand implements CommandExecutor {
+public class GetDialogCommand implements PlayerCommand {
 
     @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
-
-        AtherysQuests.getInstance().getDialogFacade().getFacingEntityDialogId((Player) src);
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
+        AtherysQuests.getInstance().getDialogFacade().getFacingEntityDialogId(source);
 
         return CommandResult.success();
     }

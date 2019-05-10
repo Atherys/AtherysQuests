@@ -1,6 +1,7 @@
 package com.atherys.quests.command.dialog;
 
 import com.atherys.core.command.ParameterizedCommand;
+import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Description;
 import com.atherys.core.command.annotation.Permission;
@@ -20,15 +21,14 @@ import javax.annotation.Nonnull;
 @Aliases("set")
 @Description("Attaches a dialog to an entity.")
 @Permission("atherysquests.admin.dialog.attach")
-public class AttachDialogCommand implements CommandExecutor, ParameterizedCommand {
+public class AttachDialogCommand implements PlayerCommand, ParameterizedCommand {
 
     @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
-        if (!(src instanceof Player)) return CommandResult.empty();
+    public CommandResult execute(@Nonnull Player source, @Nonnull CommandContext args) throws CommandException {
         String id = args.<String>getOne("dialogId").get();
 
-        AtherysQuests.getInstance().getDialogFacade().beginDialogAttachment((Player) src, id);
+        AtherysQuests.getInstance().getDialogFacade().beginDialogAttachment(source, id);
 
         return CommandResult.success();
     }
