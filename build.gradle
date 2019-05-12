@@ -23,7 +23,6 @@ tasks.withType(JavaCompile) {
 sourceSets {
     main {
         resources {
-            srcDirs "src/main/"
             exclude "java/**"
             exclude "kotlin/**"
         }

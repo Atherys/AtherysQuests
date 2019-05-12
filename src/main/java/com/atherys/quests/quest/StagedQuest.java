@@ -111,7 +111,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Override
     public void notify(Event event, Quester quester) {
         // if the completedQuest has already been completed, just return
-        if (isComplete()) return;
+        if (isComplete() || isFailed()) return;
 
         // set started as true, in case this was the first objective
         if (!isStarted()) {
@@ -124,7 +124,6 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         // notify the current stage of the event
         currentStage.notify(event, quester);
 
-        // if the current stage is complete
         if (currentStage.isComplete()) {
 
             // award the player for completing the current stage

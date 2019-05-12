@@ -34,6 +34,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
 
     @Expose
     private boolean started = false;
+
     @Expose
     private boolean complete = false;
 
@@ -93,7 +94,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
     @SuppressWarnings("unchecked")
     public void notify(Event event, Quester quester) {
         // if the completedQuest hasn't been completed yet
-        if (!isComplete()) {
+        if (!isComplete() && !isFailed()) {
 
             // if the completedQuest hasn't been started yet ( this is the first notification )
             if (!isStarted()) {

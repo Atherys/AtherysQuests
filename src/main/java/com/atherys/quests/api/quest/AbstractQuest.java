@@ -22,9 +22,13 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     @Expose
     protected int version;
 
+    @Expose
+    protected boolean failed;
+
     protected AbstractQuest(String id, int version) {
         this.id = id;
         this.version = version;
+        failed = false;
     }
 
     protected AbstractQuest(String id, int version, @Nullable Text name, @Nullable Text description) {
@@ -61,6 +65,15 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
         for (Reward reward : getRewards()) {
             reward.award(simpleQuester);
         }
+    }
+
+    public void fail() {
+        failed = true;
+    }
+
+    @Override
+    public boolean isFailed() {
+        return failed;
     }
 
     @Override

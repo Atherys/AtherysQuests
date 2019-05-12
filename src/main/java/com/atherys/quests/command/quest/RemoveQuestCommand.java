@@ -35,6 +35,6 @@ public class RemoveQuestCommand implements ParameterizedCommand {
 
         AtherysQuests.getInstance().getQuesterFacade().removeQuestFromPlayer(player.get(), questId.get());
 
-        return CommandResult.empty();
+        return CommandResult.success();
     }
 }

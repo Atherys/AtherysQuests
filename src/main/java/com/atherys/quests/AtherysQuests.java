@@ -178,7 +178,7 @@ public class AtherysQuests {
         init();
     }
 
-    @Listener(order = Order.EARLY)
+    @Listener(order = Order.LATE)
     public void onStart(GameStartedServerEvent event) {
         if (init) start();
     }

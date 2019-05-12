@@ -6,6 +6,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
+import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
 import java.util.ArrayList;
@@ -31,7 +32,13 @@ public class QuestLog {
         for (Quest quest : simpleQuester.getOngoingQuests()) {
             Text.Builder questView = Text.builder();
             questView.append(Text.of("[", i, "] "));
-            questView.append(Text.of(quest.isComplete() ? TextStyles.STRIKETHROUGH : TextStyles.NONE, quest.getName(), TextStyles.NONE));
+            if (quest.isComplete()) {
+                questView.append(Text.of(TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.NONE));
+            } else if (quest.isFailed()) {
+                questView.append(Text.of(TextColors.RED, TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.RESET));
+            } else {
+                questView.append(Text.of(quest.getName()));
+            }
             questView.onHover(TextActions.showText(Text.of("Click to view more details.")));
             questView.onClick(TextActions.executeCallback(src -> quest.createView().show(player)));
 

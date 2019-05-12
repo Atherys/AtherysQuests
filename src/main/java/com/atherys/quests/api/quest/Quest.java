@@ -85,6 +85,11 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
     boolean isComplete();
 
     /**
+     * @return Whether or not this Quest has been failed.
+     */
+    boolean isFailed();
+
+    /**
      * @return The version of this completedQuest.
      */
     int getVersion();
