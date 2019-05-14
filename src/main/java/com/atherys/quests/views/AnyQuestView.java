@@ -10,7 +10,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
+public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>>, CompletableView {
 
     protected final Quest<T> quest;
 
@@ -36,19 +36,7 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
         questView.addPage(getFormattedRewards());
 
         if (quest.isComplete()) {
-            Question completeQuest = Question.of(Text.of("You have completed this quest. Would you like to turn it in?"))
-                    .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Turn In"), (src) -> {
-                        AtherysQuests.getInstance().getQuesterFacade().turnInQuest(player, quest);
-                    }))
-                    .build();
-
-            completeQuest.register();
-
-            Text completeQuestPage = Text.builder()
-                    .append(completeQuest.asText())
-                    .build();
-
-            questView.addPage(completeQuestPage);
+            questView.addPage(getCompletion(player));
         }
 
         return questView.build();
@@ -81,5 +69,18 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
             rewards.append(Text.of(reward.toText(), Text.NEW_LINE));
         });
         return rewards.build();
+    }
+
+    @Override
+    public Text getCompletion(Player player) {
+        Question completeQuest = Question.of(Text.of("You have completed this quest. Would you like to turn it in?"))
+                .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Turn In"), (src) -> {
+                    AtherysQuests.getInstance().getQuesterFacade().turnInQuest(player, quest);
+                }))
+                .build();
+
+        completeQuest.register();
+
+        return completeQuest.asText();
     }
 }
