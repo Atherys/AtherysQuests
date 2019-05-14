@@ -47,7 +47,7 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
                 NotRequirement.class,
                 LevelRequirement.class,
                 MoneyRequirement.class,
-                QuestCompleteRequirement.class
+                QuestTurnedInRequirement.class
         ));
 
         registerSubtypes(Objective.class, Arrays.asList(

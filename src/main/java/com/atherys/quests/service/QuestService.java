@@ -49,7 +49,16 @@ public final class QuestService {
         return holder.offer(new QuestData(quest.getId())).isSuccessful();
     }
 
-    public boolean hasQuesterFinishedQuest(Quester quester, String questId) {
+    public boolean hasQuesterTurnedInQuest(Quester quester, String questId) {
         return quester.hasFinishedQuest(questId);
+    }
+
+    public boolean hasQuesterCompletedQuest(Quester quester, String questId) {
+        Optional<Quest> completedQuest =  quester.getOngoingQuests().stream()
+                .filter(quest -> quest.getId().equals(questId))
+                .filter(Quest::isComplete)
+                .findFirst();
+
+        return completedQuest.isPresent();
     }
 }

@@ -38,7 +38,7 @@ public class HasQuestRequirement implements Requirement {
 
     @Override
     public Requirement copy() {
-        return new QuestCompleteRequirement(questId);
+        return new QuestTurnedInRequirement(questId);
     }
 
     public Optional<Quest> getQuest() {

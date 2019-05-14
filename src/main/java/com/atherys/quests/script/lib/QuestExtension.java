@@ -74,7 +74,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("andRequirement", new AndRequirementFunc());
         scriptLibrary.put("orRequirement", new OrRequirementFunc());
         scriptLibrary.put("notRequirement", new NotRequirementFunc());
-        scriptLibrary.put("completedQuestRequirement", new CompletedQuestRequirementFunc());
+        scriptLibrary.put("turnedInQuestRequirement", new CompletedQuestRequirementFunc());
         scriptLibrary.put("hasQuestRequirement", new HasQuestRequirementFunc());
         scriptLibrary.put("moneyRequirement", new MoneyRequirementFunc());
         scriptLibrary.put("levelRequirement", new LevelRequirementFunc());
