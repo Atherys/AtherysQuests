@@ -52,6 +52,10 @@ public class DialogNode {
         this.responses = Arrays.asList(responses);
     }
 
+    public void addResponse(DialogNode response) {
+        responses.add(response);
+    }
+
     public Text[] getNPCText() {
         return npcResponse;
     }

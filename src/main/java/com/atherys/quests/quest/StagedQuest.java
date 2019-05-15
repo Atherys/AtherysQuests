@@ -46,7 +46,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         this.setDescription(description);
     }
 
-    private StagedQuest(StagedQuest quest) {
+    StagedQuest(StagedQuest quest) {
         super(quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription());
         this.requirements = CopyUtils.copyList(quest.getRequirements());
         this.stages = CopyUtils.copyList(quest.getStages());
