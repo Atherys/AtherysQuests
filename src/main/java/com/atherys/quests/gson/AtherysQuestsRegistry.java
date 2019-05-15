@@ -11,11 +11,9 @@ import com.atherys.quests.quest.DeliverableSimpleQuest;
 import com.atherys.quests.quest.DeliverableStagedQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
-import com.atherys.quests.quest.objective.DialogObjective;
-import com.atherys.quests.quest.objective.InteractWithBlockObjective;
-import com.atherys.quests.quest.objective.KillEntityObjective;
-import com.atherys.quests.quest.objective.ReachLocationObjective;
+import com.atherys.quests.quest.objective.*;
 import com.atherys.quests.quest.requirement.*;
+import com.atherys.quests.quest.reward.CommandReward;
 import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
 import com.google.gson.Gson;
@@ -47,19 +45,22 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
                 NotRequirement.class,
                 LevelRequirement.class,
                 MoneyRequirement.class,
-                QuestTurnedInRequirement.class
+                QuestTurnedInRequirement.class,
+                QuestCompleteRequirement.class
         ));
 
         registerSubtypes(Objective.class, Arrays.asList(
                 KillEntityObjective.class,
                 DialogObjective.class,
                 ReachLocationObjective.class,
-                InteractWithBlockObjective.class
+                InteractWithBlockObjective.class,
+                ItemDeliveryObjective.class
         ));
 
         registerSubtypes(Reward.class, Arrays.asList(
                 MoneyReward.class,
-                SingleItemReward.class
+                SingleItemReward.class,
+                CommandReward.class
         ));
     }
 

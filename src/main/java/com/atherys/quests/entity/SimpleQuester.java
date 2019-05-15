@@ -20,6 +20,7 @@ public class SimpleQuester implements Quester {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = QuestConverter.class)
+    @Column(columnDefinition = "TEXT", length = 4096)
     private Set<Quest> ongoingQuests = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)

@@ -47,6 +47,7 @@ import org.spongepowered.api.service.economy.EconomyService;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.atherys.quests.AtherysQuests.*;
 
