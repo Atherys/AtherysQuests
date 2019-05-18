@@ -21,9 +21,8 @@ public class QuestConverter implements AttributeConverter<Quest, String> {
             return JsonNull.INSTANCE.getAsString();
         }
 
-        AtherysQuests.getInstance().getLogger().info("Converting String to Quest {}", attribute);
         StringBuilder json = new StringBuilder(gson.toJson(attribute));
-        json.insert(1, "\"questType\":" + "\"" + attribute.getClass().getSimpleName() + "\",");
+        json.insert(1, "\"questType\":\"" + attribute.getClass().getSimpleName() + "\",");
         return json.toString();
     }
 
