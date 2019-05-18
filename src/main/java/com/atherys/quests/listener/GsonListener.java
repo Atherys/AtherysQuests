@@ -1,6 +1,6 @@
 package com.atherys.quests.listener;
 
-import com.atherys.core.gson.ConfigurateAdapter;
+import com.atherys.core.gson.TypeAdapters;
 import com.atherys.quests.event.AtherysQuestsGsonBuildEvent;
 import com.atherys.quests.util.CompactTextAdapter;
 import com.google.inject.Singleton;
@@ -20,11 +20,14 @@ public class GsonListener {
 
     @Listener(order = Order.FIRST)
     public void onGsonBuild(AtherysQuestsGsonBuildEvent event) {
-        event.getBuilder()
-                .registerTypeAdapter(Text.class, new CompactTextAdapter())
-                .registerTypeAdapter(ItemStackSnapshot.class, new ConfigurateAdapter<>(ItemStackSnapshot.class))
-                .registerTypeAdapter(Currency.class, new ConfigurateAdapter<>(Currency.class))
-                .registerTypeAdapter(BlockSnapshot.class, new ConfigurateAdapter<>(BlockSnapshot.class))
-                .registerTypeAdapter(Location.class, new ConfigurateAdapter<>(Location.class));
+        TypeAdapters.registerCatalogTypes(
+                event.getBuilder(),
+                Currency.class);
+        TypeAdapters.registerSerializables(
+                event.getBuilder(),
+                ItemStackSnapshot.class,
+                BlockSnapshot.class,
+                Location.class);
+        event.getBuilder().registerTypeAdapter(Text.class, new CompactTextAdapter());
     }
 }

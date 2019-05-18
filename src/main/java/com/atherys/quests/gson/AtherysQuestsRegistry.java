@@ -20,6 +20,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Singleton;
 import org.spongepowered.api.Sponge;
+import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.text.Text;
 
 import java.util.Arrays;
 
@@ -71,8 +74,6 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
         Sponge.getEventManager().post(event);
 
         registerAll(builder);
-
         return builder.create();
     }
-
 }
