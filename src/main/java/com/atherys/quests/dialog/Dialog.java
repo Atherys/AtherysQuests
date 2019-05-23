@@ -58,8 +58,10 @@ public class Dialog {
 
         if (node.getId() == 0) {
             Sponge.getEventManager().post(new DialogStartEvent(node, this));
+            Sponge.getEventManager().post(new DialogProceedEvent(node, this));
         } else if (node.getResponses().isEmpty()) {
             Sponge.getEventManager().post(new DialogEndEvent(node, this));
+            Sponge.getEventManager().post(new DialogProceedEvent(node, this));
         } else {
             Sponge.getEventManager().post(new DialogProceedEvent(node, this));
         }

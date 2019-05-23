@@ -21,6 +21,17 @@ public class DialogNodeBuilder {
         return this;
     }
 
+    public DialogNodeBuilder(DialogNode fromNode) {
+        this(fromNode.getId());
+        node.setPlayerText(fromNode.getPlayerText());
+        node.setNPCText(fromNode.getNPCText());
+        node.setResponses(fromNode.getResponses().toArray(new DialogNode[0]));
+        node.setRequirements(fromNode.getRequirements().toArray(new Requirement[0]));
+        if (fromNode.getQuest().isPresent()) {
+            fromNode.setQuest(fromNode.getQuest().get().getId());
+        }
+    }
+
     public DialogNodeBuilder player(Text text) {
         this.node.setPlayerText(text);
         return this;

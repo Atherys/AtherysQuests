@@ -10,13 +10,13 @@ import java.util.function.Function;
  */
 public class CompletedQuestRequirementFunc implements Function<String, Requirement> {
     /**
-     * A requirement for completing a quest.
+     * A requirement for having turned in a quest.
      *
      * @param questId The quest's ID.
-     * @jsname completedQuestRequirement
+     * @jsname turnedInQuestRequirement
      */
     @Override
     public Requirement apply(String questId) {
-        return Requirements.completedQuest(questId);
+        return Requirements.turnedInQuest(questId);
     }
 }

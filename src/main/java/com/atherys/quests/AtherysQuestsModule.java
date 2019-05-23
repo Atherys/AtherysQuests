@@ -37,6 +37,7 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(QuestMessagingService.class).in(Scopes.SINGLETON);
         bind(InventoryService.class).in(Scopes.SINGLETON);
         bind(QuestService.class).in(Scopes.SINGLETON);
+        bind(DeliverableQuestService.class).in(Scopes.SINGLETON);
         bind(DialogService.class).in(Scopes.SINGLETON);
         bind(QuestLocationService.class).in(Scopes.SINGLETON);
         bind(QuesterService.class).in(Scopes.SINGLETON);

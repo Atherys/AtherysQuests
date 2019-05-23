@@ -1,9 +1,11 @@
 package com.atherys.quests.service;
 
+import com.atherys.quests.api.quest.Deliverable;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.event.quest.QuestRegistrationEvent;
+import com.atherys.quests.quest.DeliverableQuest;
 import com.google.inject.Singleton;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.DataHolder;
@@ -12,6 +14,8 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
 public final class QuestService {
@@ -49,7 +53,23 @@ public final class QuestService {
         return holder.offer(new QuestData(quest.getId())).isSuccessful();
     }
 
-    public boolean hasQuesterFinishedQuest(Quester quester, String questId) {
+    public boolean hasQuesterTurnedInQuest(Quester quester, String questId) {
         return quester.hasFinishedQuest(questId);
+    }
+
+    public boolean hasQuesterCompletedQuest(Quester quester, String questId) {
+        Optional<Quest> completedQuest =  quester.getOngoingQuests().stream()
+                .filter(quest -> quest.getId().equals(questId))
+                .filter(Quest::isComplete)
+                .findFirst();
+
+        return completedQuest.isPresent();
+    }
+
+    public Set<DeliverableQuest<? extends Quest>> getDeliverableQuests() {
+        return quests.values().stream()
+                .filter(quest -> quest instanceof Deliverable)
+                .map(quest -> (DeliverableQuest<? extends Quest>) quest)
+                .collect(Collectors.toSet());
     }
 }

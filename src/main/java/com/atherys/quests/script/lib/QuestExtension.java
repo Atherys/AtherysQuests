@@ -47,6 +47,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("attachDialog", new AttachDialog());
 
         scriptLibrary.put("createSimpleQuest", new CreateSimpleQuest());
+        scriptLibrary.put("createDeliverableQuest", new CreateDeliverableQuest());
         scriptLibrary.put("stageOf", new StageOf());
         scriptLibrary.put("createStagedQuest", new CreateStagedQuest());
 
@@ -74,7 +75,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("andRequirement", new AndRequirementFunc());
         scriptLibrary.put("orRequirement", new OrRequirementFunc());
         scriptLibrary.put("notRequirement", new NotRequirementFunc());
-        scriptLibrary.put("completedQuestRequirement", new CompletedQuestRequirementFunc());
+        scriptLibrary.put("turnedInQuestRequirement", new CompletedQuestRequirementFunc());
         scriptLibrary.put("hasQuestRequirement", new HasQuestRequirementFunc());
         scriptLibrary.put("moneyRequirement", new MoneyRequirementFunc());
         scriptLibrary.put("levelRequirement", new LevelRequirementFunc());

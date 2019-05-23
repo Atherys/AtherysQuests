@@ -21,6 +21,14 @@ public final class Requirements {
         return new NotRequirement(requirement);
     }
 
+    public static QuestTurnedInRequirement turnedInQuest(String questId) {
+        return new QuestTurnedInRequirement(questId);
+    }
+
+    public static QuestTurnedInRequirement turnedInQuest(Quest quest) {
+        return new QuestTurnedInRequirement(quest);
+    }
+
     public static QuestCompleteRequirement completedQuest(String questId) {
         return new QuestCompleteRequirement(questId);
     }

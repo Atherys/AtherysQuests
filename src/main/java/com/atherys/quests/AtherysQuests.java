@@ -132,6 +132,8 @@ public class AtherysQuests {
         Sponge.getEventManager().post(new QuestRegistrationEvent(getQuestService()));
         Sponge.getEventManager().post(new DialogRegistrationEvent(getDialogService()));
 
+        getDeliverableQuestService().applyNodesForQuests();
+
         // Start emitting quest location particles
         getParticleService().startEmitting();
 
@@ -227,6 +229,10 @@ public class AtherysQuests {
         return components.questService;
     }
 
+    public DeliverableQuestService getDeliverableQuestService() {
+        return components.deliverableQuestService;
+    }
+
     public DialogService getDialogService() {
         return components.dialogService;
     }
@@ -303,6 +309,9 @@ public class AtherysQuests {
 
         @Inject
         QuestService questService;
+
+        @Inject
+        DeliverableQuestService deliverableQuestService;
 
         @Inject
         DialogService dialogService;

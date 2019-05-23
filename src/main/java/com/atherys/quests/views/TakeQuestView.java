@@ -22,7 +22,7 @@ public class TakeQuestView implements QuestView<Quest> {
         return quest;
     }
 
-    public void show(Player viewer) {
+    public BookView toBookView(Player player) {
         BookView.Builder questView = BookView.builder();
 
         Text.Builder intro = Text.builder();
@@ -39,11 +39,11 @@ public class TakeQuestView implements QuestView<Quest> {
 
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of(Text.of("Do you accept the quest \"", quest.getName(), "\"?"))
-                .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), player -> {
-                    AtherysQuests.getInstance().getQuesterFacade().pickupQuest(player, quest);
+                .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), src -> {
+                    AtherysQuests.getInstance().getQuesterFacade().pickupQuest(src, quest);
                 }))
-                .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), player -> {
-                    AtherysQuests.getInstance().getQuestMessagingService().error(player, "You have declined the quest \"", quest.getName(), "\".");
+                .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), src -> {
+                    AtherysQuests.getInstance().getQuestMessagingService().error(src, "You have declined the quest \"", quest.getName(), "\".");
                 }))
                 .build();
 
@@ -52,8 +52,11 @@ public class TakeQuestView implements QuestView<Quest> {
         takeQuest.append(question.asText());
 
         questView.addPage(takeQuest.build());
+        return questView.build();
+    }
 
-        viewer.sendBookView(questView.build());
+    public void show(Player viewer) {
+        viewer.sendBookView(toBookView(viewer));
     }
 
     @Override
@@ -84,5 +87,10 @@ public class TakeQuestView implements QuestView<Quest> {
         });
 
         return rewards.build();
+    }
+
+    @Override
+    public Text getCompletion(Player player) {
+        return null;
     }
 }
