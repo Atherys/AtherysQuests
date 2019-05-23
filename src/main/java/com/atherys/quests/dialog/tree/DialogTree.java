@@ -29,4 +29,8 @@ public class DialogTree {
     public DialogNode getRoot() {
         return root;
     }
+
+    public void setRoot(DialogNode root) {
+        this.root = root;
+    }
 }

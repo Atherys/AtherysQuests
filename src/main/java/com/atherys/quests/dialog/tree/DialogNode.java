@@ -44,16 +44,16 @@ public class DialogNode {
         return new DialogNodeBuilder(id);
     }
 
+    public static DialogNodeBuilder builder(DialogNode node) {
+        return new DialogNodeBuilder(node);
+    }
+
     public List<DialogNode> getResponses() {
         return responses == null ? new ArrayList<>() : responses;
     }
 
     protected void setResponses(DialogNode... responses) {
         this.responses = Arrays.asList(responses);
-    }
-
-    public void addResponse(DialogNode response) {
-        responses.add(response);
     }
 
     public Text[] getNPCText() {

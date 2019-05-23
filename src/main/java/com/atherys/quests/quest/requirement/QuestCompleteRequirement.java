@@ -22,7 +22,8 @@ public class QuestCompleteRequirement implements Requirement {
 
     @Override
     public boolean check(Quester quester) {
-        return AtherysQuests.getInstance().getQuestService().hasQuesterCompletedQuest(quester, questId);
+        return AtherysQuests.getInstance().getQuestService().hasQuesterCompletedQuest(quester, questId) ||
+                AtherysQuests.getInstance().getQuestService().hasQuesterTurnedInQuest(quester, questId);
     }
 
     @Override

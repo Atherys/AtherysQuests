@@ -20,13 +20,14 @@ public class SimpleQuester implements Quester {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = QuestConverter.class)
-    @Column(columnDefinition = "TEXT", length = 4096)
+    @Column(columnDefinition = "text")
     private Set<Quest> ongoingQuests = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.EAGER)
     @MapKeyColumn(name = "quest_id")
     @Column(name = "timestamp")
     @CollectionTable(name = "simplequester_finishedquests")
+
     private Map<String, Long> finishedQuests = new HashMap<>();
 
     public SimpleQuester() {

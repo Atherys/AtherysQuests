@@ -1,14 +1,13 @@
 package com.atherys.quests.gson;
 
 import com.atherys.core.gson.TypeAdapterFactoryRegistry;
+import com.atherys.core.gson.TypeAdapters;
 import com.atherys.core.utils.RuntimeTypeAdapterFactory;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.event.AtherysQuestsGsonBuildEvent;
-import com.atherys.quests.quest.DeliverableSimpleQuest;
-import com.atherys.quests.quest.DeliverableStagedQuest;
+import com.atherys.quests.quest.DeliverableQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.*;
@@ -16,13 +15,15 @@ import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.CommandReward;
 import com.atherys.quests.quest.reward.MoneyReward;
 import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.util.CompactTextAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Singleton;
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.data.DataSerializable;
+import org.spongepowered.api.block.BlockSnapshot;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 
 import java.util.Arrays;
 
@@ -38,8 +39,7 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
         registerSubtypes(Quest.class, Arrays.asList(
                 SimpleQuest.class,
                 StagedQuest.class,
-                DeliverableSimpleQuest.class,
-                DeliverableStagedQuest.class
+                DeliverableQuest.class
         ));
 
         registerSubtypes(Requirement.class, Arrays.asList(
@@ -70,8 +70,14 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
     public Gson getGson() {
         GsonBuilder builder = new GsonBuilder().excludeFieldsWithoutExposeAnnotation();
 
-        AtherysQuestsGsonBuildEvent event = new AtherysQuestsGsonBuildEvent(builder);
-        Sponge.getEventManager().post(event);
+        TypeAdapters.registerCatalogTypes(builder,
+                Currency.class);
+        TypeAdapters.registerSerializables(builder,
+                ItemStackSnapshot.class,
+                BlockSnapshot.class,
+                Location.class);
+        builder.registerTypeAdapter(Text.class, new CompactTextAdapter());
+        builder.registerTypeAdapter(DeliverableQuest.class, new DeliverableQuestAdapter());
 
         registerAll(builder);
         return builder.create();

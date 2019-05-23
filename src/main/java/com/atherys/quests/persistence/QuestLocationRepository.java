@@ -1,7 +1,6 @@
 package com.atherys.quests.persistence;
 
 import com.atherys.core.db.CachedHibernateRepository;
-import com.atherys.core.db.HibernateRepository;
 import com.atherys.quests.entity.QuestLocation;
 import com.google.inject.Singleton;
 import org.spongepowered.api.world.Location;

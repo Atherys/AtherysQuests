@@ -18,10 +18,7 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>>, Compl
         this.quest = quest;
     }
 
-    public void show(Player player) {
-        player.sendBookView(toBookView(player));
-    }
-
+    @Override
     public BookView toBookView(Player player) {
         BookView.Builder questView = BookView.builder();
 

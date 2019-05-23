@@ -138,5 +138,4 @@ public final class DialogService {
         this.ongoingDialogs.put(player.getUniqueId(), dialog.get());
         return dialog;
     }
-
 }

@@ -12,6 +12,7 @@ import com.atherys.quests.event.quest.QuestStartedEvent;
 import com.atherys.quests.event.quest.SimpleQuestProgressEvent;
 import com.atherys.quests.util.CopyUtils;
 import com.atherys.quests.views.AnyQuestView;
+import com.atherys.quests.views.QuestView;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.event.Event;
@@ -143,7 +144,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
     }
 
     @Override
-    public AnyQuestView<SimpleQuest> createView() {
+    public QuestView createView() {
         return new AnyQuestView<>(this);
     }
 }

@@ -5,6 +5,7 @@ import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.service.DialogAttachmentService;
 import com.atherys.quests.service.DialogService;
 import com.atherys.quests.service.QuestMessagingService;
+import com.atherys.quests.service.QuestService;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.command.CommandException;
@@ -28,6 +29,9 @@ public class DialogFacade {
 
     @Inject
     QuestMessagingService questMsg;
+
+    @Inject
+    QuestService questService;
 
     DialogFacade() {
     }
@@ -77,7 +81,7 @@ public class DialogFacade {
         throw new QuestCommandException(Text.of("No attached dialog found."));
     }
 
-    public void getFacingEntityUuid(Player player) throws CommandException {
+    public void getFacingEntityUuid(Player player) {
         for (EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities(player, MAX_ENTITY_RADIUS)) {
             Entity next = entityHit.getEntity();
 

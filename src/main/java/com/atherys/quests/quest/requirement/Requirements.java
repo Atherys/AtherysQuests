@@ -33,7 +33,7 @@ public final class Requirements {
         return new QuestCompleteRequirement(questId);
     }
 
-    public static QuestCompleteRequirement completeQuest(Quest quest) {
+    public static QuestCompleteRequirement completedQuest(Quest quest) {
         return new QuestCompleteRequirement(quest);
     }
 

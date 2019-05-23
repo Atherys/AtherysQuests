@@ -3,7 +3,6 @@ package com.atherys.quests;
 import com.atherys.core.command.CommandService;
 import com.atherys.core.event.AtherysHibernateConfigurationEvent;
 import com.atherys.core.event.AtherysHibernateInitializedEvent;
-import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
@@ -40,7 +39,6 @@ import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -49,7 +47,6 @@ import org.spongepowered.api.service.economy.EconomyService;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.atherys.quests.AtherysQuests.*;
 
@@ -134,6 +131,8 @@ public class AtherysQuests {
         // Trigger Events
         Sponge.getEventManager().post(new QuestRegistrationEvent(getQuestService()));
         Sponge.getEventManager().post(new DialogRegistrationEvent(getDialogService()));
+
+        getDeliverableQuestService().applyNodesForQuests();
 
         // Start emitting quest location particles
         getParticleService().startEmitting();
@@ -230,6 +229,10 @@ public class AtherysQuests {
         return components.questService;
     }
 
+    public DeliverableQuestService getDeliverableQuestService() {
+        return components.deliverableQuestService;
+    }
+
     public DialogService getDialogService() {
         return components.dialogService;
     }
@@ -306,6 +309,9 @@ public class AtherysQuests {
 
         @Inject
         QuestService questService;
+
+        @Inject
+        DeliverableQuestService deliverableQuestService;
 
         @Inject
         DialogService dialogService;
