@@ -2,6 +2,7 @@ package com.atherys.quests.service;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.DialogMsg;
 import com.atherys.quests.dialog.tree.DialogNode;
@@ -31,6 +32,9 @@ import static org.spongepowered.api.text.format.TextStyles.*;
 
 @Singleton
 public class ActiveDialogService {
+    /**
+     * Begins a dialog between a {@link Player} and an {@link Entity}.
+     */
     public Optional<Dialog> dialogBetween(Player player, Entity entity, DialogTree dialogTree) {
         Quester simpleQuester = AtherysQuests.getInstance().getQuesterService().getQuester(player);
 
@@ -57,7 +61,7 @@ public class ActiveDialogService {
         // If the node provided is not the current node or a child of the current node, return.
         if (dialog.getLastNode() == node || dialog.getLastNode().getResponses().contains(node)) {
 
-            if (!node.meetsRequirements(dialog.getQuester())) {
+            if (questerMeetsRequirements(node, dialog.getQuester())) {
                 DialogMsg.error(player, "You do not meet the requirements for this response.");
                 return;
             }
@@ -72,6 +76,14 @@ public class ActiveDialogService {
                 AtherysQuests.getInstance().getDialogService().removePlayerDialog(player);
             }
         }
+    }
+
+    private boolean questerMeetsRequirements(DialogNode node, Quester quester) {
+        if (node.getRequirements() == null) return true;
+        for (Requirement requirement : node.getRequirements()) {
+            if (!requirement.check(quester)) return false;
+        }
+        return true;
     }
 
     public void showDialog(Dialog dialog, Player player) {

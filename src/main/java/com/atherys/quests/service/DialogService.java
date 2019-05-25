@@ -27,6 +27,9 @@ public final class DialogService {
     @Inject
     Logger logger;
 
+    @Inject
+    ActiveDialogService activeDialogService;
+
     private Map<UUID, Dialog> ongoingDialogs = new HashMap<>();
 
     private Map<String, DialogTree> trees = new HashMap<>();
@@ -131,7 +134,7 @@ public final class DialogService {
 
         if (!tree.isPresent() || hasPlayerDialog(player)) return Optional.empty();
 
-        Optional<Dialog> dialog = Dialog.between(player, entity, tree.get());
+        Optional<Dialog> dialog = activeDialogService.dialogBetween(player, entity, tree.get());
 
         if (!dialog.isPresent()) return Optional.empty();
 
