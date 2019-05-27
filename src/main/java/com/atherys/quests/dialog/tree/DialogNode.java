@@ -80,14 +80,6 @@ public class DialogNode {
         this.requirements = Arrays.asList(requirements);
     }
 
-    public boolean meetsRequirements(Quester player) {
-        if (requirements == null) return true;
-        for (Requirement requirement : requirements) {
-            if (!requirement.check(player)) return false;
-        }
-        return true;
-    }
-
     public Optional<Quest> getQuest() {
         return AtherysQuests.getInstance().getQuestService().getQuest(questId);
     }
