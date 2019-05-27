@@ -63,7 +63,7 @@ import static com.atherys.quests.AtherysQuests.*;
 public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
-    public static final String DESCRIPTION = "A completedQuest plugin written for the A'therys Horizons server.";
+    public static final String DESCRIPTION = "A Quest plugin written for the A'therys Horizons server.";
     public static final String VERSION = "1.0.0b";
 
     private static AtherysQuests instance;
@@ -171,7 +171,7 @@ public class AtherysQuests {
                 .immutableClass(QuestData.Immutable.class)
                 .builder(new QuestData.Builder())
                 .dataName("Quest")
-                .manipulatorId("completedQuest")
+                .manipulatorId("Quest")
                 .buildAndRegister(this.container);
     }
 

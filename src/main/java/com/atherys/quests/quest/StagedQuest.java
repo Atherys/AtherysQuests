@@ -110,7 +110,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Override
     public void notify(Event event, Quester quester) {
-        // if the completedQuest has already been completed, just return
+        // if the Quest has already been completed, just return
         if (isComplete() || isFailed()) return;
 
         // set started as true, in case this was the first objective
@@ -134,12 +134,12 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
                 // set the current stage to the next one
                 current++;
-                AtherysQuests.getInstance().getQuestMessagingService().info(quester, "You have completed an objective for the completedQuest \"", this.getName(), "\"");
+                AtherysQuests.getInstance().getQuestMessagingService().info(quester, "You have completed an objective for the Quest \"", this.getName(), "\"");
 
                 Sponge.getEventManager().post(new StagedQuestProgressEvent(this, currentStage, quester));
                 // if it does not have a next stage
             } else {
-                // set completedQuest as completed
+                // set Quest as completed
                 this.complete = true;
                 Sponge.getEventManager().post(new QuestCompletedEvent(this, quester));
             }

@@ -35,7 +35,7 @@ public class QuestCompleteRequirement implements Requirement {
     public Text toText() {
         Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(questId);
         if (quest.isPresent()) {
-            return Text.of("You have to have completed the completedQuest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
+            return Text.of("You have to have completed the Quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
         } else {
             return Text.of("Uh oh. According to this, you have to have completed a quest which isn't registered. Please report this.");
         }

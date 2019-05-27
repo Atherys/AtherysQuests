@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An essential part of {@link StagedQuest}s, a Stage represents the next step in completing the completedQuest.
+ * An essential part of {@link StagedQuest}s, a Stage represents the next step in completing the Quest.
  * A stage may also offer the player rewards for having completed it.
  * Stages differ from Quests in that they do not have Requirements, and cannot exist without a StagedQuest.
  */

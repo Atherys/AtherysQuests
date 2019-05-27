@@ -32,7 +32,7 @@ public class ParticleService {
     }
 
     /**
-     * Emits particles for every completedQuest block.
+     * Emits particles for every Quest block.
      */
     private void emitParticles() {
         questLocationService.getQuestBlocks().forEach((location, questLocation) -> {

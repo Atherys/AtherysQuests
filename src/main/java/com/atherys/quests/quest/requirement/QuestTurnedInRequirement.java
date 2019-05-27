@@ -11,7 +11,7 @@ import org.spongepowered.api.text.format.TextStyles;
 import java.util.Optional;
 
 /**
- * A requirement for checking whether or not the player has completed another completedQuest.
+ * A requirement for checking whether or not the player has completed another Quest.
  */
 public class QuestTurnedInRequirement implements Requirement {
 
@@ -30,9 +30,9 @@ public class QuestTurnedInRequirement implements Requirement {
     public Text toText() {
         Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(questId);
         if (quest.isPresent()) {
-            return Text.of("You have to have turned in the completedQuest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
+            return Text.of("You have to have turned in the Quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
         } else {
-            return Text.of("Uh oh. According to this, you have to have completed a completedQuest which isn't registered. Please report this.");
+            return Text.of("Uh oh. According to this, you have to have completed a Quest which isn't registered. Please report this.");
         }
     }
 

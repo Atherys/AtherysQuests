@@ -94,10 +94,10 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
     @Override
     @SuppressWarnings("unchecked")
     public void notify(Event event, Quester quester) {
-        // if the completedQuest hasn't been completed yet
+        // if the Quest hasn't been completed yet
         if (!isComplete() && !isFailed()) {
 
-            // if the completedQuest hasn't been started yet ( this is the first notification )
+            // if the Quest hasn't been started yet ( this is the first notification )
             if (!isStarted()) {
                 // set it as started
                 this.started = true;
@@ -111,11 +111,11 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
                 objective.notify(event, quester); // notify the objective
 
                 if (objective.isComplete()) { // if the objective is completed after being notified
-                    AtherysQuests.getInstance().getQuestMessagingService().info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the completedQuest
+                    AtherysQuests.getInstance().getQuestMessagingService().info(quester, "You have completed an objective for the quest \"", this.getName(), "\""); // tell the player they have completed another objective of the Quest
 
                     Sponge.getEventManager().post(new SimpleQuestProgressEvent(this, objective, quester));
 
-                    // update completedQuest complete status by iterating every objective, checking it's complete status, and concatenate with this.complete
+                    // update Quest complete status by iterating every objective, checking it's complete status, and concatenate with this.complete
                     this.complete = true;
 
                     for (Objective objective1 : getObjectives()) {

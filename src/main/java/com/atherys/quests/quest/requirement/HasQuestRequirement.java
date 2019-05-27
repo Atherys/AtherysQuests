@@ -27,7 +27,7 @@ public class HasQuestRequirement implements Requirement {
     public Text toText() {
         Optional<Quest> quest = getQuest();
         return quest
-                .map(quest1 -> Text.of("You have to have completed the completedQuest ", TextStyles.ITALIC, TextStyles.BOLD, quest1.getName(), TextStyles.RESET))
+                .map(quest1 -> Text.of("You have to have completed the Quest ", TextStyles.ITALIC, TextStyles.BOLD, quest1.getName(), TextStyles.RESET))
                 .orElseGet(() -> Text.of("Uh oh. According to this, you have to have completed a quest which isn't registered. This is likely an error, please report this."));
     }
 

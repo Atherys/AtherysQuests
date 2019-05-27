@@ -15,14 +15,14 @@ import java.util.List;
 /**
  * Common interface for all Quest classes. <br>
  * A Quest represents a series of tasks ( {@link Objective}s ), which once completed will reward the player with {@link Reward}(s).
- * A completedQuest may optionally contain {@link Requirement}s which the player must fulfill prior to starting work on the objectives.
+ * A Quest may optionally contain {@link Requirement}s which the player must fulfill prior to starting work on the objectives.
  *
  * @param <T>
  */
 public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
 
     /**
-     * @return The unique String ID of this completedQuest
+     * @return The unique String ID of this Quest
      */
     String getId();
 
@@ -32,27 +32,27 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
     Text getName();
 
     /**
-     * @return The formatted description of this completedQuest
+     * @return The formatted description of this Quest
      */
     Text getDescription();
 
     /**
-     * @return The List of {@link Requirement}s this completedQuest will check the {@link Quester} for
+     * @return The List of {@link Requirement}s this Quest will check the {@link Quester} for
      */
     List<Requirement> getRequirements();
 
     /**
-     * @return The List of {@link Objective}s this completedQuest requires the {@link Quester} to complete prior to being eligible for reward.
+     * @return The List of {@link Objective}s this Quest requires the {@link Quester} to complete prior to being eligible for reward.
      */
     List<Objective> getObjectives();
 
     /**
-     * @return The List of {@link Reward}s this completedQuest will award to the {@link Quester} once all {@link Objective}s have been fulfilled.
+     * @return The List of {@link Reward}s this Quest will award to the {@link Quester} once all {@link Objective}s have been fulfilled.
      */
     List<Reward> getRewards();
 
     /**
-     * Checks whether or not the SimpleQuester meets the requirements of this completedQuest.
+     * Checks whether or not the SimpleQuester meets the requirements of this Quest.
      *
      * @param quester The SimpleQuester to be checked
      * @return Whether or not the SimpleQuester meets the requirements
@@ -68,7 +68,7 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
     void notify(Event event, Quester quester);
 
     /**
-     * Awards the SimpleQuester for having completed all Objectives of this completedQuest.
+     * Awards the SimpleQuester for having completed all Objectives of this Quest.
      *
      * @param quester The quester to be awarded
      */
@@ -90,9 +90,11 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
     boolean isFailed();
 
     /**
-     * @return The version of this completedQuest.
+     * @return The version of this Quest.
      */
     int getVersion();
+
+
 
     QuestView createView();
 }
