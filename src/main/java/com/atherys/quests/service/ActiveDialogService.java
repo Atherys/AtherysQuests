@@ -43,7 +43,7 @@ public class ActiveDialogService {
         return Optional.of(dialog);
     }
 
-    public void proceedDialog(Dialog dialog, DialogNode node, Player player) {
+    private void proceedDialog(Dialog dialog, DialogNode node, Player player) {
 
         // update the cached player
         dialog.updatePlayer(player);
@@ -86,7 +86,7 @@ public class ActiveDialogService {
         return true;
     }
 
-    public void showDialog(Dialog dialog, Player player) {
+    private void showDialog(Dialog dialog, Player player) {
         DialogNode node = dialog.getLastNode();
         Entity npc = dialog.getNPC();
 
@@ -172,5 +172,4 @@ public class ActiveDialogService {
         });
         return responseText.build();
     }
-
 }
