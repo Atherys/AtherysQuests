@@ -61,7 +61,7 @@ public class ActiveDialogService {
         // If the node provided is not the current node or a child of the current node, return.
         if (dialog.getLastNode() == node || dialog.getLastNode().getResponses().contains(node)) {
 
-            if (questerMeetsRequirements(node, dialog.getQuester())) {
+            if (!questerMeetsRequirements(node, dialog.getQuester())) {
                 DialogMsg.error(player, "You do not meet the requirements for this response.");
                 return;
             }
