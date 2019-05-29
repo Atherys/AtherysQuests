@@ -6,7 +6,7 @@ import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.event.dialog.DialogProceedEvent;
-import com.atherys.quests.quest.DeliverableQuest;
+import com.atherys.quests.api.quest.modifiers.Deliverable;
 import com.atherys.quests.quest.requirement.Requirements;
 import com.atherys.quests.util.EntityUtils;
 import com.google.common.collect.Lists;
@@ -29,15 +29,14 @@ public class DeliverableQuestService {
     QuestService questService;
 
     public void applyNodesForQuests() {
-        questService.getDeliverableQuests().forEach(deliverableQuest -> {
-            applyDeliverableQuestNode(deliverableQuest.getNode(), deliverableQuest);
-        });
+        questService.getDeliverableQuests().forEach(this::applyDeliverableQuestNode);
     }
 
-    private <T extends Quest> void applyDeliverableQuestNode(DialogNode node, DeliverableQuest<T> quest) {
+    private <T extends Quest> void applyDeliverableQuestNode(Quest<T> quest) {
+        Deliverable deliverable = quest.getDeliverableComponent().get();
         DialogTree tree;
-        Optional<Entity> entity = EntityUtils.getEntity(quest.getTarget());
-        DialogNode response = addQuestRequirement(node, Requirements.completedQuest(quest));
+        Optional<Entity> entity = EntityUtils.getEntity(deliverable.getTarget());
+        DialogNode response = addQuestRequirement(deliverable.getNode(), Requirements.completedQuest(quest));
         if (entity.isPresent()) {
             Optional<DialogTree> optionalTree = dialogService.getDialog(entity.get());
             if (optionalTree.isPresent()) {
@@ -45,7 +44,7 @@ public class DeliverableQuestService {
                 DialogNode newRoot = createNewRoot(tree.getRoot(), response);
                 tree.setRoot(newRoot);
                 dialogService.registerDialog(tree);
-                registerQuestCompleteListener(node, tree, quest);
+                registerQuestCompleteListener(deliverable.getNode(), tree, quest);
             } else {
                 AtherysQuests.getInstance().getLogger().warn("NPC for deliverable quest {} has no dialog!", quest.getId());
             }

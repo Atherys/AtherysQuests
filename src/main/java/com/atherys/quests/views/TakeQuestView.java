@@ -3,16 +3,19 @@ package com.atherys.quests.views;
 import com.atherys.core.utils.Question;
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.service.QuestMessagingService;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
+import java.util.function.Consumer;
+
 public class TakeQuestView implements QuestView<Quest> {
 
     private final Quest<?> quest;
+
+    private Consumer<Player> onAccept;
 
     public TakeQuestView(Quest<?> quest) {
         this.quest = quest;
@@ -40,7 +43,9 @@ public class TakeQuestView implements QuestView<Quest> {
         Text.Builder takeQuest = Text.builder();
         Question question = Question.of(Text.of("Do you accept the quest \"", quest.getName(), "\"?"))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), src -> {
-                    AtherysQuests.getInstance().getQuesterFacade().pickupQuest(src, quest);
+                    if (AtherysQuests.getInstance().getQuesterFacade().pickupQuest(src, quest)) {
+                        if (onAccept != null) onAccept.accept(player);
+                    }
                 }))
                 .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), src -> {
                     AtherysQuests.getInstance().getQuestMessagingService().error(src, "You have declined the quest \"", quest.getName(), "\".");
@@ -55,17 +60,11 @@ public class TakeQuestView implements QuestView<Quest> {
         return questView.build();
     }
 
+    @Override
     public void show(Player viewer) {
         viewer.sendBookView(toBookView(viewer));
     }
 
-    @Override
-    public Text getFormattedRequirements() {
-        Text.Builder reqText = Text.builder();
-        reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " Quest Requirements: "));
-        quest.getRequirements().forEach(requirement -> reqText.append(Text.of(QuestMessagingService.MSG_PREFIX, " * ", requirement.toText(), Text.NEW_LINE)));
-        return reqText.build();
-    }
 
     @Override
     public Text getFormattedObjectives() {
@@ -78,19 +77,7 @@ public class TakeQuestView implements QuestView<Quest> {
         return objectives.build();
     }
 
-    @Override
-    public Text getFormattedRewards() {
-        Text.Builder rewards = Text.builder();
-        rewards.append(Text.of("Rewards:\n"));
-        quest.getRewards().forEach(reward -> {
-            rewards.append(Text.of(reward.toText(), "\n"));
-        });
-
-        return rewards.build();
-    }
-
-    @Override
-    public Text getCompletion(Player player) {
-        return null;
+    public void setOnAccept(Consumer<Player> onAccept) {
+        this.onAccept = onAccept;
     }
 }

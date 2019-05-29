@@ -10,7 +10,6 @@ import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.service.QuestService;
 import com.atherys.quests.service.QuesterService;
-import com.atherys.quests.views.QuestLog;
 import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -18,12 +17,16 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
+import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Singleton
@@ -70,7 +73,6 @@ public class QuesterFacade {
     }
 
     public <T extends Quest> boolean turnInQuest(Player player, Quest<T> quest) {
-
         Quester quester = questerService.getQuester(player);
 
         boolean result = questerService.turnInQuest(quester, quest);
@@ -105,11 +107,49 @@ public class QuesterFacade {
         });
     }
 
-    public void showQuestLog(Player player) throws CommandException {
+    public void showQuestLog(Player player) {
         Quester quester = questerService.getQuester(player);
 
-        QuestLog questLog = new QuestLog(quester);
-        questLog.show(player);
+        BookView.Builder log = BookView.builder();
+
+        List<Text> pages = new ArrayList<>();
+        Text.Builder lastPage = Text.builder();
+
+        lastPage.append(Text.of("Quest Log:\n"));
+
+        int i = 1;
+        for (Quest quest : quester.getOngoingQuests()) {
+            Text.Builder questView = Text.builder();
+            questView.append(Text.of("[", i, "] "));
+            if (quest.isComplete()) {
+                questView.append(Text.of(TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.NONE));
+            } else if (quest.isFailed()) {
+                questView.append(Text.of(TextColors.RED, TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.RESET));
+            } else {
+                questView.append(Text.of(quest.getName()));
+            }
+            questView.onHover(TextActions.showText(Text.of("Click to view more details.")));
+            questView.onClick(TextActions.executeCallback(src -> quest.createView().show(player)));
+
+            if (i % 7 == 0) {
+                pages.add(lastPage.build());
+                lastPage = Text.builder();
+            } else {
+                lastPage.append(Text.of(questView.build(), "\n"));
+            }
+
+            i++;
+        }
+
+        pages.add(lastPage.build());
+
+        log.addPages(pages);
+
+        player.sendBookView(log.build());
+    }
+
+    public void showQuestFromItem() {
+
     }
 
     public void removeQuestFromPlayer(Player player, String questId) throws CommandException {

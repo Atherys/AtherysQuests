@@ -3,10 +3,14 @@ package com.atherys.quests.api.quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.api.quest.modifiers.Deliverable;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
@@ -24,6 +28,18 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     @Expose
     protected boolean failed;
+
+    @Expose
+    protected boolean started;
+
+    @Expose
+    protected boolean complete;
+
+    @Expose
+    protected List<Requirement> requirements = new ArrayList<>();
+
+    @Expose
+    protected Deliverable deliverableComponent;
 
     protected AbstractQuest(String id, int version) {
         this.id = id;
@@ -61,6 +77,11 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
+    public List<Requirement> getRequirements() {
+        return  requirements;
+    }
+
+    @Override
     public void award(Quester simpleQuester) {
         for (Reward reward : getRewards()) {
             reward.award(simpleQuester);
@@ -77,7 +98,27 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
+    public boolean isComplete() {
+        return complete;
+    }
+
+    @Override
+    public boolean isStarted() {
+        return started;
+    }
+
+    @Override
     public int getVersion() {
         return version;
+    }
+
+    @Override
+    public Optional<Deliverable> getDeliverableComponent() {
+        return Optional.ofNullable(deliverableComponent);
+    }
+
+    @Override
+    public void makeDeliverable(Deliverable deliverable) {
+        this.deliverableComponent = deliverable;
     }
 }

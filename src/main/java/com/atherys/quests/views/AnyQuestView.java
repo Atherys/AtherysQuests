@@ -10,7 +10,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
-public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>>, CompletableView {
+public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
 
     protected final Quest<T> quest;
 
@@ -47,37 +47,24 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>>, Compl
         return reqText.build();
     }
 
-    @Override
-    public Text getFormattedObjectives() {
-        Text.Builder objectives = Text.builder();
-        objectives.append(Text.of("Objectives:\n"));
-        quest.getObjectives().forEach(objective -> {
-            objectives.append(Text.of(!objective.isComplete() ? TextStyles.NONE : TextStyles.STRIKETHROUGH, objective.toText(), TextStyles.RESET, Text.NEW_LINE));
-        });
-
-        return objectives.build();
-    }
-
-    @Override
-    public Text getFormattedRewards() {
-        Text.Builder rewards = Text.builder();
-        rewards.append(Text.of("Rewards:\n"));
-        quest.getRewards().forEach(reward -> {
-            rewards.append(Text.of(reward.toText(), Text.NEW_LINE));
-        });
-        return rewards.build();
-    }
-
-    @Override
     public Text getCompletion(Player player) {
-        Question completeQuest = Question.of(Text.of("You have completed this quest. Would you like to turn it in?"))
-                .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Turn In"), (src) -> {
-                    AtherysQuests.getInstance().getQuesterFacade().turnInQuest(player, quest);
-                }))
-                .build();
+        if (quest.getDeliverableComponent().isPresent()) {
+            Text name = quest.getDeliverableComponent().get().getTargetName();
+            return Text.of("You have completed this quest. Turn it in to ", name, "to complete it.");
+        } else {
+            Question completeQuest = Question.of(Text.of("You have completed this quest. Would you like to turn it in?"))
+                    .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Turn In"), (src) -> {
+                        AtherysQuests.getInstance().getQuesterFacade().turnInQuest(player, quest);
+                    }))
+                    .build();
 
-        completeQuest.register();
+            completeQuest.register();
 
-        return completeQuest.asText();
+            return completeQuest.asText();
+        }
+    }
+
+    public Quest<T> getQuest() {
+        return quest;
     }
 }

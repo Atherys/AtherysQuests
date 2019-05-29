@@ -28,7 +28,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static org.spongepowered.api.text.format.TextColors.*;
-import static org.spongepowered.api.text.format.TextStyles.*;
+import static org.spongepowered.api.text.format.TextStyles.BOLD;
+import static org.spongepowered.api.text.format.TextStyles.ITALIC;
 
 @Singleton
 public class ActiveDialogService {
