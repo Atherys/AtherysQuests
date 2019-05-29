@@ -25,9 +25,6 @@ import java.util.List;
 public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Expose
-    private List<Requirement> requirements = new ArrayList<>();
-
-    @Expose
     private List<Stage> stages = new ArrayList<>();
     @Expose
     private int current = 0;
@@ -35,15 +32,10 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Expose
     private List<Reward> rewards = new ArrayList<>();
 
-    @Expose
-    private boolean started = false;
-    @Expose
-    private boolean complete = false;
-
     public StagedQuest(String id, Text name, Text description, int version) {
         super(id, version);
-        this.setName(name);
-        this.setDescription(description);
+        this.name = name;
+        this.description = description;
     }
 
     StagedQuest(StagedQuest quest) {
@@ -53,19 +45,6 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         this.rewards = CopyUtils.copyList(quest.getRewards());
         this.started = false;
         this.complete = false;
-    }
-
-    protected void setName(Text name) {
-        this.name = name;
-    }
-
-    protected void setDescription(Text description) {
-        this.description = description;
-    }
-
-    @Override
-    public List<Requirement> getRequirements() {
-        return requirements;
     }
 
     public void addRequirement(Requirement requirement) {
@@ -104,10 +83,6 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         return rewards;
     }
 
-    protected void addReward(Reward reward) {
-        this.rewards.add(reward);
-    }
-
     @Override
     public void notify(Event event, Quester quester) {
         // if the Quest has already been completed, just return
@@ -144,16 +119,6 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
                 Sponge.getEventManager().post(new QuestCompletedEvent(this, quester));
             }
         }
-    }
-
-    @Override
-    public boolean isStarted() {
-        return started;
-    }
-
-    @Override
-    public boolean isComplete() {
-        return complete;
     }
 
     @Override

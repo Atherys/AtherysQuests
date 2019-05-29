@@ -7,7 +7,6 @@ import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.quest.DeliverableQuest;
 import com.atherys.quests.quest.SimpleQuest;
 import com.atherys.quests.quest.StagedQuest;
 import com.atherys.quests.quest.objective.*;
@@ -38,8 +37,7 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
 
         registerSubtypes(Quest.class, Arrays.asList(
                 SimpleQuest.class,
-                StagedQuest.class,
-                DeliverableQuest.class
+                StagedQuest.class
         ));
 
         registerSubtypes(Requirement.class, Arrays.asList(
@@ -77,7 +75,6 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
                 BlockSnapshot.class,
                 Location.class);
         builder.registerTypeAdapter(Text.class, new CompactTextAdapter());
-        builder.registerTypeAdapter(DeliverableQuest.class, new DeliverableQuestAdapter());
 
         registerAll(builder);
         return builder.create();

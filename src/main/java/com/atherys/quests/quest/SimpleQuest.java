@@ -27,17 +27,10 @@ import java.util.List;
 public class SimpleQuest extends AbstractQuest<SimpleQuest> {
 
     @Expose
-    private List<Requirement> requirements = new ArrayList<>();
-    @Expose
     private List<Objective> objectives = new ArrayList<>();
+
     @Expose
     private List<Reward> rewards = new ArrayList<>();
-
-    @Expose
-    private boolean started = false;
-
-    @Expose
-    private boolean complete = false;
 
     protected SimpleQuest(String id, int version) {
         super(id, version);

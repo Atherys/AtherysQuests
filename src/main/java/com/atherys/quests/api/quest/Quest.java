@@ -6,11 +6,13 @@ import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.api.quest.modifiers.Deliverable;
 import com.atherys.quests.views.QuestView;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.Text;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Common interface for all Quest classes. <br>
@@ -94,7 +96,9 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
      */
     int getVersion();
 
+    Optional<Deliverable> getDeliverableComponent();
 
+    void makeDeliverable(Deliverable deliverableComponent);
 
     QuestView createView();
 }

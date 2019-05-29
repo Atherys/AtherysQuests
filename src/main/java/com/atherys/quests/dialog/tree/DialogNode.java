@@ -2,7 +2,6 @@ package com.atherys.quests.dialog.tree;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
