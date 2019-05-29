@@ -96,8 +96,14 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
      */
     int getVersion();
 
+    /**
+     * @return The deliverable component. If present, the quest is deliverable.
+     */
     Optional<Deliverable> getDeliverableComponent();
 
+    /**
+     * Makes the quest deliverable.
+     */
     void makeDeliverable(Deliverable deliverableComponent);
 
     QuestView createView();
