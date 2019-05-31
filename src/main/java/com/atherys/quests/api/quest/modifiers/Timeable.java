@@ -1,13 +1,11 @@
 package com.atherys.quests.api.quest.modifiers;
 
-import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.google.gson.annotations.Expose;
 
 import javax.annotation.Nullable;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Timeable {

@@ -1,8 +1,8 @@
 package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.api.quest.modifiers.Deliverable;
+import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.script.api.util.QuadFunction;
 import org.spongepowered.api.text.Text;
 

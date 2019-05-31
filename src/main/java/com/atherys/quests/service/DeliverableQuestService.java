@@ -2,11 +2,11 @@ package com.atherys.quests.service;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quest.modifiers.Deliverable;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.event.dialog.DialogProceedEvent;
-import com.atherys.quests.api.quest.modifiers.Deliverable;
 import com.atherys.quests.quest.requirement.Requirements;
 import com.atherys.quests.util.EntityUtils;
 import com.google.common.collect.Lists;

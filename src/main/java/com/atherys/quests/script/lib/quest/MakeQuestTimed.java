@@ -5,7 +5,6 @@ import com.atherys.quests.api.quest.modifiers.Timeable;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.script.api.util.TriFunction;
 
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
