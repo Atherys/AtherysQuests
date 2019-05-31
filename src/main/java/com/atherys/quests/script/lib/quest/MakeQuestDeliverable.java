@@ -19,7 +19,6 @@ public class MakeQuestDeliverable implements QuadFunction<Quest, UUID, Text, Dia
      * @param targetName How the NPC is referenced in the quest.
      * @param node The dialog to complete the quest. This will be attached as a response in the root
      *             node of the NPC. If the NPC does not have a dialog to begin with, this will not work.
-     * @return
      */
     @Override
     public Boolean apply(Quest quest, UUID target, Text targetName, DialogNode node) {

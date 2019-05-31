@@ -6,10 +6,7 @@ import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.entity.SimpleQuester;
-import com.atherys.quests.service.QuestLocationService;
-import com.atherys.quests.service.QuestMessagingService;
-import com.atherys.quests.service.QuestService;
-import com.atherys.quests.service.QuesterService;
+import com.atherys.quests.service.*;
 import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -25,9 +22,15 @@ import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.temporal.TemporalAmount;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 @Singleton
 public class QuesterFacade {
@@ -43,6 +46,9 @@ public class QuesterFacade {
 
     @Inject
     QuestMessagingService questMsg;
+
+    @Inject
+    TimedQuestService timedQuestService;
 
     QuesterFacade() {
     }
@@ -199,5 +205,14 @@ public class QuesterFacade {
 
         SimpleQuester quester = questerService.getQuester(player);
         quester.setCachedPlayer(player);
+    }
+
+    public void onCompleteTimedQuest(Quester quester, Quest quest) {
+        timedQuestService.stopTimingQuest(quest, quester);
+    }
+
+    public void onStartTimedQuest(Quester quester, Quest<?> quest) {
+        quest.getTimedComponent().get().startTiming();
+        timedQuestService.startTimingQuest(quest, quester);
     }
 }
