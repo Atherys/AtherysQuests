@@ -7,12 +7,9 @@ import com.atherys.quests.api.quester.Quester;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.scheduler.Task;
-import org.spongepowered.api.util.Tuple;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Singleton
@@ -23,12 +20,6 @@ public class TimedQuestService {
     @Inject
     QuesterService questerService;
 
-    private Set<Tuple<Quester, Quest<?>>> ongoingTimedQuests = new HashSet<>();
-
-    private Set<Tuple<Quester, Quest<?>>> toAdd = new HashSet<>();
-
-    private Set<Tuple<Quester, Quest<?>>> toRemove = new HashSet<>();
-
     /**
      * This task checks for any completed quests every second.
      */
@@ -36,16 +27,9 @@ public class TimedQuestService {
             .interval(1L, TimeUnit.SECONDS)
             .execute(() -> {
                 LocalDateTime now = LocalDateTime.now();
-                ongoingTimedQuests.forEach(questerQuestTuple -> {
-                    if (checkQuest(questerQuestTuple.getSecond(), questerQuestTuple.getFirst(), now)) {
-                        toRemove.add(questerQuestTuple);
-                    }
+                questerService.getOngoingTimedQuests().forEach(questerQuestTuple -> {
+                    checkQuest(questerQuestTuple.getFirst(), questerQuestTuple.getSecond(), now);
                 });
-                ongoingTimedQuests.removeAll(toRemove);
-                toRemove.clear();
-
-                ongoingTimedQuests.addAll(toAdd);
-                toAdd.clear();
             })
             .submit(AtherysQuests.getInstance());
 
@@ -65,19 +49,5 @@ public class TimedQuestService {
             return true;
         }
         return false;
-    }
-
-    /**
-     * Adds a {@link Quest}/{@link Quester} pair to be checked.
-     */
-    public void startTimingQuest(Quest<?> quest, Quester quester) {
-        toAdd.add(new Tuple<>(quester, quest));
-    }
-
-    /**
-     * Stops a {@link Quest}/{@link Quester} pair from being checked preemptively.
-     */
-    public void stopTimingQuest(Quest<?> quest, Quester quester) {
-        toRemove.add(new Tuple<>(quester, quest));
     }
 }

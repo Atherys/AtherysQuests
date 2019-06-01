@@ -15,9 +15,10 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
+import org.spongepowered.api.util.Tuple;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Singleton
 public class QuesterService implements Observer<Event> {
@@ -122,6 +123,22 @@ public class QuesterService implements Observer<Event> {
 
     public void removeQuest(Quester quester, Quest quest) {
         quester.removeQuest(quest);
+    }
+
+    public Set<Tuple<Quest, Quester>> getOngoingTimedQuests() {
+        List<Quester> questers = Sponge.getServer().getOnlinePlayers().stream()
+                .map(this::getQuester)
+                .collect(Collectors.toList());
+
+        Set<Tuple<Quest, Quester>> quests = new HashSet<>();
+        questers.forEach(quester -> {
+            quester.getOngoingQuests().forEach(quest -> {
+                quest.getTimedComponent().ifPresent(time -> {
+                    quests.add(new Tuple<>(quest, quester));
+                });
+            });
+        });
+        return quests;
     }
 
 }
