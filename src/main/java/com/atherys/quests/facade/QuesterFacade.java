@@ -4,6 +4,7 @@ import com.atherys.core.utils.Question;
 import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.service.*;
@@ -196,17 +197,17 @@ public class QuesterFacade {
             updateCachedPlayer(player);
         }
 
-
         SimpleQuester quester = questerService.getQuester(player);
         quester.setCachedPlayer(player);
     }
 
-    public void onCompleteTimedQuest(Quester quester, Quest quest) {
-        timedQuestService.stopTimingQuest(quest, quester);
-    }
-
     public void onStartTimedQuest(Quester quester, Quest<?> quest) {
         quest.getTimedComponent().get().startTiming();
-        timedQuestService.startTimingQuest(quest, quester);
+    }
+
+    public void resetTimedQuestOnLogin(Player player) {
+        questerService.getQuester(player).getOngoingQuests().forEach(quest -> {
+            quest.getTimedComponent().ifPresent(timedComponent -> ((TimeComponent) timedComponent).startTiming());
+        });
     }
 }

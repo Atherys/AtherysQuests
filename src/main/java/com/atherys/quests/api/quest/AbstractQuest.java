@@ -1,7 +1,7 @@
 package com.atherys.quests.api.quest;
 
 import com.atherys.quests.api.quest.modifiers.Deliverable;
-import com.atherys.quests.api.quest.modifiers.Timeable;
+import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
@@ -43,7 +43,7 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     protected Deliverable deliverableComponent;
 
     @Expose
-    protected Timeable timedComponent;
+    protected TimeComponent timedComponent;
 
     protected AbstractQuest(String id, int version) {
         this.id = id;
@@ -127,12 +127,12 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
-    public Optional<Timeable> getTimedComponent() {
+    public Optional<TimeComponent> getTimedComponent() {
         return Optional.ofNullable(timedComponent);
     }
 
     @Override
-    public void makeTimed(Timeable timedComponent) {
+    public void makeTimed(TimeComponent timedComponent) {
         this.timedComponent = timedComponent;
     }
 }

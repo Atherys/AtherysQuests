@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class Timeable {
+public class TimeComponent {
     @Expose
     private int seconds;
 
@@ -16,8 +16,12 @@ public class Timeable {
 
     private Consumer<Quester> onComplete;
 
-    public Timeable(int seconds, Consumer<Quester> onComplete) {
+    public TimeComponent(int seconds, Consumer<Quester> onComplete) {
         this.seconds = seconds;
+        this.onComplete = onComplete;
+    }
+
+    public void setOnComplete(Consumer<Quester> onComplete) {
         this.onComplete = onComplete;
     }
 

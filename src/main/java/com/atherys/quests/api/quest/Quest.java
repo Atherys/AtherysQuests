@@ -4,7 +4,7 @@ import com.atherys.quests.api.base.Observer;
 import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.modifiers.Deliverable;
-import com.atherys.quests.api.quest.modifiers.Timeable;
+import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
@@ -107,9 +107,9 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
      */
     void makeDeliverable(Deliverable deliverableComponent);
 
-    Optional<Timeable> getTimedComponent();
+    Optional<TimeComponent> getTimedComponent();
 
-    void makeTimed(Timeable timeableComponent);
+    void makeTimed(TimeComponent timeableComponent);
 
     QuestView createView();
 }

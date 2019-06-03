@@ -124,21 +124,4 @@ public class QuesterService implements Observer<Event> {
     public void removeQuest(Quester quester, Quest quest) {
         quester.removeQuest(quest);
     }
-
-    public Set<Tuple<Quest, Quester>> getOngoingTimedQuests() {
-        List<Quester> questers = Sponge.getServer().getOnlinePlayers().stream()
-                .map(this::getQuester)
-                .collect(Collectors.toList());
-
-        Set<Tuple<Quest, Quester>> quests = new HashSet<>();
-        questers.forEach(quester -> {
-            quester.getOngoingQuests().forEach(quest -> {
-                quest.getTimedComponent().ifPresent(time -> {
-                    quests.add(new Tuple<>(quest, quester));
-                });
-            });
-        });
-        return quests;
-    }
-
 }
