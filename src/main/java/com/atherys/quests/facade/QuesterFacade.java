@@ -202,9 +202,8 @@ public class QuesterFacade {
         quester.setCachedPlayer(player);
     }
 
-    public void onStartTimedQuest(Quester quester, Quest<?> quest) {
+    public void onStartTimedQuest(Quest<?> quest) {
         quest.getTimedComponent().get().startTiming();
-        AtherysQuests.getInstance().getLogger().info("Started timing quest!");
     }
 
     public void onCompleteTimedQuest(Quester quester) {

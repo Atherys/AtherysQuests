@@ -107,8 +107,14 @@ public interface Quest<T extends Quest> extends Prototype<Quest<T>>, Observer<Ev
      */
     void makeDeliverable(DeliveryComponent deliveryComponent);
 
+    /**
+     * @return The time component. If present, the quest is timed.
+     */
     Optional<TimeComponent> getTimedComponent();
 
+    /**
+     * Makes the quest timed.
+     */
     void makeTimed(TimeComponent timeableComponent);
 
     QuestView createView();
