@@ -3,7 +3,7 @@ package com.atherys.quests.api.quest;
 import com.atherys.quests.api.base.Observer;
 import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
-import com.atherys.quests.api.quest.modifiers.Deliverable;
+import com.atherys.quests.api.quest.modifiers.DeliveryComponent;
 import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
@@ -22,7 +22,7 @@ import java.util.Optional;
  *
  * @param <T>
  */
-public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
+public interface Quest<T extends Quest> extends Prototype<Quest<T>>, Observer<Event> {
 
     /**
      * @return The unique String ID of this Quest
@@ -100,12 +100,12 @@ public interface Quest<T extends Quest> extends Prototype<T>, Observer<Event> {
     /**
      * @return The deliverable component. If present, the quest is deliverable.
      */
-    Optional<Deliverable> getDeliverableComponent();
+    Optional<DeliveryComponent> getDeliveryComponent();
 
     /**
      * Makes the quest deliverable.
      */
-    void makeDeliverable(Deliverable deliverableComponent);
+    void makeDeliverable(DeliveryComponent deliveryComponent);
 
     Optional<TimeComponent> getTimedComponent();
 

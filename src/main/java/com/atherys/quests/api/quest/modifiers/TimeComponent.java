@@ -1,18 +1,19 @@
 package com.atherys.quests.api.quest.modifiers;
 
+import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.quester.Quester;
 import com.google.gson.annotations.Expose;
 
 import javax.annotation.Nullable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class TimeComponent {
+public class TimeComponent implements Prototype<TimeComponent> {
     @Expose
     private int seconds;
 
-    private LocalDateTime timeStarted;
+    private Instant timeStarted;
 
     private Consumer<Quester> onComplete;
 
@@ -26,11 +27,11 @@ public class TimeComponent {
     }
 
     public void startTiming() {
-        this.timeStarted = LocalDateTime.now();
+        this.timeStarted = Instant.now();
     }
 
     @Nullable
-    public LocalDateTime getTimeStarted() {
+    public Instant getTimeStarted() {
         return timeStarted;
     }
 
@@ -40,5 +41,10 @@ public class TimeComponent {
 
     public Optional<Consumer<Quester>> onComplete() {
         return Optional.ofNullable(onComplete);
+    }
+
+    @Override
+    public TimeComponent copy() {
+        return new TimeComponent(seconds, onComplete);
     }
 }

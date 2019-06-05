@@ -48,8 +48,8 @@ public class AnyQuestView<T extends Quest> implements QuestView<Quest<T>> {
     }
 
     public Text getCompletion(Player player) {
-        if (quest.getDeliverableComponent().isPresent()) {
-            Text name = quest.getDeliverableComponent().get().getTargetName();
+        if (quest.getDeliveryComponent().isPresent()) {
+            Text name = quest.getDeliveryComponent().get().getTargetName();
             return Text.of("You have completed this quest. Turn it in to ", name, "to complete it.");
         } else {
             Question completeQuest = Question.of(Text.of("You have completed this quest. Would you like to turn it in?"))

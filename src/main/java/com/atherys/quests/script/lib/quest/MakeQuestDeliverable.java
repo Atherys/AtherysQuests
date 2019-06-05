@@ -1,7 +1,7 @@
 package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quest.modifiers.Deliverable;
+import com.atherys.quests.api.quest.modifiers.DeliveryComponent;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.script.api.util.QuadFunction;
 import org.spongepowered.api.text.Text;
@@ -22,7 +22,7 @@ public class MakeQuestDeliverable implements QuadFunction<Quest, UUID, Text, Dia
      */
     @Override
     public Boolean apply(Quest quest, UUID target, Text targetName, DialogNode node) {
-        quest.makeDeliverable(new Deliverable(target, targetName, node));
+        quest.makeDeliverable(new DeliveryComponent(target, targetName, node));
         return true;
     }
 }

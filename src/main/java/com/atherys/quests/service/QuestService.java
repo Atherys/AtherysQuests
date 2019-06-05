@@ -66,7 +66,7 @@ public final class QuestService {
 
     public Set<Quest> getDeliverableQuests() {
         return quests.values().stream()
-                .filter(quest -> quest.getDeliverableComponent().isPresent())
+                .filter(quest -> quest.getDeliveryComponent().isPresent())
                 .collect(Collectors.toSet());
     }
 }

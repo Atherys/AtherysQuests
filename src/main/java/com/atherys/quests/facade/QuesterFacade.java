@@ -1,6 +1,7 @@
 package com.atherys.quests.facade;
 
 import com.atherys.core.utils.Question;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
@@ -48,15 +49,15 @@ public class QuesterFacade {
     QuesterFacade() {
     }
 
-    public <T extends Quest> boolean pickupQuest(Player player, Quest<T> quest) {
-
+    public <T extends Quest> boolean pickupQuest(Player player, final Quest<T> quest) {
+        Quest<T> copy = quest.copy();
         Quester quester = questerService.getQuester(player);
 
         try {
-            boolean result = questerService.pickupQuest(quester, quest);
+            boolean result = questerService.pickupQuest(quester, copy);
 
             if (result) {
-                questMsg.info(quester, "You have started the quest \"", quest.getName(), "\"");
+                questMsg.info(quester, "You have started the quest \"", copy.getName(), "\"");
             } else {
                 questMsg.error(quester, "You are either already doing this quest, or have done it before in the past.");
             }
@@ -203,6 +204,11 @@ public class QuesterFacade {
 
     public void onStartTimedQuest(Quester quester, Quest<?> quest) {
         quest.getTimedComponent().get().startTiming();
+        AtherysQuests.getInstance().getLogger().info("Started timing quest!");
+    }
+
+    public void onCompleteTimedQuest(Quester quester) {
+        timedQuestService.stopDisplayingTimer(quester);
     }
 
     public void resetTimedQuestOnLogin(Player player) {

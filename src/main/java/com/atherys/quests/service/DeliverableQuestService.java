@@ -2,7 +2,7 @@ package com.atherys.quests.service;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quest.modifiers.Deliverable;
+import com.atherys.quests.api.quest.modifiers.DeliveryComponent;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
@@ -33,10 +33,10 @@ public class DeliverableQuestService {
     }
 
     private <T extends Quest> void applyDeliverableQuestNode(Quest<T> quest) {
-        Deliverable deliverable = quest.getDeliverableComponent().get();
+        DeliveryComponent deliveryComponent = quest.getDeliveryComponent().get();
         DialogTree tree;
-        Optional<Entity> entity = EntityUtils.getEntity(deliverable.getTarget());
-        DialogNode response = addQuestRequirement(deliverable.getNode(), Requirements.completedQuest(quest));
+        Optional<Entity> entity = EntityUtils.getEntity(deliveryComponent.getTarget());
+        DialogNode response = addQuestRequirement(deliveryComponent.getNode(), Requirements.completedQuest(quest));
         if (entity.isPresent()) {
             Optional<DialogTree> optionalTree = dialogService.getDialog(entity.get());
             if (optionalTree.isPresent()) {
@@ -44,12 +44,12 @@ public class DeliverableQuestService {
                 DialogNode newRoot = createNewRoot(tree.getRoot(), response);
                 tree.setRoot(newRoot);
                 dialogService.registerDialog(tree);
-                registerQuestCompleteListener(deliverable.getNode(), tree, quest);
+                registerQuestCompleteListener(deliveryComponent.getNode(), tree, quest);
             } else {
-                AtherysQuests.getInstance().getLogger().warn("NPC for deliverable quest {} has no dialog!", quest.getId());
+                AtherysQuests.getInstance().getLogger().warn("NPC for deliveryComponent quest {} has no dialog!", quest.getId());
             }
         } else {
-            AtherysQuests.getInstance().getLogger().warn("NPC for deliverable quest {} does not exist!", quest.getId());
+            AtherysQuests.getInstance().getLogger().warn("NPC for deliveryComponent quest {} does not exist!", quest.getId());
         }
     }
 

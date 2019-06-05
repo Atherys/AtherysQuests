@@ -15,10 +15,9 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.util.Tuple;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.UUID;
 
 @Singleton
 public class QuesterService implements Observer<Event> {
@@ -57,7 +56,7 @@ public class QuesterService implements Observer<Event> {
 
     public Player getPlayer(Quester quester) {
         if (quester instanceof SimpleQuester) {
-            return getCachedPlayer(quester);
+            return ((SimpleQuester) quester).getCachedPlayer();
         }
 
         return Sponge.getServer().getPlayer(quester.getUniqueId()).orElse(null);

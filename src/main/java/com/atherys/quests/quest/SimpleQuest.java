@@ -38,6 +38,8 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
 
     protected SimpleQuest(SimpleQuest quest) {
         super(quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription());
+        this.deliveryComponent = quest.deliveryComponent.copy();
+        this.timedComponent = quest.timedComponent.copy();
         this.requirements = CopyUtils.copyList(quest.getRequirements());
         this.objectives = CopyUtils.copyList(quest.getObjectives());
         this.rewards = CopyUtils.copyList(quest.getRewards());
