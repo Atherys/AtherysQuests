@@ -3,6 +3,7 @@ package com.atherys.quests.api.quest.modifiers;
 import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.quester.Quester;
 import com.google.gson.annotations.Expose;
+import org.spongepowered.api.entity.living.player.Player;
 
 import javax.annotation.Nullable;
 import java.time.Instant;
@@ -15,14 +16,14 @@ public class TimeComponent implements Prototype<TimeComponent> {
 
     private Instant timeStarted;
 
-    private Consumer<Quester> onComplete;
+    private Consumer<Player> onComplete;
 
-    public TimeComponent(int seconds, Consumer<Quester> onComplete) {
+    public TimeComponent(int seconds, Consumer<Player> onComplete) {
         this.seconds = seconds;
         this.onComplete = onComplete;
     }
 
-    public void setOnComplete(Consumer<Quester> onComplete) {
+    public void setOnComplete(Consumer<Player> onComplete) {
         this.onComplete = onComplete;
     }
 
@@ -39,7 +40,7 @@ public class TimeComponent implements Prototype<TimeComponent> {
         return seconds;
     }
 
-    public Optional<Consumer<Quester>> onComplete() {
+    public Optional<Consumer<Player>> onComplete() {
         return Optional.ofNullable(onComplete);
     }
 

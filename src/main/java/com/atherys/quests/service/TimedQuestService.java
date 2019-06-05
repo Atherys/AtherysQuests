@@ -84,7 +84,9 @@ public class TimedQuestService {
     private void failTimedQuest(Quest<?> quest, Quester quester) {
         questMsg.error(quester, "You have failed the quest \"", quest.getName(), "\"!");
         questerService.removeQuest(quester, quest);
-        quest.getTimedComponent().get().onComplete().ifPresent(onComplete -> onComplete.accept(quester));
+        quest.getTimedComponent().get().onComplete().ifPresent(onComplete -> {
+            onComplete.accept(questerService.getPlayer(quester));
+        });
         stopDisplayingTimer(quester);
     }
 
