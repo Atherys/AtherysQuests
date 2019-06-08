@@ -1,9 +1,10 @@
 package com.atherys.quests.api.quest;
 
+import com.atherys.quests.api.quest.modifiers.DeliveryComponent;
+import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
-import com.atherys.quests.api.quest.modifiers.Deliverable;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
@@ -39,7 +40,10 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     protected List<Requirement> requirements = new ArrayList<>();
 
     @Expose
-    protected Deliverable deliverableComponent;
+    protected DeliveryComponent deliveryComponent;
+
+    @Expose
+    protected TimeComponent timedComponent;
 
     protected AbstractQuest(String id, int version) {
         this.id = id;
@@ -113,12 +117,22 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     }
 
     @Override
-    public Optional<Deliverable> getDeliverableComponent() {
-        return Optional.ofNullable(deliverableComponent);
+    public Optional<DeliveryComponent> getDeliveryComponent() {
+        return Optional.ofNullable(deliveryComponent);
     }
 
     @Override
-    public void makeDeliverable(Deliverable deliverable) {
-        this.deliverableComponent = deliverable;
+    public void makeDeliverable(DeliveryComponent deliveryComponent) {
+        this.deliveryComponent = deliveryComponent;
+    }
+
+    @Override
+    public Optional<TimeComponent> getTimedComponent() {
+        return Optional.ofNullable(timedComponent);
+    }
+
+    @Override
+    public void makeTimed(TimeComponent timedComponent) {
+        this.timedComponent = timedComponent;
     }
 }

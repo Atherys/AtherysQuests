@@ -1,15 +1,14 @@
 package com.atherys.quests.facade;
 
 import com.atherys.core.utils.Question;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.entity.SimpleQuester;
-import com.atherys.quests.service.QuestLocationService;
-import com.atherys.quests.service.QuestMessagingService;
-import com.atherys.quests.service.QuestService;
-import com.atherys.quests.service.QuesterService;
+import com.atherys.quests.service.*;
 import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -44,18 +43,21 @@ public class QuesterFacade {
     @Inject
     QuestMessagingService questMsg;
 
+    @Inject
+    TimedQuestService timedQuestService;
+
     QuesterFacade() {
     }
 
-    public <T extends Quest> boolean pickupQuest(Player player, Quest<T> quest) {
-
+    public <T extends Quest> boolean pickupQuest(Player player, final Quest<T> quest) {
+        Quest<T> copy = quest.copy();
         Quester quester = questerService.getQuester(player);
 
         try {
-            boolean result = questerService.pickupQuest(quester, quest);
+            boolean result = questerService.pickupQuest(quester, copy);
 
             if (result) {
-                questMsg.info(quester, "You have started the quest \"", quest.getName(), "\"");
+                questMsg.info(quester, "You have started the quest \"", copy.getName(), "\"");
             } else {
                 questMsg.error(quester, "You are either already doing this quest, or have done it before in the past.");
             }
@@ -196,8 +198,21 @@ public class QuesterFacade {
             updateCachedPlayer(player);
         }
 
-
         SimpleQuester quester = questerService.getQuester(player);
         quester.setCachedPlayer(player);
+    }
+
+    public void onStartTimedQuest(Quest<?> quest) {
+        quest.getTimedComponent().get().startTiming();
+    }
+
+    public void onCompleteTimedQuest(Quester quester) {
+        timedQuestService.stopDisplayingTimer(quester);
+    }
+
+    public void resetTimedQuestOnLogin(Player player) {
+        questerService.getQuester(player).getOngoingQuests().forEach(quest -> {
+            quest.getTimedComponent().ifPresent(timedComponent -> ((TimeComponent) timedComponent).startTiming());
+        });
     }
 }

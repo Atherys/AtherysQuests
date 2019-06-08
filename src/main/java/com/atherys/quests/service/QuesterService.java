@@ -56,7 +56,7 @@ public class QuesterService implements Observer<Event> {
 
     public Player getPlayer(Quester quester) {
         if (quester instanceof SimpleQuester) {
-            return getCachedPlayer(quester);
+            return ((SimpleQuester) quester).getCachedPlayer();
         }
 
         return Sponge.getServer().getPlayer(quester.getUniqueId()).orElse(null);
@@ -123,5 +123,4 @@ public class QuesterService implements Observer<Event> {
     public void removeQuest(Quester quester, Quest quest) {
         quester.removeQuest(quest);
     }
-
 }
