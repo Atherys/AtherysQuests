@@ -15,7 +15,7 @@ public class SetOnTimedQuestFail implements BiFunction<Quest<?>, Consumer<Player
      * Sets a function that will run if the quest's timer runs out.
      * @ex var world = getWorldFromName("world");
      * @ex var onFail = function(player) {
-     * @ex      teleportPlayer(player, locationOf(world, 100, 90, 100);
+     * @ex      \tteleportPlayer(player, locationOf(world, 100, 90, 100);
      * @ex }
      * @ex setOnTimedQuestFail(quest, onFail);
      * @param quest The quest.
