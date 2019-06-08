@@ -13,13 +13,11 @@ import java.util.function.Consumer;
 public class SetOnTimedQuestFail implements BiFunction<Quest<?>, Consumer<Player>, Boolean> {
     /**
      * Sets a function that will run if the quest's timer runs out.
-     * {@code
-     * var world = getWorldFromName("world");
-     * var onFail = function(player) {
-     *     teleportPlayer(player, locationOf(world, 100, 90, 100);
-     * }
-     * setOnTimedQuestFail(quest, onFail);
-     * }
+     * @ex var world = getWorldFromName("world");
+     * @ex var onFail = function(player) {
+     * @ex      teleportPlayer(player, locationOf(world, 100, 90, 100);
+     * @ex }
+     * @ex setOnTimedQuestFail(quest, onFail);
      * @param quest The quest.
      * @param onFail A function that will run if the quest's time runs out. It takes a single argument, the player
      * @return True if setting it worked, false if the quest isn't timed.
