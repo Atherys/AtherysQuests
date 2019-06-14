@@ -5,16 +5,18 @@ import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.service.DialogAttachmentService;
 import com.atherys.quests.service.DialogService;
 import com.atherys.quests.service.QuestMessagingService;
-import com.atherys.quests.service.QuestService;
+import com.atherys.quests.util.EntityUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.world.extent.EntityUniverse;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Singleton
 public class DialogFacade {
@@ -29,9 +31,6 @@ public class DialogFacade {
 
     @Inject
     QuestMessagingService questMsg;
-
-    @Inject
-    QuestService questService;
 
     DialogFacade() {
     }
@@ -62,40 +61,35 @@ public class DialogFacade {
     }
 
     public void getFacingEntityDialogId(Player player) throws CommandException {
-        for (EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities(player, MAX_ENTITY_RADIUS)) {
-
-            Entity next = entityHit.getEntity();
-
-            if (next instanceof Player) {
-                continue;
-            }
-
-            Optional<DialogTree> tree = dialogService.getDialog(entityHit.getEntity());
+        Optional<Entity> entity = EntityUtils.getNonPlayerFacingEntity(player, MAX_ENTITY_RADIUS);
+        if (entity.isPresent()) {
+            Optional<DialogTree> tree = dialogService.getDialog(entity.get());
 
             if (tree.isPresent()) {
                 questMsg.info(player, Text.of("Dialog ID: ", tree.get().getId()));
                 return;
             }
         }
-
         throw new QuestCommandException(Text.of("No attached dialog found."));
     }
 
     public void getFacingEntityUuid(Player player) {
-        for (EntityUniverse.EntityHit entityHit : player.getWorld().getIntersectingEntities(player, MAX_ENTITY_RADIUS)) {
-            Entity next = entityHit.getEntity();
-
-            if (next instanceof Player) {
-                continue;
-            }
-
-            questMsg.info(player, Text.of("Entity UUID: ", next.getUniqueId()));
-            return;
-        }
+        EntityUtils.getNonPlayerFacingEntity(player, MAX_ENTITY_RADIUS).ifPresent(entity -> {
+            questMsg.info(player, Text.of("Entity UUID: ", entity.getUniqueId()));
+        });
     }
 
     public void startRemovingDialogFromFacingEntity(Player player) {
         dialogAttachmentService.startRemoval(player);
         questMsg.info(player, "Right click an entity to remove their dialog.");
+    }
+
+    public void listDialogs(CommandSource source) {
+        PaginationList.builder()
+                .title(Text.of("Dialogs"))
+                .contents(dialogService.getAllDialogs().stream()
+                        .map(tree -> Text.of(tree.getId()))
+                        .collect(Collectors.toList()))
+                .build().sendTo(source);
     }
 }

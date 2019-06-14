@@ -20,7 +20,8 @@ import javax.annotation.Nonnull;
         AttachQuestCommand.class,
         DetachQuestCommand.class,
         ReloadQuestsCommand.class,
-        GiveQuestCommand.class
+        GiveQuestCommand.class,
+        ListQuestsCommand.class
 })
 public class QuestMasterCommand implements PlayerCommand {
 

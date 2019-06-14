@@ -15,17 +15,20 @@ import com.atherys.quests.views.QuestFromItemView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Singleton
 public class QuestFacade {
@@ -192,5 +195,16 @@ public class QuestFacade {
                     .build()
             );
         }
+    }
+
+    public void listQuests(CommandSource source) {
+        PaginationList.builder()
+                .title(Text.of("Dialogs"))
+                .contents(questService.getAllQuests().stream()
+                        .map(quest -> {
+                            return Text.of(quest.getName(), " - ID: ", quest.getId());
+                        })
+                        .collect(Collectors.toList()))
+                .build().sendTo(source);
     }
 }

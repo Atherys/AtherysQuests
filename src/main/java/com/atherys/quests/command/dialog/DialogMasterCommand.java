@@ -16,7 +16,8 @@ import javax.annotation.Nonnull;
 @Children({
         AttachDialogCommand.class,
         DetachDialogCommand.class,
-        GetDialogCommand.class
+        GetDialogCommand.class,
+        ListDialogsCommand.class
 })
 public class DialogMasterCommand implements PlayerCommand {
 
