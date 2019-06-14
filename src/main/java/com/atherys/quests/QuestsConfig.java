@@ -4,6 +4,9 @@ import com.atherys.core.utils.PluginConfig;
 import ninja.leaping.configurate.objectmapping.Setting;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class QuestsConfig extends PluginConfig {
 
@@ -15,6 +18,9 @@ public class QuestsConfig extends PluginConfig {
 
     @Setting("quests_folder")
     public String QUESTS_FOLDER = "scripts";
+
+    @Setting("npcs")
+    public Map<String, UUID> NPCS = new HashMap<>();
 
     protected QuestsConfig() throws IOException {
         super("config/" + AtherysQuests.ID, "config.conf");

@@ -7,6 +7,7 @@ import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.command.dialog.DialogMasterCommand;
 import com.atherys.quests.command.dialog.GetUUIDCommand;
+import com.atherys.quests.command.npc.NpcMasterCommand;
 import com.atherys.quests.command.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
@@ -15,6 +16,7 @@ import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.atherys.quests.event.quest.QuestRegistrationEvent;
 import com.atherys.quests.facade.DialogFacade;
+import com.atherys.quests.facade.NpcFacade;
 import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
@@ -130,8 +132,6 @@ public class AtherysQuests {
         Sponge.getEventManager().post(new QuestRegistrationEvent(getQuestService()));
         Sponge.getEventManager().post(new DialogRegistrationEvent(getDialogService()));
 
-        getDeliverableQuestService().applyNodesForQuests();
-
         // Start emitting quest location particles
         getParticleService().startEmitting();
 
@@ -140,6 +140,7 @@ public class AtherysQuests {
             CommandService.getInstance().register(new DialogMasterCommand(), this);
             CommandService.getInstance().register(new QuestMasterCommand(), this);
             CommandService.getInstance().register(new GetUUIDCommand(), this);
+            CommandService.getInstance().register(new NpcMasterCommand(), this);
         } catch (CommandService.AnnotatedCommandException e) {
             e.printStackTrace();
         }
@@ -148,6 +149,7 @@ public class AtherysQuests {
     private void stop() {
         getQuesterRepository().flushCache();
         getQuestLocationRepository().flushCache();
+        components.config.save();
     }
 
     private void reload() {
@@ -227,10 +229,6 @@ public class AtherysQuests {
         return components.questService;
     }
 
-    public DeliverableQuestService getDeliverableQuestService() {
-        return components.deliverableQuestService;
-    }
-
     public DialogService getDialogService() {
         return components.dialogService;
     }
@@ -275,6 +273,10 @@ public class AtherysQuests {
         return components.questerFacade;
     }
 
+    public NpcFacade getNpcFacade() {
+        return components.npcFacade;
+    }
+
     public Gson getGson() {
         if (components.atherysQuestsRegistry == null) return null;
         if (gson == null) gson = components.atherysQuestsRegistry.getGson();
@@ -309,9 +311,6 @@ public class AtherysQuests {
         QuestService questService;
 
         @Inject
-        DeliverableQuestService deliverableQuestService;
-
-        @Inject
         DialogService dialogService;
 
         @Inject
@@ -343,6 +342,9 @@ public class AtherysQuests {
 
         @Inject
         QuesterFacade questerFacade;
+
+        @Inject
+        NpcFacade npcFacade;
 
         @Inject
         EntityListener entityListener;

@@ -3,6 +3,7 @@ package com.atherys.quests;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.api.script.QuestScriptService;
 import com.atherys.quests.facade.DialogFacade;
+import com.atherys.quests.facade.NpcFacade;
 import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
@@ -34,7 +35,6 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(QuestMessagingService.class).in(Scopes.SINGLETON);
         bind(InventoryService.class).in(Scopes.SINGLETON);
         bind(QuestService.class).in(Scopes.SINGLETON);
-        bind(DeliverableQuestService.class).in(Scopes.SINGLETON);
         bind(DialogService.class).in(Scopes.SINGLETON);
         bind(ActiveDialogService.class).in(Scopes.SINGLETON);
         bind(QuestLocationService.class).in(Scopes.SINGLETON);
@@ -47,6 +47,7 @@ public class AtherysQuestsModule extends AbstractModule {
         bind(DialogFacade.class).in(Scopes.SINGLETON);
         bind(QuestFacade.class).in(Scopes.SINGLETON);
         bind(QuesterFacade.class).in(Scopes.SINGLETON);
+        bind(NpcFacade.class).in(Scopes.SINGLETON);
 
         // Event Listeners
         bind(EntityListener.class).in(Scopes.SINGLETON);
