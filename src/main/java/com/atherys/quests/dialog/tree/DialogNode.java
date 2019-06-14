@@ -29,7 +29,13 @@ public class DialogNode {
     private String questId;
 
     @Expose
+    private String completesQuestId;
+
+    @Expose
     private List<DialogNode> responses = new ArrayList<>();
+
+    @Expose
+    private boolean hidden = false;
 
     protected DialogNode(int id) {
         this.id = id;
@@ -85,6 +91,22 @@ public class DialogNode {
 
     protected void setQuest(String quest) {
         this.questId = quest;
+    }
+
+    public Optional<Quest> getCompletesQuest() {
+        return AtherysQuests.getInstance().getQuestService().getQuest(completesQuestId);
+    }
+
+    protected void setCompletesQuest(String quest) {
+        this.completesQuestId = quest;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    protected void hide() {
+        this.hidden = true;
     }
 
     public int getId() {

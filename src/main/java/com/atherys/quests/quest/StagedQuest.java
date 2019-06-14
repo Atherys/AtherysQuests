@@ -26,27 +26,17 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
 
     @Expose
     private List<Stage> stages = new ArrayList<>();
+
     @Expose
     private int current = 0;
 
-    @Expose
-    private List<Reward> rewards = new ArrayList<>();
-
     public StagedQuest(String id, Text name, Text description, int version) {
-        super(id, version);
-        this.name = name;
-        this.description = description;
+        super(id, name, description, version);
     }
 
     StagedQuest(StagedQuest quest) {
-        super(quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription());
-        this.deliveryComponent = quest.deliveryComponent.copy();
-        this.timedComponent = quest.timedComponent.copy();
-        this.requirements = CopyUtils.copyList(quest.getRequirements());
+        super(quest);
         this.stages = CopyUtils.copyList(quest.getStages());
-        this.rewards = CopyUtils.copyList(quest.getRewards());
-        this.started = false;
-        this.complete = false;
     }
 
     public void addRequirement(Requirement requirement) {
@@ -88,7 +78,7 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
     @Override
     public void notify(Event event, Quester quester) {
         // if the Quest has already been completed, just return
-        if (isComplete() || isFailed()) return;
+        if (isComplete()) return;
 
         // set started as true, in case this was the first objective
         if (!isStarted()) {

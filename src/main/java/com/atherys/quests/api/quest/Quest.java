@@ -88,11 +88,6 @@ public interface Quest<T extends Quest> extends Prototype<Quest<T>>, Observer<Ev
     boolean isComplete();
 
     /**
-     * @return Whether or not this Quest has been failed.
-     */
-    boolean isFailed();
-
-    /**
      * @return The version of this Quest.
      */
     int getVersion();

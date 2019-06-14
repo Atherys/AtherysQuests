@@ -11,7 +11,8 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
-import static org.spongepowered.api.text.format.TextColors.*;
+import static org.spongepowered.api.text.format.TextColors.DARK_GREEN;
+import static org.spongepowered.api.text.format.TextColors.GOLD;
 
 @Singleton
 public class NpcFacade {

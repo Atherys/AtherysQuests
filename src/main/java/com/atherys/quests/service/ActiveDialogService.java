@@ -11,6 +11,7 @@ import com.atherys.quests.event.dialog.DialogEndEvent;
 import com.atherys.quests.event.dialog.DialogProceedEvent;
 import com.atherys.quests.event.dialog.DialogStartEvent;
 import com.atherys.quests.views.TakeQuestView;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.spongepowered.api.Sponge;
@@ -33,6 +34,9 @@ import static org.spongepowered.api.text.format.TextStyles.ITALIC;
 
 @Singleton
 public class ActiveDialogService {
+    @Inject
+    QuesterService questerService;
+
     /**
      * Begins a dialog between a {@link Player} and an {@link Entity}.
      */
@@ -72,6 +76,10 @@ public class ActiveDialogService {
             showDialog(dialog, player);
 
             node.getQuest().ifPresent(quest -> new TakeQuestView(quest).show(player));
+
+            node.getCompletesQuest().ifPresent(quest -> {
+                questerService.turnInQuest(dialog.getQuester(), quest);
+            });
 
             if (node.getResponses().isEmpty()) {
                 AtherysQuests.getInstance().getDialogService().removePlayerDialog(player);
@@ -138,14 +146,18 @@ public class ActiveDialogService {
 
     private void responesTextTask(Dialog dialog, DialogNode node, Player player) {
         long responsesDelay = AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * node.getNPCText().length + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY;
+        Quester quester = questerService.getQuester(player);
 
         Runnable runnable = () -> {
             player.sendMessage(DialogMsg.DIALOG_REPLIES_DECORATION);
 
             int i = 1;
             for (DialogNode response : node.getResponses()) {
-                player.sendMessage(buildResponseText(dialog, response, i));
-                i++;
+                // If the response is hidden, check if they meet requirements before showing
+                if (!response.isHidden() || questerMeetsRequirements(response, quester)) {
+                    player.sendMessage(buildResponseText(dialog, response, i));
+                    i++;
+                }
             }
         };
 

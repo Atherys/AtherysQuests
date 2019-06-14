@@ -29,26 +29,17 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
     @Expose
     private List<Objective> objectives = new ArrayList<>();
 
-    @Expose
-    private List<Reward> rewards = new ArrayList<>();
-
     protected SimpleQuest(String id, int version) {
         super(id, version);
     }
 
     protected SimpleQuest(SimpleQuest quest) {
-        super(quest.getId(), quest.getVersion(), quest.getName(), quest.getDescription());
-        this.deliveryComponent = quest.deliveryComponent.copy();
-        this.timedComponent = quest.timedComponent.copy();
-        this.requirements = CopyUtils.copyList(quest.getRequirements());
+        super(quest);
         this.objectives = CopyUtils.copyList(quest.getObjectives());
-        this.rewards = CopyUtils.copyList(quest.getRewards());
-        this.started = quest.isStarted();
-        this.complete = quest.isComplete();
     }
 
-    public SimpleQuest(String id, Text name, Text description, Integer version) {
-        super(id, version, name, description);
+    public SimpleQuest(String id, Text name, Text description, int version) {
+        super(id, name, description, version);
     }
 
     protected void setDescription(Text description) {
@@ -90,7 +81,7 @@ public class SimpleQuest extends AbstractQuest<SimpleQuest> {
     @SuppressWarnings("unchecked")
     public void notify(Event event, Quester quester) {
         // if the Quest hasn't been completed yet
-        if (!isComplete() && !isFailed()) {
+        if (!isComplete()) {
 
             // if the Quest hasn't been started yet ( this is the first notification )
             if (!isStarted()) {

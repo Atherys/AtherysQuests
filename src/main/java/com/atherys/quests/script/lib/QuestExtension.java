@@ -9,6 +9,7 @@ import com.atherys.quests.script.lib.dialog.AttachDialog;
 import com.atherys.quests.script.lib.dialog.CreateDialogNode;
 import com.atherys.quests.script.lib.dialog.CreateDialogTree;
 import com.atherys.quests.script.lib.dialog.RegisterDialogTree;
+import com.atherys.quests.script.lib.npc.GetNpc;
 import com.atherys.quests.script.lib.objective.*;
 import com.atherys.quests.script.lib.quest.*;
 import com.atherys.quests.script.lib.requirement.*;
@@ -88,5 +89,7 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("registerQuest", new RegisterQuest());
         scriptLibrary.put("registerDialogTree", new RegisterDialogTree());
+
+        scriptLibrary.put("getNpc", new GetNpc());
     }
 }

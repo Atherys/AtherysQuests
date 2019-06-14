@@ -4,19 +4,13 @@ import com.atherys.quests.QuestKeys;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.dialog.Dialog;
 import com.atherys.quests.dialog.tree.DialogTree;
-import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.slf4j.Logger;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * A class responsible for managing all dialogs
@@ -37,10 +31,8 @@ public final class DialogService {
     DialogService() {
     }
 
-    @PostConstruct
-    private void init() {
-        DialogRegistrationEvent dialogRegistrationEvent = new DialogRegistrationEvent(this);
-        Sponge.getEventManager().post(dialogRegistrationEvent);
+    public Collection<DialogTree> getAllDialogs() {
+        return trees.values();
     }
 
     public void registerDialog(DialogTree tree) {

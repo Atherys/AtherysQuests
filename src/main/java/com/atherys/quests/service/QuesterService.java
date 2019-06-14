@@ -90,16 +90,17 @@ public class QuesterService implements Observer<Event> {
             throw new QuestRequirementsException("Quester does not meet quest requirements");
         }
 
-        if (!quester.hasFinishedQuest(quest.getId()) && !quester.hasQuest(quest)) {
+        if (   questerHasTurnedInQuest(quester, quest.getId())
+            || questerHasQuest(quester, quest.getId())) {
+            return false;
+        } else {
             quester.addQuest(quest);
             return true;
-        } else {
-            return false;
         }
     }
 
     public <T extends Quest> boolean turnInQuest(Quester quester, Quest<T> quest) {
-        if (quest.isComplete() && quester.hasQuest(quest)) {
+        if (questerHasCompletedQuest(quester, quest.getId())) {
 
             removeQuest(quester, quest);
 
@@ -121,6 +122,20 @@ public class QuesterService implements Observer<Event> {
     }
 
     public void removeQuest(Quester quester, Quest quest) {
-        quester.removeQuest(quest);
+        quester.getOngoingQuests().removeIf(q -> q.getId().equals(quest.getId()));
+    }
+
+    public boolean questerHasTurnedInQuest(Quester quester, String questId) {
+        return quester.hasFinishedQuest(questId);
+    }
+
+    public boolean questerHasCompletedQuest(Quester quester, String questId) {
+        return quester.getOngoingQuests().stream()
+                .anyMatch(q -> q.getId().equals(questId) && q.isComplete());
+    }
+
+    public <T extends Quest> boolean questerHasQuest(Quester quester, String questId) {
+        return quester.getOngoingQuests().stream()
+                .anyMatch(q -> q.getId().equals(questId));
     }
 }

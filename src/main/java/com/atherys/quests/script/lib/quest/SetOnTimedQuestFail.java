@@ -1,7 +1,6 @@
 package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.api.quest.Quest;
-import com.atherys.quests.api.quester.Quester;
 import org.spongepowered.api.entity.living.player.Player;
 
 import java.util.function.BiFunction;

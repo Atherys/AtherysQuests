@@ -15,10 +15,7 @@ import org.spongepowered.api.text.Text;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -54,7 +51,7 @@ public class TimedQuestService {
                         .collect(Collectors.toList());
 
                 questers.forEach(quester -> {
-                    quester.getOngoingQuests().forEach(quest -> {
+                    quester.getOngoingQuests().stream().filter(quest -> !quest.isComplete()).forEach(quest -> {
                         if (quest.getTimedComponent().isPresent()) {
                             checkQuest(quest, quester, now);
                             updateTimerDisplay(quest, quester, now);
@@ -69,12 +66,13 @@ public class TimedQuestService {
      */
     private void checkQuest(Quest<?> quest, Quester quester, Instant now) {
         TimeComponent timeComponent = quest.getTimedComponent().get();
-        Instant time = timeComponent.getTimeStarted();
-        if (time == null) {
+        Optional<Instant> time = timeComponent.getTimeStarted();
+        if (!time.isPresent()) {
             return;
         }
+
         long seconds = timeComponent.getSeconds();
-        Instant timestampPlus = time.plus(seconds, ChronoUnit.SECONDS);
+        Instant timestampPlus = time.get().plus(seconds, ChronoUnit.SECONDS);
 
         if (now.compareTo(timestampPlus) >= 0) {
             failTimedQuest(quest, quester);
@@ -91,8 +89,10 @@ public class TimedQuestService {
     }
 
     private void updateTimerDisplay(Quest<?> quest, Quester quester, Instant now) {
+        if (!quest.getTimedComponent().get().getTimeStarted().isPresent()) return;
+
         TimeComponent timeComponent = quest.getTimedComponent().get();
-        long secondsPassed = now.getEpochSecond() - timeComponent.getTimeStarted().getEpochSecond();
+        long secondsPassed = now.getEpochSecond() - timeComponent.getTimeStarted().get().getEpochSecond();
         int totalSeconds = quest.getTimedComponent().get().getSeconds();
         long secondsLeft = (totalSeconds - secondsPassed);
 

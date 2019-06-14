@@ -1,7 +1,6 @@
 package com.atherys.quests.facade;
 
 import com.atherys.core.utils.Question;
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.exception.QuestCommandExceptions;
 import com.atherys.quests.api.exception.QuestRequirementsException;
 import com.atherys.quests.api.quest.Quest;
@@ -125,8 +124,6 @@ public class QuesterFacade {
             questView.append(Text.of("[", i, "] "));
             if (quest.isComplete()) {
                 questView.append(Text.of(TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.NONE));
-            } else if (quest.isFailed()) {
-                questView.append(Text.of(TextColors.RED, TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.RESET));
             } else {
                 questView.append(Text.of(quest.getName()));
             }

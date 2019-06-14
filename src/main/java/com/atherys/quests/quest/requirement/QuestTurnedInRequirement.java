@@ -38,7 +38,7 @@ public class QuestTurnedInRequirement implements Requirement {
 
     @Override
     public boolean check(Quester quester) {
-        return AtherysQuests.getInstance().getQuestService().hasQuesterTurnedInQuest(quester, questId);
+        return AtherysQuests.getInstance().getQuesterService().questerHasTurnedInQuest(quester, questId);
     }
 
     @Override

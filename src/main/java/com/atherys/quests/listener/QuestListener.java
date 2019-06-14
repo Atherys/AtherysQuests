@@ -1,6 +1,5 @@
 package com.atherys.quests.listener;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.event.quest.QuestCompletedEvent;
 import com.atherys.quests.event.quest.QuestStartedEvent;
 import com.atherys.quests.facade.QuesterFacade;

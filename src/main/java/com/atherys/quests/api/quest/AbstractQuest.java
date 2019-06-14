@@ -5,6 +5,7 @@ import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.api.reward.Reward;
+import com.atherys.quests.util.CopyUtils;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
@@ -28,9 +29,6 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     protected int version;
 
     @Expose
-    protected boolean failed;
-
-    @Expose
     protected boolean started;
 
     @Expose
@@ -38,6 +36,9 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     @Expose
     protected List<Requirement> requirements = new ArrayList<>();
+
+    @Expose
+    protected List<Reward> rewards = new ArrayList<>();
 
     @Expose
     protected DeliveryComponent deliveryComponent;
@@ -48,13 +49,21 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     protected AbstractQuest(String id, int version) {
         this.id = id;
         this.version = version;
-        failed = false;
     }
 
-    protected AbstractQuest(String id, int version, @Nullable Text name, @Nullable Text description) {
+    protected AbstractQuest(String id, @Nullable Text name, @Nullable Text description, int version) {
         this(id, version);
         if (name != null) this.name = name;
         if (description != null) this.description = description;
+    }
+
+    protected <E extends Quest> AbstractQuest(AbstractQuest<E> quest) {
+        this(quest.getId(), quest.getName(), quest.getDescription(), quest.getVersion());
+        this.requirements = CopyUtils.copyList(quest.getRequirements());
+        this.rewards = CopyUtils.copyList(quest.getRewards());
+
+        quest.getTimedComponent().ifPresent(timeComponent -> makeTimed(timeComponent.copy()));
+        quest.getDeliveryComponent().ifPresent(this::makeDeliverable);
     }
 
     @Override
@@ -82,7 +91,7 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
 
     @Override
     public List<Requirement> getRequirements() {
-        return  requirements;
+        return requirements;
     }
 
     @Override
@@ -90,15 +99,6 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
         for (Reward reward : getRewards()) {
             reward.award(simpleQuester);
         }
-    }
-
-    public void fail() {
-        failed = true;
-    }
-
-    @Override
-    public boolean isFailed() {
-        return failed;
     }
 
     @Override

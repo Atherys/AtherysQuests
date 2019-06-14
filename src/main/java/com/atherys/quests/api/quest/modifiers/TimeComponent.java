@@ -1,11 +1,9 @@
 package com.atherys.quests.api.quest.modifiers;
 
 import com.atherys.quests.api.base.Prototype;
-import com.atherys.quests.api.quester.Quester;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.entity.living.player.Player;
 
-import javax.annotation.Nullable;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -31,9 +29,8 @@ public class TimeComponent implements Prototype<TimeComponent> {
         this.timeStarted = Instant.now();
     }
 
-    @Nullable
-    public Instant getTimeStarted() {
-        return timeStarted;
+    public Optional<Instant> getTimeStarted() {
+        return Optional.ofNullable(timeStarted);
     }
 
     public int getSeconds() {
