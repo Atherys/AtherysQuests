@@ -16,7 +16,7 @@ import org.spongepowered.api.text.Text;
 
 import javax.annotation.Nonnull;
 
-@Aliases("set")
+@Aliases("attach")
 @Description("Attaches a dialog to an entity.")
 @Permission("atherysquests.admin.dialog.attach")
 public class AttachDialogCommand implements PlayerCommand, ParameterizedCommand {

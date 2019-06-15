@@ -4,6 +4,7 @@ import com.atherys.core.command.PlayerCommand;
 import com.atherys.core.command.annotation.Aliases;
 import com.atherys.core.command.annotation.Children;
 import com.atherys.core.command.annotation.Description;
+import com.atherys.core.command.annotation.HelpCommand;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.args.CommandContext;
@@ -19,6 +20,7 @@ import javax.annotation.Nonnull;
         GetDialogCommand.class,
         ListDialogsCommand.class
 })
+@HelpCommand(title = "Dialog Help")
 public class DialogMasterCommand implements PlayerCommand {
 
     @Nonnull

@@ -10,12 +10,15 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
 import org.spongepowered.api.command.spec.CommandExecutor;
 
+import javax.annotation.Nonnull;
+
 @Aliases("reload")
 @Description("Reloads script-created quests")
 @Permission("atherysquests.quest.admin.reload")
 public class ReloadQuestsCommand implements CommandExecutor {
+    @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    public CommandResult execute(@Nonnull CommandSource src, @Nonnull CommandContext args) throws CommandException {
         AtherysQuests.getInstance().getQuestFacade().reloadQuests();
         return CommandResult.success();
     }

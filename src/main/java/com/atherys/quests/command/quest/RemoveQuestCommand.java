@@ -14,6 +14,7 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import javax.annotation.Nonnull;
 import java.util.Optional;
 
 @Permission("atherysquests.admin.quest.remove")
@@ -28,8 +29,9 @@ public class RemoveQuestCommand implements ParameterizedCommand {
         };
     }
 
+    @Nonnull
     @Override
-    public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
+    public CommandResult execute(@Nonnull CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> player = args.getOne("player");
         Optional<String> questId = args.getOne("questId");
 
