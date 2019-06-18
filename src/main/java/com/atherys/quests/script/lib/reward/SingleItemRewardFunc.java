@@ -2,14 +2,13 @@ package com.atherys.quests.script.lib.reward;
 
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quest.reward.Rewards;
+import com.atherys.script.api.function.ScriptFunction;
 import org.spongepowered.api.item.inventory.ItemStack;
-
-import java.util.function.Function;
 
 /**
  * @jsfunc
  */
-public class SingleItemRewardFunc implements Function<ItemStack, Reward> {
+public class SingleItemRewardFunc implements ScriptFunction<ItemStack, Reward> {
     /**
      * A reward to give the player an item.
      *
@@ -17,7 +16,7 @@ public class SingleItemRewardFunc implements Function<ItemStack, Reward> {
      * @jsname singleItemReward
      */
     @Override
-    public Reward apply(ItemStack itemStack) {
+    public Reward call(ItemStack itemStack) {
         return Rewards.item(itemStack);
     }
 }

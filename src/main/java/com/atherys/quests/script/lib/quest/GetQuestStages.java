@@ -2,15 +2,14 @@ package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.quest.Stage;
 import com.atherys.quests.quest.StagedQuest;
-
-import java.util.function.Function;
+import com.atherys.script.api.function.ScriptFunction;
 
 /**
  * @jsfunc
  */
-public class GetQuestStages implements Function<StagedQuest, Stage[]> {
+public class GetQuestStages implements ScriptFunction<StagedQuest, Stage[]> {
     @Override
-    public Stage[] apply(StagedQuest quest) {
+    public Stage[] call(StagedQuest quest) {
         return (Stage[]) quest.getStages().toArray();
     }
 }

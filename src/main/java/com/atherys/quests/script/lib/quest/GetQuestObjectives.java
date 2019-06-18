@@ -2,15 +2,14 @@ package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.Quest;
-
-import java.util.function.Function;
+import com.atherys.script.api.function.ScriptFunction;
 
 /**
  * @jsfunc
  */
-public class GetQuestObjectives implements Function<Quest, Objective[]> {
+public class GetQuestObjectives implements ScriptFunction<Quest, Objective[]> {
     @Override
-    public Objective[] apply(Quest quest) {
+    public Objective[] call(Quest quest) {
         return (Objective[]) quest.getObjectives().toArray();
     }
 }

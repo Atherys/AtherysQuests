@@ -13,10 +13,11 @@ import com.atherys.quests.script.lib.npc.GetNpc;
 import com.atherys.quests.script.lib.objective.*;
 import com.atherys.quests.script.lib.quest.*;
 import com.atherys.quests.script.lib.requirement.*;
+import com.atherys.quests.script.lib.reward.CommandRewardFunc;
 import com.atherys.quests.script.lib.reward.SingleItemRewardFunc;
 import com.atherys.script.api.library.LibraryExtension;
 import com.atherys.script.api.library.ScriptLibrary;
-import com.atherys.script.js.library.event.EventHandlerFunction;
+import com.atherys.script.library.event.EventHandlerFunction;
 
 public class QuestExtension implements LibraryExtension {
 
@@ -86,6 +87,7 @@ public class QuestExtension implements LibraryExtension {
 
         scriptLibrary.put("moneyReward", new MoneyRequirementFunc());
         scriptLibrary.put("singleItemReward", new SingleItemRewardFunc());
+        scriptLibrary.put("commandReward", new CommandRewardFunc());
 
         scriptLibrary.put("registerQuest", new RegisterQuest());
         scriptLibrary.put("registerDialogTree", new RegisterDialogTree());

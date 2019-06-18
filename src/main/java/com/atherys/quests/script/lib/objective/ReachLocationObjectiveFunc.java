@@ -2,7 +2,7 @@ package com.atherys.quests.script.lib.objective;
 
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.quest.objective.Objectives;
-import com.atherys.script.api.util.TriFunction;
+import com.atherys.script.api.function.ScriptTriFunction;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -10,7 +10,7 @@ import org.spongepowered.api.world.World;
 /**
  * @jsfunc
  */
-public class ReachLocationObjectiveFunc implements TriFunction<Location<World>, Text, Double, Objective> {
+public class ReachLocationObjectiveFunc implements ScriptTriFunction<Location<World>, Text, Double, Objective> {
     /**
      * An objective that requires reaching a specific location, within a radius.
      *
@@ -20,7 +20,7 @@ public class ReachLocationObjectiveFunc implements TriFunction<Location<World>, 
      * @jsname reachLocationObjective
      */
     @Override
-    public Objective apply(Location<World> location, Text name, Double radius) {
+    public Objective call(Location<World> location, Text name, Double radius) {
         return Objectives.reachLocation(name, location, radius);
     }
 }

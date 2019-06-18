@@ -2,20 +2,20 @@ package com.atherys.quests.script.lib.dialog;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.dialog.tree.DialogTree;
+import com.atherys.script.api.function.ScriptFunction;
 import org.spongepowered.api.scheduler.Task;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 /**
  * @jsfunc
  */
-public class RegisterDialogTree implements Function<DialogTree, Boolean> {
+public class RegisterDialogTree implements ScriptFunction<DialogTree, Boolean> {
     /**
      * Registers a dialog tree for use.
      */
     @Override
-    public Boolean apply(DialogTree dialogTree) {
+    public Boolean call(DialogTree dialogTree) {
         Task.builder()
                 .name("dialog-tree-registration-task-" + dialogTree.getId())
                 .delay(5, TimeUnit.SECONDS)

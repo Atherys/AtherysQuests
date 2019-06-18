@@ -2,14 +2,13 @@ package com.atherys.quests.script.lib.reward;
 
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.quest.reward.Rewards;
+import com.atherys.script.api.function.ScriptBiFunction;
 import org.spongepowered.api.service.economy.Currency;
-
-import java.util.function.BiFunction;
 
 /**
  * @jsfunc
  */
-public class MoneyRewardFunc implements BiFunction<Double, Currency, Reward> {
+public class MoneyRewardFunc implements ScriptBiFunction<Double, Currency, Reward> {
     /**
      * A reward to give the player money.
      *
@@ -18,7 +17,7 @@ public class MoneyRewardFunc implements BiFunction<Double, Currency, Reward> {
      * @jsname moneyReward
      */
     @Override
-    public Reward apply(Double amount, Currency currency) {
+    public Reward call(Double amount, Currency currency) {
         return Rewards.money(amount, currency);
     }
 }

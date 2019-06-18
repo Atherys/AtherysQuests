@@ -2,15 +2,14 @@ package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-
-import java.util.function.Function;
+import com.atherys.script.api.function.ScriptFunction;
 
 /**
  * @jsfunc
  */
-public class GetQuestById implements Function<String, Quest> {
+public class GetQuestById implements ScriptFunction<String, Quest> {
     @Override
-    public Quest apply(String questId) {
+    public Quest call(String questId) {
         return AtherysQuests.getInstance().getQuestService().getQuest(questId).orElse(null);
     }
 }

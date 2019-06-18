@@ -2,15 +2,14 @@ package com.atherys.quests.script.lib.quest;
 
 import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.quest.Quest;
-
-import java.util.function.Function;
+import com.atherys.script.api.function.ScriptFunction;
 
 /**
  * @jsfunc
  */
-public class RegisterQuest implements Function<Quest, Boolean> {
+public class RegisterQuest implements ScriptFunction<Quest, Boolean> {
     @Override
-    public Boolean apply(Quest quest) {
+    public Boolean call(Quest quest) {
         AtherysQuests.getInstance().getQuestService().registerQuest(quest);
         return true;
     }

@@ -2,13 +2,12 @@ package com.atherys.quests.script.lib.dialog;
 
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogTree;
-
-import java.util.function.BiFunction;
+import com.atherys.script.api.function.ScriptBiFunction;
 
 /**
  * @jsfunc
  */
-public class CreateDialogTree implements BiFunction<String, DialogNode, DialogTree> {
+public class CreateDialogTree implements ScriptBiFunction<String, DialogNode, DialogTree> {
     /**
      * Creates a dialog tree.
      *
@@ -17,7 +16,7 @@ public class CreateDialogTree implements BiFunction<String, DialogNode, DialogTr
      * @jsname dialogTree
      */
     @Override
-    public DialogTree apply(String id, DialogNode root) {
+    public DialogTree call(String id, DialogNode root) {
         return DialogTree.builder(id).root(root).build();
     }
 }

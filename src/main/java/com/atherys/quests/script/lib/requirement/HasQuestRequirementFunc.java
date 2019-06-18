@@ -2,13 +2,12 @@ package com.atherys.quests.script.lib.requirement;
 
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quest.requirement.Requirements;
-
-import java.util.function.Function;
+import com.atherys.script.api.function.ScriptFunction;
 
 /**
  * @jsfunc
  */
-public class HasQuestRequirementFunc implements Function<String, Requirement> {
+public class HasQuestRequirementFunc implements ScriptFunction<String, Requirement> {
     /**
      * A requirement for a player to have a quest.
      *
@@ -17,7 +16,7 @@ public class HasQuestRequirementFunc implements Function<String, Requirement> {
      * @jsname hasQuestRequirement
      */
     @Override
-    public Requirement apply(String questId) {
+    public Requirement call(String questId) {
         return Requirements.hasQuest(questId);
     }
 }

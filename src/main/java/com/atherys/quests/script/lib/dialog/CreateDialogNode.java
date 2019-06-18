@@ -2,13 +2,12 @@ package com.atherys.quests.script.lib.dialog;
 
 import com.atherys.quests.dialog.tree.DialogNode;
 import com.atherys.quests.dialog.tree.DialogNodeBuilder;
-
-import java.util.function.Function;
+import com.atherys.script.api.function.ScriptFunction;
 
 /**
  * @jsfunc
  */
-public class CreateDialogNode implements Function<Integer, DialogNodeBuilder> {
+public class CreateDialogNode implements ScriptFunction<Integer, DialogNodeBuilder> {
 
     /**
      * Returns a `DialogNodeBuilder`, which is used to create a `DialogNode`. See
@@ -19,7 +18,7 @@ public class CreateDialogNode implements Function<Integer, DialogNodeBuilder> {
      * @jsname dialogNode
      */
     @Override
-    public DialogNodeBuilder apply(Integer id) {
+    public DialogNodeBuilder call(Integer id) {
         return DialogNode.builder(id);
     }
 }
