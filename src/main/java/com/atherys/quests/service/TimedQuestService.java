@@ -50,38 +50,36 @@ public class TimedQuestService {
                         .map(questerService::getQuester)
                         .collect(Collectors.toList());
 
-                questers.forEach(quester -> {
-                    quester.getOngoingQuests().stream().filter(quest -> !quest.isComplete()).forEach(quest -> {
-                        if (quest.getTimedComponent().isPresent()) {
-                            checkQuest(quest, quester, now);
-                            updateTimerDisplay(quest, quester, now);
+                for (Quester quester : questers) {
+                    if (quester.getTimedQuest().isPresent()) {
+                        Quest quest = quester.getTimedQuest().get();
+                        if (checkQuest(quest, now)) {
+                            failTimedQuest(quest, quester);
                         }
-                    });
-                });
+                        updateTimerDisplay(quest, quester, now);
+                    }
+                }
             })
             .submit(AtherysQuests.getInstance());
 
     /**
      * Checks whether a timed quest time limit is up, and removes the quest from the quester if so.
      */
-    private void checkQuest(Quest<?> quest, Quester quester, Instant now) {
+    private boolean checkQuest(Quest<?> quest, Instant now) {
         TimeComponent timeComponent = quest.getTimedComponent().get();
         Optional<Instant> time = timeComponent.getTimeStarted();
         if (!time.isPresent()) {
-            return;
+            return false;
         }
 
         long seconds = timeComponent.getSeconds();
         Instant timestampPlus = time.get().plus(seconds, ChronoUnit.SECONDS);
 
-        if (now.compareTo(timestampPlus) >= 0) {
-            failTimedQuest(quest, quester);
-        }
+        return now.compareTo(timestampPlus) >= 0;
     }
 
     private void failTimedQuest(Quest<?> quest, Quester quester) {
         questMsg.error(quester, "You have failed the quest \"", quest.getName(), "\"!");
-        questerService.removeQuest(quester, quest);
         quest.getTimedComponent().get().onComplete().ifPresent(onComplete -> {
             onComplete.accept(questerService.getPlayer(quester));
         });

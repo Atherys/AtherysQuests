@@ -18,6 +18,9 @@ public class SimpleQuester implements Quester {
     @Transient
     private Player cachedPlayer; // Used for performance optimizations. When quick access to the player object is crucial.
 
+    @Transient
+    private Quest timedQuest;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = QuestConverter.class)
     @Column(columnDefinition = "text")
@@ -89,6 +92,16 @@ public class SimpleQuester implements Quester {
     @Override
     public void removeQuest(Quest quest) {
         ongoingQuests.remove(quest);
+    }
+
+    @Override
+    public Optional<Quest> getTimedQuest() {
+        return Optional.ofNullable(timedQuest);
+    }
+
+    @Override
+    public void setTimedQuest(Quest quest) {
+        timedQuest = quest;
     }
 
 }

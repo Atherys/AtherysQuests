@@ -95,6 +95,9 @@ public class QuesterService implements Observer<Event> {
             return false;
         } else {
             quester.addQuest(quest);
+            if (quest.getTimedComponent().isPresent()) {
+                quester.setTimedQuest(quest);
+            }
             return true;
         }
     }

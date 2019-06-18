@@ -43,8 +43,8 @@ import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.economy.EconomyService;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 import static com.atherys.quests.AtherysQuests.*;
@@ -122,8 +122,8 @@ public class AtherysQuests {
 
         // Load scripts
         try {
-            getQuestScriptService().registerFolder(new File("config/" + ID + "/quests"));
-            getDialogScriptService().registerFolder(new File("config/" + ID + "/dialogs"));
+            getQuestScriptService().registerFolder(Paths.get("config/", ID, "/quests"));
+            getDialogScriptService().registerFolder(Paths.get("config/", ID, "/dialogs"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import com.atherys.core.db.SpongeIdentifiable;
 import com.atherys.quests.api.quest.Quest;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public interface Quester extends SpongeIdentifiable {
@@ -18,10 +19,13 @@ public interface Quester extends SpongeIdentifiable {
 
     Set<Quest> getOngoingQuests();
 
+    Optional<Quest> getTimedQuest();
+
+    void setTimedQuest(Quest quest);
+
     void addFinishedQuest(String questId, Long timestamp);
 
     boolean hasFinishedQuest(String questId);
 
     void removeFinishedQuest(String questId);
-
 }
