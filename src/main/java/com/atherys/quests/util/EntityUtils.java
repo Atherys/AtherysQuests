@@ -2,6 +2,9 @@ package com.atherys.quests.util;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.entity.damage.source.EntityDamageSource;
+import org.spongepowered.api.event.cause.entity.damage.source.IndirectEntityDamageSource;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.extent.EntityUniverse;
 
@@ -24,5 +27,20 @@ public class EntityUtils {
         return source.getWorld().getIntersectingEntities(source, distance).stream()
                 .map(EntityUniverse.EntityHit::getEntity)
                 .findFirst();
+    }
+
+    public static Optional<Player> playerKilledEntity(EntityDamageSource source) {
+        if (source.getSource() instanceof Player) {
+            return Optional.of((Player) source.getSource());
+        }
+
+        if (source instanceof IndirectEntityDamageSource) {
+            IndirectEntityDamageSource indirect = (IndirectEntityDamageSource) source;
+            if (indirect.getIndirectSource() instanceof Player) {
+                return Optional.of((Player) indirect.getIndirectSource());
+            }
+        }
+
+        return Optional.empty();
     }
 }
