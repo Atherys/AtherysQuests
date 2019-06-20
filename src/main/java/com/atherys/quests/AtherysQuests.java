@@ -25,6 +25,8 @@ import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.lib.QuestExtension;
 import com.atherys.quests.service.*;
+import com.atherys.script.ScriptConfig;
+import com.atherys.script.groovy.GroovyLibrary;
 import com.atherys.script.js.JavaScriptLibrary;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
@@ -98,6 +100,13 @@ public class AtherysQuests {
         questsInjector.injectMembers(components);
 
         components.config.init();
+        String scriptType = components.config.SCRIPT_TYPE;
+
+        if (!(   scriptType.equals(ScriptConfig.JAVASCRIPT_TYPE)
+              || scriptType.equals(ScriptConfig.GROOVY_TYPE))) {
+            logger.error("Script type {} is not supported!", scriptType);
+            return;
+        }
 
         init = true;
     }
@@ -117,8 +126,11 @@ public class AtherysQuests {
         Sponge.getEventManager().registerListeners(this, components.internalListener);
         Sponge.getEventManager().registerListeners(this, components.questListener);
 
-        // Extend standard javascript library with quests
-        JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
+        if (components.config.SCRIPT_TYPE.equals(ScriptConfig.GROOVY_TYPE)) {
+            GroovyLibrary.getInstance().extendWith(QuestExtension.getInstance());
+        } else if (components.config.SCRIPT_TYPE.equals(ScriptConfig.JAVASCRIPT_TYPE)) {
+            JavaScriptLibrary.getInstance().extendWith(QuestExtension.getInstance());
+        }
 
         // Load scripts
         try {

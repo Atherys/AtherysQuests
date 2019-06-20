@@ -3,7 +3,6 @@ package com.atherys.quests.dialog.tree;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quest.requirement.Requirements;
-import com.google.common.collect.Iterables;
 import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
@@ -38,8 +37,8 @@ public class DialogNodeBuilder {
         this(fromNode.getId());
         node.setPlayerText(fromNode.getPlayerText());
         node.setNPCText(fromNode.getNPCText());
-        node.setResponses(fromNode.getResponses().toArray(new DialogNode[0]));
-        node.setRequirements(fromNode.getRequirements().toArray(new Requirement[0]));
+        node.setResponses(fromNode.getResponses());
+        node.setRequirements(fromNode.getRequirements());
         if (fromNode.getQuest().isPresent()) {
             fromNode.setQuest(fromNode.getQuest().get().getId());
         }
@@ -50,8 +49,8 @@ public class DialogNodeBuilder {
         return this;
     }
 
-    public DialogNodeBuilder npc(Text... text) {
-        npc.addAll(Arrays.asList(text));
+    public DialogNodeBuilder npc(List<Text> text) {
+        npc.addAll(text);
         return this;
     }
 
@@ -62,17 +61,17 @@ public class DialogNodeBuilder {
 
     public DialogNodeBuilder completes(Quest quest) {
         node.setCompletesQuest(quest.getId());
-        requirements(Requirements.completedQuest(quest));
+        requirementsList.add(Requirements.completedQuest(quest));
         return this;
     }
 
-    public DialogNodeBuilder requirements(Requirement... requirements) {
-        requirementsList.addAll(Arrays.asList(requirements));
+    public DialogNodeBuilder requirements(List<Requirement> requirements) {
+        requirementsList.addAll(requirements);
         return this;
     }
 
-    public DialogNodeBuilder responses(DialogNode... nodes) {
-        responses.addAll(Arrays.asList(nodes));
+    public DialogNodeBuilder responses(List<DialogNode> nodes) {
+        responses.addAll(nodes);
         return this;
     }
 
@@ -88,9 +87,9 @@ public class DialogNodeBuilder {
             throw new IllegalStateException("DialogNode cannot have an empty player text unless it is a root node ( it's id = 0 ).");
         if (node.getResponses().size() != 0 && node.getNPCText() == null)
             throw new IllegalStateException("DialogNode cannot have empty NPC text unless it is a leaf node.");
-        node.setRequirements(Iterables.toArray(requirementsList, Requirement.class));
-        node.setResponses(Iterables.toArray(responses, DialogNode.class));
-        node.setNPCText(Iterables.toArray(npc, Text.class));
+        node.setNPCText(npc);
+        node.setRequirements(requirementsList);
+        node.setResponses(responses);
         return node;
     }
 

@@ -25,6 +25,7 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextStyles;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -128,9 +129,9 @@ public class ActiveDialogService {
         }
     }
 
-    private void npcTextTask(Entity npc, Text[] text, Player player) {
-        for (int i = 0; i < text.length; i++) {
-            Text sentence = text[i];
+    private void npcTextTask(Entity npc, List<Text> text, Player player) {
+        int i = 0;
+        for (Text sentence : text) {
             Task.builder()
                     .name("atherysquests-dialog-npc-" + i + "-" + player.getName())
                     .delay(AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * i + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY, TimeUnit.SECONDS)
@@ -141,11 +142,12 @@ public class ActiveDialogService {
                         player.playSound(SoundTypes.ENTITY_VILLAGER_AMBIENT, npc.getLocation().getPosition(), 0.2d);
                     })
                     .submit(AtherysQuests.getInstance());
+            i++;
         }
     }
 
     private void responesTextTask(Dialog dialog, DialogNode node, Player player) {
-        long responsesDelay = AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * node.getNPCText().length + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY;
+        long responsesDelay = AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * node.getNPCText().size() + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY;
         Quester quester = questerService.getQuester(player);
 
         Runnable runnable = () -> {

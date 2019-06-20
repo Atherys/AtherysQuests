@@ -23,7 +23,7 @@ public class DialogNode {
     private Text playerText;
 
     @Expose
-    private Text[] npcResponse;
+    private List<Text> npcResponse;
 
     @Expose
     private String questId;
@@ -57,16 +57,16 @@ public class DialogNode {
         return responses == null ? new ArrayList<>() : responses;
     }
 
-    protected void setResponses(DialogNode... responses) {
-        this.responses = Arrays.asList(responses);
+    protected void setResponses(List<DialogNode> responses) {
+        this.responses = responses;
     }
 
-    public Text[] getNPCText() {
+    public List<Text> getNPCText() {
         return npcResponse;
     }
 
-    protected void setNPCText(Text... NPCText) {
-        this.npcResponse = NPCText;
+    protected void setNPCText(List<Text> npcText) {
+        this.npcResponse = npcText;
     }
 
     public Text getPlayerText() {
@@ -81,8 +81,8 @@ public class DialogNode {
         return requirements;
     }
 
-    protected void setRequirements(Requirement... requirements) {
-        this.requirements = Arrays.asList(requirements);
+    protected void setRequirements(List<Requirement> requirements) {
+        this.requirements = requirements;
     }
 
     public Optional<Quest> getQuest() {
