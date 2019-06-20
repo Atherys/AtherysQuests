@@ -7,7 +7,6 @@ import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

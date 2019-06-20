@@ -1,6 +1,5 @@
 package com.atherys.quests.script;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.QuestsConfig;
 import com.atherys.quests.api.script.DialogScript;
 import com.atherys.quests.api.script.DialogScriptService;

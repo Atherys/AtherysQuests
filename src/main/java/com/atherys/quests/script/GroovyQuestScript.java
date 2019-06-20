@@ -1,7 +1,6 @@
 package com.atherys.quests.script;
 
 import com.atherys.quests.api.script.QuestScript;
-import com.atherys.script.groovy.GroovyLibrary;
 import com.atherys.script.groovy.GroovyScript;
 
 public class GroovyQuestScript extends GroovyScript implements QuestScript {

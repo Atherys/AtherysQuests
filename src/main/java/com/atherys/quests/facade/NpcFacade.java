@@ -8,8 +8,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import static org.spongepowered.api.text.format.TextColors.DARK_GREEN;
 import static org.spongepowered.api.text.format.TextColors.GOLD;
@@ -24,6 +26,7 @@ public class NpcFacade {
 
     public void addNpc(String name, Player player) {
         EntityUtils.getNonPlayerFacingEntity(player, 5).ifPresent(entity -> {
+            entity.offer(Keys.DISPLAY_NAME, TextSerializers.FORMATTING_CODE.deserialize(name));
             config.NPCS.put(name, entity.getUniqueId());
             questMsg.info(player, "Added NPC with name ", GOLD, name, DARK_GREEN, ".");
         });
