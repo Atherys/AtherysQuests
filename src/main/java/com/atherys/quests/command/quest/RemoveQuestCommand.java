@@ -24,6 +24,7 @@ public class RemoveQuestCommand implements ParameterizedCommand {
     @Override
     public CommandElement[] getArguments() {
         return new CommandElement[]{
+                GenericArguments.flags().flag("f").buildWith(GenericArguments.none()),
                 GenericArguments.player(Text.of("player")),
                 GenericArguments.string(Text.of("questId"))
         };
@@ -35,7 +36,9 @@ public class RemoveQuestCommand implements ParameterizedCommand {
         Optional<Player> player = args.getOne("player");
         Optional<String> questId = args.getOne("questId");
 
-        AtherysQuests.getInstance().getQuesterFacade().removeQuestFromPlayer(player.get(), questId.get());
+        AtherysQuests.getInstance().getQuesterFacade().removeQuestFromPlayer(
+                player.get(), questId.get(), args.hasAny("f")
+        );
 
         return CommandResult.success();
     }

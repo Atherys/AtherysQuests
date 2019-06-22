@@ -124,8 +124,12 @@ public class QuesterService implements Observer<Event> {
         return UserUtils.getUser(quester.getUniqueId());
     }
 
-    public void removeQuest(Quester quester, Quest quest) {
-        quester.getOngoingQuests().removeIf(q -> q.getId().equals(quest.getId()));
+    public boolean removeQuest(Quester quester, Quest quest) {
+        return quester.getOngoingQuests().removeIf(q -> q.getId().equals(quest.getId()));
+    }
+
+    public void removeFinishedQuest(Quester quester, Quest quest) {
+        quester.getFinishedQuests().remove(quest.getId());
     }
 
     public boolean questerHasTurnedInQuest(Quester quester, String questId) {

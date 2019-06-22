@@ -147,11 +147,11 @@ public class QuesterFacade {
         player.sendBookView(log.build());
     }
 
-    public void showQuestFromItem() {
-
-    }
-
-    public void removeQuestFromPlayer(Player player, String questId) throws CommandException {
+    /**
+     * Removes a quest from the player.
+     * @param finished whether to also try removing from the player's finished quest.
+     */
+    public void removeQuestFromPlayer(Player player, String questId, boolean finished) throws CommandException {
         Quester quester = questerService.getQuester(player);
         Optional<Quest> quest = questService.getQuest(questId);
 
@@ -159,7 +159,10 @@ public class QuesterFacade {
             throw QuestCommandExceptions.invalidQuestId();
         }
 
-        questerService.removeQuest(quester, quest.get());
+        // If we didn't remove a quest
+        if (!questerService.removeQuest(quester, quest.get()) && finished) {
+            questerService.removeFinishedQuest(quester, quest.get());
+        }
     }
 
     public boolean validatePlayerObject(Player player) {
