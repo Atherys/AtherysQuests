@@ -13,12 +13,15 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.format.TextColors;
+import static org.spongepowered.api.text.format.TextColors.*;
+import static org.spongepowered.api.text.format.TextStyles.*;
+
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -92,14 +95,14 @@ public class QuesterFacade {
             if (questerService.getQuester(player).hasQuest(quest)) return;
 
             Question question = Question.of(Text.of("You have found the quest \"", quest.getName(), "\", would you like to take it?"))
-                    .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_GREEN, "Yes"), quester -> {
+                    .addAnswer(Question.Answer.of(Text.of(BOLD, DARK_GREEN, "Yes"), quester -> {
                         if (questLocationService.checkContain(questLocation, player.getLocation())) {
                             new TakeQuestView(quest).show(quester);
                         } else {
                             questMsg.error(quester, "You have left the quest area.");
                         }
                     }))
-                    .addAnswer(Question.Answer.of(Text.of(TextStyles.BOLD, TextColors.DARK_RED, "No"), quester -> {
+                    .addAnswer(Question.Answer.of(Text.of(BOLD, DARK_RED, "No"), quester -> {
                         questMsg.error(quester, "You have declined the quest \"", quest.getName(), "\".");
                     }))
                     .build();
@@ -123,7 +126,7 @@ public class QuesterFacade {
             Text.Builder questView = Text.builder();
             questView.append(Text.of("[", i, "] "));
             if (quest.isComplete()) {
-                questView.append(Text.of(TextStyles.STRIKETHROUGH, quest.getName(), TextStyles.NONE));
+                questView.append(Text.of(STRIKETHROUGH, quest.getName(), TextStyles.NONE));
             } else {
                 questView.append(Text.of(quest.getName()));
             }
@@ -151,7 +154,7 @@ public class QuesterFacade {
      * Removes a quest from the player.
      * @param finished whether to also try removing from the player's finished quest.
      */
-    public void removeQuestFromPlayer(Player player, String questId, boolean finished) throws CommandException {
+    public void removeQuestFromPlayer(CommandSource source, Player player, String questId, boolean finished) throws CommandException {
         Quester quester = questerService.getQuester(player);
         Optional<Quest> quest = questService.getQuest(questId);
 
@@ -159,9 +162,11 @@ public class QuesterFacade {
             throw QuestCommandExceptions.invalidQuestId();
         }
 
-        // If we didn't remove a quest
-        if (!questerService.removeQuest(quester, quest.get()) && finished) {
-            questerService.removeFinishedQuest(quester, quest.get());
+        boolean removed = questerService.removeQuest(quester, quest.get());
+        if (removed || (finished && questerService.removeFinishedQuest(quester, quest.get()))) {
+            questMsg.info(source, "Successfully removed quest.");
+        } else {
+            questMsg.error(source, "Quest not found on player.");
         }
     }
 
@@ -183,7 +188,6 @@ public class QuesterFacade {
             player = Sponge.getServer().getPlayer(player.getUniqueId()).orElse(null);
             notifyAndUpdateCachedPlayer(event, player);
         }
-
 
         SimpleQuester quester = questerService.getQuester(player);
         quester.setCachedPlayer(player);
