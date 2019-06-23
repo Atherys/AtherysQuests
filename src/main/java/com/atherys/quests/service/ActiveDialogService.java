@@ -124,7 +124,7 @@ public class ActiveDialogService {
         String taskName = "atherysquests-dialog-player-" + player.getName();
         if (Sponge.getScheduler().getTasksByName(taskName).isEmpty()) {
             Task.builder().name(taskName).delay(1, TimeUnit.SECONDS)
-                    .execute(() -> player.sendMessage(Text.of(AQUA, BOLD, player.getName(), TextStyles.RESET, TextColors.RESET, ": ", text)))
+                    .execute(() -> player.sendMessage(Text.of(GOLD, BOLD, player.getName(), TextStyles.RESET, TextColors.RESET, ": ", text)))
                     .submit(AtherysQuests.getInstance());
         }
     }
@@ -137,7 +137,7 @@ public class ActiveDialogService {
                     .delay(AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY * i + AtherysQuests.getConfig().DIALOG_MESSAGE_DELAY, TimeUnit.SECONDS)
                     .execute(() -> {
                         player.sendMessage(
-                                Text.of(AQUA, BOLD, npc.get(Keys.DISPLAY_NAME).orElse(Text.of(StringUtils.capitalize(npc.getType().getName()))), TextStyles.RESET, TextColors.RESET, ": ", sentence)
+                                Text.of(GOLD, BOLD, npc.get(Keys.DISPLAY_NAME).orElse(Text.of(StringUtils.capitalize(npc.getType().getName()))), TextStyles.RESET, TextColors.RESET, ": ", sentence)
                         );
                         player.playSound(SoundTypes.ENTITY_VILLAGER_AMBIENT, npc.getLocation().getPosition(), 0.2d);
                     })
@@ -172,15 +172,15 @@ public class ActiveDialogService {
 
     private Text buildResponseText(Dialog dialog, DialogNode response, int i) {
         Text.Builder responseText = Text.builder()
-                .append(Text.of(DARK_AQUA, "[", WHITE, BOLD, i, TextStyles.RESET, DARK_AQUA, "]"))
-                .append(Text.of(AQUA, BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText()))
+                .append(Text.of(DARK_GRAY, "[", GOLD, BOLD, i, TextStyles.RESET, DARK_GRAY, "]"))
+                .append(Text.of(GOLD, BOLD, "You", TextStyles.RESET, TextColors.RESET, ": ", response.getPlayerText()))
                 .onClick(TextActions.executeCallback(src -> proceedDialog(dialog, response, (Player) src)))
                 .onHover(TextActions.showText(Text.of("Say ", ITALIC, response.getPlayerText())));
 
         response.getQuest().ifPresent(quest -> {
             responseText.append(
                     Text.builder()
-                            .append(Text.of(DARK_GREEN, BOLD, " { Starts Quest: ", GREEN, TextStyles.RESET, quest.getName(), BOLD, DARK_GREEN, " }"))
+                            .append(Text.of(DARK_GREEN, BOLD, " { Starts Quest: ", GOLD, TextStyles.RESET, quest.getName(), BOLD, DARK_GREEN, " }"))
                             .onHover(TextActions.showText(quest.createView().getFormattedRequirements()))
                             .build()
             );
