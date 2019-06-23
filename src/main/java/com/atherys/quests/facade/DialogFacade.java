@@ -1,6 +1,7 @@
 package com.atherys.quests.facade;
 
 import com.atherys.quests.api.exception.QuestCommandException;
+import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.service.DialogAttachmentService;
 import com.atherys.quests.service.DialogService;
@@ -91,5 +92,14 @@ public class DialogFacade {
                         .map(tree -> Text.of(tree.getId()))
                         .collect(Collectors.toList()))
                 .build().sendTo(source);
+    }
+
+    public void removePlayerFromDialog(Player player) {
+        if (dialogService.hasPlayerDialog(player)) {
+            dialogService.removePlayerDialog(player);
+            questMsg.info(player, "Dialog quit!");
+        } else {
+            questMsg.error(player, "You are not in a dialog.");
+        }
     }
 }
