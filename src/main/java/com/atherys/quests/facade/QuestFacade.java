@@ -21,6 +21,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.item.inventory.InteractItemEvent;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.ItemStackSnapshot;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
@@ -29,6 +30,9 @@ import org.spongepowered.api.world.World;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.spongepowered.api.text.format.TextColors.DARK_GRAY;
+import static org.spongepowered.api.text.format.TextColors.GOLD;
 
 @Singleton
 public class QuestFacade {
@@ -198,13 +202,17 @@ public class QuestFacade {
     }
 
     public void listQuests(CommandSource source) {
-        PaginationList.builder()
-                .title(Text.of("Dialogs"))
-                .contents(questService.getAllQuests().stream()
-                        .map(quest -> {
-                            return Text.of(quest.getName(), " - ID: ", quest.getId());
-                        })
-                        .collect(Collectors.toList()))
-                .build().sendTo(source);
+        Task.builder()
+                .execute(() -> {
+                    PaginationList.builder()
+                            .title(Text.of(GOLD, "Dialogs"))
+                            .padding(Text.of(DARK_GRAY, "="))
+                            .contents(questService.getAllQuests().stream()
+                                    .map(quest -> Text.of(quest.getName(), " - ID: ", quest.getId()))
+                                    .collect(Collectors.toList()))
+                            .build().sendTo(source);
+                })
+                .async()
+                .submit(AtherysQuests.getInstance());
     }
 }

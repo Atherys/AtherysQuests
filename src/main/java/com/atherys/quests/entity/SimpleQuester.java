@@ -65,13 +65,13 @@ public class SimpleQuester implements Quester {
     }
 
     @Override
-    public boolean hasFinishedQuest(String questId) {
+    public boolean hasTurnedInQuest(String questId) {
         return finishedQuests.containsKey(questId);
     }
 
     @Override
-    public void removeFinishedQuest(String questId) {
-        finishedQuests.remove(questId);
+    public boolean removeFinishedQuest(String questId) {
+        return finishedQuests.remove(questId) != null;
     }
 
     @Override
@@ -90,8 +90,8 @@ public class SimpleQuester implements Quester {
     }
 
     @Override
-    public void removeQuest(Quest quest) {
-        ongoingQuests.remove(quest);
+    public boolean removeQuest(Quest quest) {
+        return ongoingQuests.remove(quest);
     }
 
     @Override
@@ -103,5 +103,4 @@ public class SimpleQuester implements Quester {
     public void setTimedQuest(Quest quest) {
         timedQuest = quest;
     }
-
 }

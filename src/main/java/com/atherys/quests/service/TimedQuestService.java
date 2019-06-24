@@ -51,7 +51,7 @@ public class TimedQuestService {
                         .collect(Collectors.toList());
 
                 for (Quester quester : questers) {
-                    if (quester.getTimedQuest().isPresent()) {
+                    if (quester.getTimedQuest().isPresent() && !quester.getTimedQuest().get().isComplete()) {
                         Quest quest = quester.getTimedQuest().get();
                         if (checkQuest(quest, now)) {
                             failTimedQuest(quest, quester);
@@ -63,7 +63,7 @@ public class TimedQuestService {
             .submit(AtherysQuests.getInstance());
 
     /**
-     * Checks whether a timed quest time limit is up, and removes the quest from the quester if so.
+     * Checks whether a timed quest time limit is up.
      */
     private boolean checkQuest(Quest<?> quest, Instant now) {
         TimeComponent timeComponent = quest.getTimedComponent().get();
@@ -83,6 +83,8 @@ public class TimedQuestService {
         quest.getTimedComponent().get().onComplete().ifPresent(onComplete -> {
             onComplete.accept(questerService.getPlayer(quester));
         });
+        quester.removeQuest(quest);
+        quester.removeTimedQuest();
         stopDisplayingTimer(quester);
     }
 

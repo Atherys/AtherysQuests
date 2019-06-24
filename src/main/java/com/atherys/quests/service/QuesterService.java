@@ -90,22 +90,23 @@ public class QuesterService implements Observer<Event> {
             throw new QuestRequirementsException("Quester does not meet quest requirements");
         }
 
-        if (   questerHasTurnedInQuest(quester, quest.getId())
-            || questerHasQuest(quester, quest.getId())) {
+        if (quester.hasQuest(quest) || quester.hasTurnedInQuest(quest.getId())) {
             return false;
         } else {
-            quester.addQuest(quest);
+            // If the quest is timed but the player is already doing one
             if (quest.getTimedComponent().isPresent()) {
+                if (quester.getTimedQuest().isPresent()) return false;
                 quester.setTimedQuest(quest);
             }
+            quester.addQuest(quest);
             return true;
         }
     }
 
     public <T extends Quest> boolean turnInQuest(Quester quester, Quest<T> quest) {
-        if (questerHasCompletedQuest(quester, quest.getId())) {
+        if (quester.hasCompletedQuest(quest)) {
 
-            removeQuest(quester, quest);
+            quester.removeQuest(quest);
 
             quester.addFinishedQuest(quest.getId(), System.currentTimeMillis());
 
@@ -122,27 +123,5 @@ public class QuesterService implements Observer<Event> {
 
     public Optional<? extends User> getUser(Quester quester) {
         return UserUtils.getUser(quester.getUniqueId());
-    }
-
-    public boolean removeQuest(Quester quester, Quest quest) {
-        return quester.getOngoingQuests().removeIf(q -> q.getId().equals(quest.getId()));
-    }
-
-    public boolean removeFinishedQuest(Quester quester, Quest quest) {
-        return quester.getFinishedQuests().remove(quest.getId()) != null;
-    }
-
-    public boolean questerHasTurnedInQuest(Quester quester, String questId) {
-        return quester.hasFinishedQuest(questId);
-    }
-
-    public boolean questerHasCompletedQuest(Quester quester, String questId) {
-        return quester.getOngoingQuests().stream()
-                .anyMatch(q -> q.getId().equals(questId) && q.isComplete());
-    }
-
-    public <T extends Quest> boolean questerHasQuest(Quester quester, String questId) {
-        return quester.getOngoingQuests().stream()
-                .anyMatch(q -> q.getId().equals(questId));
     }
 }

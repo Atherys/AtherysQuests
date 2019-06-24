@@ -15,7 +15,7 @@ public interface Quester extends SpongeIdentifiable {
 
     boolean hasQuest(Quest quest);
 
-    void removeQuest(Quest quest);
+    boolean removeQuest(Quest quest);
 
     Set<Quest> getOngoingQuests();
 
@@ -23,9 +23,21 @@ public interface Quester extends SpongeIdentifiable {
 
     void setTimedQuest(Quest quest);
 
+    default void removeTimedQuest() {
+        setTimedQuest(null);
+    }
+
     void addFinishedQuest(String questId, Long timestamp);
 
-    boolean hasFinishedQuest(String questId);
+    boolean hasTurnedInQuest(String questId);
 
-    void removeFinishedQuest(String questId);
+    boolean removeFinishedQuest(String questId);
+
+    default boolean hasCompletedQuest(Quest quest) {
+        if (hasQuest(quest)) {
+            return getOngoingQuests().stream()
+                    .anyMatch(q -> q.equals(quest) && q.isComplete());
+        }
+        return false;
+    }
 }

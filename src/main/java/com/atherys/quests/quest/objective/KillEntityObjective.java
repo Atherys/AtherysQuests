@@ -1,6 +1,5 @@
 package com.atherys.quests.quest.objective;
 
-import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.objective.AbstractObjective;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quester.Quester;

@@ -4,8 +4,9 @@ import com.atherys.quests.dialog.tree.DialogNode;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
-import static org.spongepowered.api.text.format.TextColors.*;
 import org.spongepowered.api.text.format.TextStyles;
+
+import static org.spongepowered.api.text.format.TextColors.*;
 
 /**
  * A utility class for formatting and sending {@link Dialog}-related messages to players.

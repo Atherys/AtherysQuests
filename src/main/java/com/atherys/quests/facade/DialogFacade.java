@@ -1,7 +1,7 @@
 package com.atherys.quests.facade;
 
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.exception.QuestCommandException;
-import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.dialog.tree.DialogTree;
 import com.atherys.quests.service.DialogAttachmentService;
 import com.atherys.quests.service.DialogService;
@@ -13,11 +13,15 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.spongepowered.api.text.format.TextColors.DARK_GRAY;
+import static org.spongepowered.api.text.format.TextColors.GOLD;
 
 @Singleton
 public class DialogFacade {
@@ -86,12 +90,18 @@ public class DialogFacade {
     }
 
     public void listDialogs(CommandSource source) {
-        PaginationList.builder()
-                .title(Text.of("Dialogs"))
-                .contents(dialogService.getAllDialogs().stream()
-                        .map(tree -> Text.of(tree.getId()))
-                        .collect(Collectors.toList()))
-                .build().sendTo(source);
+        Task.builder()
+                .execute(() -> {
+                    PaginationList.builder()
+                            .title(Text.of(GOLD, "Dialogs"))
+                            .padding(Text.of(DARK_GRAY, "="))
+                            .contents(dialogService.getAllDialogs().stream()
+                                    .map(tree -> Text.of(tree.getId()))
+                                    .collect(Collectors.toList()))
+                            .build().sendTo(source);
+                })
+                .async()
+                .submit(AtherysQuests.getInstance());
     }
 
     public void removePlayerFromDialog(Player player) {

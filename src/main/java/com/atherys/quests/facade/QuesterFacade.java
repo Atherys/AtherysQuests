@@ -19,9 +19,6 @@ import org.spongepowered.api.event.Event;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import static org.spongepowered.api.text.format.TextColors.*;
-import static org.spongepowered.api.text.format.TextStyles.*;
-
 import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -29,6 +26,11 @@ import org.spongepowered.api.world.World;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.spongepowered.api.text.format.TextColors.DARK_GREEN;
+import static org.spongepowered.api.text.format.TextColors.DARK_RED;
+import static org.spongepowered.api.text.format.TextStyles.BOLD;
+import static org.spongepowered.api.text.format.TextStyles.STRIKETHROUGH;
 
 @Singleton
 public class QuesterFacade {
@@ -54,6 +56,11 @@ public class QuesterFacade {
     public <T extends Quest> boolean pickupQuest(Player player, final Quest<T> quest) {
         Quest<T> copy = quest.copy();
         Quester quester = questerService.getQuester(player);
+
+        if (quest.getTimedComponent().isPresent() && quester.getTimedQuest().isPresent()) {
+            questMsg.error(quester, "You are already doing a timed quest!");
+            return false;
+        }
 
         try {
             boolean result = questerService.pickupQuest(quester, copy);
@@ -162,8 +169,8 @@ public class QuesterFacade {
             throw QuestCommandExceptions.invalidQuestId();
         }
 
-        boolean removed = questerService.removeQuest(quester, quest.get());
-        if (removed || (finished && questerService.removeFinishedQuest(quester, quest.get()))) {
+        boolean removed = quester.removeQuest(quest.get());
+        if (removed || (finished && quester.removeFinishedQuest(questId))) {
             questMsg.info(source, "Successfully removed quest.");
         } else {
             questMsg.error(source, "Quest not found on player.");
@@ -212,6 +219,7 @@ public class QuesterFacade {
 
     public void onCompleteTimedQuest(Quester quester) {
         timedQuestService.stopDisplayingTimer(quester);
+        quester.removeTimedQuest();
     }
 
     public void resetTimedQuestOnLogin(Player player) {
