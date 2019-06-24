@@ -12,6 +12,7 @@ import org.spongepowered.api.text.Text;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
@@ -134,5 +135,18 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     @Override
     public void makeTimed(TimeComponent timedComponent) {
         this.timedComponent = timedComponent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Quest)) return false;
+        Quest<?> that = (Quest<?>) o;
+        return id.equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
