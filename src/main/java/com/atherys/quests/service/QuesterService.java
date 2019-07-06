@@ -1,10 +1,14 @@
 package com.atherys.quests.service;
 
 import com.atherys.core.utils.UserUtils;
+import com.atherys.quests.AtherysQuests;
 import com.atherys.quests.api.base.Observer;
 import com.atherys.quests.api.exception.QuestRequirementsException;
+import com.atherys.quests.api.quest.AttemptedQuest;
 import com.atherys.quests.api.quest.Quest;
+import com.atherys.quests.api.quest.modifiers.RepeatableComponent;
 import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.entity.SimpleAttemptedQuest;
 import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.event.quest.QuestCompletedEvent;
 import com.atherys.quests.event.quest.QuestTurnedInEvent;
@@ -90,17 +94,45 @@ public class QuesterService implements Observer<Event> {
             throw new QuestRequirementsException("Quester does not meet quest requirements");
         }
 
-        if (quester.hasQuest(quest) || quester.hasTurnedInQuest(quest.getId())) {
+        if (quester.hasQuest(quest)) {
             return false;
-        } else {
-            // If the quest is timed but the player is already doing one
-            if (quest.getTimedComponent().isPresent()) {
-                if (quester.getTimedQuest().isPresent()) return false;
-                quester.setTimedQuest(quest);
-            }
+        }
+
+        // If quest is timed and quester has timed quest, false
+        if (quest.getTimedComponent().isPresent() && quester.getTimedQuest().isPresent()) {
+            return false;
+        }
+
+        boolean repeatable = quest.getRepeatComponent().isPresent();
+        // If quest is repeatable, check
+        if (repeatable && !checkRepeatableQuest(quester, quest)) {
+            return false;
+        }
+
+        AtherysQuests.getInstance().getLogger().info("Repeatable: {}", quest.getRepeatComponent().isPresent());
+
+        // If the quest is repeatable, or if the quester has never done the quest
+        if (repeatable || !quester.hasTurnedInQuest(quest.getId())) {
             quester.addQuest(quest);
             return true;
         }
+
+        return false;
+    }
+
+    public <T extends Quest> boolean checkRepeatableQuest(Quester quester, Quest<T> quest) {
+        RepeatableComponent component = quest.getRepeatComponent().get();
+        int timesCompleted = quester.getAttemptedQuest(quest.getId()).map(AttemptedQuest::timesCompleted).orElse(0);
+        if (component.getLimit() > 0 && timesCompleted == component.getLimit()) {
+            return false;
+        }
+
+        long now = System.currentTimeMillis();
+        // The latest timestamp from the quester, or 0 if they have not completed the quest
+        long completionTime = quester.getAttemptedQuest(quest.getId()).map(AttemptedQuest::getTimestamp).orElse(0L);
+        long cooldown = component.getCooldown().toMillis();
+
+        return now > (completionTime + cooldown);
     }
 
     public <T extends Quest> boolean turnInQuest(Quester quester, Quest<T> quest) {
@@ -108,7 +140,11 @@ public class QuesterService implements Observer<Event> {
 
             quester.removeQuest(quest);
 
-            quester.addFinishedQuest(quest.getId(), System.currentTimeMillis());
+            AttemptedQuest attemptedQuest = new SimpleAttemptedQuest();
+            attemptedQuest.setTimestamp(System.currentTimeMillis());
+            attemptedQuest.incrementTimesCompleted();
+
+            quester.addFinishedQuest(quest.getId(), attemptedQuest);
 
             quest.award(quester);
 

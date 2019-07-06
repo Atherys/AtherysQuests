@@ -2,6 +2,7 @@ package com.atherys.quests.listener;
 
 import com.atherys.quests.event.quest.QuestCompletedEvent;
 import com.atherys.quests.event.quest.QuestStartedEvent;
+import com.atherys.quests.event.quest.QuestTurnedInEvent;
 import com.atherys.quests.facade.QuesterFacade;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -16,7 +17,7 @@ public class QuestListener {
     @Listener
     public void onTimedQuestStart(QuestStartedEvent event) {
         if (event.getQuest().getTimedComponent().isPresent()) {
-            questerFacade.onStartTimedQuest(event.getQuest());
+            questerFacade.onStartTimedQuest(event.getQuester(), event.getQuest());
         }
     }
 

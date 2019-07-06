@@ -170,7 +170,7 @@ public class QuesterFacade {
         }
 
         boolean removed = quester.removeQuest(quest.get());
-        if (removed || (finished && quester.removeFinishedQuest(questId))) {
+        if (removed || (finished && quester.removeAttemptedQuest(questId))) {
             questMsg.info(source, "Successfully removed quest.");
         } else {
             questMsg.error(source, "Quest not found on player.");
@@ -213,7 +213,8 @@ public class QuesterFacade {
         quester.setCachedPlayer(player);
     }
 
-    public void onStartTimedQuest(Quest<?> quest) {
+    public void onStartTimedQuest(Quester quester, Quest<?> quest) {
+        quester.setTimedQuest(quest);
         quest.getTimedComponent().get().startTiming();
     }
 

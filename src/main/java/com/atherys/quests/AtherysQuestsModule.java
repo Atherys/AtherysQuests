@@ -8,6 +8,7 @@ import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
 import com.atherys.quests.listener.*;
+import com.atherys.quests.persistence.AttemptedQuestRepository;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.SimpleDialogScriptService;
@@ -28,6 +29,7 @@ public class AtherysQuestsModule extends AbstractModule {
         // Repositories
         bind(QuesterRepository.class).in(Scopes.SINGLETON);
         bind(QuestLocationRepository.class).in(Scopes.SINGLETON);
+        bind(AttemptedQuestRepository.class).in(Scopes.SINGLETON);
 
         // Services
         bind(DialogScriptService.class).to(SimpleDialogScriptService.class).in(Scopes.SINGLETON);

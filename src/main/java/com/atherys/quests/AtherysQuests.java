@@ -12,6 +12,7 @@ import com.atherys.quests.command.quest.QuestMasterCommand;
 import com.atherys.quests.data.DialogData;
 import com.atherys.quests.data.QuestData;
 import com.atherys.quests.entity.QuestLocation;
+import com.atherys.quests.entity.SimpleAttemptedQuest;
 import com.atherys.quests.entity.SimpleQuester;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
 import com.atherys.quests.event.quest.QuestRegistrationEvent;
@@ -21,6 +22,7 @@ import com.atherys.quests.facade.QuestFacade;
 import com.atherys.quests.facade.QuesterFacade;
 import com.atherys.quests.gson.AtherysQuestsRegistry;
 import com.atherys.quests.listener.*;
+import com.atherys.quests.persistence.AttemptedQuestRepository;
 import com.atherys.quests.persistence.QuestLocationRepository;
 import com.atherys.quests.persistence.QuesterRepository;
 import com.atherys.quests.script.lib.QuestExtension;
@@ -40,6 +42,7 @@ import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
+import org.spongepowered.api.item.inventory.InventoryArchetype;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
@@ -118,6 +121,7 @@ public class AtherysQuests {
         // Cache entities
         getQuestLocationRepository().initCache();
         getQuesterRepository().initCache();
+        getAttemptedQuestRepository().initCache();
 
         // Register listeners
         Sponge.getEventManager().registerListeners(this, components.gsonListener);
@@ -161,6 +165,7 @@ public class AtherysQuests {
     private void stop() {
         getQuesterRepository().flushCache();
         getQuestLocationRepository().flushCache();
+        getAttemptedQuestRepository().flushCache();
         components.config.save();
     }
 
@@ -211,6 +216,7 @@ public class AtherysQuests {
     public void onHibernateConfiguration(AtherysHibernateConfigurationEvent event) {
         event.registerEntity(SimpleQuester.class);
         event.registerEntity(QuestLocation.class);
+        event.registerEntity(SimpleAttemptedQuest.class);
     }
 
     public Optional<EconomyService> getEconomyService() {
@@ -227,6 +233,10 @@ public class AtherysQuests {
 
     public QuestLocationRepository getQuestLocationRepository() {
         return components.questLocationRepository;
+    }
+
+    public AttemptedQuestRepository getAttemptedQuestRepository() {
+        return components.attemptedQuestRepository;
     }
 
     public QuestMessagingService getQuestMessagingService() {
@@ -312,6 +322,9 @@ public class AtherysQuests {
 
         @Inject
         QuestLocationRepository questLocationRepository;
+
+        @Inject
+        AttemptedQuestRepository attemptedQuestRepository;
 
         @Inject
         QuestMessagingService questMessagingService;

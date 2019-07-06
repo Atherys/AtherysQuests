@@ -1,5 +1,6 @@
 package com.atherys.quests.entity;
 
+import com.atherys.quests.api.quest.AttemptedQuest;
 import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.persistence.converter.QuestConverter;
@@ -26,12 +27,13 @@ public class SimpleQuester implements Quester {
     @Column(columnDefinition = "text")
     private Set<Quest> ongoingQuests = new HashSet<>();
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @MapKeyColumn(name = "quest_id")
-    @Column(name = "timestamp")
-    @CollectionTable(name = "simplequester_finishedquests")
-
-    private Map<String, Long> finishedQuests = new HashMap<>();
+    @OneToMany(
+            targetEntity = SimpleAttemptedQuest.class,
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    @MapKey
+    private Map<String, AttemptedQuest> attemptedQuests = new HashMap<>();
 
     public SimpleQuester() {
     }
@@ -55,23 +57,25 @@ public class SimpleQuester implements Quester {
     }
 
     @Override
-    public Map<String, Long> getFinishedQuests() {
-        return finishedQuests;
+    public void addFinishedQuest(String questId, AttemptedQuest quest) {
+        attemptedQuests.put(questId, quest);
     }
 
     @Override
-    public void addFinishedQuest(String questId, Long timestamp) {
-        finishedQuests.put(questId, timestamp);
+    public boolean removeAttemptedQuest(String questId) {
+        return attemptedQuests.remove(questId) != null;
+    }
+
+    @Override
+    public Optional<AttemptedQuest> getAttemptedQuest(String questId) {
+        return Optional.ofNullable(attemptedQuests.get(questId));
     }
 
     @Override
     public boolean hasTurnedInQuest(String questId) {
-        return finishedQuests.containsKey(questId);
-    }
-
-    @Override
-    public boolean removeFinishedQuest(String questId) {
-        return finishedQuests.remove(questId) != null;
+        return getAttemptedQuest(questId)
+                .map(attemptedQuest -> attemptedQuest.timesCompleted() > 0)
+                .orElse(false);
     }
 
     @Override

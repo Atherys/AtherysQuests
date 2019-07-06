@@ -4,6 +4,7 @@ import com.atherys.quests.api.base.Observer;
 import com.atherys.quests.api.base.Prototype;
 import com.atherys.quests.api.objective.Objective;
 import com.atherys.quests.api.quest.modifiers.DeliveryComponent;
+import com.atherys.quests.api.quest.modifiers.RepeatableComponent;
 import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
@@ -111,6 +112,16 @@ public interface Quest<T extends Quest> extends Prototype<Quest<T>>, Observer<Ev
      * Makes the quest timed.
      */
     void makeTimed(TimeComponent timeableComponent);
+
+    /**
+     * @return The repeatable component. If present, this quest can be repeated.
+     */
+    Optional<RepeatableComponent> getRepeatComponent();
+
+    /**
+     * Makes the quest repeatable.
+     */
+    void makeRepeatable(RepeatableComponent repeatableComponent);
 
     QuestView createView();
 }
