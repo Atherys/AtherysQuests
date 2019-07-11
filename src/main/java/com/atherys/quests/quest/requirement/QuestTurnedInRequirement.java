@@ -29,16 +29,13 @@ public class QuestTurnedInRequirement implements Requirement {
     @Override
     public Text toText() {
         Optional<Quest> quest = AtherysQuests.getInstance().getQuestService().getQuest(questId);
-        if (quest.isPresent()) {
-            return Text.of("You have to have turned in the Quest ", TextStyles.ITALIC, TextStyles.BOLD, quest.get().getName(), TextStyles.RESET);
-        } else {
-            return Text.of("Uh oh. According to this, you have to have completed a Quest which isn't registered. Please report this.");
-        }
+        return quest.map(value -> Text.of("You have to have turned in the Quest ", TextStyles.ITALIC, TextStyles.BOLD, value.getName(), TextStyles.RESET))
+                    .orElseGet(() -> Text.of("Uh oh. According to this, you have to have completed a Quest which isn't registered. Please report this."));
     }
 
     @Override
     public boolean check(Quester quester) {
-        return quester.hasTurnedInQuest(questId);
+        return AtherysQuests.getInstance().getQuesterService().questerHasTurnedInQuest(quester, questId);
     }
 
     @Override

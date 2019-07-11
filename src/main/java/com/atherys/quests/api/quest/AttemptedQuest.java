@@ -1,9 +1,11 @@
 package com.atherys.quests.api.quest;
 
 public interface AttemptedQuest {
-    int timesCompleted();
+    String getQuestId();
 
-    void incrementTimesCompleted();
+    int getTimesCompleted();
+
+    void setTimesCompleted(int times);
 
     long getTimestamp();
 

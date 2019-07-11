@@ -112,7 +112,7 @@ public class QuesterService implements Observer<Event> {
         AtherysQuests.getInstance().getLogger().info("Repeatable: {}", quest.getRepeatComponent().isPresent());
 
         // If the quest is repeatable, or if the quester has never done the quest
-        if (repeatable || !quester.hasTurnedInQuest(quest.getId())) {
+        if (repeatable || !questerHasTurnedInQuest(quester, quest.getId())) {
             quester.addQuest(quest);
             return true;
         }
@@ -122,7 +122,7 @@ public class QuesterService implements Observer<Event> {
 
     public <T extends Quest> boolean checkRepeatableQuest(Quester quester, Quest<T> quest) {
         RepeatableComponent component = quest.getRepeatComponent().get();
-        int timesCompleted = quester.getAttemptedQuest(quest.getId()).map(AttemptedQuest::timesCompleted).orElse(0);
+        int timesCompleted = quester.getAttemptedQuest(quest.getId()).map(AttemptedQuest::getTimesCompleted).orElse(0);
         if (component.getLimit() > 0 && timesCompleted == component.getLimit()) {
             return false;
         }
@@ -136,15 +136,16 @@ public class QuesterService implements Observer<Event> {
     }
 
     public <T extends Quest> boolean turnInQuest(Quester quester, Quest<T> quest) {
-        if (quester.hasCompletedQuest(quest)) {
+        if (questerHasCompletedQuest(quester, quest)) {
 
             quester.removeQuest(quest);
 
-            AttemptedQuest attemptedQuest = new SimpleAttemptedQuest();
-            attemptedQuest.setTimestamp(System.currentTimeMillis());
-            attemptedQuest.incrementTimesCompleted();
+            AttemptedQuest attemptedQuest = quester.getAttemptedQuest(quest.getId()).orElse(new SimpleAttemptedQuest(quest.getId()));
 
-            quester.addFinishedQuest(quest.getId(), attemptedQuest);
+            attemptedQuest.setTimestamp(System.currentTimeMillis());
+            attemptedQuest.setTimesCompleted(attemptedQuest.getTimesCompleted() + 1);
+
+            quester.addAttemptedQuest(quest.getId(), attemptedQuest);
 
             quest.award(quester);
 
@@ -155,6 +156,24 @@ public class QuesterService implements Observer<Event> {
         } else {
             return false;
         }
+    }
+
+    public boolean questerHasTurnedInQuest(Quester quester, String questId) {
+        return quester.getAttemptedQuest(questId)
+                .map(attemptedQuest -> attemptedQuest.getTimesCompleted() > 0)
+                .orElse(false);
+    }
+
+    /**
+     * Checks if a given quest has been completed. This is different from if the quest has been turned in.
+     * @return Whether the quest has been completed.
+     */
+    public boolean questerHasCompletedQuest(Quester quester, Quest quest) {
+        if (quester.hasQuest(quest)) {
+            return quester.getOngoingQuests().stream()
+                    .anyMatch(q -> q.equals(quest) && q.isComplete());
+        }
+        return false;
     }
 
     public Optional<? extends User> getUser(Quester quester) {

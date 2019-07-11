@@ -32,7 +32,7 @@ public class SimpleQuester implements Quester {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )
-    @MapKey
+    @MapKeyColumn(name = "questId")
     private Map<String, AttemptedQuest> attemptedQuests = new HashMap<>();
 
     public SimpleQuester() {
@@ -57,7 +57,7 @@ public class SimpleQuester implements Quester {
     }
 
     @Override
-    public void addFinishedQuest(String questId, AttemptedQuest quest) {
+    public void addAttemptedQuest(String questId, AttemptedQuest quest) {
         attemptedQuests.put(questId, quest);
     }
 
@@ -69,13 +69,6 @@ public class SimpleQuester implements Quester {
     @Override
     public Optional<AttemptedQuest> getAttemptedQuest(String questId) {
         return Optional.ofNullable(attemptedQuests.get(questId));
-    }
-
-    @Override
-    public boolean hasTurnedInQuest(String questId) {
-        return getAttemptedQuest(questId)
-                .map(attemptedQuest -> attemptedQuest.timesCompleted() > 0)
-                .orElse(false);
     }
 
     @Override

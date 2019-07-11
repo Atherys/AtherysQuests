@@ -35,21 +35,8 @@ public interface Quester extends SpongeIdentifiable {
         setTimedQuest(null);
     }
 
-    void addFinishedQuest(String questId, AttemptedQuest quest);
-
-    boolean hasTurnedInQuest(String questId);
+    void addAttemptedQuest(String questId, AttemptedQuest quest);
 
     boolean removeAttemptedQuest(String questId);
 
-    /**
-     * Checks if a given quest has been completed. This is different from if the quest has been turned in.
-     * @return Whether the quest has been completed.
-     */
-    default boolean hasCompletedQuest(Quest quest) {
-        if (hasQuest(quest)) {
-            return getOngoingQuests().stream()
-                    .anyMatch(q -> q.equals(quest) && q.isComplete());
-        }
-        return false;
-    }
 }
