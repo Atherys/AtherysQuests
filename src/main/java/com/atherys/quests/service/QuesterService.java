@@ -142,7 +142,14 @@ public class QuesterService implements Observer<Event> {
 
             AttemptedQuest attemptedQuest = quester.getAttemptedQuest(quest.getId()).orElse(new SimpleAttemptedQuest(quest.getId()));
 
-            attemptedQuest.setTimestamp(System.currentTimeMillis());
+            long timestamp = System.currentTimeMillis();
+
+            attemptedQuest.setTimestamp(timestamp);
+
+            // If player hasn't completed quest, set the first time
+            if (attemptedQuest.getTimesCompleted() == 0) {
+                attemptedQuest.setFirstTimestamp(timestamp);
+            }
             attemptedQuest.setTimesCompleted(attemptedQuest.getTimesCompleted() + 1);
 
             quester.addAttemptedQuest(quest.getId(), attemptedQuest);

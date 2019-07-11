@@ -7,6 +7,10 @@ public interface AttemptedQuest {
 
     void setTimesCompleted(int times);
 
+    long getFirstTimestamp();
+
+    void setFirstTimestamp(long timestamp);
+
     long getTimestamp();
 
     void setTimestamp(long timestamp);

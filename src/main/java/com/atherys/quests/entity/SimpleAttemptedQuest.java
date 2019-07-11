@@ -23,6 +23,9 @@ public class SimpleAttemptedQuest implements AttemptedQuest, Identifiable<Long> 
     @Column(name = "timestamp")
     private long timestamp;
 
+    @Column(name = "first_timestamp")
+    private long firstTimestamp;
+
     public SimpleAttemptedQuest(String questId) {
         this.questId = questId;
     }
@@ -53,6 +56,16 @@ public class SimpleAttemptedQuest implements AttemptedQuest, Identifiable<Long> 
     @Override
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public long getFirstTimestamp() {
+        return firstTimestamp;
+    }
+
+    @Override
+    public void setFirstTimestamp(long timestamp) {
+        firstTimestamp = timestamp;
     }
 
     @Nonnull
