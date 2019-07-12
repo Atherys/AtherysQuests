@@ -140,19 +140,7 @@ public class QuesterService implements Observer<Event> {
 
             quester.removeQuest(quest);
 
-            AttemptedQuest attemptedQuest = quester.getAttemptedQuest(quest.getId()).orElse(new SimpleAttemptedQuest(quest.getId()));
-
-            long timestamp = System.currentTimeMillis();
-
-            attemptedQuest.setTimestamp(timestamp);
-
-            // If player hasn't completed quest, set the first time
-            if (attemptedQuest.getTimesCompleted() == 0) {
-                attemptedQuest.setFirstTimestamp(timestamp);
-            }
-            attemptedQuest.setTimesCompleted(attemptedQuest.getTimesCompleted() + 1);
-
-            quester.addAttemptedQuest(quest.getId(), attemptedQuest);
+            addAttemptedQuest(quester, quest, true);
 
             quest.award(quester);
 
@@ -185,5 +173,22 @@ public class QuesterService implements Observer<Event> {
 
     public Optional<? extends User> getUser(Quester quester) {
         return UserUtils.getUser(quester.getUniqueId());
+    }
+
+    public void addAttemptedQuest(Quester quester, Quest quest, boolean completed) {
+        AttemptedQuest attemptedQuest = quester.getAttemptedQuest(quest.getId()).orElse(new SimpleAttemptedQuest(quest.getId()));
+        long timestamp = System.currentTimeMillis();
+
+        attemptedQuest.setTimestamp(timestamp);
+
+        if (completed) {
+            // If player hasn't completed quest, set the first time
+            if (attemptedQuest.getTimesCompleted() == 0) {
+                attemptedQuest.setFirstTimestamp(timestamp);
+            }
+            attemptedQuest.setTimesCompleted(attemptedQuest.getTimesCompleted() + 1);
+        }
+
+        quester.addAttemptedQuest(quest.getId(), attemptedQuest);
     }
 }

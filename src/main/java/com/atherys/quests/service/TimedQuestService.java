@@ -86,6 +86,8 @@ public class TimedQuestService {
         quester.removeQuest(quest);
         quester.removeTimedQuest();
         stopDisplayingTimer(quester);
+
+        questerService.addAttemptedQuest(quester, quest, false);
     }
 
     private void updateTimerDisplay(Quest<?> quest, Quester quester, Instant now) {
