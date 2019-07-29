@@ -1,6 +1,7 @@
 package com.atherys.quests.api.quest;
 
 import com.atherys.quests.api.quest.modifiers.DeliveryComponent;
+import com.atherys.quests.api.quest.modifiers.RepeatableComponent;
 import com.atherys.quests.api.quest.modifiers.TimeComponent;
 import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
@@ -47,6 +48,9 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     @Expose
     protected TimeComponent timedComponent;
 
+    @Expose
+    protected RepeatableComponent repeatableComponent;
+
     protected AbstractQuest(String id, int version) {
         this.id = id;
         this.version = version;
@@ -64,6 +68,7 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
         this.rewards = CopyUtils.copyList(quest.getRewards());
 
         quest.getTimedComponent().ifPresent(timeComponent -> makeTimed(timeComponent.copy()));
+        quest.getRepeatComponent().ifPresent(repeatComponent -> makeRepeatable(repeatComponent.copy()));
         quest.getDeliveryComponent().ifPresent(this::makeDeliverable);
     }
 
@@ -135,6 +140,16 @@ public abstract class AbstractQuest<T extends Quest> implements Quest<T> {
     @Override
     public void makeTimed(TimeComponent timedComponent) {
         this.timedComponent = timedComponent;
+    }
+
+    @Override
+    public Optional<RepeatableComponent> getRepeatComponent() {
+        return Optional.ofNullable(repeatableComponent);
+    }
+
+    @Override
+    public void makeRepeatable(RepeatableComponent repeatableComponent) {
+        this.repeatableComponent = repeatableComponent;
     }
 
     @Override
