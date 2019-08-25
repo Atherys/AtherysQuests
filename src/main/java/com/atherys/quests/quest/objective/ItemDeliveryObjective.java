@@ -39,7 +39,7 @@ public class ItemDeliveryObjective extends AbstractObjective<InteractEntityEvent
         if (!event.getTargetEntity().getUniqueId().equals(target)) return;
         PlayerInventory inventory = (PlayerInventory) AtherysQuests.getInstance().getQuesterService().getCachedPlayer(quester).getInventory();
         if (inventory.contains(item.createStack()) && !inventory.getEquipment().contains(item.createStack())) {
-            ItemUtils.removeItemExact(inventory, item.createStack());
+            ItemUtils.removeItemAmount(inventory, item.createStack());
             complete = true;
         }
     }

@@ -37,8 +37,8 @@ public final class ItemUtils {
         return inventory.query(QueryOperationTypes.ITEM_STACK_IGNORE_QUANTITY.of(copy)).totalItems();
     }
 
-    public static void removeItemExact(PlayerInventory inventory, ItemStack itemStack) {
-        inventory.query(QueryOperationTypes.ITEM_STACK_EXACT.of(itemStack)).poll();
+    public static void removeItemAmount(PlayerInventory inventory, ItemStack itemStack) {
+        inventory.query(QueryOperationTypes.ITEM_STACK_IGNORE_QUANTITY.of(itemStack)).poll(itemStack.getQuantity());
     }
 
     public static Text getItemName(ItemStack itemStack) {
