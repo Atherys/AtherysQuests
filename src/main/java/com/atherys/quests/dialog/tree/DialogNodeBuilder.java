@@ -4,9 +4,11 @@ import com.atherys.quests.api.quest.Quest;
 import com.atherys.quests.api.requirement.Requirement;
 import com.atherys.quests.quest.requirement.Requirements;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.serializer.TextSerializers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DialogNodeBuilder {
 
@@ -43,13 +45,17 @@ public class DialogNodeBuilder {
         }
     }
 
-    public DialogNodeBuilder player(Text text) {
-        node.setPlayerText(text);
+    public DialogNodeBuilder player(String text) {
+        node.setPlayerText(TextSerializers.FORMATTING_CODE.deserialize(text));
         return this;
     }
 
-    public DialogNodeBuilder npc(List<Text> text) {
-        npc.addAll(text);
+    public DialogNodeBuilder npc(List<String> text) {
+        npc.addAll(
+                text.stream()
+                        .map(TextSerializers.FORMATTING_CODE::deserialize)
+                        .collect(Collectors.toList())
+        );
         return this;
     }
 
