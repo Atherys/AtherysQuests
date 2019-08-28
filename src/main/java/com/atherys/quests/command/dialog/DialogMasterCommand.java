@@ -19,7 +19,8 @@ import javax.annotation.Nonnull;
         DetachDialogCommand.class,
         GetDialogCommand.class,
         ListDialogsCommand.class,
-        QuitDialogCommand.class
+        QuitDialogCommand.class,
+        ReloadDialogsCommand.class
 })
 @HelpCommand(title = "Dialog Help")
 public class DialogMasterCommand implements PlayerCommand {

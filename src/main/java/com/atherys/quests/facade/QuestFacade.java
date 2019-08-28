@@ -193,7 +193,7 @@ public class QuestFacade {
             e.printStackTrace();
 
             throw new QuestCommandException(Text.builder()
-                    .append(Text.of(TextColors.DARK_RED, "Reloading quest script caused following error: ", Text.NEW_LINE))
+                    .append(Text.of(TextColors.DARK_RED, "Reloading quest scripts caused following error: ", Text.NEW_LINE))
                     .append(Text.of(TextColors.RED, e.getMessage()), Text.NEW_LINE)
                     .append(Text.of(TextColors.DARK_RED, "See console for stacktrace."))
                     .build()
@@ -205,7 +205,7 @@ public class QuestFacade {
         Task.builder()
                 .execute(() -> {
                     PaginationList.builder()
-                            .title(Text.of(GOLD, "Dialogs"))
+                            .title(Text.of(GOLD, "Quests"))
                             .padding(Text.of(DARK_GRAY, "="))
                             .contents(questService.getAllQuests().stream()
                                     .map(quest -> Text.of(quest.getName(), " - ID: ", quest.getId()))

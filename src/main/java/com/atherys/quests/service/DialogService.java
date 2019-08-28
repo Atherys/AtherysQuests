@@ -39,6 +39,10 @@ public final class DialogService {
         this.trees.put(tree.getId(), tree);
     }
 
+    public void unregisterDialogs() {
+        trees.clear();
+    }
+
     public Optional<DialogTree> getDialogFromId(String id) {
         return Optional.ofNullable(trees.get(id));
     }

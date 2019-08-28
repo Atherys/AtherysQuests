@@ -16,6 +16,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -110,6 +111,21 @@ public class DialogFacade {
             questMsg.info(player, "Dialog quit!");
         } else {
             questMsg.error(player, "You are not in a dialog.");
+        }
+    }
+
+    public void reloadDialogs() throws CommandException {
+        try {
+            AtherysQuests.getInstance().getDialogScriptService().reloadScripts();
+        } catch (Throwable e) {
+            e.printStackTrace();
+
+            throw new QuestCommandException(Text.builder()
+                    .append(Text.of(TextColors.DARK_RED, "Reloading dialog scripts caused following error: ", Text.NEW_LINE))
+                    .append(Text.of(TextColors.RED, e.getMessage()), Text.NEW_LINE)
+                    .append(Text.of(TextColors.DARK_RED, "See console for stacktrace."))
+                    .build()
+            );
         }
     }
 }

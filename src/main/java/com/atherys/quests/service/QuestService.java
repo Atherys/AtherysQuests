@@ -26,6 +26,10 @@ public final class QuestService {
         quests.remove(quest.getId());
     }
 
+    public void unregisterQuests() {
+        quests.clear();
+    }
+
     public Optional<Quest> getQuest(String questId) {
         return Optional.ofNullable(quests.get(questId));
     }

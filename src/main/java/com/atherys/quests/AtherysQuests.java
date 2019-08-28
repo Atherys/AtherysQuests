@@ -30,6 +30,7 @@ import com.atherys.quests.service.*;
 import com.atherys.script.ScriptConfig;
 import com.atherys.script.groovy.GroovyLibrary;
 import com.atherys.script.js.JavaScriptLibrary;
+import com.atherys.script.library.event.EventHandlerFunction;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -170,7 +171,8 @@ public class AtherysQuests {
     }
 
     private void reload() {
-        // TODO
+        getDialogScriptService().reloadScripts();
+        getQuestScriptService().reloadScripts();
     }
 
     @Listener

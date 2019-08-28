@@ -43,7 +43,7 @@ repositories {
 
 dependencies {
     shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
-    shadow 'com.github.Atherys-Horizons:AtherysScript:1.0.6'
+    shadow 'com.github.Atherys-Horizons:AtherysScript:1.0.7'
     shadow 'com.github.Atherys-Horizons:AtherysCore:1.14.2'
     shadow 'junit:junit:4.12'
 }
