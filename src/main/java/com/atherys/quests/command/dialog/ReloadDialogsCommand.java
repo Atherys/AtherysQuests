@@ -13,8 +13,8 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import javax.annotation.Nonnull;
 
 @Aliases("reload")
-@Description("Reloads script-created quests")
-@Permission("atherysquests.quest.admin.reload")
+@Description("Reloads script-created dialogs.")
+@Permission("atherysquests.dialog.admin.reload")
 public class ReloadDialogsCommand implements CommandExecutor {
     @Nonnull
     @Override

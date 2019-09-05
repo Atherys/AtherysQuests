@@ -13,7 +13,7 @@ import org.spongepowered.api.command.spec.CommandExecutor;
 import javax.annotation.Nonnull;
 
 @Aliases("reload")
-@Description("Reloads script-created quests")
+@Description("Reloads script-created quests.")
 @Permission("atherysquests.quest.admin.reload")
 public class ReloadQuestsCommand implements CommandExecutor {
     @Nonnull
