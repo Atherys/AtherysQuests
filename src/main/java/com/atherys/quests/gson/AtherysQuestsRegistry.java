@@ -13,7 +13,7 @@ import com.atherys.quests.quest.objective.*;
 import com.atherys.quests.quest.requirement.*;
 import com.atherys.quests.quest.reward.CommandReward;
 import com.atherys.quests.quest.reward.MoneyReward;
-import com.atherys.quests.quest.reward.SingleItemReward;
+import com.atherys.quests.quest.reward.ItemsReward;
 import com.atherys.quests.util.CompactTextAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -60,7 +60,7 @@ public class AtherysQuestsRegistry extends TypeAdapterFactoryRegistry {
 
         registerSubtypes(Reward.class, Arrays.asList(
                 MoneyReward.class,
-                SingleItemReward.class,
+                ItemsReward.class,
                 CommandReward.class
         ));
     }

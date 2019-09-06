@@ -3,9 +3,10 @@ package com.atherys.quests.quest.reward;
 import com.atherys.quests.AtherysQuests;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.service.economy.Currency;
 import org.spongepowered.api.text.Text;
+
+import java.util.List;
 
 /**
  * A factory class for accessing the default Rewards.
@@ -21,12 +22,8 @@ public final class Rewards {
         return new MoneyReward(amount, currency);
     }
 
-    public static SingleItemReward item(ItemStack itemStack) {
-        return new SingleItemReward(itemStack);
-    }
-
-    public static SingleItemReward item(ItemStackSnapshot itemStack) {
-        return new SingleItemReward(itemStack);
+    public static ItemsReward items(Text description, List<ItemStack> itemStacks) {
+        return new ItemsReward(description, itemStacks);
     }
 
     public static CommandReward command(String command, Text description) {

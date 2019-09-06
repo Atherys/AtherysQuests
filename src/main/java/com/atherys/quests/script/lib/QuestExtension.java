@@ -14,7 +14,7 @@ import com.atherys.quests.script.lib.objective.*;
 import com.atherys.quests.script.lib.quest.*;
 import com.atherys.quests.script.lib.requirement.*;
 import com.atherys.quests.script.lib.reward.CommandRewardFunc;
-import com.atherys.quests.script.lib.reward.SingleItemRewardFunc;
+import com.atherys.quests.script.lib.reward.ItemsRewardFunc;
 import com.atherys.script.api.library.LibraryExtension;
 import com.atherys.script.api.library.ScriptLibrary;
 import com.atherys.script.library.event.EventHandlerFunction;
@@ -87,7 +87,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("levelRequirement", new LevelRequirementFunc());
 
         scriptLibrary.put("moneyReward", new MoneyRequirementFunc());
-        scriptLibrary.put("singleItemReward", new SingleItemRewardFunc());
+        scriptLibrary.put("itemsReward", new ItemsRewardFunc());
         scriptLibrary.put("commandReward", new CommandRewardFunc());
 
         scriptLibrary.put("registerQuest", new RegisterQuest());

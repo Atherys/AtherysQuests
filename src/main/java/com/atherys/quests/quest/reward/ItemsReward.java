@@ -5,7 +5,6 @@ import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.reward.Reward;
 import com.atherys.quests.util.ItemUtils;
 import com.google.gson.annotations.Expose;
-import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -13,32 +12,42 @@ import org.spongepowered.api.item.inventory.ItemStackSnapshot;
 import org.spongepowered.api.item.inventory.property.InventoryDimension;
 import org.spongepowered.api.item.inventory.property.InventoryTitle;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.action.TextActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.spongepowered.api.text.format.TextColors.GOLD;
 
 /**
- * A reward for giving the player an item.
+ * A reward for giving the player items.
  */
-public class SingleItemReward implements Reward {
+public class ItemsReward implements Reward {
 
     @Expose
-    private ItemStackSnapshot item;
+    private final List<ItemStackSnapshot> items;
 
-    SingleItemReward(ItemStack stack) {
-        this.item = stack.createSnapshot();
+    @Expose
+    private Text description;
+
+    ItemsReward() {
+        items = new ArrayList<>();
+        description = Text.EMPTY;
     }
 
-    SingleItemReward(ItemStackSnapshot snapshot) {
-        this.item = snapshot;
+    ItemsReward(Text description, List<ItemStack> itemStacks) {
+        this();
+        this.description = description;
+        itemStacks.forEach(itemStack -> items.add(itemStack.createSnapshot()));
     }
 
     @Override
     public Reward copy() {
-        return new SingleItemReward(item);
+        return this;
     }
 
     @Override
     public Text toText() {
-        return Text.builder().append(item.get(Keys.DISPLAY_NAME).orElse(Text.of(item.getType().getName()))).onHover(TextActions.showItem(item)).build();
+        return description;
     }
 
     @Override
@@ -49,12 +58,14 @@ public class SingleItemReward implements Reward {
         // Create chest inventory
         Inventory inventory = Inventory.builder()
                 .property(InventoryDimension.PROPERTY_NAME, InventoryDimension.of(9, 3))
-                .property(InventoryTitle.of(Text.of("Quest Item Reward")))
+                .property(InventoryTitle.of(Text.of(GOLD, "Quest Rewards")))
                 .build(AtherysQuests.getInstance());
 
 
         // put all itemstacks inside
-        inventory.offer(item.createStack());
+        for (ItemStackSnapshot itemStackSnapshot : items) {
+            inventory.offer(itemStackSnapshot.createStack());
+        }
 
         // send inventory to player
         player.openInventory(inventory);
