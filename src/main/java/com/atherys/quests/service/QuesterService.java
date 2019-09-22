@@ -32,6 +32,9 @@ public class QuesterService implements Observer<Event> {
     @Inject
     QuestMessagingService questMsg;
 
+    @Inject
+    QuestService questService;
+
     QuesterService() {
     }
 
@@ -151,6 +154,12 @@ public class QuesterService implements Observer<Event> {
         } else {
             return false;
         }
+    }
+
+    public Optional<Quest> getQuesterQuest(Quester quester, String questId) {
+        return quester.getOngoingQuests().stream()
+                .filter(quest -> quest.getId().equals(questId))
+                .findFirst();
     }
 
     public boolean questerHasTurnedInQuest(Quester quester, String questId) {

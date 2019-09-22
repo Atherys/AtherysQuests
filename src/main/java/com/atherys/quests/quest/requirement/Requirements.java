@@ -53,4 +53,7 @@ public final class Requirements {
         return new LevelRequirement(level);
     }
 
+    public static ReachedStageRequirement reachedStage(String questId, int stage) {
+        return new ReachedStageRequirement(questId, stage);
+    }
 }

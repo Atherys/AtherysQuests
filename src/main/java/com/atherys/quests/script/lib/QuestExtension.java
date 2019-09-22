@@ -85,6 +85,7 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("hasQuestRequirement", new HasQuestRequirementFunc());
         scriptLibrary.put("moneyRequirement", new MoneyRequirementFunc());
         scriptLibrary.put("levelRequirement", new LevelRequirementFunc());
+        scriptLibrary.put("reachedStageRequirement", new ReachedStageRequirementFunc());
 
         scriptLibrary.put("moneyReward", new MoneyRequirementFunc());
         scriptLibrary.put("itemsReward", new ItemsRewardFunc());

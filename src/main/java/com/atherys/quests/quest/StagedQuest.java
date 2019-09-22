@@ -51,6 +51,10 @@ public class StagedQuest extends AbstractQuest<StagedQuest> {
         return stages.get(current);
     }
 
+    public int getCurrentIndex() {
+        return current;
+    }
+
     protected void addStage(Stage stage) {
         stages.add(stage);
     }
