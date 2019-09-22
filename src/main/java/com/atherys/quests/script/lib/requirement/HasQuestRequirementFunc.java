@@ -12,7 +12,6 @@ public class HasQuestRequirementFunc implements ScriptFunction<String, Requireme
      * A requirement for a player to have a quest.
      *
      * @param questId The quest's ID.
-     * @return
      * @jsname hasQuestRequirement
      */
     @Override
