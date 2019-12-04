@@ -1,4 +1,5 @@
 group 'com.atherys'
+version '1.0.0'
 
 buildscript {
     repositories {
