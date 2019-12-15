@@ -14,10 +14,8 @@ import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
-import javax.annotation.Generated;
 import java.util.Optional;
 
-@Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.072Z")
 public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
     private String questId;
@@ -96,7 +94,6 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
                 .set(QuestKeys.QUEST, this.questId);
     }
 
-    @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.096Z")
     public static class Immutable extends AbstractImmutableData<Immutable, QuestData> {
 
         private String questId;
@@ -143,7 +140,6 @@ public class QuestData extends AbstractData<QuestData, QuestData.Immutable> {
 
     }
 
-    @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.099Z")
     public static class Builder extends AbstractDataBuilder<QuestData> implements DataManipulatorBuilder<QuestData, Immutable> {
 
         public Builder() {

@@ -14,10 +14,8 @@ import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 import org.spongepowered.api.data.value.mutable.Value;
 
-import javax.annotation.Generated;
 import java.util.Optional;
 
-@Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.072Z")
 public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
     private String dialogId;
@@ -90,7 +88,6 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
         return super.toContainer().set(QuestKeys.DIALOG.getQuery(), dialogId);
     }
 
-    @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.096Z")
     public static class Immutable extends AbstractImmutableData<Immutable, DialogData> {
 
         private String dialog;
@@ -138,7 +135,6 @@ public class DialogData extends AbstractData<DialogData, DialogData.Immutable> {
 
     }
 
-    @Generated(value = "flavor.pie.generator.data.DataManipulatorGenerator", date = "2017-12-26T15:42:38.099Z")
     public static class Builder extends AbstractDataBuilder<DialogData> implements DataManipulatorBuilder<DialogData, Immutable> {
 
         public Builder() {

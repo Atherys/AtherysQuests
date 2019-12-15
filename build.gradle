@@ -1,64 +1,12 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '2.0.2'
+    id 'com.atherys.gradle' version '1.1.7'
+}
+
 group 'com.atherys'
 
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.2'
-    }
-}
-
-apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-
-compileJava.options.encoding = 'UTF-8'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-sourceSets {
-    main {
-        resources {
-            exclude "java/**"
-            exclude "kotlin/**"
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        name = 'sponge'
-        url = 'https://repo.spongepowered.org/maven'
-    }
-    maven {
-        name = 'jitpack'
-        url = 'https://jitpack.io'
-    }
-}
+version '1.0.0'
 
 dependencies {
-    shadow 'org.spongepowered:spongeapi:7.0.0-SNAPSHOT'
     shadow 'com.github.Atherys-Horizons:AtherysScript:1.0.7'
-    shadow 'com.github.Atherys-Horizons:AtherysCore:1.14.2'
-    shadow 'junit:junit:4.12'
-}
-
-javadoc {
-    source = sourceSets.main.allJava
-    classpath += configurations.shadow
-    title = "AtherysQuests"
-    options.links(
-            'http://www.slf4j.org/apidocs/',
-            'https://docs.oracle.com/javase/8/docs/api/',
-            'https://flow.github.io/math/',
-            'http://jd.spongepowered.org/7.1.0/'
-    )
-    // Exclude JS functions
-    exclude 'com/atherys/quests/script/lib/'
-    options.addStringOption('Xdoclint:none', '-quiet')
 }

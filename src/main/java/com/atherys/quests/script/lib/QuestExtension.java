@@ -55,7 +55,6 @@ public class QuestExtension implements LibraryExtension {
         scriptLibrary.put("makeQuestRepeatable", new MakeQuestRepeatable());
         scriptLibrary.put("makeQuestDeliverable", new MakeQuestDeliverable());
         scriptLibrary.put("makeQuestTimed", new MakeQuestTimed());
-        scriptLibrary.put("setOnTimedQuestFail", new SetOnTimedQuestFail());
 
         scriptLibrary.put("getQuestById", new GetQuestById());
 
