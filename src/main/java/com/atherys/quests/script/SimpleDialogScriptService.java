@@ -5,7 +5,6 @@ import com.atherys.quests.QuestsConfig;
 import com.atherys.quests.api.script.DialogScript;
 import com.atherys.quests.api.script.DialogScriptService;
 import com.atherys.quests.event.dialog.DialogRegistrationEvent;
-import com.atherys.quests.event.quest.QuestRegistrationEvent;
 import com.atherys.script.ScriptConfig;
 import com.atherys.script.api.AbstractScriptService;
 import com.atherys.script.library.event.EventHandlerFunction;

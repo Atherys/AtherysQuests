@@ -6,9 +6,10 @@ import com.atherys.quests.api.quester.Quester;
 import com.atherys.quests.api.requirement.Requirement;
 import com.google.gson.annotations.Expose;
 import org.spongepowered.api.text.Text;
-import static org.spongepowered.api.text.format.TextStyles.*;
 
 import java.util.Optional;
+
+import static org.spongepowered.api.text.format.TextStyles.*;
 
 public class QuestCompleteRequirement implements Requirement {
     @Expose
