@@ -12,6 +12,7 @@ import com.atherys.quests.service.QuestLocationService;
 import com.atherys.quests.service.QuestMessagingService;
 import com.atherys.quests.service.QuestService;
 import com.atherys.quests.views.QuestFromItemView;
+import com.atherys.quests.views.TakeQuestView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.spongepowered.api.command.CommandException;
@@ -180,7 +181,7 @@ public class QuestFacade {
         Optional<Quest> quest = questService.getQuest(questId);
 
         if (quest.isPresent()) {
-            quest.get().createView().show(player);
+            new TakeQuestView(quest.get()).show(player);
         } else {
             throw QuestCommandExceptions.invalidQuestId();
         }
