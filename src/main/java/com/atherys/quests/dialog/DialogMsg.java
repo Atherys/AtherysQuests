@@ -14,13 +14,13 @@ import static org.spongepowered.api.text.format.TextColors.*;
 public class DialogMsg {
 
     public static final Text DIALOG_START_DECORATION = Text.of(
-            DARK_GRAY, "o════════════╡", GOLD, "Dialog", DARK_GRAY, "╞════════════o"
+            DARK_GRAY, "o═════════╡", GOLD, "Dialog", DARK_GRAY, "╞═════════o"
     );
     public static final Text DIALOG_REPLIES_DECORATION = Text.of(
             DARK_GRAY, "o═════════╡", GOLD, "Replies", DARK_GRAY, "╞═════════o"
     );
     public static final Text DIALOG_END_DECORATION = Text.of(
-            DARK_GRAY, "o═══════════╡", GOLD, "End Dialog", DARK_GRAY, "╞══════════o"
+            DARK_GRAY, "o═════════╡", GOLD, "End Dialog", DARK_GRAY, "╞═════════o"
     );
 
     /**
