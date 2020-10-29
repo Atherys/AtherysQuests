@@ -64,11 +64,7 @@ public final class DialogService {
      * @return An optional containing the dialog this entity is associated with. The optional is empty if the entity does not contain a dialog.
      */
     public Optional<DialogTree> getDialog(Entity entity) {
-        Optional<DialogData> dialogData = entity.get(DialogData.class);
-        if (dialogData.isPresent()) {
-            logger.error("Dialog Data Detected: " + dialogData.get().getDialogId());
-            return Optional.ofNullable(trees.get(dialogData.get().getDialogId()));
-        } else return Optional.empty();
+        return entity.get(DialogData.class).map(data -> trees.get(data.getDialogId()));
     }
 
     /**

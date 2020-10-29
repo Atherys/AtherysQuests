@@ -74,15 +74,31 @@ public class ActiveDialogService {
 
             dialog.setLastNode(node);
 
-            showDialog(dialog, player);
-
             node.getQuest().ifPresent(quest -> new TakeQuestView(quest).show(player));
 
             node.getCompletesQuest().ifPresent(quest -> {
                 questerService.turnInQuest(dialog.getQuester(), quest);
             });
 
-            if (node.getResponses().isEmpty()) {
+            Entity npc = dialog.getNPC();
+
+            player.sendMessage(DialogMsg.DIALOG_START_DECORATION);
+
+            // Player Text
+            if (node.getPlayerText() != null) {
+                playerTextTask(player, node.getPlayerText());
+            }
+
+            // NPC Text
+            if (node.getNPCText() != null) {
+                npcTextTask(npc, node.getNPCText(), player);
+            }
+
+            // Possible Responses
+            if (node.getResponses().size() >= 1) {
+                responesTextTask(dialog, node, player);
+            } else {
+                player.sendMessage(DialogMsg.DIALOG_END_DECORATION);
                 AtherysQuests.getInstance().getDialogService().removePlayerDialog(player);
             }
         }
@@ -94,30 +110,6 @@ public class ActiveDialogService {
             if (!requirement.check(quester)) return false;
         }
         return true;
-    }
-
-    private void showDialog(Dialog dialog, Player player) {
-        DialogNode node = dialog.getLastNode();
-        Entity npc = dialog.getNPC();
-
-        player.sendMessage(DialogMsg.DIALOG_START_DECORATION);
-
-        // Player Text
-        if (node.getPlayerText() != null) {
-            playerTextTask(player, node.getPlayerText());
-        }
-
-        // NPC Text
-        if (node.getNPCText() != null) {
-            npcTextTask(npc, node.getNPCText(), player);
-        }
-
-        // Possible Responses
-        if (node.getResponses().size() >= 1) {
-            responesTextTask(dialog, node, player);
-        } else {
-            player.sendMessage(DialogMsg.DIALOG_END_DECORATION);
-        }
     }
 
     private void playerTextTask(Player player, Text text) {
