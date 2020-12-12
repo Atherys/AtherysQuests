@@ -38,11 +38,14 @@ public class ActiveDialogService {
     @Inject
     QuesterService questerService;
 
+    @Inject
+    DialogService dialogService;
+
     /**
      * Begins a dialog between a {@link Player} and an {@link Entity}.
      */
     public Optional<Dialog> dialogBetween(Player player, Entity entity, DialogTree dialogTree) {
-        Quester simpleQuester = AtherysQuests.getInstance().getQuesterService().getQuester(player);
+        Quester simpleQuester = questerService.getQuester(player);
 
         Dialog dialog = new Dialog(simpleQuester, entity, dialogTree);
         proceedDialog(dialog, dialog.getLastNode(), player);
@@ -99,7 +102,7 @@ public class ActiveDialogService {
                 responesTextTask(dialog, node, player);
             } else {
                 player.sendMessage(DialogMsg.DIALOG_END_DECORATION);
-                AtherysQuests.getInstance().getDialogService().removePlayerDialog(player);
+                dialogService.removePlayerDialog(player);
             }
         }
     }

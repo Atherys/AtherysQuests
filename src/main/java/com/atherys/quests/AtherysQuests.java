@@ -1,6 +1,7 @@
 package com.atherys.quests;
 
 import com.atherys.core.command.CommandService;
+import com.atherys.core.event.AtherysDatabaseMigrationEvent;
 import com.atherys.core.event.AtherysHibernateConfigurationEvent;
 import com.atherys.core.event.AtherysHibernateInitializedEvent;
 import com.atherys.quests.api.script.DialogScriptService;
@@ -67,7 +68,7 @@ public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
     public static final String DESCRIPTION = "A Quest plugin written for the A'therys Horizons server.";
-    public static final String VERSION = "%PLUGIN_VERSION%";
+    public static final String VERSION = "%PROJECT_VERSION%";
 
     private static AtherysQuests instance;
 
@@ -217,6 +218,11 @@ public class AtherysQuests {
         event.registerEntity(SimpleQuester.class);
         event.registerEntity(QuestLocation.class);
         event.registerEntity(SimpleAttemptedQuest.class);
+    }
+
+    @Listener
+    public void onDatabaseMigration(AtherysDatabaseMigrationEvent event) {
+        event.registerForMigration(ID);
     }
 
     public Optional<EconomyService> getEconomyService() {

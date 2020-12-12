@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(schema = "atherysquests", name = "SimpleQuester")
 public class SimpleQuester implements Quester {
 
     @Id
@@ -25,6 +26,7 @@ public class SimpleQuester implements Quester {
     @ElementCollection(fetch = FetchType.EAGER)
     @Convert(converter = QuestConverter.class)
     @Column(columnDefinition = "text")
+    @CollectionTable(schema = "atherysquests", name = "Quester_ongoingQuests")
     private Set<Quest> ongoingQuests = new HashSet<>();
 
     @OneToMany(

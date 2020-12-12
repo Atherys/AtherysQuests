@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "attempted_quest", schema = "atherys")
+@Table(name = "attempted_quest", schema = "atherysquests")
 public class SimpleAttemptedQuest implements AttemptedQuest, Identifiable<Long> {
 
     @Id
