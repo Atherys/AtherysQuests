@@ -11,6 +11,7 @@ import javax.annotation.Nonnull;
 import javax.persistence.*;
 
 @Entity
+@Table(schema = "atherysquests", name = "QuestLocation")
 public class QuestLocation implements Identifiable<Long> {
 
     @Id

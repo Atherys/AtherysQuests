@@ -67,7 +67,7 @@ public class AtherysQuests {
     public static final String ID = "atherysquests";
     public static final String NAME = "A'therys Quests";
     public static final String DESCRIPTION = "A Quest plugin written for the A'therys Horizons server.";
-    public static final String VERSION = "%PLUGIN_VERSION%";
+    public static final String VERSION = "%PROJECT_VERSION%";
 
     private static AtherysQuests instance;
 
