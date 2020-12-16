@@ -34,6 +34,7 @@ public class SimpleQuester implements Quester {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )
+    @JoinColumn(name = "attemptedBy", referencedColumnName = "attemptedBy")
     private Set<AttemptedQuest> attemptedQuests = new HashSet<>();
 
     public SimpleQuester() {

@@ -1,5 +1,7 @@
 package com.atherys.quests.api.quest;
 
+import com.atherys.quests.api.quester.Quester;
+
 public interface AttemptedQuest {
     String getQuestId();
 
@@ -14,4 +16,8 @@ public interface AttemptedQuest {
     long getTimestamp();
 
     void setTimestamp(long timestamp);
+
+    Quester getAttemptedBy();
+
+    void setAttemptedBy(Quester quester);
 }
