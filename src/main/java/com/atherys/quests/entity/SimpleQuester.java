@@ -35,6 +35,7 @@ public class SimpleQuester implements Quester {
             cascade = CascadeType.ALL
     )
     @MapKeyColumn(name = "questId")
+    @CollectionTable(schema = "atherysquests", name = "attempted_quest")
     private Map<String, AttemptedQuest> attemptedQuests = new HashMap<>();
 
     public SimpleQuester() {
