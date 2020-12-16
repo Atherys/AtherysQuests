@@ -34,7 +34,6 @@ public class SimpleQuester implements Quester {
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL
     )
-    @MapKeyColumn(name = "questId")
     private Set<AttemptedQuest> attemptedQuests = new HashSet<>();
 
     public SimpleQuester() {
