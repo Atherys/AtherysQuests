@@ -35,8 +35,7 @@ public class SimpleQuester implements Quester {
             cascade = CascadeType.ALL
     )
     @MapKeyColumn(name = "questId")
-    @CollectionTable(schema = "atherysquests", name = "attempted_quest")
-    private Map<String, AttemptedQuest> attemptedQuests = new HashMap<>();
+    private Set<AttemptedQuest> attemptedQuests = new HashSet<>();
 
     public SimpleQuester() {
     }
@@ -61,17 +60,17 @@ public class SimpleQuester implements Quester {
 
     @Override
     public void addAttemptedQuest(String questId, AttemptedQuest quest) {
-        attemptedQuests.put(questId, quest);
+        attemptedQuests.add(quest);
     }
 
     @Override
     public boolean removeAttemptedQuest(String questId) {
-        return attemptedQuests.remove(questId) != null;
+        return attemptedQuests.removeIf(aq -> Objects.equals(aq.getQuestId(), questId));
     }
 
     @Override
     public Optional<AttemptedQuest> getAttemptedQuest(String questId) {
-        return Optional.ofNullable(attemptedQuests.get(questId));
+        return attemptedQuests.stream().filter(aq -> aq.getQuestId().equals(questId)).findAny();
     }
 
     @Override

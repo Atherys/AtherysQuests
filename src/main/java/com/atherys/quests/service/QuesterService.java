@@ -199,5 +199,7 @@ public class QuesterService implements Observer<Event> {
         }
 
         quester.addAttemptedQuest(quest.getId(), attemptedQuest);
+
+        repository.saveOne((SimpleQuester) quester);
     }
 }
