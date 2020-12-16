@@ -2,6 +2,8 @@ package com.atherys.quests.entity;
 
 import com.atherys.core.db.Identifiable;
 import com.atherys.quests.api.quest.AttemptedQuest;
+import com.atherys.quests.api.quester.Quester;
+import com.atherys.quests.quest.SimpleQuest;
 
 import javax.annotation.Nonnull;
 import javax.persistence.*;
@@ -25,6 +27,9 @@ public class SimpleAttemptedQuest implements AttemptedQuest, Identifiable<Long> 
 
     @Column(name = "first_timestamp")
     private long firstTimestamp;
+
+    @ManyToOne(targetEntity = SimpleQuester.class)
+    private Quester attemptedBy;
 
     public SimpleAttemptedQuest(String questId) {
         this.questId = questId;
@@ -56,6 +61,16 @@ public class SimpleAttemptedQuest implements AttemptedQuest, Identifiable<Long> 
     @Override
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+
+    @Override
+    public Quester getAttemptedBy() {
+        return attemptedBy;
+    }
+
+    @Override
+    public void setAttemptedBy(Quester quester) {
+        this.attemptedBy = quester;
     }
 
     @Override
