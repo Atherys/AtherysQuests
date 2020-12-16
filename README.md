@@ -1,5 +1,5 @@
 # AtherysQuests
-A questing plugin using Sponge for the A'therys Horizons server.
+A questing plugin using Sponge for the A'therys Horizons server
 
 ## Features
 * Objectives, rewards, and requirements
