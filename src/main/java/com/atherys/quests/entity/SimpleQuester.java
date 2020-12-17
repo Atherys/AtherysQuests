@@ -29,11 +29,7 @@ public class SimpleQuester implements Quester {
     @CollectionTable(schema = "atherysquests", name = "Quester_ongoingQuests")
     private Set<Quest> ongoingQuests = new HashSet<>();
 
-    @OneToMany(
-            targetEntity = SimpleAttemptedQuest.class,
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(targetEntity = SimpleAttemptedQuest.class, mappedBy = "attemptedBy")
     private Set<AttemptedQuest> attemptedQuests = new HashSet<>();
 
     public SimpleQuester() {

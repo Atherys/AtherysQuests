@@ -28,7 +28,7 @@ public class SimpleAttemptedQuest implements AttemptedQuest, Identifiable<Long> 
     @Column(name = "first_timestamp")
     private long firstTimestamp;
 
-    @ManyToOne(targetEntity = SimpleQuester.class)
+    @OneToOne(targetEntity = SimpleQuester.class)
     @JoinColumn(name = "attemptedBy", referencedColumnName = "attemptedBy")
     private Quester attemptedBy;
 
